@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class FacultyMiddleware
+class StaffMiddleware
 {
     /**
      * Handle an incoming request.
@@ -19,7 +19,7 @@ class FacultyMiddleware
     {
         $role = Auth::user()->role;
        
-        if($role === 'FACULTY'){
+        if($role === 'STAFF'){
 
             $response = $next($request);
             $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');

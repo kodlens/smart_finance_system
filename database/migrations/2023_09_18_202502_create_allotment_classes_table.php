@@ -15,7 +15,7 @@ class CreateAllotmentClassesTable extends Migration
     {
         Schema::create('allotment_classes', function (Blueprint $table) {
             $table->id('allotment_class_id');
-            $table->id('allotment_class');
+            $table->string('allotment_class');
 
             $table->timestamps();
         });

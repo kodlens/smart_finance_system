@@ -13,17 +13,10 @@
     <script src="{{ asset('js/app.js') }}" defer></script>
 
     <!-- Fonts -->
-{{--    <link rel="dns-prefetch" href="//fonts.gstatic.com">--}}
-{{--    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
-
-    {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> --}}
-    {{-- <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
- --}}
 
 </head>
 <body>
@@ -48,6 +41,7 @@
                         Contact
                     </b-navbar-item>
                 </b-navbar-dropdown> -->
+
             </template>
 
             <template #end>
@@ -59,22 +53,15 @@
                     <b-navbar-item href="/academic-years">
                         Academic Years
                     </b-navbar-item>
-                    <b-navbar-item href="/courses">
-                        Courses
+                    <b-navbar-item href="/allotment-classes">
+                        Allotment Class
                     </b-navbar-item>
-                    <b-navbar-item href="/schedules">
-                        Schedules
+                    <b-navbar-item href="/allotment-class-accounts">
+                        Allotment Class Accounts
                     </b-navbar-item>
-                    {{-- <b-navbar-item href="/offices">
-                        Offices
-                    </b-navbar-item> --}}
+                  
                 </b-navbar-dropdown>
 
-                <b-navbar-dropdown label="Faculty">
-                    <b-navbar-item href="/faculty">
-                        Faculty
-                    </b-navbar-item>
-                </b-navbar-dropdown>
 
                 <b-navbar-item href="/users">
                     Users

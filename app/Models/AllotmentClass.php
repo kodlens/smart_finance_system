@@ -5,18 +5,17 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Office extends Model
+class AllotmentClass extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'office_id';
-    protected $table = 'offices';
+    protected $primaryKey = 'allotment_class_id';
+    protected $table = 'allotment_classes';
 
     protected $fillable = [
-        'office'
+        'allotment_class'
     ];
 
-
-    
+   
 
 }

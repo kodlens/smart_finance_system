@@ -1,5 +1,6 @@
 @extends('layouts.admin-layout')
 
 @section('content')
-    <offices></offices>
+    <allotment-class-account></allotment-class-account>
 @endsection
+

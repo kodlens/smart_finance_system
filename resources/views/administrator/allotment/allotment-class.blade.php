@@ -1,5 +1,6 @@
 @extends('layouts.admin-layout')
 
 @section('content')
-    <course-page></course-page>
+    <allotment-class></allotment-class>
 @endsection
+

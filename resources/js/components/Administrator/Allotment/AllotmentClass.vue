@@ -5,7 +5,7 @@
                 <div class="column is-8">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">COURSES</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF ALLOTMENT CLASS</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -28,7 +28,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.course" placeholder="Search Course"
+                                                 v-model="search.lname" placeholder="Search Lastname"
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -58,36 +58,32 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="course_id" label="ID" v-slot="props">
-                                {{ props.row.course_id }}
+                            <b-table-column field="allotment_class_id" label="ID" v-slot="props">
+                                {{ props.row.allotment_class_id }}
                             </b-table-column>
 
-                            <b-table-column field="course_code" label="Code" v-slot="props">
-                                {{ props.row.course_code }}
-                            </b-table-column>
-
-                            <b-table-column field="name" label="Description" v-slot="props">
-                                {{ props.row.course_desc }}
-                            </b-table-column>
-
-                            <b-table-column field="course_unit" label="Unit" v-slot="props">
-                                {{ props.row.course_unit }}
+                            <b-table-column field="allotmant_class" label="Allotment Class" v-slot="props">
+                                {{ props.row.allotmant_class }}
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.course_id)"></b-button>
+                                        <b-button class="button is-small is-warning mr-1" 
+                                            tag="a" 
+                                            icon-right="pencil" @click="getData(props.row.allotment_class_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.course_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1" 
+                                            icon-right="delete" 
+                                            @click="confirmDelete(props.row.allotment_class_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
                         </b-table>
 
                         <div class="buttons mt-3">
-                            <b-button @click="openModal" icon-right="calendar" class="is-success">NEW</b-button>
+                            <b-button @click="openModal" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
                         </div>
 
                     </div>
@@ -108,7 +104,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">COURSES</p>
+                        <p class="modal-card-title">ALLOTMENT CLASS</p>
                         <button
                             type="button"
                             class="delete"
@@ -116,61 +112,23 @@
                     </header>
 
                     <section class="modal-card-body">
+
                         <div class="">
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Course Code" label-position="on-border"
-                                            :type="this.errors.course_code ? 'is-danger':''"
-                                            :message="this.errors.course_code ? this.errors.course_code[0] : ''">
-                                        <b-input v-model="fields.course_code"
-                                                 placeholder="Course Code" required>
+                                    <b-field label="Allotment Class" label-position="on-border"
+                                             :type="this.errors.allotment_class ? 'is-danger':''"
+                                             :message="this.errors.allotment_class ? this.errors.allotment_class[0] : ''">
+                                        <b-input v-model="fields.allotment_class"
+                                                 placeholder="Allotment Class" required>
                                         </b-input>
                                     </b-field>
                                 </div>
                             </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Course Description" label-position="on-border"
-                                        :type="this.errors.course_desc ? 'is-danger':''"
-                                        :message="this.errors.course_desc ? this.errors.course_desc[0] : ''">
-                                        <b-input v-model="fields.course_desc"
-                                            placeholder="Course Description" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Course Type" expanded label-position="on-border"
-                                        :type="this.errors.course_type ? 'is-danger':''"
-                                        :message="this.errors.course_type ? this.errors.course_type[0] : ''">
-                                        <b-select v-model="fields.course_type" expanded
-                                            placeholder="Course Type" required>
-                                            <option value="LEC">LEC</option>
-                                            <option value="LAB">LAB</option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-
-                                <div class="column">
-                                    <b-field label="Course Unit" label-position="on-border"
-                                        :type="this.errors.course_unit ? 'is-danger':''"
-                                        :message="this.errors.course_unit ? this.errors.course_unit[0] : ''">
-                                        <b-numberinput v-model="fields.course_unit"
-                                            placeholder="Course Unit" required :controls="false">
-                                        </b-numberinput>
-                                    </b-field>
-                                </div>
-                            </div>
-
                         </div>
                     </section>
+
                     <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="isModalCreate=false"/>
                         <button
                             :class="btnClass"
                             label="Save"
@@ -193,8 +151,8 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'course_code',
-            sortOrder: 'asc',
+            sortField: 'allotment_class_id',
+            sortOrder: 'desc',
             page: 1,
             perPage: 20,
             defaultSortDirection: 'asc',
@@ -203,26 +161,22 @@ export default{
             global_id : 0,
 
             search: {
-                course: '',
+                allotment_class: '',
             },
 
             isModalCreate: false,
 
             fields: {
-                course_code: '',
-                course_code: '',
-                course_unit : 0,
-                course_type : '',
-
+                allotment_class: '',
             },
             errors: {},
-            
-
+  
             btnClass: {
                 'is-success': true,
                 'button': true,
                 'is-loading':false,
             },
+
         }
 
     },
@@ -234,13 +188,13 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `course=${this.search.course}`,
+                `lname=${this.search.allotment_class}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-courses?${params}`)
+            axios.get(`/get-allotment-classes?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -282,16 +236,17 @@ export default{
 
         openModal(){
             this.isModalCreate=true;
-            this.clearFields()
+            this.fields = {};
             this.errors = {};
         },
+
 
 
         submit: function(){
 
             if(this.global_id > 0){
                 //update
-                axios.put('/courses/'+this.global_id, this.fields).then(res=>{
+                axios.put('/users/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -312,7 +267,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/courses', this.fields).then(res=>{
+                axios.post('/users', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -343,13 +298,13 @@ export default{
                 type: 'is-danger',
                 message: 'Are you sure you want to delete this data?',
                 cancelText: 'Cancel',
-                confirmText: 'Delete',
+                confirmText: 'Delete user account?',
                 onConfirm: () => this.deleteSubmit(delete_id)
             });
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/courses/' + delete_id).then(res => {
+            axios.delete('/users/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -359,39 +314,96 @@ export default{
         },
 
         clearFields(){
-            this.global_id = 0;
-            this.fields.course_code = '';
-            this.fields.course_desc = '';
-            this.fields.course_unit = 0;
-            this.fields.course_type = '';
+            this.fields.username = '';
+            this.fields.lname = '';
+            this.fields.fname = '';
+            this.fields.mname = '';
+            this.fields.suffix = '';
+            this.fields.sex = '';
+        
+            this.fields.password = '';
+            this.fields.password_confirmation = '';
+            this.fields.role = '';
+
+            this.fields.province = ''
+            this.fields.city = ''
+            this.fields.barangay = ''
         },
 
 
         //update code here
-    getData: function(data_id){
+        getData: function(data_id){
             this.clearFields();
             this.global_id = data_id;
             this.isModalCreate = true;
 
-            axios.get('/courses/'+data_id).then(res=>{
+
+            //nested axios for getting the address 1 by 1 or request by request
+            axios.get('/users/'+data_id).then(res=>{
                 this.fields = res.data;
+                this.fields.office = res.data.office_id;
+                let tempData = res.data;
+                //load city first
+                axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+                    //load barangay
+                    this.cities = res.data;
+                    axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+                        this.barangays = res.data;
+                     
+                        this.fields.username = tempData.username
+                        this.fields.lname = tempData.lname
+                        this.fields.fname = tempData.fname
+                        this.fields.mname = tempData.mname
+                        this.fields.sex = tempData.sex
+                    
+                        this.fields.suffix = tempData.suffix
+                        this.fields.role = tempData.role
+                  
+
+                        this.fields.province = tempData.province
+                        this.fields.city = tempData.city
+                        this.fields.barangay = tempData.barangay
+                        this.fields.street = tempData.street
+
+                    });
+                });
             });
         },
 
 
 
+        //addresses
+        loadProvince: function(){
+            axios.get('/load-provinces').then(res=>{
+                this.provinces = res.data;
+            })
+        },
+
+        loadCity: function(){
+            axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+                this.cities = res.data;
+            })
+        },
+
+        loadBarangay: function(){
+            axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+                this.barangays = res.data;
+            })
+        },
 
     },
 
     mounted() {
         this.loadAsyncData();
-
+        this.loadProvince()
     }
 }
 </script>
 
 
-<style>
-
+<style scoped>
+    .modal-card-title{
+        font-weight: bold;
+    }
 
 </style>

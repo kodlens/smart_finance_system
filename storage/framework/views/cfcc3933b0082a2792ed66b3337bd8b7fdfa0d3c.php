@@ -1,37 +1,34 @@
 <!doctype html>
-<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+<html lang="<?php echo e(str_replace('_', '-', app()->getLocale())); ?>">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <!-- CSRF Token -->
-    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="csrf-token" content="<?php echo e(csrf_token()); ?>">
 
-    <title>{{ config('app.name', 'Laravel') }}</title>
+    <title><?php echo e(config('app.name', 'Laravel')); ?></title>
 
     <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="<?php echo e(asset('js/app.js')); ?>" defer></script>
 
     <!-- Fonts -->
-{{--    <link rel="dns-prefetch" href="//fonts.gstatic.com">--}}
-{{--    <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">--}}
 
     <!-- Styles -->
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+    <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
 
-
-    {{-- <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin> --}}
-    {{-- <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@300&family=Ubuntu:wght@300&display=swap" rel="stylesheet">
- --}}
 
 </head>
 <body>
     <div id="app">
+
         <b-navbar>
             <template #brand>
                 <b-navbar-item>
-                    FACULTY PANEL
+                    <img
+                        src=""
+                        alt=""
+                    >
                 </b-navbar-item>
             </template>
             <template #start>
@@ -44,21 +41,32 @@
                         Contact
                     </b-navbar-item>
                 </b-navbar-dropdown> -->
+
             </template>
 
             <template #end>
-                <b-navbar-item href="/faculty-dashboard">
+                <b-navbar-item href="/dashboard">
                     Home
                 </b-navbar-item>
 
-                <b-navbar-item href="/faculty-faculty-load">
-                    Faculty Load
-                </b-navbar-item>
+                <b-navbar-dropdown label="Settings">
+                    <b-navbar-item href="/academic-years">
+                        Academic Years
+                    </b-navbar-item>
+                    <b-navbar-item href="/allotment-classes">
+                        Allotment Class
+                    </b-navbar-item>
+                    <b-navbar-item href="/allotment-class-accounts">
+                        Allotment Class Accounts
+                    </b-navbar-item>
+                  
+                </b-navbar-dropdown>
 
-                <b-navbar-item href="/faculty-profile">
-                    {{ strtoupper(Auth::user()->fname) }}
-                </b-navbar-item>
 
+                <b-navbar-item href="/users">
+                    Users
+                </b-navbar-item>
+                
                 <b-navbar-item tag="div">
                     <div class="buttons">
                         <b-button 
@@ -72,11 +80,11 @@
         </b-navbar>
 
         <form action="/logout" id="logout" method="post">
-            @csrf
+            <?php echo csrf_field(); ?>
         </form>
 
     <div>
-        @yield('content')
+        <?php echo $__env->yieldContent('content'); ?>
     </div>
 
     </div>
@@ -88,3 +96,4 @@
     </script>
 </body>
 </html>
+<?php /**PATH C:\Users\eshen\Desktop\Github\smart_finance_system\resources\views/layouts/admin-layout.blade.php ENDPATH**/ ?>

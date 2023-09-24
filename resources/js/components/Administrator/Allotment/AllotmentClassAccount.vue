@@ -2,10 +2,10 @@
     <div>
         <div class="section">
             <div class="columns is-centered">
-                <div class="column is-6-desktop is-8-tablet">
+                <div class="column is-8">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">OFFICES</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">ALLOTMENT CLASS ACCOUNT</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -28,12 +28,12 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.office" placeholder="Search Office"
+                                                 v-model="search.lname" placeholder="Search..."
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
-                                             <b-tooltip label="Search" type="is-success">
-                                            <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                             </b-tooltip>
+                                            <b-tooltip label="Search" type="is-success">
+                                                <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                            </b-tooltip>
                                         </p>
                                     </b-field>
                                 </div>
@@ -44,10 +44,10 @@
                             :data="data"
                             :loading="loading"
                             paginated
-                            :bordered="true"
-                            :hoverable="true"
                             backend-pagination
                             :total="total"
+                            :bordered="true"
+                            :hoverable="true"
                             :per-page="perPage"
                             @page-change="onPageChange"
                             aria-next-label="Next page"
@@ -58,39 +58,38 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="office_id" label="ID" v-slot="props">
-                                {{ props.row.office_id }}
+                            <b-table-column field="allotment_class_account_id" label="ID" v-slot="props">
+                                {{ props.row.allotment_class_account_id }}
                             </b-table-column>
 
-                            <b-table-column field="office" label="Office" v-slot="props">
-                                {{ props.row.office }}
+                            <b-table-column field="allotmant_class_account_code" label="Allotment Code" v-slot="props">
+                                {{ props.row.allotmant_class_account_code }}
                             </b-table-column>
 
-                            <b-table-column field="created_at" label="Created" v-slot="props">
-                                {{ props.row.created_at | formatDateTime }}
+                            <b-table-column field="allotmant_class_account_code" label="Allotment Code" v-slot="props">
+                                {{ props.row.allotmant_class.allotment_class }}
                             </b-table-column>
-                         
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.office_id)"></b-button>
+                                        <b-button class="button is-small is-warning mr-1" 
+                                            tag="a" 
+                                            icon-right="pencil" @click="getData(props.row.allotment_class_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.office_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1" 
+                                            icon-right="delete" 
+                                            @click="confirmDelete(props.row.allotment_class_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
                         </b-table>
 
-                        <div class="float-button">
-                            <b-button @click="openModal" 
-                                icon-right="plus-circle-outline" 
-                                class="is-success"
-                                label="NEW OFFICE">
-                            </b-button>
+                        <div class="buttons mt-3">
+                            <b-button @click="openModal" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
                         </div>
-                        
+
                     </div>
                 </div><!--col -->
             </div><!-- cols -->
@@ -109,7 +108,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Office Information</p>
+                        <p class="modal-card-title">ALLOTMENT CLASS</p>
                         <button
                             type="button"
                             class="delete"
@@ -117,23 +116,23 @@
                     </header>
 
                     <section class="modal-card-body">
+
                         <div class="">
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Office" label-position="on-border"
-                                             :type="this.errors.office ? 'is-danger':''"
-                                             :message="this.errors.office ? this.errors.office[0] : ''">
-                                        <b-input v-model="fields.office"
-                                                 placeholder="Office" required>
+                                    <b-field label="Allotment Class" label-position="on-border"
+                                             :type="this.errors.allotment_class ? 'is-danger':''"
+                                             :message="this.errors.allotment_class ? this.errors.allotment_class[0] : ''">
+                                        <b-input v-model="fields.allotment_class"
+                                                 placeholder="Allotment Class" required>
                                         </b-input>
                                     </b-field>
                                 </div>
                             </div>
-                        
                         </div>
                     </section>
+
                     <footer class="modal-card-foot">
-                        
                         <button
                             :class="btnClass"
                             label="Save"
@@ -156,28 +155,26 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'office_id',
+            sortField: 'allotment_class_id',
             sortOrder: 'desc',
             page: 1,
-            perPage: 5,
+            perPage: 20,
             defaultSortDirection: 'asc',
 
 
             global_id : 0,
 
             search: {
-                office: '',
+                allotment_class: '',
             },
 
             isModalCreate: false,
 
             fields: {
-                office: ''
+                allotment_class: '',
             },
-
             errors: {},
-         
-
+  
             btnClass: {
                 'is-success': true,
                 'button': true,
@@ -195,13 +192,13 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `lname=${this.search.lname}`,
+                `lname=${this.search.allotment_class}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-offices?${params}`)
+            axios.get(`/get-allotment-classes?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -250,9 +247,10 @@ export default{
 
 
         submit: function(){
+
             if(this.global_id > 0){
                 //update
-                axios.put('/offices/'+this.global_id, this.fields).then(res=>{
+                axios.put('/users/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -273,7 +271,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/offices', this.fields).then(res=>{
+                axios.post('/users', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -293,8 +291,6 @@ export default{
                         this.errors = err.response.data.errors;
                     }
                 });
-
-
             }
         },
 
@@ -306,13 +302,13 @@ export default{
                 type: 'is-danger',
                 message: 'Are you sure you want to delete this data?',
                 cancelText: 'Cancel',
-                confirmText: 'Delete',
+                confirmText: 'Delete user account?',
                 onConfirm: () => this.deleteSubmit(delete_id)
             });
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/offices/' + delete_id).then(res => {
+            axios.delete('/users/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -322,9 +318,20 @@ export default{
         },
 
         clearFields(){
-            this.fields = {
-                office: '',
-            };
+            this.fields.username = '';
+            this.fields.lname = '';
+            this.fields.fname = '';
+            this.fields.mname = '';
+            this.fields.suffix = '';
+            this.fields.sex = '';
+        
+            this.fields.password = '';
+            this.fields.password_confirmation = '';
+            this.fields.role = '';
+
+            this.fields.province = ''
+            this.fields.city = ''
+            this.fields.barangay = ''
         },
 
 
@@ -336,23 +343,71 @@ export default{
 
 
             //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/offices/'+data_id).then(res=>{
+            axios.get('/users/'+data_id).then(res=>{
                 this.fields = res.data;
+                this.fields.office = res.data.office_id;
+                let tempData = res.data;
+                //load city first
+                axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+                    //load barangay
+                    this.cities = res.data;
+                    axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+                        this.barangays = res.data;
+                     
+                        this.fields.username = tempData.username
+                        this.fields.lname = tempData.lname
+                        this.fields.fname = tempData.fname
+                        this.fields.mname = tempData.mname
+                        this.fields.sex = tempData.sex
+                    
+                        this.fields.suffix = tempData.suffix
+                        this.fields.role = tempData.role
+                  
+
+                        this.fields.province = tempData.province
+                        this.fields.city = tempData.city
+                        this.fields.barangay = tempData.barangay
+                        this.fields.street = tempData.street
+
+                    });
+                });
             });
         },
 
 
 
+        //addresses
+        loadProvince: function(){
+            axios.get('/load-provinces').then(res=>{
+                this.provinces = res.data;
+            })
+        },
+
+        loadCity: function(){
+            axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+                this.cities = res.data;
+            })
+        },
+
+        loadBarangay: function(){
+            axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+                this.barangays = res.data;
+            })
+        },
+
     },
 
     mounted() {
         this.loadAsyncData();
+        this.loadProvince()
     }
 }
 </script>
 
 
-<style>
-
+<style scoped>
+    .modal-card-title{
+        font-weight: bold;
+    }
 
 </style>

@@ -78,11 +78,6 @@
                                 {{ props.row.role }}
                             </b-table-column>
 
-                            <b-table-column field="office" label="Office" v-slot="props">
-                                <span v-if="props.row.office">{{ props.row.office.office }}</span>
-                                
-                            </b-table-column>
-
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
@@ -117,7 +112,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">User Information</p>
+                        <p class="modal-card-title">USER INFORMATION</p>
                         <button
                             type="button"
                             class="delete"
@@ -180,27 +175,6 @@
                                 </div>
                             </div>
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Birthdate" label-position="on-border" expanded
-                                        :type="this.errors.birthdate ? 'is-danger':''"
-                                        :message="this.errors.birthdate ? this.errors.birthdate[0] : ''">
-                                        <b-datepicker v-model="fields.birthdate" 
-                                            required 
-                                            placeholder="Birthdate"></b-datepicker>
-                                    </b-field>
-                                </div>
-
-                                <div class="column">
-                                    <b-field label="Contact No" label-position="on-border"
-                                             :type="this.errors.contact_no ? 'is-danger':''"
-                                             :message="this.errors.contact_no ? this.errors.contact_no[0] : ''">
-                                        <b-input type="number" v-model="fields.contact_no"
-                                                 placeholder="Contact No" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
                             <div class="columns" v-if="global_id < 1">
                                 <div class="column">
                                     <b-field label="Password" label-position="on-border"
@@ -242,22 +216,7 @@
                                             :message="this.errors.role ? this.errors.role[0] : ''">
                                         <b-select v-model="fields.role" expanded>
                                             <option value="ADMINISTRATOR">ADMINISTRATOR</option>
-                                            <option value="FACULTY">FACULTY</option>
-                                            <option value="STUDENT">STUDENT</option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns" v-if="fields.role === 'STAFF'">
-                                <div class="column">
-                                    <b-field label="Office" label-position="on-border" expanded
-                                            :type="this.errors.office_id ? 'is-danger':''"
-                                            :message="this.errors.office_id ? this.errors.office_id[0] : ''">
-                                        <b-select v-model="fields.office_id" expanded>
-                                            <option v-for="(item,index) in offices"
-                                                :key="index" 
-                                                :value="item.office_id">{{ item.office }}</option>
+                                            <option value="STAFF">STAFF</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -307,9 +266,7 @@
                         </div>
                     </section>
                     <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="isModalCreate=false"/>
+                      
                         <button
                             :class="btnClass"
                             label="Save"
@@ -350,9 +307,8 @@ export default{
             fields: {
                 username: '',
                 lname: '', fname: '', mname: '', suffix: '',
-                civil_status: '',
-                password: '', password_confirmation : '', office_id: 0,
-                sex : '', role: '', contact_no : '', birthdate: null,
+                password: '', password_confirmation : '', 
+                sex : '', role: '',
                 province: '', city: '', barangay: '', street: '',
             },
             errors: {},
@@ -434,8 +390,6 @@ export default{
 
 
         submit: function(){
-            this.fields.office_id = this.fields.role === 'STAFF' ? this.fields.office_id : 0;
-            
 
             if(this.global_id > 0){
                 //update
@@ -513,12 +467,11 @@ export default{
             this.fields.mname = '';
             this.fields.suffix = '';
             this.fields.sex = '';
-            this.fields.civil_status = ''
+        
             this.fields.password = '';
             this.fields.password_confirmation = '';
             this.fields.role = '';
-         
-            this.fields.contact_no = '';
+
             this.fields.province = ''
             this.fields.city = ''
             this.fields.barangay = ''
@@ -543,16 +496,16 @@ export default{
                     this.cities = res.data;
                     axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
                         this.barangays = res.data;
-                        this.fields.birthdate = new Date(tempData.birthdate);
+                     
                         this.fields.username = tempData.username
                         this.fields.lname = tempData.lname
                         this.fields.fname = tempData.fname
                         this.fields.mname = tempData.mname
                         this.fields.sex = tempData.sex
-                        this.fields.civil_status = tempData.civil_status
+                    
                         this.fields.suffix = tempData.suffix
                         this.fields.role = tempData.role
-                        this.fields.contact_no = tempData.contact_no
+                  
 
                         this.fields.province = tempData.province
                         this.fields.city = tempData.city
@@ -561,12 +514,6 @@ export default{
 
                     });
                 });
-            });
-        },
-
-        loadOffices(){
-            axios.get('/get-offices-for-routes').then(res=>{
-                this.offices = res.data;
             });
         },
 
@@ -595,14 +542,15 @@ export default{
 
     mounted() {
         this.loadAsyncData();
-        this.loadOffices()
         this.loadProvince()
     }
 }
 </script>
 
 
-<style>
-
+<style scoped>
+    .modal-card-title{
+        font-weight: bold;
+    }
 
 </style>

@@ -17,14 +17,7 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             UserSeeder::class,
-            OfficeSeeder::class,
             AcademicYearSeeder::class,
-            CourseSeeder::class,
-            RoomSeeder::class,
-            ScheduleSeeder::class,
-            FacultyLoadSeeder::class,
-            ProgramSeeder::class,
-            StudentListSeeder::class
         ]);
     }
 }

@@ -43,7 +43,6 @@ Route::get('/get-user', function(){
 Route::post('/custom-login', [App\Http\Controllers\Auth\LoginController::class, 'login']);
 
 Route::post('/logout', [App\Http\Controllers\Auth\LoginController::class, 'logout']);
-Route::get('/sample',[App\Http\Controllers\SampleController::class,'index']);
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
 
@@ -63,7 +62,7 @@ Route::get('/load-offices', [App\Http\Controllers\OpenController::class, 'loadOf
 Route::middleware(['auth'])->group(function() {
 
     Route::resource('/dashboard', App\Http\Controllers\Administrator\DashboardController::class);
-    
+
     Route::resource('/offices', App\Http\Controllers\Administrator\OfficeController::class);
     Route::get('/get-offices', [App\Http\Controllers\Administrator\OfficeController::class, 'getOffices']);
     Route::get('/get-offices-for-routes', [App\Http\Controllers\Administrator\OfficeController::class, 'getOfficesForRoutes']);
@@ -91,37 +90,25 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/get-modal-schedules', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'getModalSchedules']);
     Route::post('/faculty-load-store', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'store']);
     Route::delete('faculty-load-delete/{id}', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'destroy']);
-    
+
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
+
     
+    Route::resource('/allotment-classes', App\Http\Controllers\Administrator\AllotmentClassController::class);
+    Route::get('/get-allotment-classes', [App\Http\Controllers\Administrator\AllotmentClassController::class, 'getData']);
+
+    Route::resource('/allotment-class-accounts', App\Http\Controllers\Administrator\AllotmentClassAccountController::class);
+    Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
+
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
-    
+
 
 });
 
 
 
-
-Route::middleware(['auth', 'faculty'])->group(function() {
-
-    Route::get('/faculty-dashboard', [App\Http\Controllers\Faculty\FacultyDashboardController::class, 'index']);
-    Route::resource('/faculty-profile', App\Http\Controllers\Faculty\FacultyProfileController::class);
-    Route::get('/faculty-profile-info', [App\Http\Controllers\Faculty\FacultyProfileController::class, 'facultyProfileInfo']);
-
-    Route::resource('/faculty-faculty-load', App\Http\Controllers\Faculty\FacultyFacultyLoadController::class);
-    Route::get('/get-faculty-faculty-loads', [App\Http\Controllers\Faculty\FacultyFacultyLoadController::class, 'getFacultyLoads']);
-
-    Route::get('/faculty-student-list', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'index']);
-    Route::get('/get-student-lists', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'getStudentLists']);
-    
-    Route::post('/faculty-student-list-store', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'addStudent']);
-    Route::delete('/faculty-student-list/{listId}', [App\Http\Controllers\Faculty\FacultyStudentListController::class, 'delete']);
-    Route::post('/grade-entry', [App\Http\Controllers\Faculty\FacultyStudentGradeController::class, 'store']);
-
-    
-});
 
 
 Route::middleware(['auth'])->group(function() {
@@ -143,7 +130,7 @@ Route::middleware(['auth', 'student'])->group(function() {
     Route::resource('/my-courses', App\Http\Controllers\Student\MyStudentCourseController::class);
     Route::get('/get-my-courses', [App\Http\Controllers\Student\MyStudentCourseController::class, 'getMyCourses']);
     Route::get('/my-courses-print', [App\Http\Controllers\Student\MyStudentCourseController::class, 'myCoursePrint']);
-    
+
 });
 
 
