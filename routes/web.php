@@ -74,23 +74,7 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/academic-years', App\Http\Controllers\Administrator\AcademicYearController::class);
     Route::get('/get-academic-years', [App\Http\Controllers\Administrator\AcademicYearController::class, 'getData']);
 
-    Route::resource('/courses', App\Http\Controllers\Administrator\CourseController::class);
-    Route::get('/get-courses', [App\Http\Controllers\Administrator\CourseController::class, 'getData']);
-
-    Route::resource('/schedules', App\Http\Controllers\Administrator\ScheduleController::class);
-    Route::get('/get-schedules', [App\Http\Controllers\Administrator\ScheduleController::class, 'getData']);
-
-    Route::resource('/faculty', App\Http\Controllers\Administrator\FacultyController::class);
-    Route::get('/get-faculty', [App\Http\Controllers\Administrator\FacultyController::class, 'getData']);
-
-
-    Route::get('/faculty-loads/{id}', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'index']);
-    Route::get('/get-faculty-loads', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'getData']);
-    Route::get('/get-individual-loads/{id}/{acadyearId}', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'getIndividualLoads']);
-    Route::get('/get-modal-schedules', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'getModalSchedules']);
-    Route::post('/faculty-load-store', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'store']);
-    Route::delete('faculty-load-delete/{id}', [App\Http\Controllers\Administrator\FacultyLoadController::class, 'destroy']);
-
+    
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
 
@@ -101,8 +85,10 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/allotment-class-accounts', App\Http\Controllers\Administrator\AllotmentClassAccountController::class);
     Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
 
-    Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
-    Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
+    
+    Route::resource('/accounting', App\Http\Controllers\Administrator\AccountingController::class);
+    Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
+    
 
 
 });

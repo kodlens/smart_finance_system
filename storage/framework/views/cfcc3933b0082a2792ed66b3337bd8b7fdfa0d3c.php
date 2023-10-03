@@ -50,6 +50,7 @@
                 </b-navbar-item>
 
                 <b-navbar-dropdown label="Settings">
+                    
                     <b-navbar-item href="/academic-years">
                         Academic Years
                     </b-navbar-item>
@@ -58,6 +59,20 @@
                     </b-navbar-item>
                     <b-navbar-item href="/allotment-class-accounts">
                         Allotment Class Accounts
+                    </b-navbar-item>
+                  
+                </b-navbar-dropdown>
+
+                <b-navbar-dropdown label="Services">
+
+                    <b-navbar-item href="/accounting">
+                        Accounting
+                    </b-navbar-item>
+                    <b-navbar-item href="/budgeting">
+                        Budgeting
+                    </b-navbar-item>
+                    <b-navbar-item href="/procurement">
+                        Procurement
                     </b-navbar-item>
                   
                 </b-navbar-dropdown>
