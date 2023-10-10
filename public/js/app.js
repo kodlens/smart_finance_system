@@ -8577,7 +8577,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.global_id > 0) {
         //update
-        axios.put('/users/' + this.global_id, this.fields).then(function (res) {
+        axios.put('/allotment-classes/' + this.global_id, this.fields).then(function (res) {
           if (res.data.status === 'updated') {
             _this2.$buefy.dialog.alert({
               title: 'UPDATED!',
@@ -8600,7 +8600,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         //INSERT HERE
-        axios.post('/users', this.fields).then(function (res) {
+        axios.post('/allotment-classes', this.fields).then(function (res) {
           if (res.data.status === 'saved') {
             _this2.$buefy.dialog.alert({
               title: 'SAVED!',
@@ -8890,13 +8890,38 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       data: [],
       total: 0,
       loading: false,
-      sortField: 'allotment_class_id',
+      sortField: 'allotment_class_account_id',
       sortOrder: 'desc',
       page: 1,
       perPage: 20,
@@ -8926,7 +8951,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "lname=".concat(this.search.allotment_class), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("/get-allotment-classes?".concat(params)).then(function (_ref) {
+      axios.get("/get-allotment-class-accounts?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.data = [];
         var currentTotal = data.total;
@@ -8974,7 +8999,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.global_id > 0) {
         //update
-        axios.put('/users/' + this.global_id, this.fields).then(function (res) {
+        axios.put('/allotment-class-accounts/' + this.global_id, this.fields).then(function (res) {
           if (res.data.status === 'updated') {
             _this2.$buefy.dialog.alert({
               title: 'UPDATED!',
@@ -8997,7 +9022,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         //INSERT HERE
-        axios.post('/users', this.fields).then(function (res) {
+        axios.post('/allotment-class-accounts', this.fields).then(function (res) {
           if (res.data.status === 'saved') {
             _this2.$buefy.dialog.alert({
               title: 'SAVED!',
@@ -9050,18 +9075,9 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFields: function clearFields() {
-      this.fields.username = '';
-      this.fields.lname = '';
-      this.fields.fname = '';
-      this.fields.mname = '';
-      this.fields.suffix = '';
-      this.fields.sex = '';
-      this.fields.password = '';
-      this.fields.password_confirmation = '';
-      this.fields.role = '';
-      this.fields.province = '';
-      this.fields.city = '';
-      this.fields.barangay = '';
+      this.fields.allotment_class_account_id = 0;
+      this.fields.allotment_class_account_code = '';
+      this.fields.allotment_class_account = '';
     },
     //update code here
     getData: function getData(data_id) {
@@ -9069,59 +9085,22 @@ __webpack_require__.r(__webpack_exports__);
 
       this.clearFields();
       this.global_id = data_id;
-      this.isModalCreate = true; //nested axios for getting the address 1 by 1 or request by request
-
-      axios.get('/users/' + data_id).then(function (res) {
+      this.isModalCreate = true;
+      axios.get('/allotment-class-accounts/' + data_id).then(function (res) {
         _this5.fields = res.data;
-        _this5.fields.office = res.data.office_id;
-        var tempData = res.data; //load city first
-
-        axios.get('/load-cities?prov=' + _this5.fields.province).then(function (res) {
-          //load barangay
-          _this5.cities = res.data;
-          axios.get('/load-barangays?prov=' + _this5.fields.province + '&city_code=' + _this5.fields.city).then(function (res) {
-            _this5.barangays = res.data;
-            _this5.fields.username = tempData.username;
-            _this5.fields.lname = tempData.lname;
-            _this5.fields.fname = tempData.fname;
-            _this5.fields.mname = tempData.mname;
-            _this5.fields.sex = tempData.sex;
-            _this5.fields.suffix = tempData.suffix;
-            _this5.fields.role = tempData.role;
-            _this5.fields.province = tempData.province;
-            _this5.fields.city = tempData.city;
-            _this5.fields.barangay = tempData.barangay;
-            _this5.fields.street = tempData.street;
-          });
-        });
       });
     },
-    //addresses
-    loadProvince: function loadProvince() {
+    loadAllotmentClasses: function loadAllotmentClasses() {
       var _this6 = this;
 
-      axios.get('/load-provinces').then(function (res) {
-        _this6.provinces = res.data;
-      });
-    },
-    loadCity: function loadCity() {
-      var _this7 = this;
-
-      axios.get('/load-cities?prov=' + this.fields.province).then(function (res) {
-        _this7.cities = res.data;
-      });
-    },
-    loadBarangay: function loadBarangay() {
-      var _this8 = this;
-
-      axios.get('/load-barangays?prov=' + this.fields.province + '&city_code=' + this.fields.city).then(function (res) {
-        _this8.barangays = res.data;
+      axios.get('/load-allotment-classes').then(function (res) {
+        _this6.allotment_classes = res.data;
       });
     }
   },
   mounted: function mounted() {
     this.loadAsyncData();
-    this.loadProvince();
+    this.loadAllotmentClasses();
   }
 });
 
@@ -32821,7 +32800,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.allotmant_class) +
+                                  _vm._s(props.row.allotment_class) +
                                   "\n                        "
                               ),
                             ]
@@ -33271,8 +33250,8 @@ var render = function () {
                     _vm._v(" "),
                     _c("b-table-column", {
                       attrs: {
-                        field: "allotmant_class_account_code",
-                        label: "Allotment Code",
+                        field: "allotment_class",
+                        label: "Allotment Class",
                       },
                       scopedSlots: _vm._u([
                         {
@@ -33282,7 +33261,7 @@ var render = function () {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(
-                                    props.row.allotmant_class_account_code
+                                    props.row.allotment_class.allotment_class
                                   ) +
                                   "\n                        "
                               ),
@@ -33294,7 +33273,7 @@ var render = function () {
                     _vm._v(" "),
                     _c("b-table-column", {
                       attrs: {
-                        field: "allotmant_class_account_code",
+                        field: "allotment_class_account_code",
                         label: "Allotment Code",
                       },
                       scopedSlots: _vm._u([
@@ -33305,8 +33284,29 @@ var render = function () {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(
-                                    props.row.allotmant_class.allotment_class
+                                    props.row.allotment_class_account_code
                                   ) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: {
+                        field: "allotment_class_account",
+                        label: "Allotment Code",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.allotment_class_account) +
                                   "\n                        "
                               ),
                             ]
@@ -33472,28 +33472,127 @@ var render = function () {
                             "b-field",
                             {
                               attrs: {
-                                label: "Allotment Class",
+                                label: "Select Allotment Class",
                                 "label-position": "on-border",
-                                type: this.errors.allotment_class
+                                expanded: "",
+                                type: this.errors.allotment_class_id
                                   ? "is-danger"
                                   : "",
-                                message: this.errors.allotment_class
-                                  ? this.errors.allotment_class[0]
+                                message: this.errors.allotment_class_id
+                                  ? this.errors.allotment_class_id[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: {
+                                    placeholder: "Select Allotment Class",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.fields.allotment_class_id,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.fields,
+                                        "allotment_class_id",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "fields.allotment_class_id",
+                                  },
+                                },
+                                _vm._l(
+                                  _vm.allotment_classes,
+                                  function (item, index) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: index,
+                                        domProps: {
+                                          value: item.allotment_class_id,
+                                        },
+                                      },
+                                      [_vm._v(_vm._s(item.allotment_class))]
+                                    )
+                                  }
+                                ),
+                                0
+                              ),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Allotment Class Account Code",
+                                "label-position": "on-border",
+                                type: this.errors.allotment_class_account_code
+                                  ? "is-danger"
+                                  : "",
+                                message: this.errors
+                                  .allotment_class_account_code
+                                  ? this.errors.allotment_class_account_code[0]
                                   : "",
                               },
                             },
                             [
                               _c("b-input", {
                                 attrs: {
-                                  placeholder: "Allotment Class",
+                                  placeholder: "Allotment Class Account Code",
                                   required: "",
                                 },
                                 model: {
-                                  value: _vm.fields.allotment_class,
+                                  value:
+                                    _vm.fields.allotment_class_account_code,
                                   callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "allotment_class", $$v)
+                                    _vm.$set(
+                                      _vm.fields,
+                                      "allotment_class_account_code",
+                                      $$v
+                                    )
                                   },
-                                  expression: "fields.allotment_class",
+                                  expression:
+                                    "fields.allotment_class_account_code",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Allotment Class Account",
+                                "label-position": "on-border",
+                                type: this.errors.allotment_class_account
+                                  ? "is-danger"
+                                  : "",
+                                message: this.errors.allotment_class_account
+                                  ? this.errors.allotment_class_account[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-input", {
+                                attrs: {
+                                  placeholder: "Allotment Class Account",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.fields.allotment_class_account,
+                                  callback: function ($$v) {
+                                    _vm.$set(
+                                      _vm.fields,
+                                      "allotment_class_account",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "fields.allotment_class_account",
                                 },
                               }),
                             ],

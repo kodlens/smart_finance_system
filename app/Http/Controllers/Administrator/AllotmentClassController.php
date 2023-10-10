@@ -24,5 +24,22 @@ class AllotmentClassController extends Controller
     }
 
 
+    public function store(Request $req){
+        
+        $req->validate([
+            'allotment_class' => ['required', 'unique:allotment_classes']
+        ]);
+
+        AllotmentClass::create([
+            'allotment_class' => strtoupper($req->allotment_class)
+        ]);
+
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+
+
 
 }

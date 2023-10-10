@@ -62,13 +62,19 @@
                                 {{ props.row.allotment_class_account_id }}
                             </b-table-column>
 
-                            <b-table-column field="allotmant_class_account_code" label="Allotment Code" v-slot="props">
-                                {{ props.row.allotmant_class_account_code }}
+                            <b-table-column field="allotment_class" label="Allotment Class" v-slot="props">
+                                {{ props.row.allotment_class.allotment_class }}
                             </b-table-column>
 
-                            <b-table-column field="allotmant_class_account_code" label="Allotment Code" v-slot="props">
-                                {{ props.row.allotmant_class.allotment_class }}
+                            <b-table-column field="allotment_class_account_code" label="Allotment Code" v-slot="props">
+                                {{ props.row.allotment_class_account_code }}
                             </b-table-column>
+
+                            <b-table-column field="allotment_class_account" label="Allotment Code" v-slot="props">
+                                {{ props.row.allotment_class_account }}
+                            </b-table-column>
+
+                           
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
@@ -120,11 +126,30 @@
                         <div class="">
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Allotment Class" label-position="on-border"
-                                             :type="this.errors.allotment_class ? 'is-danger':''"
-                                             :message="this.errors.allotment_class ? this.errors.allotment_class[0] : ''">
-                                        <b-input v-model="fields.allotment_class"
-                                                 placeholder="Allotment Class" required>
+                                    <b-field label="Select Allotment Class" label-position="on-border"
+                                        expanded
+                                        :type="this.errors.allotment_class_id ? 'is-danger':''"
+                                        :message="this.errors.allotment_class_id ? this.errors.allotment_class_id[0] : ''">
+                                        <b-select v-model="fields.allotment_class_id"
+                                            placeholder="Select Allotment Class" required>
+                                            <option v-for="(item, index) in allotment_classes"
+                                                :key="index" :value="item.allotment_class_id">{{ item.allotment_class }}</option>
+                                        </b-select>
+                                    </b-field>
+
+                                    <b-field label="Allotment Class Account Code" label-position="on-border"
+                                            :type="this.errors.allotment_class_account_code ? 'is-danger':''"
+                                            :message="this.errors.allotment_class_account_code ? this.errors.allotment_class_account_code[0] : ''">
+                                        <b-input v-model="fields.allotment_class_account_code"
+                                            placeholder="Allotment Class Account Code" required>
+                                        </b-input>
+                                    </b-field>
+
+                                    <b-field label="Allotment Class Account" label-position="on-border"
+                                            :type="this.errors.allotment_class_account ? 'is-danger':''"
+                                            :message="this.errors.allotment_class_account ? this.errors.allotment_class_account[0] : ''">
+                                        <b-input v-model="fields.allotment_class_account"
+                                            placeholder="Allotment Class Account" required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -155,7 +180,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'allotment_class_id',
+            sortField: 'allotment_class_account_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,
@@ -198,7 +223,7 @@ export default{
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-allotment-classes?${params}`)
+            axios.get(`/get-allotment-class-accounts?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -250,7 +275,7 @@ export default{
 
             if(this.global_id > 0){
                 //update
-                axios.put('/users/'+this.global_id, this.fields).then(res=>{
+                axios.put('/allotment-class-accounts/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -271,7 +296,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/users', this.fields).then(res=>{
+                axios.post('/allotment-class-accounts', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -318,20 +343,9 @@ export default{
         },
 
         clearFields(){
-            this.fields.username = '';
-            this.fields.lname = '';
-            this.fields.fname = '';
-            this.fields.mname = '';
-            this.fields.suffix = '';
-            this.fields.sex = '';
-        
-            this.fields.password = '';
-            this.fields.password_confirmation = '';
-            this.fields.role = '';
-
-            this.fields.province = ''
-            this.fields.city = ''
-            this.fields.barangay = ''
+            this.fields.allotment_class_account_id = 0;
+            this.fields.allotment_class_account_code = '';
+            this.fields.allotment_class_account = '';
         },
 
 
@@ -342,64 +356,24 @@ export default{
             this.isModalCreate = true;
 
 
-            //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/users/'+data_id).then(res=>{
+            axios.get('/allotment-class-accounts/'+data_id).then(res=>{
                 this.fields = res.data;
-                this.fields.office = res.data.office_id;
-                let tempData = res.data;
-                //load city first
-                axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
-                    //load barangay
-                    this.cities = res.data;
-                    axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
-                        this.barangays = res.data;
-                     
-                        this.fields.username = tempData.username
-                        this.fields.lname = tempData.lname
-                        this.fields.fname = tempData.fname
-                        this.fields.mname = tempData.mname
-                        this.fields.sex = tempData.sex
-                    
-                        this.fields.suffix = tempData.suffix
-                        this.fields.role = tempData.role
-                  
-
-                        this.fields.province = tempData.province
-                        this.fields.city = tempData.city
-                        this.fields.barangay = tempData.barangay
-                        this.fields.street = tempData.street
-
-                    });
-                });
+                
             });
         },
 
-
-
-        //addresses
-        loadProvince: function(){
-            axios.get('/load-provinces').then(res=>{
-                this.provinces = res.data;
+        loadAllotmentClasses: function(){
+            axios.get('/load-allotment-classes').then(res=>{
+                this.allotment_classes = res.data;
             })
         },
 
-        loadCity: function(){
-            axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
-                this.cities = res.data;
-            })
-        },
-
-        loadBarangay: function(){
-            axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
-                this.barangays = res.data;
-            })
-        },
 
     },
 
     mounted() {
         this.loadAsyncData();
-        this.loadProvince()
+        this.loadAllotmentClasses()
     }
 }
 </script>

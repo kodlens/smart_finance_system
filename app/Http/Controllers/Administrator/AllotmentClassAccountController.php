@@ -23,4 +23,67 @@ class AllotmentClassAccountController extends Controller
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }
+
+
+
+
+    public function store(Request $req){
+        
+        $req->validate([
+            'allotment_class_id' => ['required'],
+            'allotment_class_account_code' => ['required'],
+            'allotment_class_account' => ['required']
+        ]);
+
+        AllotmentClassAccount::create([
+            'allotment_class_id' => $req->allotment_class_id,
+            'allotment_class_account_code' =>strtoupper($req->allotment_class_account_code),
+            'allotment_class_account' =>strtoupper($req->allotment_class_account),
+        ]);
+
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+
+
+
+    public function update(Request $req, $id){
+        
+        $req->validate([
+            'allotment_class_id' => ['required'],
+            'allotment_class_account_code' => ['required'],
+            'allotment_class_account' => ['required']
+        ]);
+
+        AllotmentClassAccount::create([
+            'allotment_class_id' => $req->allotment_class_id,
+            'allotment_class_account_code' =>strtoupper($req->allotment_class_account_code),
+            'allotment_class_account' =>strtoupper($req->allotment_class_account),
+        ]);
+
+        $data = AllotmentClassAccount::find($id);
+        $data->allotment_class_id = $req->allotment_class_id; 
+        $data->allotment_class_account_code = strtoupper($req->allotment_class_account_code); 
+        $data->allotment_class_account = strtoupper($req->allotment_class_account); 
+        
+        $data->save();
+
+
+        return response()->json([
+            'status' => 'updated'
+        ], 200);
+    }
+
+    public function destroy($id){
+        AllotmentClassAccount::destroy($id);
+
+        return response()->json([
+            'status' => 'deleted'
+        ], 200);
+    }
+
+
+
 }

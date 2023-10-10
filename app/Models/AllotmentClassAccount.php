@@ -21,7 +21,7 @@ class AllotmentClassAccount extends Model
     ];
 
 
-    public function allotmant_class(){
+    public function allotment_class(){
         return $this->hasOne(AllotmentClass::class, 'allotment_class_id', 'allotment_class_id');
     }
 

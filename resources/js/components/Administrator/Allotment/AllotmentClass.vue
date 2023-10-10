@@ -63,7 +63,7 @@
                             </b-table-column>
 
                             <b-table-column field="allotmant_class" label="Allotment Class" v-slot="props">
-                                {{ props.row.allotmant_class }}
+                                {{ props.row.allotment_class }}
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
@@ -246,7 +246,7 @@ export default{
 
             if(this.global_id > 0){
                 //update
-                axios.put('/users/'+this.global_id, this.fields).then(res=>{
+                axios.put('/allotment-classes/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -267,7 +267,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/users', this.fields).then(res=>{
+                axios.post('/allotment-classes', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',

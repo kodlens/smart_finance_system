@@ -55,6 +55,7 @@ Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'l
 
 Route::get('/load-acadyears', [App\Http\Controllers\OpenController::class, 'loadAcadYears']);
 Route::get('/load-offices', [App\Http\Controllers\OpenController::class, 'loadOffices']);
+Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::class, 'loadAllotmentClasses']);
 
 /*     ADMINSITRATOR          */
 
