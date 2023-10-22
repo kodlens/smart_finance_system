@@ -14,6 +14,6 @@ class DocumentaryAttachment extends Model
     protected $primaryKey = 'documentary_attachment_id';
 
 
-    protected $fillable = ['attachment_name', 'img_path'];
+    protected $fillable = ['documentary_attachment'];
 
 }

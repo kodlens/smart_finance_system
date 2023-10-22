@@ -96,6 +96,10 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/transaction-types', App\Http\Controllers\Administrator\TransactionTypeController::class);
     Route::get('/get-transaction-types', [App\Http\Controllers\Administrator\TransactionTypeController::class, 'getData']);
 
+    Route::resource('/documentary-attachments', App\Http\Controllers\Administrator\DocumentaryAttachmentController::class);
+    Route::get('/get-documentary-attachments', [App\Http\Controllers\Administrator\DocumentaryAttachmentController::class, 'getData']);
+
+
 
 });
 

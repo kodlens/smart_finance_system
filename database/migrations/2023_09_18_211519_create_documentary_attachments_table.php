@@ -15,11 +15,7 @@ class CreateDocumentaryAttachmentsTable extends Migration
     {
         Schema::create('documentary_attachments', function (Blueprint $table) {
             $table->id('documentary_attachment_id');
-
-            $table->unsignedBigInteger('accounting_id');
-            $table->foreign('accounting_id')->references('accounting_id')->on('accountings')
-                    ->onDelete('cascade')->onUpdate('cascade');
-
+            $table->string('documentary_attachment');
             $table->timestamps();
         });
     }

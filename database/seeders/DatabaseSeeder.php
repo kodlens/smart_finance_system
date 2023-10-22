@@ -20,6 +20,7 @@ class DatabaseSeeder extends Seeder
             AcademicYearSeeder::class,
             TransactionTypeSeeder::class,
             OfficeSeeder::class,
+            DocumentaryAttachmentSeeder::class
         ]);
     }
 }
