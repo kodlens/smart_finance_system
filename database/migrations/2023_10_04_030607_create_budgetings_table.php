@@ -22,6 +22,8 @@ class CreateBudgetingsTable extends Migration
             $table->date('particular_date')->nullable();
 
             $table->string('total_amount')->nullable();
+
+            $table->unsignedBigInteger('payee_id')->default(0);
             $table->string('supplier_payee')->nullable();
 
             $table->string('allotment_class')->nullable();

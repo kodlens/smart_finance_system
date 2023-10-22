@@ -20,7 +20,10 @@ class CreateAccountingsTable extends Migration
             $table->string('transaction_no')->nullable();
             $table->string('training_control_no')->nullable();
             $table->string('transaction_type')->nullable();
+
+            $table->unsignedBigInteger('payee_id')->default(0);
             $table->string('payee')->nullable();
+
             $table->string('particulars')->nullable();
             $table->string('total_amount')->nullable();
             $table->string('allotment_class')->nullable();

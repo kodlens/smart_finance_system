@@ -70,12 +70,6 @@
                                 {{ props.row.allotment_class_account_code }}
                             </b-table-column>
 
-                            <b-table-column field="allotment_class_account" label="Allotment Code" v-slot="props">
-                                {{ props.row.allotment_class_account }}
-                            </b-table-column>
-
-                           
-
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">

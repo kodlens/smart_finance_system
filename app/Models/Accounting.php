@@ -37,8 +37,15 @@ class Accounting extends Model
 
 
     public function documentary_attachments(){
-        return $this->hasMany(DocumentaryAttachment::class, 'accounting_id', 'accounting_ud');
+        return $this->hasMany(DocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }
+
+    
+    public function payee(){
+        return $this->hasOne(Payee::class, 'payee_id', 'payee_id');
+    }
+
+
 
 
 
