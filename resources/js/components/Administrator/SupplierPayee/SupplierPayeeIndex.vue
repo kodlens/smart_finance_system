@@ -74,6 +74,10 @@
                                 {{ props.row.tin }}
                             </b-table-column>
 
+                            <b-table-column field="email" label="Email" v-slot="props">
+                                {{ props.row.email }}
+                            </b-table-column>
+
                             <b-table-column field="contact_no" label="Contact No." v-slot="props">
                                 {{ props.row.contact_no }}
                             </b-table-column>
@@ -81,13 +85,13 @@
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" 
-                                            tag="a" 
+                                        <b-button class="button is-small is-warning mr-1"
+                                            tag="a"
                                             icon-right="pencil" @click="getData(props.row.payee_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" 
-                                            icon-right="delete" 
+                                        <b-button class="button is-small is-danger mr-1"
+                                            icon-right="delete"
                                             @click="confirmDelete(props.row.payee_id)"></b-button>
                                     </b-tooltip>
                                 </div>
@@ -227,7 +231,7 @@ export default{
                 allotment_class: '',
             },
             errors: {},
-  
+
             btnClass: {
                 'is-success': true,
                 'button': true,
@@ -359,7 +363,7 @@ export default{
                 onConfirm: () => this.deleteSubmit(delete_id)
             });
         },
-        
+
         //execute delete after confirming
         deleteSubmit(delete_id) {
             axios.delete('/supplier-payee/' + delete_id).then(res => {
@@ -378,7 +382,7 @@ export default{
             this.fields.mname = '';
             this.fields.suffix = '';
             this.fields.sex = '';
-        
+
             this.fields.password = '';
             this.fields.password_confirmation = '';
             this.fields.role = '';
@@ -398,7 +402,7 @@ export default{
             axios.get('/supplier-payee/'+data_id).then(res=>{
                 this.fields = res.data
                 //load city first
-                
+
             });
         },
 

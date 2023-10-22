@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\AllotmentClass;
 use App\Models\AppointmentType;
 use Illuminate\Database\Seeder;
 
@@ -20,7 +21,9 @@ class DatabaseSeeder extends Seeder
             AcademicYearSeeder::class,
             TransactionTypeSeeder::class,
             OfficeSeeder::class,
-            DocumentaryAttachmentSeeder::class
+            DocumentaryAttachmentSeeder::class,
+            AllotmentClassSeeder::class,
+            AllotmentCLassAccountSeeder::class
         ]);
     }
 }

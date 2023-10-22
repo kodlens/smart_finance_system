@@ -26,7 +26,9 @@ class CreateAccountingsTable extends Migration
 
             $table->string('particulars')->nullable();
             $table->string('total_amount')->nullable();
-            $table->string('allotment_class')->nullable();
+
+            $table->unsignedBigInteger('allotment_class_id')->default(0);
+
             $table->string('account')->nullable();
             $table->string('account_code')->nullable();
             $table->string('amount')->nullable();

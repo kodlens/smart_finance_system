@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateAccountingDocumentaryAttachments extends Migration
+class CreateAcctgDocumentaryAttachments extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,22 @@ class CreateAccountingDocumentaryAttachments extends Migration
      */
     public function up()
     {
-        Schema::create('accounting_documentary_attachments', function (Blueprint $table) {
+        Schema::create('acctg_documentary_attachments', function (Blueprint $table) {
             $table->id('acctg_doc_attachment_id');
 
             $table->unsignedBigInteger('accounting_id');
             $table->foreign('accounting_id')->references('accounting_id')->on('accountings')
                     ->onDelete('cascade')->onUpdate('cascade');
+
+            $table->unsignedBigInteger('documentary_attachment_id');
+//            $table->foreign('documentary_attachment_id')
+//                ->references('documentary_attachment_id')
+//                ->on('documentary_attachments')
+//                ->onDelete('cascade')->onUpdate('cascade');
+
+            $table->string('documentary_attachment')->nullable();
+            $table->string('image_upload')->nullable();
+
 
             $table->timestamps();
         });
@@ -31,6 +41,6 @@ class CreateAccountingDocumentaryAttachments extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accounting_documentary_attachments');
+        Schema::dropIfExists('acctg_documentary_attachments');
     }
 }

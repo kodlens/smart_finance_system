@@ -24,11 +24,24 @@ class AllotmentClassAccountController extends Controller
             ->paginate($req->perpage);
     }
 
+    public function getModalAllotmentClassAccounts(Request $req){
+        $sort = explode('.', $req->sort_by);
+        $classId = $req->classid;
+
+        return AllotmentClassAccount::with(['allotment_class'])
+            ->where('allotment_class_account_code', 'like', '%' . $req->code . '%')
+            ->where('allotment_class_account', 'like', '%' . $req->account . '%')
+            ->where('allotment_class_id',  $classId)
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);
+    }
+
+
 
 
 
     public function store(Request $req){
-        
+
         $req->validate([
             'allotment_class_id' => ['required'],
             'allotment_class_account_code' => ['required'],
@@ -50,7 +63,7 @@ class AllotmentClassAccountController extends Controller
 
 
     public function update(Request $req, $id){
-        
+
         $req->validate([
             'allotment_class_id' => ['required'],
             'allotment_class_account_code' => ['required'],
@@ -64,10 +77,10 @@ class AllotmentClassAccountController extends Controller
         ]);
 
         $data = AllotmentClassAccount::find($id);
-        $data->allotment_class_id = $req->allotment_class_id; 
-        $data->allotment_class_account_code = strtoupper($req->allotment_class_account_code); 
-        $data->allotment_class_account = strtoupper($req->allotment_class_account); 
-        
+        $data->allotment_class_id = $req->allotment_class_id;
+        $data->allotment_class_account_code = strtoupper($req->allotment_class_account_code);
+        $data->allotment_class_account = strtoupper($req->allotment_class_account);
+
         $data->save();
 
 

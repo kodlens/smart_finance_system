@@ -56,6 +56,10 @@ Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'l
 Route::get('/load-acadyears', [App\Http\Controllers\OpenController::class, 'loadAcadYears']);
 Route::get('/load-offices', [App\Http\Controllers\OpenController::class, 'loadOffices']);
 Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::class, 'loadAllotmentClasses']);
+Route::get('/load-transaction-types', [App\Http\Controllers\OpenController::class, 'loadTransactionTypes']);
+Route::get('/load-documentary-attachments', [App\Http\Controllers\OpenController::class, 'loadDocumentaryAttachments']);
+Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::class, 'loadAllotmentClasses']);
+
 
 /*     ADMINSITRATOR          */
 
@@ -82,13 +86,15 @@ Route::middleware(['auth', 'admin'])->group(function() {
 
     Route::resource('/allotment-class-accounts', App\Http\Controllers\Administrator\AllotmentClassAccountController::class);
     Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
-
+    Route::get('/get-modal-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getModalAllotmentClassAccounts']);
 
     Route::resource('/accounting', App\Http\Controllers\Administrator\AccountingController::class);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
 
     Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);
     Route::get('/get-supplier-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getData']);
+    Route::get('/get-modal-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getModalPayee']);
+
 
     Route::resource('/transaction-types', App\Http\Controllers\Administrator\TransactionTypeController::class);
     Route::get('/get-transaction-types', [App\Http\Controllers\Administrator\TransactionTypeController::class, 'getData']);

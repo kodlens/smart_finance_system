@@ -28,9 +28,18 @@ class PayeeController extends Controller
         return $data;
     }
 
+    public function getModalPayee(Request $req){
+        $sort = explode('.', $req->sort_by);
+
+        $data = Payee::where('bank_account_payee', 'like', $req->payee . '%')
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);
+
+        return $data;
+    }
 
     public function store(Request $req){
-        
+
         $req->validate([
             'bank_account_payee' => ['required', 'unique:payee'],
             'owner' => ['required'],

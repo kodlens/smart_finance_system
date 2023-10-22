@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\DocumentaryAttachment;
 use Illuminate\Http\Request;
 use App\Models\TransactionType;
 use App\Models\AcademicYear;
@@ -28,9 +29,17 @@ class OpenController extends Controller
             ->get();
     }
 
-    public function loadTransactionType(Request $req){
+    public function loadTransactionTypes(Request $req){
         return TransactionType::orderBy('transaction_type', 'asc')
             ->get();
     }
+
+    public function loadDocumentaryAttachments(Request $req){
+        return DocumentaryAttachment::orderBy('documentary_attachment', 'asc')
+            ->get();
+    }
+
+
+
 
 }
