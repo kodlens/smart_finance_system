@@ -5,7 +5,7 @@
                 <div class="column is-8">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF SUPPLIER/PAYEE</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF OFFICES</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -28,7 +28,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.payee" placeholder="Search Lastname"
+                                                 v-model="search.office" placeholder="Search Office/Institute"
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -58,37 +58,27 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="payee_id" label="ID" v-slot="props">
-                                {{ props.row.payee_id }}
+                            <b-table-column field="office_id" label="ID" v-slot="props">
+                                {{ props.row.office_id }}
                             </b-table-column>
 
-                            <b-table-column field="bank_account_payee" label="Supplier/Payee" v-slot="props">
-                                {{ props.row.bank_account_payee }}
+                            <b-table-column field="office" label="Office/Institute" v-slot="props">
+                                {{ props.row.office }}
                             </b-table-column>
 
-                            <b-table-column field="owner" label="Owner" v-slot="props">
-                                {{ props.row.owner }}
-                            </b-table-column>
 
-                            <b-table-column field="tin" label="TIN" v-slot="props">
-                                {{ props.row.tin }}
-                            </b-table-column>
-
-                            <b-table-column field="contact_no" label="Contact No." v-slot="props">
-                                {{ props.row.contact_no }}
-                            </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" 
-                                            tag="a" 
-                                            icon-right="pencil" @click="getData(props.row.payee_id)"></b-button>
+                                        <b-button class="button is-small is-warning mr-1"
+                                            tag="a"
+                                            icon-right="pencil" @click="getData(props.row.office_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" 
-                                            icon-right="delete" 
-                                            @click="confirmDelete(props.row.payee_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1"
+                                            icon-right="delete"
+                                            @click="confirmDelete(props.row.office_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -116,7 +106,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">SUPPLIER/PAYEE</p>
+                        <p class="modal-card-title">OFFICE INFORMATION</p>
                         <button
                             type="button"
                             class="delete"
@@ -128,55 +118,11 @@
                         <div class="">
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Supplier/Payee" label-position="on-border"
-                                        :type="this.errors.bank_account_payee ? 'is-danger':''"
-                                        :message="this.errors.bank_account_payee ? this.errors.bank_account_payee[0] : ''">
-                                        <b-input type="text" v-model="fields.bank_account_payee"
-                                            placeholder="Supplier/Payee" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Owner/In-charge" label-position="on-border"
-                                        :type="this.errors.owner ? 'is-danger':''"
-                                        :message="this.errors.owner ? this.errors.owner[0] : ''">
-                                        <b-input type="text" v-model="fields.owner"
-                                            placeholder="Owner/In-charge" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="TIN" label-position="on-border"
-                                        :type="this.errors.tin ? 'is-danger':''"
-                                        :message="this.errors.tin ? this.errors.tin[0] : ''">
-                                        <b-input type="text" v-model="fields.tin"
-                                            placeholder="TIN" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Contact No." label-position="on-border"
-                                        :type="this.errors.contact_no ? 'is-danger':''"
-                                        :message="this.errors.contact_no ? this.errors.contact_no[0] : ''">
-                                        <b-input type="text" v-model="fields.contact_no"
-                                            placeholder="Contact No." required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-
-                                <div class="column">
-                                    <b-field label="Email" label-position="on-border"
-                                        :type="this.errors.email ? 'is-danger':''"
-                                        :message="this.errors.email ? this.errors.email[0] : ''">
-                                        <b-input type="email" v-model="fields.email"
-                                            placeholder="Email" required>
+                                    <b-field label="Office/Institute" label-position="on-border"
+                                        :type="this.errors.office ? 'is-danger':''"
+                                        :message="this.errors.office ? this.errors.office[0] : ''">
+                                        <b-input type="text" v-model="fields.office"
+                                            placeholder="Office/Institute" required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -208,7 +154,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'payee_id',
+            sortField: 'office_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,
@@ -218,22 +164,21 @@ export default{
             global_id : 0,
 
             search: {
-                payee: '',
+                office: '',
             },
 
             isModalCreate: false,
 
             fields: {
-                allotment_class: '',
+                office: '',
             },
             errors: {},
-  
+
             btnClass: {
                 'is-success': true,
                 'button': true,
                 'is-loading':false,
             },
-
         }
 
     },
@@ -245,13 +190,13 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `payee=${this.search.payee}`,
+                `office=${this.search.office}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-supplier-payee?${params}`)
+            axios.get(`/get-offices?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -297,13 +242,11 @@ export default{
             this.errors = {};
         },
 
-
-
         submit: function(){
 
             if(this.global_id > 0){
                 //update
-                axios.put('/supplier-payee/'+this.global_id, this.fields).then(res=>{
+                axios.put('/offices/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -324,7 +267,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/supplier-payee', this.fields).then(res=>{
+                axios.post('/offices', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -359,10 +302,10 @@ export default{
                 onConfirm: () => this.deleteSubmit(delete_id)
             });
         },
-        
+
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/supplier-payee/' + delete_id).then(res => {
+            axios.delete('/offices/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -372,20 +315,7 @@ export default{
         },
 
         clearFields(){
-            this.fields.username = '';
-            this.fields.lname = '';
-            this.fields.fname = '';
-            this.fields.mname = '';
-            this.fields.suffix = '';
-            this.fields.sex = '';
-        
-            this.fields.password = '';
-            this.fields.password_confirmation = '';
-            this.fields.role = '';
-
-            this.fields.province = ''
-            this.fields.city = ''
-            this.fields.barangay = ''
+            this.fields.office = '';
         },
 
 
@@ -395,10 +325,10 @@ export default{
             this.global_id = data_id;
             this.isModalCreate = true;
             //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/supplier-payee/'+data_id).then(res=>{
+            axios.get('/offices/'+data_id).then(res=>{
                 this.fields = res.data
                 //load city first
-                
+
             });
         },
 

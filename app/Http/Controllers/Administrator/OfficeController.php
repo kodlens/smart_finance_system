@@ -16,7 +16,7 @@ class OfficeController extends Controller
 
 
     public function index(){
-        return view('administrator.offices');
+        return view('administrator.office.office');
     }
 
     public function show($id){

@@ -63,9 +63,6 @@ Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::clas
 Route::middleware(['auth'])->group(function() {
 
     Route::resource('/dashboard', App\Http\Controllers\Administrator\DashboardController::class);
-
-    Route::resource('/offices', App\Http\Controllers\Administrator\OfficeController::class);
-    Route::get('/get-offices', [App\Http\Controllers\Administrator\OfficeController::class, 'getOffices']);
     Route::get('/get-offices-for-routes', [App\Http\Controllers\Administrator\OfficeController::class, 'getOfficesForRoutes']);
 });
 
@@ -99,6 +96,8 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/documentary-attachments', App\Http\Controllers\Administrator\DocumentaryAttachmentController::class);
     Route::get('/get-documentary-attachments', [App\Http\Controllers\Administrator\DocumentaryAttachmentController::class, 'getData']);
 
+    Route::resource('/offices', App\Http\Controllers\Administrator\OfficeController::class);
+    Route::get('/get-offices', [App\Http\Controllers\Administrator\OfficeController::class, 'getOffices']);
 
 
 });
