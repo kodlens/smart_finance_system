@@ -75,24 +75,27 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/academic-years', App\Http\Controllers\Administrator\AcademicYearController::class);
     Route::get('/get-academic-years', [App\Http\Controllers\Administrator\AcademicYearController::class, 'getData']);
 
-    
+
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);
     Route::get('/get-users', [App\Http\Controllers\Administrator\UserController::class, 'getUsers']);
 
-    
+
     Route::resource('/allotment-classes', App\Http\Controllers\Administrator\AllotmentClassController::class);
     Route::get('/get-allotment-classes', [App\Http\Controllers\Administrator\AllotmentClassController::class, 'getData']);
 
     Route::resource('/allotment-class-accounts', App\Http\Controllers\Administrator\AllotmentClassAccountController::class);
     Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
 
-    
+
     Route::resource('/accounting', App\Http\Controllers\Administrator\AccountingController::class);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
-    
+
     Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);
     Route::get('/get-supplier-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getData']);
-    
+
+    Route::resource('/transaction-types', App\Http\Controllers\Administrator\TransactionTypeController::class);
+    Route::get('/get-transaction-types', [App\Http\Controllers\Administrator\TransactionTypeController::class, 'getData']);
+
 
 });
 

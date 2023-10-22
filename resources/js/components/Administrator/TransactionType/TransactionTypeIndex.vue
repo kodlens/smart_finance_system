@@ -2,10 +2,10 @@
     <div>
         <div class="section">
             <div class="columns is-centered">
-                <div class="column is-10-widescreen is-12-desktop is-12-tablet">
+                <div class="column is-8">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">ACCOUNTING RECORDS</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF TRANSCATION TYPES</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -28,7 +28,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.key" placeholder="Search..."
+                                                 v-model="search.transaction" placeholder="Search Transaction"
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -58,61 +58,32 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="accounting_id" label="ID" v-slot="props">
-                                {{ props.row.accounting_id }}
+                            <b-table-column field="transaction_type_id" label="ID" v-slot="props">
+                                {{ props.row.transaction_type_id }}
                             </b-table-column>
 
-                            <b-table-column field="date_time" label="Date & Time" v-slot="props">
-                                {{ props.row.date_time }}
+                            <b-table-column field="transaction_type" label="Transaction Type" v-slot="props">
+                                {{ props.row.transaction_type }}
                             </b-table-column>
-
-                            <b-table-column field="transaction_code" label="Code" v-slot="props">
-                                {{ props.row.transaction_code }}
-                            </b-table-column>
-
-                            <b-table-column field="payee" label="Payee" v-slot="props">
-                                {{ props.row.payee }}
-                            </b-table-column>
-
-                            <b-table-column field="particulars" label="Particulars" v-slot="props">
-                                {{ props.row.particulars }}
-                            </b-table-column>
-
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.academic_year_id)"></b-button>
+                                        <b-button class="button is-small is-warning mr-1"
+                                            tag="a"
+                                            icon-right="pencil" @click="getData(props.row.transaction_type_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.academic_year_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1"
+                                            icon-right="delete"
+                                            @click="confirmDelete(props.row.transaction_type_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
-
-                            <template #detail="props">
-                                <tr>
-                                    <th>Allotment Class</th>
-                                    <th>Account</th>
-                                    <th>Account Code</th>
-                                    <th>Priority Program</th>
-                                </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                            </template>
-
-
                         </b-table>
 
                         <div class="buttons mt-3">
-                            <b-button tag="a"
-                                href="/accounting/create" 
-                                icon-right="account" 
-                                class="is-success">NEW</b-button>
+                            <b-button @click="openModal" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
                         </div>
 
                     </div>
@@ -133,7 +104,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Academic Year</p>
+                        <p class="modal-card-title">TRANSACTION TYPE</p>
                         <button
                             type="button"
                             class="delete"
@@ -141,47 +112,23 @@
                     </header>
 
                     <section class="modal-card-body">
+
                         <div class="">
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Academic Year Code" label-position="on-border"
-                                             :type="this.errors.academic_year_code ? 'is-danger':''"
-                                             :message="this.errors.academic_year_code ? this.errors.academic_year_code[0] : ''">
-                                        <b-input v-model="fields.academic_year_code"
-                                                 placeholder="Academic Year Code" required>
+                                    <b-field label="Transaction Type" label-position="on-border"
+                                        :type="this.errors.transaction_type ? 'is-danger':''"
+                                        :message="this.errors.transaction_type ? this.errors.transaction_type[0] : ''">
+                                        <b-input type="text" v-model="fields.transaction_type"
+                                            placeholder="Transaction Type" required>
                                         </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Academic Year Description" label-position="on-border"
-                                             :type="this.errors.academic_year_desc ? 'is-danger':''"
-                                             :message="this.errors.academic_year_desc ? this.errors.academic_year_desc[0] : ''">
-                                        <b-input v-model="fields.academic_year_desc"
-                                                 placeholder="Academic Year Description" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Active">
-                                        <b-checkbox v-model="fields.active"
-                                            :true-value="1"
-                                            :false-value="0">
-                                        </b-checkbox>
                                     </b-field>
                                 </div>
                             </div>
                         </div>
                     </section>
+
                     <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="isModalCreate=false"/>
                         <button
                             :class="btnClass"
                             label="Save"
@@ -204,7 +151,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'accounting_id',
+            sortField: 'transaction_type_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,
@@ -214,26 +161,21 @@ export default{
             global_id : 0,
 
             search: {
-                key: '',
+                transaction: '',
             },
 
             isModalCreate: false,
 
             fields: {
-                date_time: null,
-                transcation_no: null,
-                activity_control_no : null
+                allotment_class: '',
             },
             errors: {},
-            
 
             btnClass: {
                 'is-success': true,
                 'button': true,
                 'is-loading':false,
             },
-
-            
 
         }
 
@@ -246,13 +188,13 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `key=${this.search.key}`,
+                `transaction=${this.search.transaction}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-accounting-records?${params}`)
+            axios.get(`/get-transaction-types?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -294,7 +236,7 @@ export default{
 
         openModal(){
             this.isModalCreate=true;
-            this.clearFields()
+            this.fields = {};
             this.errors = {};
         },
 
@@ -304,7 +246,7 @@ export default{
 
             if(this.global_id > 0){
                 //update
-                axios.put('/academic-years/'+this.global_id, this.fields).then(res=>{
+                axios.put('/transaction-types/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -325,7 +267,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/academic-years', this.fields).then(res=>{
+                axios.post('/transaction-types', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -356,13 +298,14 @@ export default{
                 type: 'is-danger',
                 message: 'Are you sure you want to delete this data?',
                 cancelText: 'Cancel',
-                confirmText: 'Delete',
+                confirmText: 'Delete?',
                 onConfirm: () => this.deleteSubmit(delete_id)
             });
         },
+
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/academic-years/' + delete_id).then(res => {
+            axios.delete('/transaction-types/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -372,27 +315,22 @@ export default{
         },
 
         clearFields(){
-            this.global_id = 0;
-            this.fields.academic_year_code = '';
-            this.fields.academic_year_desc = '';
-            this.fields.active = 0;
+            this.fields.transaction_type = '';
         },
 
 
         //update code here
-    getData: function(data_id){
+        getData: function(data_id){
             this.clearFields();
             this.global_id = data_id;
             this.isModalCreate = true;
+            //nested axios for getting the address 1 by 1 or request by request
+            axios.get('/transaction-types/'+data_id).then(res=>{
+                this.fields = res.data
+                //load city first
 
-            axios.get('/academic-years/'+data_id).then(res=>{
-                this.fields = res.data;
-               
-                
             });
         },
-
-
 
 
     },
@@ -405,7 +343,9 @@ export default{
 </script>
 
 
-<style>
-
+<style scoped>
+    .modal-card-title{
+        font-weight: bold;
+    }
 
 </style>

@@ -17,45 +17,43 @@ class OfficeSeeder extends Seeder
         $data = [
             [
                 'office' => 'ICJE',
-                'designate_person' => '',
-                'designation' => ''
+                'description' => 'INSTITUTE OF CRIMINAL JUSTINCE EDUCATION'
             ],
-            
+
             [
                 'office' => 'IBFS',
-                'designate_person' => '',
-                'designation' => ''
+                'description' => 'INSTITUTE OF BUSINESS FINANCE AND SERVICES'
+
             ],
-           
             [
                 'office' => 'ICS',
-                'designate_person' => '',
-                'designation' => ''
+                'description' => 'INSTITUTE OF COMPUTER STUDIES'
+
             ],
             [
                 'office' => 'ACCOUNTING',
-                'designate_person' => '',
-                'designation' => ''
+                'description' => ''
+
             ],
             [
                 'office' => 'CISO',
-                'designate_person' => 'FRITZIE ANN FLORIDA',
-                'designation' => 'CISO HEAD'
+                'description' => ''
+
             ],
             [
                 'office' => 'REGISTRAR',
-                'designate_person' => '',
-                'designation' => ''
+                'description' => ''
+
             ],
             [
                 'office' => 'OSA',
-                'designate_person' => '',
-                'designation' => ''
+                'description' => 'OFFICE OF STUDENT AFFAIRS'
+
             ],
             [
                 'office' => 'GUIDANCE',
-                'designate_person' => 'BERNICE SUMALINOG',
-                'designation' => 'GUIDANCE COUNCILOR'
+                'description' => ''
+
             ],
 
         ];

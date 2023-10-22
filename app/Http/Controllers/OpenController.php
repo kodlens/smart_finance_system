@@ -3,9 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Office;
+use App\Models\TransactionType;
 use App\Models\AcademicYear;
 use App\Models\AllotmentClass;
+use App\Models\Office;
 
 class OpenController extends Controller
 {
@@ -24,6 +25,11 @@ class OpenController extends Controller
 
     public function loadAllotmentClasses(Request $req){
         return AllotmentClass::orderBy('allotment_class', 'asc')
+            ->get();
+    }
+
+    public function loadTransactionType(Request $req){
+        return TransactionType::orderBy('transaction_type', 'asc')
             ->get();
     }
 

@@ -32,7 +32,7 @@
                 </b-navbar-item>
             </template>
             <template #start>
-                
+
                 <!-- <b-navbar-dropdown label="Info">
                     <b-navbar-item href="#">
                         About
@@ -50,7 +50,7 @@
                 </b-navbar-item>
 
                 <b-navbar-dropdown label="Settings">
-                    
+
                     <b-navbar-item href="/academic-years">
                         Academic Years
                     </b-navbar-item>
@@ -60,11 +60,19 @@
                     <b-navbar-item href="/allotment-class-accounts">
                         Allotment Class Accounts
                     </b-navbar-item>
-
                     <b-navbar-item href="/supplier-payee">
                         Supplier/Payee
                     </b-navbar-item>
-                  
+                    <b-navbar-item href="/transaction-types">
+                        Transaction Types
+                    </b-navbar-item>
+                    <b-navbar-item href="/documentary-attachments">
+                        Documentary Attachments
+                    </b-navbar-item>
+                    <b-navbar-item href="/offices">
+                        Office/Institutes
+                    </b-navbar-item>
+
                 </b-navbar-dropdown>
 
                 <b-navbar-dropdown label="Services">
@@ -78,17 +86,17 @@
                     <b-navbar-item href="/procurement">
                         Procurement
                     </b-navbar-item>
-                  
+
                 </b-navbar-dropdown>
 
 
                 <b-navbar-item href="/users">
                     Users
                 </b-navbar-item>
-                
+
                 <b-navbar-item tag="div">
                     <div class="buttons">
-                        <b-button 
+                        <b-button
                             onclick="logout()"
                             icon-left="logout"
                             class="button is-primary" outlined>

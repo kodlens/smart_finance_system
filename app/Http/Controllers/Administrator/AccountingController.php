@@ -30,4 +30,8 @@ class AccountingController extends Controller
     }
 
 
+    public function create(){
+        return view('administrator.accounting.accounting-create-edit');
+    }
+
 }
