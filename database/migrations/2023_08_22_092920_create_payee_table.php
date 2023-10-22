@@ -17,7 +17,7 @@ class CreatePayeeTable extends Migration
             $table->id('payee_id');
             $table->string('bank_account_payee')->nullable();
             $table->string('owner')->nullable();
-            $table->string('TIN')->nullable();
+            $table->string('tin')->nullable();
             $table->string('contact_no')->nullable();
             $table->string('email')->nullable();
             $table->timestamps();

@@ -60,6 +60,10 @@
                     <b-navbar-item href="/allotment-class-accounts">
                         Allotment Class Accounts
                     </b-navbar-item>
+
+                    <b-navbar-item href="/supplier-payee">
+                        Supplier/Payee
+                    </b-navbar-item>
                   
                 </b-navbar-dropdown>
 

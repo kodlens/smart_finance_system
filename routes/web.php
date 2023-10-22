@@ -90,7 +90,9 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/accounting', App\Http\Controllers\Administrator\AccountingController::class);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
     
-
+    Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);
+    Route::get('/get-supplier-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getData']);
+    
 
 });
 

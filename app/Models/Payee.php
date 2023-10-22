@@ -17,7 +17,7 @@ class Payee extends Model
     protected $fillable = [
         'bank_account_payee', 
         'owner',
-        'TIN',
+        'tin',
         'contact_no',
         'email',
     ];
