@@ -16,7 +16,7 @@ class AccountingController extends Controller
     }
 
 
-    public function getData(){
+    public function getData(Request $req){
 
         $sort = explode('.', $req->sort_by);
 
@@ -32,6 +32,12 @@ class AccountingController extends Controller
 
     public function create(){
         return view('administrator.accounting.accounting-create-edit');
+    }
+
+    public function store(Request $req){
+
+
+        return $req;
     }
 
 }

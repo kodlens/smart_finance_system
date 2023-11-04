@@ -31,8 +31,8 @@ class RedirectIfAuthenticated
                     return redirect('/dashboard');
                 }
 
-                if($role == 'FACULTY'){
-                    return redirect('/staff-dashboard');
+                if($role == 'PROCESSOR'){
+                    return redirect('/processor-dashboard');
                 }
             }
         }

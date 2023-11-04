@@ -72,6 +72,10 @@
                     <b-navbar-item href="/offices">
                         Office/Institutes
                     </b-navbar-item>
+                    <b-navbar-item href="/priority-programs">
+                        Priority Program
+                    </b-navbar-item>
+
 
                 </b-navbar-dropdown>
 

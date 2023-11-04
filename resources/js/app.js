@@ -81,6 +81,35 @@ Vue.filter('formatDateTime', function(value) {
     return ndate.toDateString()+ ', Time: ' + timeString;
 });
 
+Vue.filter('formatDateAndTimeMeridian', function(value) {
+    let ndate = new Date(value);
+
+    var timeString = ndate.toTimeString();
+    var H = +timeString.substr(0, 2);
+    var h = (H % 12) || 12;
+    var ampm = H < 12 ? " AM" : " PM";
+    timeString = h + timeString.substr(2, 3) + ampm;
+    return ndate.toDateString()+ ' ' + timeString;
+});
+
+Vue.prototype.$formatDateAndTime = function(value) {
+    if (!value) return '';
+
+    const date = new Date(value);
+
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+
+    const hour = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+
+    return `${year}-${month}-${day} ${hour}:${minutes}:00`;
+};
+
+
+
+
 
 
 const app = new Vue({

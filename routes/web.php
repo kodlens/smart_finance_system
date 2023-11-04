@@ -88,8 +88,16 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
     Route::get('/get-modal-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getModalAllotmentClassAccounts']);
 
+
+    Route::resource('/priority-programs', App\Http\Controllers\Administrator\PriorityProgramController::class);
+    Route::get('/get-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getData']);
+    Route::get('/get-modal-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getModalPriorityPrograms']);
+
+
+
     Route::resource('/accounting', App\Http\Controllers\Administrator\AccountingController::class);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
+
 
     Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);
     Route::get('/get-supplier-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getData']);
@@ -112,27 +120,10 @@ Route::middleware(['auth', 'admin'])->group(function() {
 
 
 
-Route::middleware(['auth'])->group(function() {
-
-    //Get student list in modal
-    Route::get('/get-modal-student-lists', [App\Http\Controllers\Modal\ModalStudentListController::class, 'getModalStudentList']);
-
-    Route::get('/get-modal-cousres-lists', [App\Http\Controllers\Modal\ModalCoursesController::class, 'getModalCoursesList']);
-
-});
 
 
 
 
-Route::middleware(['auth', 'student'])->group(function() {
-
-    Route::get('/student-dashboard', [App\Http\Controllers\Student\StudentDashboardController::class, 'index']);
-
-    Route::resource('/my-courses', App\Http\Controllers\Student\MyStudentCourseController::class);
-    Route::get('/get-my-courses', [App\Http\Controllers\Student\MyStudentCourseController::class, 'getMyCourses']);
-    Route::get('/my-courses-print', [App\Http\Controllers\Student\MyStudentCourseController::class, 'myCoursePrint']);
-
-});
 
 
 

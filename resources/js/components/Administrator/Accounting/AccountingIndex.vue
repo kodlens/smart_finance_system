@@ -110,8 +110,8 @@
 
                         <div class="buttons mt-3">
                             <b-button tag="a"
-                                href="/accounting/create" 
-                                icon-right="account" 
+                                href="/accounting/create"
+                                icon-right="account"
                                 class="is-success">NEW</b-button>
                         </div>
 
@@ -119,78 +119,6 @@
                 </div><!--col -->
             </div><!-- cols -->
         </div><!--section div-->
-
-
-
-        <!--modal create-->
-        <b-modal v-model="isModalCreate" has-modal-card
-                 trap-focus
-                 :width="640"
-                 aria-role="dialog"
-                 aria-label="Modal"
-                 aria-modal>
-
-            <form @submit.prevent="submit">
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">Academic Year</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="isModalCreate = false"/>
-                    </header>
-
-                    <section class="modal-card-body">
-                        <div class="">
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Academic Year Code" label-position="on-border"
-                                             :type="this.errors.academic_year_code ? 'is-danger':''"
-                                             :message="this.errors.academic_year_code ? this.errors.academic_year_code[0] : ''">
-                                        <b-input v-model="fields.academic_year_code"
-                                                 placeholder="Academic Year Code" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Academic Year Description" label-position="on-border"
-                                             :type="this.errors.academic_year_desc ? 'is-danger':''"
-                                             :message="this.errors.academic_year_desc ? this.errors.academic_year_desc[0] : ''">
-                                        <b-input v-model="fields.academic_year_desc"
-                                                 placeholder="Academic Year Description" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Active">
-                                        <b-checkbox v-model="fields.active"
-                                            :true-value="1"
-                                            :false-value="0">
-                                        </b-checkbox>
-                                    </b-field>
-                                </div>
-                            </div>
-                        </div>
-                    </section>
-                    <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="isModalCreate=false"/>
-                        <button
-                            :class="btnClass"
-                            label="Save"
-                            type="is-success">SAVE</button>
-                    </footer>
-                </div>
-            </form><!--close form-->
-        </b-modal>
-        <!--close modal-->
 
 
     </div>
@@ -219,13 +147,9 @@ export default{
 
             isModalCreate: false,
 
-            fields: {
-                date_time: null,
-                transcation_no: null,
-                activity_control_no : null
-            },
+
             errors: {},
-            
+
 
             btnClass: {
                 'is-success': true,
@@ -233,7 +157,7 @@ export default{
                 'is-loading':false,
             },
 
-            
+
 
         }
 
@@ -253,7 +177,7 @@ export default{
 
             this.loading = true
             axios.get(`/get-accounting-records?${params}`)
-                .then(({ data }) => {
+                .then(({data}) => {
                     this.data = [];
                     let currentTotal = data.total
                     if (data.total / this.perPage > 1000) {
@@ -288,66 +212,15 @@ export default{
             this.loadAsyncData()
         },
 
-        setPerPage(){
+        setPerPage() {
             this.loadAsyncData()
         },
 
-        openModal(){
-            this.isModalCreate=true;
+        openModal() {
+            this.isModalCreate = true;
             this.clearFields()
             this.errors = {};
         },
-
-
-
-        submit: function(){
-
-            if(this.global_id > 0){
-                //update
-                axios.put('/academic-years/'+this.global_id, this.fields).then(res=>{
-                    if(res.data.status === 'updated'){
-                        this.$buefy.dialog.alert({
-                            title: 'UPDATED!',
-                            message: 'Successfully updated.',
-                            type: 'is-success',
-                            onConfirm: () => {
-                                this.loadAsyncData();
-                                this.clearFields();
-                                this.global_id = 0;
-                                this.isModalCreate = false;
-                            }
-                        })
-                    }
-                }).catch(err=>{
-                    if(err.response.status === 422){
-                        this.errors = err.response.data.errors;
-                    }
-                })
-            }else{
-                //INSERT HERE
-                axios.post('/academic-years', this.fields).then(res=>{
-                    if(res.data.status === 'saved'){
-                        this.$buefy.dialog.alert({
-                            title: 'SAVED!',
-                            message: 'Successfully saved.',
-                            type: 'is-success',
-                            confirmText: 'OK',
-                            onConfirm: () => {
-                                this.isModalCreate = false;
-                                this.loadAsyncData();
-                                this.clearFields();
-                                this.global_id = 0;
-                            }
-                        })
-                    }
-                }).catch(err=>{
-                    if(err.response.status === 422){
-                        this.errors = err.response.data.errors;
-                    }
-                });
-            }
-        },
-
 
         //alert box ask for deletion
         confirmDelete(delete_id) {
@@ -362,7 +235,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/academic-years/' + delete_id).then(res => {
+            axios.delete('/accounting/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -370,32 +243,8 @@ export default{
                 }
             });
         },
-
-        clearFields(){
-            this.global_id = 0;
-            this.fields.academic_year_code = '';
-            this.fields.academic_year_desc = '';
-            this.fields.active = 0;
-        },
-
-
-        //update code here
-    getData: function(data_id){
-            this.clearFields();
-            this.global_id = data_id;
-            this.isModalCreate = true;
-
-            axios.get('/academic-years/'+data_id).then(res=>{
-                this.fields = res.data;
-               
-                
-            });
-        },
-
-
-
-
     },
+
 
     mounted() {
         this.loadAsyncData();
