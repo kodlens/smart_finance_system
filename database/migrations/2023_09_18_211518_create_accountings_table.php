@@ -30,14 +30,14 @@ class CreateAccountingsTable extends Migration
             $table->string('total_amount')->nullable();
 
             $table->unsignedBigInteger('allotment_class_id')->default(0);
-
-            $table->string('account')->nullable();
-            $table->string('account_code')->nullable();
+            $table->unsignedBigInteger('allotment_class_account_id')->default(0);
+            $table->string('allotment_class_account')->nullable();
+            $table->string('allotment_class_account_code')->nullable();
             $table->string('amount')->nullable();
 
             $table->unsignedBigInteger('priority_program_id')->default(0);
             $table->string('priority_program')->nullable();
-            $table->string('pp_account_code')->nullable();
+            $table->string('priority_program_code')->nullable();
 
             $table->string('supplemental_budget')->nullable();
             $table->string('capital_outlay')->nullable();

@@ -15,8 +15,8 @@ class Accounting extends Model
 
 
     protected $fillable = [
-        'date_time', 
-        'transcation_no',
+        'date_time',
+        'transaction_no',
         'training_control_no',
         'transaction_type',
         'payee',
@@ -40,7 +40,7 @@ class Accounting extends Model
         return $this->hasMany(DocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }
 
-    
+
     public function payee(){
         return $this->hasOne(Payee::class, 'payee_id', 'payee_id');
     }

@@ -35,9 +35,32 @@ class AccountingController extends Controller
     }
 
     public function store(Request $req){
-
-
         return $req;
+        $req->validate([
+            'date_time' => ['required'],
+            'transaction_no' => ['required'],
+            'training_control_no' => ['required'],
+            'transaction_type_id' => ['required'],
+
+        ]);
+
+        Accounting::create([
+            'date_time' => $req->date_time,
+            'transaction_no' => $req->transaction_no,
+            'training_control_no' => $req->training_control_no,
+            'transaction_type_id' => $req->transaction_type_id,
+            'payee_id' => $req->payee_id,
+            'particulars' => $req->particulars,
+            'total_amount' => $req->total_amount,
+
+            //naa pai attachment
+
+        ]);
+
+
+//        return response()->json([
+//            'status' => 'saved'
+//        ], 200);
     }
 
 }

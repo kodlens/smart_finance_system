@@ -117,8 +117,8 @@
 
                                                     <div class="column is-1">
                                                         <b-button icon-left="delete-outline"
-                                                                  @click="removeDoctAttchment(ixdoc)"
-                                                                  class="is-danger">
+                                                            @click="removeDoctAttchment(ixdoc)"
+                                                            class="is-danger">
                                                         </b-button>
                                                     </div>
                                                 </div>
@@ -126,8 +126,8 @@
 
                                             <div class="buttons mt-2">
                                                 <b-button @click="newDocAttachment"
-                                                          icon-left="plus"
-                                                          class="button is-small is-outlined is-primary">
+                                                    icon-left="plus"
+                                                    class="button is-small is-outlined is-primary">
                                                     NEW ATTACHMENT
                                                 </b-button>
                                             </div>
@@ -139,10 +139,12 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Allotment Class" label-position="on-border" expanded>
-                                        <b-select v-model="fields.allotment_class_id" expanded>
+                                        <b-select v-model="fields.allotment_class_id"
+                                            @input="refreshAccountAllotment" 
+                                            expanded>
                                             <option value="" v-for="(i, ix) in allotmentClasses"
-                                                    :key="`allotclass${ix}`"
-                                                    :value="i.allotment_class_id">{{ i.allotment_class }}</option>
+                                                :key="`allotclass${ix}`"
+                                                :value="i.allotment_class_id">{{ i.allotment_class }}</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -162,8 +164,10 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Amount">
-                                        <b-numberinput :controls="false"
-                                                       step="0.0001">
+                                        <b-numberinput 
+                                            v-models="fields.amount"
+                                            :controls="false"
+                                            step="0.0001">
                                         </b-numberinput>
                                     </b-field>
                                 </div>
@@ -238,7 +242,6 @@
                                 </b-button>
                             </div>
 
-
                         </div> <!--body -->
 
                     </div> <!--box-->
@@ -266,9 +269,11 @@ export default{
                 payee: null,
                 particulars: null,
                 total_amount: null,
+                documentary_attachments: [],
                 allotment_class_id: null,
-                account: null,
-                account_code: null,
+                allotment_class_account_id: null,
+                allotment_class_account: null,
+                allotment_class_account_code: null,
                 amount: null,
                 priority_program: null,
                 pp_account_code: null,
@@ -336,15 +341,15 @@ export default{
         emitAllotmentAccount(row){
             this.allotment.allotment = '(' + row.allotment_class_account_code + ') ' + row.allotment_class_account
             this.fields.allotment_class_account_id = row.allotment_class_account_id
-            this.fields.account = row.allotment_class_account
-            this.fields.account_code = row.allotment_class_account_code
+            this.fields.allotment_class_account = row.allotment_class_account
+            this.fields.allotment_class_account_code = row.allotment_class_account_code
         },
 
         emitPriorityProgram(row){
             this.priority_program.priority_program = row.priority_program
             this.fields.priority_program_id = row.priority_program_id
             this.fields.priority_program = row.priority_program
-            this.fields.pp_account_code = row.pp_account_code
+            this.fields.priority_program_code = row.priority_program_code
         },
 
 
@@ -368,6 +373,7 @@ export default{
             let formData = new FormData();
             formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
             formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
+            formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
             formData.append('transaction_type_id', this.fields.transaction_type_id ? this.fields.transaction_type_id : '');
             formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
             formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
@@ -376,6 +382,19 @@ export default{
             //will be code later
 
             formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
+            formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
+            formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
+            formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
+            
+            formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
+            formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
+            formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
+
+            formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
+            formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
+            formData.append('accounts_payable', this.fields.accounts_payable ? this.fields.accounts_payable : '');
+            formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
+            formData.append('others', this.fields.others ? this.fields.others : '');
 
 
             if(this.global_id > 0){
@@ -416,7 +435,16 @@ export default{
                     }
                 });
             }
+
         },
+
+        refreshAccountAllotment(){
+            this.allotment.allotment = null
+            this.fields.allotment_class_account_id = null
+            this.allotment_class_account = null
+            this.allotment_class_account_code = null
+
+        }
 
 
     },

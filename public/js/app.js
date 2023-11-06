@@ -8204,6 +8204,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8216,9 +8219,11 @@ __webpack_require__.r(__webpack_exports__);
         payee: null,
         particulars: null,
         total_amount: null,
+        documentary_attachments: [],
         allotment_class_id: null,
-        account: null,
-        account_code: null,
+        allotment_class_account_id: null,
+        allotment_class_account: null,
+        allotment_class_account_code: null,
         amount: null,
         priority_program: null,
         pp_account_code: null,
@@ -8275,14 +8280,14 @@ __webpack_require__.r(__webpack_exports__);
     emitAllotmentAccount: function emitAllotmentAccount(row) {
       this.allotment.allotment = '(' + row.allotment_class_account_code + ') ' + row.allotment_class_account;
       this.fields.allotment_class_account_id = row.allotment_class_account_id;
-      this.fields.account = row.allotment_class_account;
-      this.fields.account_code = row.allotment_class_account_code;
+      this.fields.allotment_class_account = row.allotment_class_account;
+      this.fields.allotment_class_account_code = row.allotment_class_account_code;
     },
     emitPriorityProgram: function emitPriorityProgram(row) {
       this.priority_program.priority_program = row.priority_program;
       this.fields.priority_program_id = row.priority_program_id;
       this.fields.priority_program = row.priority_program;
-      this.fields.pp_account_code = row.pp_account_code;
+      this.fields.priority_program_code = row.priority_program_code;
     },
     //attaching documents
     newDocAttachment: function newDocAttachment() {
@@ -8302,6 +8307,7 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
       formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
+      formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
       formData.append('transaction_type_id', this.fields.transaction_type_id ? this.fields.transaction_type_id : '');
       formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
       formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
@@ -8309,6 +8315,17 @@ __webpack_require__.r(__webpack_exports__);
       //will be code later
 
       formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
+      formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
+      formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
+      formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
+      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
+      formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
+      formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
+      formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
+      formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
+      formData.append('accounts_payable', this.fields.accounts_payable ? this.fields.accounts_payable : '');
+      formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
+      formData.append('others', this.fields.others ? this.fields.others : '');
 
       if (this.global_id > 0) {
         //update
@@ -8348,6 +8365,12 @@ __webpack_require__.r(__webpack_exports__);
           }
         });
       }
+    },
+    refreshAccountAllotment: function refreshAccountAllotment() {
+      this.allotment.allotment = null;
+      this.fields.allotment_class_account_id = null;
+      this.allotment_class_account = null;
+      this.allotment_class_account_code = null;
     }
   },
   mounted: function mounted() {
@@ -36331,6 +36354,7 @@ var render = function () {
                           "b-select",
                           {
                             attrs: { expanded: "" },
+                            on: { input: _vm.refreshAccountAllotment },
                             model: {
                               value: _vm.fields.allotment_class_id,
                               callback: function ($$v) {
@@ -36396,6 +36420,14 @@ var render = function () {
                       { attrs: { label: "Amount" } },
                       [
                         _c("b-numberinput", {
+                          directives: [
+                            {
+                              name: "models",
+                              rawName: "v-models",
+                              value: _vm.fields.amount,
+                              expression: "fields.amount",
+                            },
+                          ],
                           attrs: { controls: false, step: "0.0001" },
                         }),
                       ],
