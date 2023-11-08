@@ -53,7 +53,9 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Bank Account/Payee">
+                                    <b-field label="Bank Account/Payee"
+                                        :type="errors.payee_id ? 'is-danger':''"
+                                        :message="errors.payee_id ? errors.payee_id[0] : ''">
                                         <modal-browse-payee
                                             @browsPayee="emitPayee"
                                             :prop-name="payee.bank_account_payee"></modal-browse-payee>
@@ -64,8 +66,8 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Particulars"
-                                             :type="errors.particulars ? 'is-danger':''"
-                                             :message="errors.particulars ? errors.particulars[0] : ''">
+                                        :type="errors.particulars ? 'is-danger':''"
+                                        :message="errors.particulars ? errors.particulars[0] : ''">
                                         <b-input type="text" placholder="Particulars"
                                                  v-model="fields.particulars">
                                         </b-input>
@@ -76,8 +78,8 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Total Amount"
-                                             :type="errors.total_amount ? 'is-danger':''"
-                                             :message="errors.total_amount ? errors.total_amount[0] : ''">
+                                            :type="errors.total_amount ? 'is-danger':''"
+                                            :message="errors.total_amount ? errors.total_amount[0] : ''">
                                         <b-numberinput placholder="Total Amount"
                                             :controls="false" step="0.0001"
                                             v-model="fields.total_amount">
@@ -138,7 +140,9 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Allotment Class" label-position="on-border" expanded>
+                                    <b-field label="Allotment Class" label-position="on-border" expanded
+                                        :type="errors.allotment_class_id ? 'is-danger':''"
+                                        :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
                                         <b-select v-model="fields.allotment_class_id"
                                             @input="refreshAccountAllotment" 
                                             expanded>
@@ -152,7 +156,9 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Account">
+                                    <b-field label="Account"
+                                        :type="errors.allotment_class_account_id ? 'is-danger':''"
+                                        :message="errors.allotment_class_account_id ? errors.allotment_class_account_id[0] : ''">
                                         <modal-browse-allotment-class-account
                                             :prop-class-id="fields.allotment_class_id"
                                             :prop-allotment-account="allotment.allotment"
@@ -163,9 +169,11 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Amount">
+                                    <b-field label="Amount"
+                                        :type="errors.amount ? 'is-danger':''"
+                                        :message="errors.amount ? errors.amount[0] : ''">
                                         <b-numberinput 
-                                            v-models="fields.amount"
+                                            v-model="fields.amount"
                                             :controls="false"
                                             step="0.0001">
                                         </b-numberinput>
@@ -176,9 +184,10 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="GADTC Priority Program">
+                                    <b-field label="GADTC Priority Program"
+                                        :type="errors.priority_program_id ? 'is-danger':''"
+                                        :message="errors.priority_program_id ? errors.priority_program_id[0] : ''">
                                         <modal-browse-priority-program
-                                            :prop-priority-id="fields.priority_program_id"
                                             :prop-priority-program="priority_program.priority_program"
                                             @browsePriorityProgram="emitPriorityProgram"></modal-browse-priority-program>
                                     </b-field>
@@ -187,7 +196,9 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Supplemental Budget">
+                                    <b-field label="Supplemental Budget"
+                                        :type="errors.supplemental_budget ? 'is-danger':''"
+                                        :message="errors.supplemental_budget ? errors.supplemental_budget[0] : ''">
                                         <b-input type="text" v-model="fields.supplemental_budget"
                                                  placeholder="Supplemental Budget"
                                                  required>
@@ -195,7 +206,9 @@
                                     </b-field>
                                 </div>
                                 <div class="column">
-                                    <b-field label="Capital Outlay">
+                                    <b-field label="Capital Outlay"
+                                        :type="errors.capital_outlay ? 'is-danger':''"
+                                        :message="errors.capital_outlay ? errors.capital_outlay[0] : ''">
                                         <b-input type="text" v-model="fields.capital_outlay"
                                                  placeholder="Capital Outlay"
                                                  required>
@@ -206,18 +219,22 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Accounts Payable">
-                                        <b-input type="text" v-model="fields.accounts_payable"
-                                                 placeholder="Accounts Payable"
-                                                 required>
+                                    <b-field label="Accounts Payable"
+                                        :type="errors.account_payable ? 'is-danger':''"
+                                        :message="errors.account_payable ? errors.account_payable[0] : ''">
+                                        <b-input type="text" v-model="fields.account_payable"
+                                            placeholder="Accounts Payable"
+                                            required>
                                         </b-input>
                                     </b-field>
                                 </div>
                                 <div class="column">
-                                    <b-field label="TES Trust Fund">
+                                    <b-field label="TES Trust Fund"
+                                        :type="errors.tes_trust_fund ? 'is-danger':''"
+                                        :message="errors.tes_trust_fund ? errors.tes_trust_fund[0] : ''">
                                         <b-input type="text" v-model="fields.tes_trust_fund"
-                                                 placeholder="TES Trust Fund"
-                                                 required>
+                                            placeholder="TES Trust Fund"
+                                            required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -227,7 +244,7 @@
                                 <div class="column">
                                     <b-field label="Others">
                                         <b-input type="text" v-model="fields.others"
-                                                 placeholder="Others">
+                                            placeholder="Others">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -276,10 +293,10 @@ export default{
                 allotment_class_account_code: null,
                 amount: null,
                 priority_program: null,
-                pp_account_code: null,
+                priority_program_code: null,
                 supplemental_budget: null,
                 capital_outlay: null,
-                accounts_payable: null,
+                account_payable: null,
                 tes_trust_fund: null,
                 others: null
             },
@@ -392,7 +409,7 @@ export default{
 
             formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
             formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-            formData.append('accounts_payable', this.fields.accounts_payable ? this.fields.accounts_payable : '');
+            formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
             formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
             formData.append('others', this.fields.others ? this.fields.others : '');
 

@@ -35,14 +35,33 @@ class AccountingController extends Controller
     }
 
     public function store(Request $req){
-        return $req;
+        
         $req->validate([
             'date_time' => ['required'],
             'transaction_no' => ['required'],
             'training_control_no' => ['required'],
             'transaction_type_id' => ['required'],
+            'payee_id' => ['required'],
+            'particulars' => ['required'],
+            'total_amount' => ['required'],
+            'allotment_class_id' => ['required'],
+            'allotment_class_account_id' => ['required'],
+            'amount' => ['required'],
+            'priority_program_id' => ['required'],
+            'supplemental_budget' => ['required'],
+            'capital_outlay' => ['required'],
+            'account_payable' => ['required'],
+            'tes_trust_fund' => ['required'],
+        ],[
+            'transaction_type_id.required' => 'Please select transaction.',
+            'payee_id.required' => 'Please select bank account/payee.',
+            'allotment_class_id.required' => 'Please allotment class.',
+            'allotment_class_account_id.required' => 'Please allotment class account.',
+            'priority_program_id.required' => 'Please select priority program.',
 
         ]);
+        return $req;
+
 
         Accounting::create([
             'date_time' => $req->date_time,
@@ -54,7 +73,17 @@ class AccountingController extends Controller
             'total_amount' => $req->total_amount,
 
             //naa pai attachment
+            'allotment_class_id' => $req->allotment_class_id,
 
+            'allotment_class_account_id' => $req->allotment_class_id,
+            'amount' => $req->amount,
+            'priority_program_id' => $req->priority_program_id,
+            'supplemental_budget' => $req->supplemental_budget,
+            'capital_outlay' => $req->capital_outlay,
+            'account_payable' => $req->account_payable,
+            'tes_trust_fund' => $req->tes_trust_fund,
+            
+            u
         ]);
 
 

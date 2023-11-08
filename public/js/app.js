@@ -8207,6 +8207,23 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8226,10 +8243,10 @@ __webpack_require__.r(__webpack_exports__);
         allotment_class_account_code: null,
         amount: null,
         priority_program: null,
-        pp_account_code: null,
+        priority_program_code: null,
         supplemental_budget: null,
         capital_outlay: null,
-        accounts_payable: null,
+        account_payable: null,
         tes_trust_fund: null,
         others: null
       },
@@ -8323,7 +8340,7 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
       formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
       formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-      formData.append('accounts_payable', this.fields.accounts_payable ? this.fields.accounts_payable : '');
+      formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
       formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
       formData.append('others', this.fields.others ? this.fields.others : '');
 
@@ -12539,10 +12556,6 @@ __webpack_require__.r(__webpack_exports__);
     propPriorityProgram: {
       type: String,
       "default": ''
-    },
-    propPriorityId: {
-      type: Number,
-      "default": 0
     }
   },
   data: function data() {
@@ -36014,7 +36027,15 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "Bank Account/Payee" } },
+                      {
+                        attrs: {
+                          label: "Bank Account/Payee",
+                          type: _vm.errors.payee_id ? "is-danger" : "",
+                          message: _vm.errors.payee_id
+                            ? _vm.errors.payee_id[0]
+                            : "",
+                        },
+                      },
                       [
                         _c("modal-browse-payee", {
                           attrs: { "prop-name": _vm.payee.bank_account_payee },
@@ -36347,6 +36368,12 @@ var render = function () {
                           label: "Allotment Class",
                           "label-position": "on-border",
                           expanded: "",
+                          type: _vm.errors.allotment_class_id
+                            ? "is-danger"
+                            : "",
+                          message: _vm.errors.allotment_class_id
+                            ? _vm.errors.allotment_class_id[0]
+                            : "",
                         },
                       },
                       [
@@ -36391,7 +36418,17 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "Account" } },
+                      {
+                        attrs: {
+                          label: "Account",
+                          type: _vm.errors.allotment_class_account_id
+                            ? "is-danger"
+                            : "",
+                          message: _vm.errors.allotment_class_account_id
+                            ? _vm.errors.allotment_class_account_id[0]
+                            : "",
+                        },
+                      },
                       [
                         _c("modal-browse-allotment-class-account", {
                           attrs: {
@@ -36417,18 +36454,25 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "Amount" } },
+                      {
+                        attrs: {
+                          label: "Amount",
+                          type: _vm.errors.amount ? "is-danger" : "",
+                          message: _vm.errors.amount
+                            ? _vm.errors.amount[0]
+                            : "",
+                        },
+                      },
                       [
                         _c("b-numberinput", {
-                          directives: [
-                            {
-                              name: "models",
-                              rawName: "v-models",
-                              value: _vm.fields.amount,
-                              expression: "fields.amount",
-                            },
-                          ],
                           attrs: { controls: false, step: "0.0001" },
+                          model: {
+                            value: _vm.fields.amount,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.fields, "amount", $$v)
+                            },
+                            expression: "fields.amount",
+                          },
                         }),
                       ],
                       1
@@ -36445,11 +36489,20 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "GADTC Priority Program" } },
+                      {
+                        attrs: {
+                          label: "GADTC Priority Program",
+                          type: _vm.errors.priority_program_id
+                            ? "is-danger"
+                            : "",
+                          message: _vm.errors.priority_program_id
+                            ? _vm.errors.priority_program_id[0]
+                            : "",
+                        },
+                      },
                       [
                         _c("modal-browse-priority-program", {
                           attrs: {
-                            "prop-priority-id": _vm.fields.priority_program_id,
                             "prop-priority-program":
                               _vm.priority_program.priority_program,
                           },
@@ -36472,7 +36525,17 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "Supplemental Budget" } },
+                      {
+                        attrs: {
+                          label: "Supplemental Budget",
+                          type: _vm.errors.supplemental_budget
+                            ? "is-danger"
+                            : "",
+                          message: _vm.errors.supplemental_budget
+                            ? _vm.errors.supplemental_budget[0]
+                            : "",
+                        },
+                      },
                       [
                         _c("b-input", {
                           attrs: {
@@ -36501,7 +36564,15 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "Capital Outlay" } },
+                      {
+                        attrs: {
+                          label: "Capital Outlay",
+                          type: _vm.errors.capital_outlay ? "is-danger" : "",
+                          message: _vm.errors.capital_outlay
+                            ? _vm.errors.capital_outlay[0]
+                            : "",
+                        },
+                      },
                       [
                         _c("b-input", {
                           attrs: {
@@ -36532,7 +36603,15 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "Accounts Payable" } },
+                      {
+                        attrs: {
+                          label: "Accounts Payable",
+                          type: _vm.errors.account_payable ? "is-danger" : "",
+                          message: _vm.errors.account_payable
+                            ? _vm.errors.account_payable[0]
+                            : "",
+                        },
+                      },
                       [
                         _c("b-input", {
                           attrs: {
@@ -36541,11 +36620,11 @@ var render = function () {
                             required: "",
                           },
                           model: {
-                            value: _vm.fields.accounts_payable,
+                            value: _vm.fields.account_payable,
                             callback: function ($$v) {
-                              _vm.$set(_vm.fields, "accounts_payable", $$v)
+                              _vm.$set(_vm.fields, "account_payable", $$v)
                             },
-                            expression: "fields.accounts_payable",
+                            expression: "fields.account_payable",
                           },
                         }),
                       ],
@@ -36561,7 +36640,15 @@ var render = function () {
                   [
                     _c(
                       "b-field",
-                      { attrs: { label: "TES Trust Fund" } },
+                      {
+                        attrs: {
+                          label: "TES Trust Fund",
+                          type: _vm.errors.tes_trust_fund ? "is-danger" : "",
+                          message: _vm.errors.tes_trust_fund
+                            ? _vm.errors.tes_trust_fund[0]
+                            : "",
+                        },
+                      },
                       [
                         _c("b-input", {
                           attrs: {

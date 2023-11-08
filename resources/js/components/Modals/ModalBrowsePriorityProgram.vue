@@ -106,10 +106,7 @@ export default {
             default: '',
         },
 
-        propPriorityId: {
-            type: Number,
-            default: 0,
-        }
+  
 
     },
 
