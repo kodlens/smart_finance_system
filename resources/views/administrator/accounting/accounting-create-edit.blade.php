@@ -1,6 +1,13 @@
 @extends('layouts.admin-layout')
 
 @section('content')
-    <accounting-create-edit></accounting-create-edit>
+
+
+    @if ($id > 0)
+        <accounting-create-edit :id="{{ $id}}"></accounting-create-edit>
+    @else
+        <accounting-create-edit :id={{ $id }}></accounting-create-edit>
+    @endif
+    
 @endsection
 

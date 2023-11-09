@@ -1,7 +1,14 @@
 
 
 <?php $__env->startSection('content'); ?>
-    <accounting-create-edit></accounting-create-edit>
+
+
+    <?php if($id > 0): ?>
+        <accounting-create-edit :id="<?php echo e($id); ?>"></accounting-create-edit>
+    <?php else: ?>
+        <accounting-create-edit :id=<?php echo e($id); ?>></accounting-create-edit>
+    <?php endif; ?>
+    
 <?php $__env->stopSection(); ?>
 
 

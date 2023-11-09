@@ -31,9 +31,17 @@ class AccountingController extends Controller
         return $data;
     }
 
+    public function show($id){
+        $data = Accounting::with(['payee', 'acctg_documentary_attachments.documentary_attachment'])
+            ->find($id);
+
+        return $data;
+    }
+
 
     public function create(){
-        return view('administrator.accounting.accounting-create-edit');
+        return view('administrator.accounting.accounting-create-edit')
+            ->with('id', 0);
     }
 
     public function store(Request $req){
@@ -113,5 +121,15 @@ class AccountingController extends Controller
        ], 200);
 
     }
+
+
+    
+    public function edit($id){
+        return view('administrator.accounting.accounting-create-edit')
+            ->with('id', $id);
+    }
+
+
+
 
 }

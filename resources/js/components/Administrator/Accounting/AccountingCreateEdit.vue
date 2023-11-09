@@ -261,13 +261,13 @@
                                     label="Save Transaction">
                                 </b-button>
 
-                                <b-button
+                                <!-- <b-button
                                     @click="debug"
                                     icon-left="note-multiple-outline"
                                     class="button is-info"
                                     outlined
                                     label="Debug">
-                                </b-button>
+                                </b-button> -->
                             </div>
 
                         </div> <!--body -->
@@ -284,6 +284,13 @@
 
 
 export default{
+
+    props: {
+        id: {
+            type: Number,
+            default: 0
+        }
+    },
 
 
     data(){
@@ -509,12 +516,71 @@ export default{
             this.fields.account_payable = 'sample ap'
             this.fields.tes_trust_fund = 'tes trust fund'
             this.fields.others = 'sample others'
+        },
+
+
+
+
+        getData(){
+
+            axios.get('/accounting/' + this.id).then(res=>{
+                const result = res.data
+
+                this.fields.date_time = new Date(result.date_time)
+                this.fields.transaction_no = result.transaction_no
+                this.fields.training_control_no = result.training_control_no
+                this.fields.transaction_type_id = result.transaction_type_id
+                
+                this.payee.bank_account_payee = result.payee.bank_account_payee
+                this.fields.payee_id = result.payee_id
+                
+                this.fields.particulars = result.particulars
+                this.fields.total_amount = Number(result.total_amount)
+
+                //attachments
+                result.acctg_documentary_attachments.forEach(item => {
+                    this.fields.documentary_attachments.push({
+                        documentary_attachment_id: item.documentary_attachment_id,
+                        acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+                        accounting_id: item.accounting_id
+                    });
+                })
+
+                this.fields.allotment_class_id = result.allotment_class_id
+
+                //for display
+                this.allotment.allotment = '(' + result.allotment_class_account_code + ') ' + result.allotment_class_account
+                this.fields.allotment_class_account_id = result.allotment_class_account_id
+                this.fields.allotment_class_account = result.allotment_class_account
+                this.fields.allotment_class_account_code = result.allotment_class_account_code
+
+                this.fields.amount = Number(result.amount)
+
+                this.priority_program.priority_program = result.priority_program
+                this.fields.priority_program_id = result.priority_program_id
+                this.fields.priority_program = result.priority_program
+                this.fields.priority_program_code = result.priority_program_code
+
+
+                this.fields.supplemental_budget = result.supplemental_budget
+                this.fields.capital_outlay = result.capital_outlay
+                this.fields.account_payable = result.account_payable
+                this.fields.tes_trust_fund = result.tes_trust_fund
+                this.fields.others = result.others
+
+            })
         }
 
 
     },
 
     mounted(){
+
+        if(this.id > 0){
+            this.getData()
+        }
+
+
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()
         this.loadAllotmentClasses()

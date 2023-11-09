@@ -8236,6 +8236,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    id: {
+      type: Number,
+      "default": 0
+    }
+  },
   data: function data() {
     return {
       fields: {
@@ -8426,9 +8432,52 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.account_payable = 'sample ap';
       this.fields.tes_trust_fund = 'tes trust fund';
       this.fields.others = 'sample others';
+    },
+    getData: function getData() {
+      var _this5 = this;
+
+      axios.get('/accounting/' + this.id).then(function (res) {
+        var result = res.data;
+        _this5.fields.date_time = new Date(result.date_time);
+        _this5.fields.transaction_no = result.transaction_no;
+        _this5.fields.training_control_no = result.training_control_no;
+        _this5.fields.transaction_type_id = result.transaction_type_id;
+        _this5.payee.bank_account_payee = result.payee.bank_account_payee;
+        _this5.fields.payee_id = result.payee_id;
+        _this5.fields.particulars = result.particulars;
+        _this5.fields.total_amount = Number(result.total_amount); //attachments
+
+        result.acctg_documentary_attachments.forEach(function (item) {
+          _this5.fields.documentary_attachments.push({
+            documentary_attachment_id: item.documentary_attachment_id,
+            acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+            accounting_id: item.accounting_id
+          });
+        });
+        _this5.fields.allotment_class_id = result.allotment_class_id; //for display
+
+        _this5.allotment.allotment = '(' + result.allotment_class_account_code + ') ' + result.allotment_class_account;
+        _this5.fields.allotment_class_account_id = result.allotment_class_account_id;
+        _this5.fields.allotment_class_account = result.allotment_class_account;
+        _this5.fields.allotment_class_account_code = result.allotment_class_account_code;
+        _this5.fields.amount = Number(result.amount);
+        _this5.priority_program.priority_program = result.priority_program;
+        _this5.fields.priority_program_id = result.priority_program_id;
+        _this5.fields.priority_program = result.priority_program;
+        _this5.fields.priority_program_code = result.priority_program_code;
+        _this5.fields.supplemental_budget = result.supplemental_budget;
+        _this5.fields.capital_outlay = result.capital_outlay;
+        _this5.fields.account_payable = result.account_payable;
+        _this5.fields.tes_trust_fund = result.tes_trust_fund;
+        _this5.fields.others = result.others;
+      });
     }
   },
   mounted: function mounted() {
+    if (this.id > 0) {
+      this.getData();
+    }
+
     this.loadTransactionTypes();
     this.loadDocumentaryAttachments();
     this.loadAllotmentClasses();
@@ -8448,6 +8497,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
 //
 //
 //
@@ -36745,16 +36797,6 @@ var render = function () {
                     },
                     on: { click: _vm.submit },
                   }),
-                  _vm._v(" "),
-                  _c("b-button", {
-                    staticClass: "button is-info",
-                    attrs: {
-                      "icon-left": "note-multiple-outline",
-                      outlined: "",
-                      label: "Debug",
-                    },
-                    on: { click: _vm.debug },
-                  }),
                 ],
                 1
               ),
@@ -37131,13 +37173,10 @@ var render = function () {
                                         attrs: {
                                           tag: "a",
                                           "icon-right": "pencil",
-                                        },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.getData(
-                                              props.row.accounting_id
-                                            )
-                                          },
+                                          href:
+                                            "/accounting/" +
+                                            props.row.accounting_id +
+                                            "/edit",
                                         },
                                       }),
                                     ],
