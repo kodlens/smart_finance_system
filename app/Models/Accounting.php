@@ -18,19 +18,25 @@ class Accounting extends Model
         'date_time',
         'transaction_no',
         'training_control_no',
-        'transaction_type',
-        'payee',
+        'transaction_type_id',
+        'payee_id',
         'particulars',
         'total_amount',
+        'allotment_class_id',
         'allotment_class',
+        'allotment_class_account_id',
+        'allotment_class_account',
+        'allotment_class_account_code',
         'account',
         'account_code',
         'amount',
+        'priority_program_id',
         'priority_program',
+        'priority_program_code',
         'pp_account_code',
-        'suplemental_budget',
+        'supplemental_budget',
         'capital_outlay',
-        'accounts_payable',
+        'account_payable',
         'tes_trust_fund',
         'others'
     ];
@@ -38,6 +44,11 @@ class Accounting extends Model
 
     public function documentary_attachments(){
         return $this->hasMany(DocumentaryAttachment::class, 'accounting_id', 'accounting_id');
+    }
+
+
+    public function acctg_documentary_attachments(){
+        return $this->hasMany(AccountingDocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }
 
 

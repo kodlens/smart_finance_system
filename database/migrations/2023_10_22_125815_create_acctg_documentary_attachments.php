@@ -27,7 +27,7 @@ class CreateAcctgDocumentaryAttachments extends Migration
 //                ->onDelete('cascade')->onUpdate('cascade');
 
             $table->string('documentary_attachment')->nullable();
-            $table->string('image_upload')->nullable();
+            $table->string('doc_attachment')->nullable();
 
 
             $table->timestamps();

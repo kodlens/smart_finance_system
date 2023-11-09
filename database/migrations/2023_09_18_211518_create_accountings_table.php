@@ -41,7 +41,7 @@ class CreateAccountingsTable extends Migration
 
             $table->string('supplemental_budget')->nullable();
             $table->string('capital_outlay')->nullable();
-            $table->string('accounts_payable')->nullable();
+            $table->string('account_payable')->nullable();
             $table->string('tes_trust_fund')->nullable();
             $table->string('others')->nullable();
 

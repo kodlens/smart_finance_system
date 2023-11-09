@@ -97,21 +97,24 @@
                                                 <div class="columns">
                                                     <div class="column">
                                                         <b-field label="Attachment" label-position="on-border" expanded>
-                                                            <b-select v-model="item.document_attachment" expanded required>
-                                                                <option value="" v-for="(i, ix) in documentaryAttachments"
-                                                                        :key="`idoc${ix}`" :value="i.documentary_attachment_id">{{ i.documentary_attachment }}</option>
+                                                            <b-select v-model="item.documentary_attachment_id" expanded required>
+                                                                <option v-for="(doc, ix) in documentaryAttachments"
+                                                                    :key="`idoc${ix}`" 
+                                                                    :value="doc.documentary_attachment_id">
+                                                                        {{ doc.documentary_attachment }}
+                                                                </option>
                                                             </b-select>
                                                         </b-field>
                                                     </div>
                                                     <div class="column">
-                                                        <b-field class="file is-primary" :class="{'has-name': !!item.image_upload}">
-                                                            <b-upload v-model="item.image_upload" class="file-label">
+                                                        <b-field class="file is-primary" :class="{'has-name': !!item.file_upload}">
+                                                            <b-upload v-model="item.file_upload" class="file-label">
                                                             <span class="file-cta">
                                                                 <b-icon class="file-icon" icon="upload"></b-icon>
                                                                 <span class="file-label">Click to upload</span>
                                                             </span>
-                                                                <span class="file-name" v-if="item.image_upload">
-                                                                {{ item.image_upload.name }}
+                                                                <span class="file-name" v-if="item.file_upload">
+                                                                {{ item.file_upload.name }}
                                                             </span>
                                                             </b-upload>
                                                         </b-field>
@@ -146,9 +149,9 @@
                                         <b-select v-model="fields.allotment_class_id"
                                             @input="refreshAccountAllotment" 
                                             expanded>
-                                            <option value="" v-for="(i, ix) in allotmentClasses"
+                                            <option v-for="(allot, ix) in allotmentClasses"
                                                 :key="`allotclass${ix}`"
-                                                :value="i.allotment_class_id">{{ i.allotment_class }}</option>
+                                                :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -256,6 +259,14 @@
                                     icon-left="note-multiple-outline"
                                     class="button is-primary"
                                     label="Save Transaction">
+                                </b-button>
+
+                                <b-button
+                                    @click="debug"
+                                    icon-left="note-multiple-outline"
+                                    class="button is-info"
+                                    outlined
+                                    label="Debug">
                                 </b-button>
                             </div>
 
@@ -373,8 +384,8 @@ export default{
         //attaching documents
         newDocAttachment(){
             this.fields.documentary_attachments.push({
-                documentary_attachment: '',
-                image_upload: null
+                documentary_attachment_id: 0,
+                file_upload: null
             })
         },
         removeDoctAttchment(ix){
@@ -385,7 +396,6 @@ export default{
 
         submit: function(){
             //format the date
-            console.log('fire')
 
             let formData = new FormData();
             formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
@@ -395,13 +405,25 @@ export default{
             formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
             formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
             formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
+
             //doc attachment
+            if(this.fields.documentary_attachments){
+              
+                this.fields.documentary_attachments.forEach((doc, index) =>{
+                    formData.append(`documentary_attachments[${index}][documentary_attachment_id]`, doc.documentary_attachment_id);
+                    formData.append(`documentary_attachments[${index}][file_upload]`, doc.file_upload);
+
+                });
+            }
+
             //will be code later
 
             formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
             formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
             formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
             formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
+            
+            formData.append('amount', this.fields.amount ? this.fields.amount : '');
             
             formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
             formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
@@ -449,6 +471,12 @@ export default{
                 }).catch(err=>{
                     if(err.response.status === 422){
                         this.errors = err.response.data.errors;
+
+                        this.$buefy.dialog.alert({
+                            type: 'is-danger',
+                            title: 'EMPTY FIELDS.',
+                            message: 'Please fill out all required fields.'
+                        })
                     }
                 });
             }
@@ -461,6 +489,26 @@ export default{
             this.allotment_class_account = null
             this.allotment_class_account_code = null
 
+        },
+
+
+
+        debug(){
+
+            this.fields.date_time = new Date();
+            this.fields.transaction_no = '23-01-0001'
+            this.fields.training_control_no = 'TD-1234-22-1122'
+            this.fields.transaction_type_id = 1
+            
+            this.fields.particulars = 'Sample particulars'
+            this.fields.total_amount = 10000
+
+            this.fields.amount = 12000
+            this.fields.supplemental_budget = 'sample supplemental'
+            this.fields.capital_outlay = 'sample capital outlay'
+            this.fields.account_payable = 'sample ap'
+            this.fields.tes_trust_fund = 'tes trust fund'
+            this.fields.others = 'sample others'
         }
 
 

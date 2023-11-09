@@ -43,6 +43,7 @@
                         <b-table
                             :data="data"
                             :loading="loading"
+                            detailed
                             paginated
                             backend-pagination
                             :total="total"
@@ -66,12 +67,12 @@
                                 {{ props.row.date_time }}
                             </b-table-column>
 
-                            <b-table-column field="transaction_code" label="Code" v-slot="props">
-                                {{ props.row.transaction_code }}
+                            <b-table-column field="transaction_no" label="Transaction No" v-slot="props">
+                                {{ props.row.transaction_no }}
                             </b-table-column>
 
                             <b-table-column field="payee" label="Payee" v-slot="props">
-                                {{ props.row.payee }}
+                                <span v-if="props.row.payee"> {{ props.row.payee.bank_account_payee }}</span>
                             </b-table-column>
 
                             <b-table-column field="particulars" label="Particulars" v-slot="props">
@@ -82,26 +83,22 @@
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.academic_year_id)"></b-button>
+                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" @click="getData(props.row.accounting_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.academic_year_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.accounting_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
 
                             <template #detail="props">
                                 <tr>
-                                    <th>Allotment Class</th>
-                                    <th>Account</th>
-                                    <th>Account Code</th>
-                                    <th>Priority Program</th>
+                                    <th>Documentary Attachment</th>
+                                    <th>File</th>
                                 </tr>
-                                <tr>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
+                                <tr v-for="(i, ix) in props.row.acctg_documentary_attachments" :key="ix">
+                                    <td>{{ i.documentary_attachment.documentary_attachment }}</td>
+                                    <td>{{ i.doc_attachment }}</td>
                                 </tr>
                             </template>
 

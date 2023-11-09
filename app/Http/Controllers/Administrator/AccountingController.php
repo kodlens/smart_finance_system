@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\Accounting;
+use App\Models\AccountingDocumentaryAttachment;
 
 class AccountingController extends Controller
 {
@@ -20,8 +21,9 @@ class AccountingController extends Controller
 
         $sort = explode('.', $req->sort_by);
 
-        $data = Accounting::where('particulars', 'like', $req->key . '%')
-            ->orWhere('transcation_no', 'like', $req->key . '%')
+        $data = Accounting::with(['payee', 'acctg_documentary_attachments.documentary_attachment'])
+            ->where('particulars', 'like', $req->key . '%')
+            ->orWhere('transaction_no', 'like', $req->key . '%')
             ->orWhere('training_control_no', 'like', $req->key . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
@@ -57,13 +59,12 @@ class AccountingController extends Controller
             'payee_id.required' => 'Please select bank account/payee.',
             'allotment_class_id.required' => 'Please allotment class.',
             'allotment_class_account_id.required' => 'Please allotment class account.',
-            'priority_program_id.required' => 'Please select priority program.',
+            'priority_program_id.required' => 'Please select priority program.'
 
         ]);
-        return $req;
 
-
-        Accounting::create([
+        
+        $data = Accounting::create([
             'date_time' => $req->date_time,
             'transaction_no' => $req->transaction_no,
             'training_control_no' => $req->training_control_no,
@@ -73,23 +74,44 @@ class AccountingController extends Controller
             'total_amount' => $req->total_amount,
 
             //naa pai attachment
+
             'allotment_class_id' => $req->allotment_class_id,
 
             'allotment_class_account_id' => $req->allotment_class_id,
+            'allotment_class_account' => $req->allotment_class_account,
+            'allotment_class_account_code' => $req->allotment_class_account_code,
+
             'amount' => $req->amount,
             'priority_program_id' => $req->priority_program_id,
+            'priority_program' => $req->priority_program,
+            'priority_program_code' => $req->priority_program_code,
             'supplemental_budget' => $req->supplemental_budget,
             'capital_outlay' => $req->capital_outlay,
             'account_payable' => $req->account_payable,
             'tes_trust_fund' => $req->tes_trust_fund,
-            
-            u
+            'others' => $req->others
         ]);
 
 
-//        return response()->json([
-//            'status' => 'saved'
-//        ], 200);
+        foreach ($req->documentary_attachments as $item) {
+            $n = [];
+            if($item['file_upload']){
+                $pathFile = $item['file_upload']->store('public/doc_attachments'); //get path of the file
+                $n = explode('/', $pathFile); //split into array using /
+            }
+
+            //insert into database after upload 1 image
+            AccountingDocumentaryAttachment::create([
+                'accounting_id' => $data->accounting_id,
+                'documentary_attachment_id' => $item['documentary_attachment_id'],
+                'doc_attachment' => $n[2]
+            ]);
+        }
+
+       return response()->json([
+           'status' => 'saved'
+       ], 200);
+
     }
 
 }

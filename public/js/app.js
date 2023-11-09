@@ -8224,6 +8224,17 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8309,8 +8320,8 @@ __webpack_require__.r(__webpack_exports__);
     //attaching documents
     newDocAttachment: function newDocAttachment() {
       this.fields.documentary_attachments.push({
-        documentary_attachment: '',
-        image_upload: null
+        documentary_attachment_id: 0,
+        file_upload: null
       });
     },
     removeDoctAttchment: function removeDoctAttchment(ix) {
@@ -8320,7 +8331,6 @@ __webpack_require__.r(__webpack_exports__);
       var _this4 = this;
 
       //format the date
-      console.log('fire');
       var formData = new FormData();
       formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
       formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
@@ -8329,12 +8339,20 @@ __webpack_require__.r(__webpack_exports__);
       formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
       formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
       formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : ''); //doc attachment
-      //will be code later
+
+      if (this.fields.documentary_attachments) {
+        this.fields.documentary_attachments.forEach(function (doc, index) {
+          formData.append("documentary_attachments[".concat(index, "][documentary_attachment_id]"), doc.documentary_attachment_id);
+          formData.append("documentary_attachments[".concat(index, "][file_upload]"), doc.file_upload);
+        });
+      } //will be code later
+
 
       formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
       formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
       formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
       formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
+      formData.append('amount', this.fields.amount ? this.fields.amount : '');
       formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
       formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
       formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
@@ -8379,6 +8397,12 @@ __webpack_require__.r(__webpack_exports__);
         })["catch"](function (err) {
           if (err.response.status === 422) {
             _this4.errors = err.response.data.errors;
+
+            _this4.$buefy.dialog.alert({
+              type: 'is-danger',
+              title: 'EMPTY FIELDS.',
+              message: 'Please fill out all required fields.'
+            });
           }
         });
       }
@@ -8388,6 +8412,20 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.allotment_class_account_id = null;
       this.allotment_class_account = null;
       this.allotment_class_account_code = null;
+    },
+    debug: function debug() {
+      this.fields.date_time = new Date();
+      this.fields.transaction_no = '23-01-0001';
+      this.fields.training_control_no = 'TD-1234-22-1122';
+      this.fields.transaction_type_id = 1;
+      this.fields.particulars = 'Sample particulars';
+      this.fields.total_amount = 10000;
+      this.fields.amount = 12000;
+      this.fields.supplemental_budget = 'sample supplemental';
+      this.fields.capital_outlay = 'sample capital outlay';
+      this.fields.account_payable = 'sample ap';
+      this.fields.tes_trust_fund = 'tes trust fund';
+      this.fields.others = 'sample others';
     }
   },
   mounted: function mounted() {
@@ -8410,9 +8448,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
 //
 //
 //
@@ -36167,36 +36202,37 @@ var render = function () {
                                                   },
                                                   model: {
                                                     value:
-                                                      item.document_attachment,
+                                                      item.documentary_attachment_id,
                                                     callback: function ($$v) {
                                                       _vm.$set(
                                                         item,
-                                                        "document_attachment",
+                                                        "documentary_attachment_id",
                                                         $$v
                                                       )
                                                     },
                                                     expression:
-                                                      "item.document_attachment",
+                                                      "item.documentary_attachment_id",
                                                   },
                                                 },
                                                 _vm._l(
                                                   _vm.documentaryAttachments,
-                                                  function (i, ix) {
+                                                  function (doc, ix) {
                                                     return _c(
                                                       "option",
                                                       {
                                                         key: "idoc" + ix,
-                                                        attrs: { value: "" },
                                                         domProps: {
                                                           value:
-                                                            i.documentary_attachment_id,
+                                                            doc.documentary_attachment_id,
                                                         },
                                                       },
                                                       [
                                                         _vm._v(
-                                                          _vm._s(
-                                                            i.documentary_attachment
-                                                          )
+                                                          "\n                                                                    " +
+                                                            _vm._s(
+                                                              doc.documentary_attachment
+                                                            ) +
+                                                            "\n                                                            "
                                                         ),
                                                       ]
                                                     )
@@ -36220,7 +36256,7 @@ var render = function () {
                                             {
                                               staticClass: "file is-primary",
                                               class: {
-                                                "has-name": !!item.image_upload,
+                                                "has-name": !!item.file_upload,
                                               },
                                             },
                                             [
@@ -36229,16 +36265,16 @@ var render = function () {
                                                 {
                                                   staticClass: "file-label",
                                                   model: {
-                                                    value: item.image_upload,
+                                                    value: item.file_upload,
                                                     callback: function ($$v) {
                                                       _vm.$set(
                                                         item,
-                                                        "image_upload",
+                                                        "file_upload",
                                                         $$v
                                                       )
                                                     },
                                                     expression:
-                                                      "item.image_upload",
+                                                      "item.file_upload",
                                                   },
                                                 },
                                                 [
@@ -36270,7 +36306,7 @@ var render = function () {
                                                     1
                                                   ),
                                                   _vm._v(" "),
-                                                  item.image_upload
+                                                  item.file_upload
                                                     ? _c(
                                                         "span",
                                                         {
@@ -36281,8 +36317,7 @@ var render = function () {
                                                           _vm._v(
                                                             "\n                                                            " +
                                                               _vm._s(
-                                                                item
-                                                                  .image_upload
+                                                                item.file_upload
                                                                   .name
                                                               ) +
                                                               "\n                                                        "
@@ -36390,15 +36425,14 @@ var render = function () {
                               expression: "fields.allotment_class_id",
                             },
                           },
-                          _vm._l(_vm.allotmentClasses, function (i, ix) {
+                          _vm._l(_vm.allotmentClasses, function (allot, ix) {
                             return _c(
                               "option",
                               {
                                 key: "allotclass" + ix,
-                                attrs: { value: "" },
-                                domProps: { value: i.allotment_class_id },
+                                domProps: { value: allot.allotment_class_id },
                               },
-                              [_vm._v(_vm._s(i.allotment_class))]
+                              [_vm._v(_vm._s(allot.allotment_class))]
                             )
                           }),
                           0
@@ -36711,6 +36745,16 @@ var render = function () {
                     },
                     on: { click: _vm.submit },
                   }),
+                  _vm._v(" "),
+                  _c("b-button", {
+                    staticClass: "button is-info",
+                    attrs: {
+                      "icon-left": "note-multiple-outline",
+                      outlined: "",
+                      label: "Debug",
+                    },
+                    on: { click: _vm.debug },
+                  }),
                 ],
                 1
               ),
@@ -36914,6 +36958,7 @@ var render = function () {
                     attrs: {
                       data: _vm.data,
                       loading: _vm.loading,
+                      detailed: "",
                       paginated: "",
                       "backend-pagination": "",
                       total: _vm.total,
@@ -36934,24 +36979,28 @@ var render = function () {
                         fn: function (props) {
                           return [
                             _c("tr", [
-                              _c("th", [_vm._v("Allotment Class")]),
+                              _c("th", [_vm._v("Documentary Attachment")]),
                               _vm._v(" "),
-                              _c("th", [_vm._v("Account")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Account Code")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("Priority Program")]),
+                              _c("th", [_vm._v("File")]),
                             ]),
                             _vm._v(" "),
-                            _c("tr", [
-                              _c("td"),
-                              _vm._v(" "),
-                              _c("td"),
-                              _vm._v(" "),
-                              _c("td"),
-                              _vm._v(" "),
-                              _c("td"),
-                            ]),
+                            _vm._l(
+                              props.row.acctg_documentary_attachments,
+                              function (i, ix) {
+                                return _c("tr", { key: ix }, [
+                                  _c("td", [
+                                    _vm._v(
+                                      _vm._s(
+                                        i.documentary_attachment
+                                          .documentary_attachment
+                                      )
+                                    ),
+                                  ]),
+                                  _vm._v(" "),
+                                  _c("td", [_vm._v(_vm._s(i.doc_attachment))]),
+                                ])
+                              }
+                            ),
                           ]
                         },
                       },
@@ -36995,7 +37044,10 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
-                      attrs: { field: "transaction_code", label: "Code" },
+                      attrs: {
+                        field: "transaction_no",
+                        label: "Transaction No",
+                      },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
@@ -37003,7 +37055,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.transaction_code) +
+                                  _vm._s(props.row.transaction_no) +
                                   "\n                        "
                               ),
                             ]
@@ -37019,11 +37071,16 @@ var render = function () {
                           key: "default",
                           fn: function (props) {
                             return [
-                              _vm._v(
-                                "\n                            " +
-                                  _vm._s(props.row.payee) +
-                                  "\n                        "
-                              ),
+                              props.row.payee
+                                ? _c("span", [
+                                    _vm._v(
+                                      " " +
+                                        _vm._s(
+                                          props.row.payee.bank_account_payee
+                                        )
+                                    ),
+                                  ])
+                                : _vm._e(),
                             ]
                           },
                         },
@@ -37078,7 +37135,7 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.getData(
-                                              props.row.academic_year_id
+                                              props.row.accounting_id
                                             )
                                           },
                                         },
@@ -37103,7 +37160,7 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
-                                              props.row.academic_year_id
+                                              props.row.accounting_id
                                             )
                                           },
                                         },
