@@ -45,6 +45,8 @@ class CreateAccountingsTable extends Migration
             $table->string('tes_trust_fund')->nullable();
             $table->string('others')->nullable();
 
+            $table->unsignedBigInteger('office_id')->default(0);
+
             $table->timestamps();
         });
     }

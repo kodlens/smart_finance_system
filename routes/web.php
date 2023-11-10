@@ -61,6 +61,11 @@ Route::get('/load-documentary-attachments', [App\Http\Controllers\OpenController
 Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::class, 'loadAllotmentClasses']);
 
 
+Route::get('/get-modal-offices', [App\Http\Controllers\OpenModalResourcesController::class, 'getModalOffices']);
+
+
+
+
 /*     ADMINSITRATOR          */
 
 //authenticate
@@ -96,7 +101,14 @@ Route::middleware(['auth', 'admin'])->group(function() {
 
 
     Route::resource('/accounting', App\Http\Controllers\Administrator\AccountingController::class);
+    Route::post('/accounting-update/{id}', [App\Http\Controllers\Administrator\AccountingController::class, 'updateAccounting']);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
+
+
+    Route::resource('/budgeting', App\Http\Controllers\Administrator\BudgetingController::class);
+    Route::post('/budgeting-update/{id}', [App\Http\Controllers\Administrator\BudgetingController::class, 'updateAccounting']);
+    Route::get('/get-budgeting-records', [App\Http\Controllers\Administrator\BudgetingController::class, 'getData']);
+
 
 
     Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);

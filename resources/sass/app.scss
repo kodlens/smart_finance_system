@@ -132,21 +132,26 @@ $navbar-item-img-max-height: 4rem;
 //$navbar-item-color: #ffffff;
 //$navbar-item-hover-color: #a7f1a7;
 
-//.navbar-start > .navbar-item {
+// .navbar-start > .navbar-item {
 //    font-weight: bold;
-//
-//}
-//.navbar-start > .navbar-item{
+
+// }
+// .navbar-start > .navbar-item{
 //    transition: 0.5s;
-//}
+// }
 //
 //.navbar-start > .navbar-item:hover{
 //    background-color: transparent;
 //    border-bottom: 3px solid blue;
 //}
-//.navbar-start > .navbar-item > .navbar-link:hover{
+// .navbar-start > .navbar-item > .navbar-link:hover{
 //    border-bottom: 3px solid blue;
-//}
+// }
+
+.navbar-item{
+    font-weight: bold;
+}
+
 
 
 

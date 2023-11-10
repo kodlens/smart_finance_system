@@ -22,7 +22,7 @@
 <body>
     <div id="app">
 
-        <b-navbar>
+        <b-navbar type="is-primary">
             <template #brand>
                 <b-navbar-item>
                     <img
