@@ -103,7 +103,7 @@
                         <b-button
                             onclick="logout()"
                             icon-left="logout"
-                            class="button is-primary" outlined>
+                            class="button" outlined>
                         </b-button>
                     </div>
                 </b-navbar-item>
