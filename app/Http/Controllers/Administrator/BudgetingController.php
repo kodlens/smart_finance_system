@@ -17,7 +17,8 @@ class BudgetingController extends Controller
 
 
     public function show($id){
-
+        return Budgeting::with(['payee', 'allotment_class', 'allotment_class_account', 'priority_program', 'office'])
+            ->find($id);
     }
 
     public function getData(Request $req){
@@ -50,12 +51,12 @@ class BudgetingController extends Controller
     public function store(Request $req){
         
         $req->validate([
-            'date_time' => ['required'],
+            'format_date_time' => ['required'],
             'training_control_no' => ['required'],
             
             'particulars' => ['required'],
 
-            'activity_date' => ['required'],
+            'format_activity_date' => ['required'],
             'total_amount' => ['required'],
             'payee_id' => ['required'],
            
@@ -83,14 +84,14 @@ class BudgetingController extends Controller
         ]);
 
         
-        $data = Budgeting::create([
-            'date_time' => $req->date_time,
+        Budgeting::create([
+            'date_time' => $req->format_date_time,
            
             'training_control_no' => $req->training_control_no,
             'particulars' => $req->particulars,
 
             'total_amount' => $req->total_amount,
-            'activity_date' => $req->activity_date,
+            'activity_date' => $req->format_activity_date,
 
             'payee_id' => $req->payee_id,
 
@@ -113,6 +114,75 @@ class BudgetingController extends Controller
 
        return response()->json([
            'status' => 'saved'
+       ], 200);
+
+    }
+
+
+    public function update(Request $req, $id){
+    
+        $req->validate([
+            'format_date_time' => ['required'],
+            'training_control_no' => ['required'],
+            
+            'particulars' => ['required'],
+
+            'format_activity_date' => ['required'],
+            'total_amount' => ['required'],
+            'payee_id' => ['required'],
+           
+            'allotment_class_id' => ['required'],
+            'allotment_class_account_id' => ['required'],
+
+            'amount' => ['required'],
+
+            'priority_program_id' => ['required'],
+
+            'supplemental_budget' => ['required'],
+            'capital_outlay' => ['required'],
+            'account_payable' => ['required'],
+            'tes_trust_fund' => ['required'],
+            'office_id' => ['required'],
+        ],[
+            'payee_id.required' => 'Please select bank account/payee.',
+            'allotment_class_id.required' => 'Please allotment class.',
+            'allotment_class_account_id.required' => 'Please allotment class account.',
+            'priority_program_id.required' => 'Please select priority program.',
+            'office_id.required' => 'Please select office.'
+        ]);
+
+        
+        Budgeting::where('budgeting_id', $id)
+            ->update([
+                'date_time' => $req->format_date_time,
+            
+                'training_control_no' => $req->training_control_no,
+                'particulars' => $req->particulars,
+
+                'total_amount' => $req->total_amount,
+                'activity_date' => $req->format_activity_date,
+
+                'payee_id' => $req->payee_id,
+
+                'allotment_class_id' => $req->allotment_class_id,
+                'allotment_class_account_id' => $req->allotment_class_id,
+
+                'amount' => $req->amount,
+                'priority_program_id' => $req->priority_program_id,
+
+                'supplemental_budget' => $req->supplemental_budget,
+                'capital_outlay' => $req->capital_outlay,
+                'account_payable' => $req->account_payable,
+                'tes_trust_fund' => $req->tes_trust_fund,
+                'others' => $req->others,
+                'office_id' => $req->office_id
+
+            ]);
+
+
+
+       return response()->json([
+           'status' => 'updated'
        ], 200);
 
     }

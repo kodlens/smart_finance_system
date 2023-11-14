@@ -9786,8 +9786,7 @@ __webpack_require__.r(__webpack_exports__);
         allotment_class_account: null,
         allotment_class_account_code: null,
         amount: null,
-        priority_program: null,
-        priority_program_code: null,
+        priority_program_id: null,
         supplemental_budget: null,
         capital_outlay: null,
         account_payable: null,
@@ -9805,7 +9804,8 @@ __webpack_require__.r(__webpack_exports__);
         allotment: ''
       },
       priority_program: {
-        priority_program: ''
+        priority_program: '',
+        priority_program_code: ''
       },
       office: {
         office: ''
@@ -9858,68 +9858,17 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.office_id = row.office_id;
       this.fields.office = row.office;
     },
-    //attaching documents
-    newDocAttachment: function newDocAttachment() {
-      this.fields.documentary_attachments.push({
-        documentary_attachment_id: 0,
-        file_upload: null
-      });
-    },
-    removeDoctAttchment: function removeDoctAttchment(ix) {
+    submit: function submit() {
       var _this4 = this;
 
-      this.$buefy.dialog.confirm({
-        title: 'DELETE?',
-        message: 'Are you sure you want to remove this attachment? This cannot be undone.',
-        onConfirm: function onConfirm() {
-          var nId = _this4.fields.documentary_attachments[ix].acctg_doc_attachment_id;
-
-          if (nId > 0) {
-            axios["delete"]('/accounting/' + nId).then(function (res) {
-              if (res.data.status === 'deleted') {
-                _this4.$buefy.toast.open({
-                  message: "Attachment deleted successfully.",
-                  type: 'is-primary'
-                });
-              }
-            });
-          }
-
-          _this4.fields.documentary_attachments.splice(ix, 1);
-        }
-      });
-    },
-    submit: function submit() {
-      var _this5 = this;
-
-      //format the date
-      var formData = new FormData();
-      formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
-      formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
-      formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
-      formData.append('activity_date', this.fields.date_time ? this.$formatDate(this.fields.activity_date) : '');
-      formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
-      formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
-      formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-      formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
-      formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-      formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-      formData.append('amount', this.fields.amount ? this.fields.amount : '');
-      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
-      formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
-      formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
-      formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-      formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-      formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-      formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-      formData.append('others', this.fields.others ? this.fields.others : '');
-      formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
+      this.fields.format_date_time = this.$formatDateAndTime(this.fields.date_time);
+      this.fields.format_activity_date = this.$formatDate(this.fields.activity_date);
 
       if (this.id > 0) {
         //update
-        axios.post('/budgeting/' + this.id, formData).then(function (res) {
+        axios.put('/budgeting/' + this.id, this.fields).then(function (res) {
           if (res.data.status === 'updated') {
-            _this5.$buefy.dialog.alert({
+            _this4.$buefy.dialog.alert({
               title: 'UPDATED!',
               message: 'Successfully updated.',
               type: 'is-success',
@@ -9930,14 +9879,14 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (err) {
           if (err.response.status === 422) {
-            _this5.errors = err.response.data.errors;
+            _this4.errors = err.response.data.errors;
           }
         });
       } else {
         //INSERT HERE
-        axios.post('/budgeting', formData).then(function (res) {
+        axios.post('/budgeting', this.fields).then(function (res) {
           if (res.data.status === 'saved') {
-            _this5.$buefy.dialog.alert({
+            _this4.$buefy.dialog.alert({
               title: 'SAVED!',
               message: 'Successfully saved.',
               type: 'is-success',
@@ -9949,9 +9898,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (err) {
           if (err.response.status === 422) {
-            _this5.errors = err.response.data.errors;
+            _this4.errors = err.response.data.errors;
 
-            _this5.$buefy.dialog.alert({
+            _this4.$buefy.dialog.alert({
               type: 'is-danger',
               title: 'EMPTY FIELDS.',
               message: 'Please fill out all required fields.'
@@ -9983,39 +9932,39 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.others = 'sample others';
     },
     getData: function getData() {
-      var _this6 = this;
+      var _this5 = this;
 
       axios.get('/budgeting/' + this.id).then(function (res) {
         var result = res.data;
-        _this6.fields.date_time = new Date(result.date_time);
-        _this6.fields.training_control_no = result.training_control_no;
-        _this6.fields.particulars = result.particulars;
-        _this6.fields.activity_date = new Date(result.activity_date);
-        _this6.fields.total_amount = Number(result.total_amount);
-        _this6.payee.bank_account_payee = result.payee.bank_account_payee;
-        _this6.fields.payee_id = result.payee_id;
-        _this6.fields.allotment_class_id = result.allotment_class_id; //for display
+        _this5.fields.date_time = new Date(result.date_time);
+        _this5.fields.training_control_no = result.training_control_no;
+        _this5.fields.particulars = result.particulars;
+        _this5.fields.activity_date = new Date(result.activity_date);
+        _this5.fields.total_amount = Number(result.total_amount);
+        _this5.payee.bank_account_payee = result.payee.bank_account_payee;
+        _this5.fields.payee_id = result.payee_id;
+        _this5.fields.allotment_class_id = result.allotment_class_id; //for display
 
-        _this6.allotment.allotment = '(' + result.allotment_class.allotment_class_account_code + ') ' + result.allotment_class_account;
-        _this6.fields.allotment_class_account_id = result.allotment_class_account_id;
-        _this6.fields.amount = Number(result.amount);
-        _this6.priority_program.priority_program = result.priority_program;
-        _this6.fields.priority_program_id = result.priority_program_id;
-        _this6.fields.priority_program = result.priority_program;
-        _this6.fields.priority_program_code = result.priority_program_code;
-        _this6.fields.supplemental_budget = result.supplemental_budget;
-        _this6.fields.capital_outlay = result.capital_outlay;
-        _this6.fields.account_payable = result.account_payable;
-        _this6.fields.tes_trust_fund = result.tes_trust_fund;
-        _this6.fields.others = result.others;
-        _this6.fields.office_id = result.office_id;
+        _this5.allotment.allotment = ' (' + result.allotment_class_account.allotment_class_account_code + ') ' + result.allotment_class_account.allotment_class_account;
+        _this5.fields.allotment_class_account_id = result.allotment_class_account_id;
+        _this5.fields.amount = Number(result.amount);
+        _this5.priority_program.priority_program = ' (' + result.priority_program.priority_program_code + ')' + result.priority_program.priority_program;
+        _this5.fields.priority_program_id = result.priority_program_id;
+        _this5.fields.supplemental_budget = result.supplemental_budget;
+        _this5.fields.capital_outlay = result.capital_outlay;
+        _this5.fields.account_payable = result.account_payable;
+        _this5.fields.tes_trust_fund = result.tes_trust_fund;
+        _this5.fields.others = result.others;
+        _this5.fields.office_id = result.office_id;
+        _this5.office.office = result.office.office + ' (' + result.office.description + ')';
       });
     }
   },
   mounted: function mounted() {
-    // if(this.id > 0){
-    //     this.getData()
-    // }
+    if (this.id > 0) {
+      this.getData();
+    }
+
     this.loadAllotmentClasses();
   }
 });
@@ -10033,6 +9982,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
 //
 //
 //
@@ -11576,6 +11529,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
@@ -11593,7 +11558,6 @@ __webpack_require__.r(__webpack_exports__);
         particulars: null,
         pr_amount: null,
         payee_id: null,
-        payee: null,
         pr_status: null,
         remarks: null,
         allotment_class_id: null,
@@ -11706,39 +11670,43 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this5 = this;
 
-      //format the date
-      var formData = new FormData();
-      formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
-      formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
-      formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
-      formData.append('activity_date', this.fields.date_time ? this.$formatDate(this.fields.activity_date) : '');
-      formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
-      formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
-      formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-      formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
-      formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-      formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-      formData.append('amount', this.fields.amount ? this.fields.amount : '');
-      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
-      formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
-      formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
-      formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-      formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-      formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-      formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-      formData.append('others', this.fields.others ? this.fields.others : '');
-      formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
+      this.fields.date_time = this.$formatDateAndTime(this.fields.date_time); //format the date
+      // let formData = new FormData();
+      // formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
+      // formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
+      // formData.append('pr_number', this.fields.pr_number ? this.fields.pr_number : '');
+      // formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
+      // formData.append('pr_amount', this.fields.pr_amount ? this.fields.pr_amount : '');
+      // //formData.append('activity_date', this.fields.date_time ? this.$formatDate(this.fields.activity_date) : '');
+      // //formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
+      // formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
+      // formData.append('pr_status', this.fields.pr_status ? this.fields.pr_status : '');
+      // formData.append('remarks', this.fields.remarks ? this.fields.remarks : '');
+      // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
+      // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
+      // //formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
+      // //formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
+      // //formData.append('amount', this.fields.amount ? this.fields.amount : '');
+      // formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
+      // //formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
+      // //formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
+      // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
+      // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
+      // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
+      // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
+      // formData.append('others', this.fields.others ? this.fields.others : '');
+      // formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
 
       if (this.id > 0) {
         //update
-        axios.post('/budgeting/' + this.id, formData).then(function (res) {
+        axios.put('/procurements/' + this.id, this.fields).then(function (res) {
           if (res.data.status === 'updated') {
             _this5.$buefy.dialog.alert({
               title: 'UPDATED!',
               message: 'Successfully updated.',
               type: 'is-success',
               onConfirm: function onConfirm() {
-                window.location = '/budgeting';
+                window.location = '/procurements';
               }
             });
           }
@@ -11749,7 +11717,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         //INSERT HERE
-        axios.post('/budgeting', formData).then(function (res) {
+        axios.post('/procurements', formData).then(function (res) {
           if (res.data.status === 'saved') {
             _this5.$buefy.dialog.alert({
               title: 'SAVED!',
@@ -11757,7 +11725,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'is-success',
               confirmText: 'OK',
               onConfirm: function onConfirm() {
-                window.location = '/budgeting';
+                window.location = '/procurements';
               }
             });
           }
@@ -11783,14 +11751,14 @@ __webpack_require__.r(__webpack_exports__);
     debug: function debug() {
       this.fields.date_time = new Date();
       this.fields.training_control_no = 'TD-1234-22-1122';
-      this.pr_number = 'PR-2023-001-IBFS';
+      this.fields.pr_number = 'PR-2023-001-IBFS';
       this.fields.particulars = 'Sample particulars';
-      this.fields.activity_date = new Date();
-      this.fields.total_amount = 10000;
+      this.fields.pr_amount = 12000;
       this.fields.payee_id = 1;
       this.fields.allotment_class_id = 1;
       this.fields.allotment_class_account_id = 1;
-      this.fields.amount = 12000;
+      this.fields.pr_status = 'pending';
+      this.fields.remarks = 'this is sample remarks';
       this.fields.supplemental_budget = 'sample supplemental';
       this.fields.capital_outlay = 'sample capital outlay';
       this.fields.account_payable = 'sample ap';
@@ -11800,20 +11768,21 @@ __webpack_require__.r(__webpack_exports__);
     getData: function getData() {
       var _this6 = this;
 
-      axios.get('/budgeting/' + this.id).then(function (res) {
+      axios.get('/procurements/' + this.id).then(function (res) {
         var result = res.data;
         _this6.fields.date_time = new Date(result.date_time);
         _this6.fields.training_control_no = result.training_control_no;
+        _this6.fields.pr_number = result.pr_number;
         _this6.fields.particulars = result.particulars;
-        _this6.fields.activity_date = new Date(result.activity_date);
-        _this6.fields.total_amount = Number(result.total_amount);
-        _this6.payee.bank_account_payee = result.payee.bank_account_payee;
+        _this6.fields.pr_amount = Number(result.pr_amount);
         _this6.fields.payee_id = result.payee_id;
+        _this6.payee.bank_account_payee = result.payee.bank_account_payee;
+        _this6.fields.pr_status = result.pr_status;
+        _this6.fields.remarks = result.remarks;
         _this6.fields.allotment_class_id = result.allotment_class_id; //for display
 
-        _this6.allotment.allotment = '(' + result.allotment_class.allotment_class_account_code + ') ' + result.allotment_class_account;
+        _this6.allotment.allotment = '(' + result.allotment_class_account.allotment_class_account_code + ') ' + result.allotment_class_account.allotment_class_account;
         _this6.fields.allotment_class_account_id = result.allotment_class_account_id;
-        _this6.fields.amount = Number(result.amount);
         _this6.priority_program.priority_program = result.priority_program;
         _this6.fields.priority_program_id = result.priority_program_id;
         _this6.fields.priority_program = result.priority_program;
@@ -11824,13 +11793,16 @@ __webpack_require__.r(__webpack_exports__);
         _this6.fields.tes_trust_fund = result.tes_trust_fund;
         _this6.fields.others = result.others;
         _this6.fields.office_id = result.office_id;
+        _this6.office.office = result.office.office + '(' + result.office.description + ')';
       });
     }
   },
   mounted: function mounted() {
-    // if(this.id > 0){
-    //     this.getData()
-    // }
+    if (this.id > 0) {
+      this.getData();
+      console.log('edit mode');
+    }
+
     this.loadAllotmentClasses();
   }
 });
@@ -11972,15 +11944,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
       data: [],
       total: 0,
       loading: false,
-      sortField: 'accounting_id',
+      sortField: 'procurement_id',
       sortOrder: 'desc',
       page: 1,
       perPage: 20,
@@ -12007,7 +11977,7 @@ __webpack_require__.r(__webpack_exports__);
 
       var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "key=".concat(this.search.key), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
-      axios.get("/get-accounting-records?".concat(params)).then(function (_ref) {
+      axios.get("/get-procurements-records?".concat(params)).then(function (_ref) {
         var data = _ref.data;
         _this.data = [];
         var currentTotal = data.total;
@@ -12069,7 +12039,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteSubmit: function deleteSubmit(delete_id) {
       var _this3 = this;
 
-      axios["delete"]('/accounting/' + delete_id).then(function (res) {
+      axios["delete"]('/procurements/' + delete_id).then(function (res) {
         _this3.loadAsyncData();
       })["catch"](function (err) {
         if (err.response.status === 422) {
@@ -40702,7 +40672,7 @@ var render = function () {
                           },
                         },
                         [
-                          _c("b-datetimepicker", {
+                          _c("b-datepicker", {
                             attrs: { required: "" },
                             model: {
                               value: _vm.fields.date_time,
@@ -41508,6 +41478,24 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
+                      attrs: { field: "activity_date", label: "Activity Date" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.activity_date) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
                       attrs: { label: "Action" },
                       scopedSlots: _vm._u([
                         {
@@ -41534,8 +41522,8 @@ var render = function () {
                                           tag: "a",
                                           "icon-right": "pencil",
                                           href:
-                                            "/accounting/" +
-                                            props.row.accounting_id +
+                                            "/budgeting/" +
+                                            props.row.budgeting_id +
                                             "/edit",
                                         },
                                       }),
@@ -41559,7 +41547,7 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
-                                              props.row.accounting_id
+                                              props.row.budgeting_id
                                             )
                                           },
                                         },
@@ -43213,6 +43201,41 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
+                            label: "PR Number",
+                            type: _vm.errors.pr_number ? "is-danger" : "",
+                            message: _vm.errors.pr_number
+                              ? _vm.errors.pr_number[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", placholder: "PR Number" },
+                            model: {
+                              value: _vm.fields.pr_number,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "pr_number", $$v)
+                              },
+                              expression: "fields.pr_number",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
                             label: "Particulars",
                             type: _vm.errors.particulars ? "is-danger" : "",
                             message: _vm.errors.particulars
@@ -43248,22 +43271,26 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "PR Number",
-                            type: _vm.errors.pr_number ? "is-danger" : "",
-                            message: _vm.errors.pr_number
-                              ? _vm.errors.pr_number[0]
+                            label: "PR Amount",
+                            type: _vm.errors.pr_amount ? "is-danger" : "",
+                            message: _vm.errors.pr_amount
+                              ? _vm.errors.pr_amount[0]
                               : "",
                           },
                         },
                         [
-                          _c("b-input", {
-                            attrs: { type: "text", placholder: "PR Number" },
+                          _c("b-numberinput", {
+                            attrs: {
+                              placholder: "PR Amount",
+                              controls: false,
+                              step: "0.0001",
+                            },
                             model: {
-                              value: _vm.fields.pr_number,
+                              value: _vm.fields.pr_amount,
                               callback: function ($$v) {
-                                _vm.$set(_vm.fields, "pr_number", $$v)
+                                _vm.$set(_vm.fields, "pr_amount", $$v)
                               },
-                              expression: "fields.pr_number",
+                              expression: "fields.pr_amount",
                             },
                           }),
                         ],
@@ -43968,7 +43995,6 @@ var render = function () {
                     attrs: {
                       data: _vm.data,
                       loading: _vm.loading,
-                      detailed: "",
                       paginated: "",
                       "backend-pagination": "",
                       total: _vm.total,
@@ -43983,42 +44009,10 @@ var render = function () {
                       "default-sort-direction": _vm.defaultSortDirection,
                     },
                     on: { "page-change": _vm.onPageChange, sort: _vm.onSort },
-                    scopedSlots: _vm._u([
-                      {
-                        key: "detail",
-                        fn: function (props) {
-                          return [
-                            _c("tr", [
-                              _c("th", [_vm._v("Documentary Attachment")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("File")]),
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(
-                              props.row.acctg_documentary_attachments,
-                              function (i, ix) {
-                                return _c("tr", { key: ix }, [
-                                  _c("td", [
-                                    _vm._v(
-                                      _vm._s(
-                                        i.documentary_attachment
-                                          .documentary_attachment
-                                      )
-                                    ),
-                                  ]),
-                                  _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(i.doc_attachment))]),
-                                ])
-                              }
-                            ),
-                          ]
-                        },
-                      },
-                    ]),
                   },
                   [
                     _c("b-table-column", {
-                      attrs: { field: "accounting_id", label: "ID" },
+                      attrs: { field: "procurement_id", label: "ID" },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
@@ -44026,7 +44020,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.accounting_id) +
+                                  _vm._s(props.row.procurement_id) +
                                   "\n                        "
                               ),
                             ]
@@ -44055,8 +44049,8 @@ var render = function () {
                     _vm._v(" "),
                     _c("b-table-column", {
                       attrs: {
-                        field: "transaction_no",
-                        label: "Transaction No",
+                        field: "training_control_no",
+                        label: "Training/Activity No",
                       },
                       scopedSlots: _vm._u([
                         {
@@ -44065,7 +44059,25 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.transaction_no) +
+                                  _vm._s(props.row.training_control_no) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "pr_number", label: "PR No" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.pr_number) +
                                   "\n                        "
                               ),
                             ]
@@ -44091,6 +44103,24 @@ var render = function () {
                                     ),
                                   ])
                                 : _vm._e(),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "pr_amount", label: "PR Amount" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.pr_amount) +
+                                  "\n                        "
+                              ),
                             ]
                           },
                         },
@@ -44137,13 +44167,13 @@ var render = function () {
                                     [
                                       _c("b-button", {
                                         staticClass:
-                                          "button is-small is-warning mr-1",
+                                          "button is-small is-warning mr-1 is-outlined",
                                         attrs: {
                                           tag: "a",
                                           "icon-right": "pencil",
                                           href:
-                                            "/accounting/" +
-                                            props.row.accounting_id +
+                                            "/procurements/" +
+                                            props.row.procurement_id +
                                             "/edit",
                                         },
                                       }),
@@ -44162,12 +44192,12 @@ var render = function () {
                                     [
                                       _c("b-button", {
                                         staticClass:
-                                          "button is-small is-danger mr-1",
+                                          "button is-small is-danger mr-1 is-outlined",
                                         attrs: { "icon-right": "delete" },
                                         on: {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
-                                              props.row.accounting_id
+                                              props.row.procurement_id
                                             )
                                           },
                                         },

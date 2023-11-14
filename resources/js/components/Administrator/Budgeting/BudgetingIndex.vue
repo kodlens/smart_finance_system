@@ -85,6 +85,10 @@
                                 {{ props.row.particulars }}
                             </b-table-column>
 
+                            <b-table-column field="activity_date" label="Activity Date" v-slot="props">
+                                {{ props.row.activity_date }}
+                            </b-table-column>
+
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
@@ -92,13 +96,13 @@
                                         <b-button class="button is-small is-info mr-1 is-outlined" 
                                             tag="a" 
                                             icon-right="pencil" 
-                                            :href="`/accounting/${props.row.accounting_id}/edit`"></b-button>
+                                            :href="`/budgeting/${props.row.budgeting_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
                                         <b-button 
                                             class="button is-small is-danger mr-1 is-outlined" 
                                             icon-right="delete" 
-                                            @click="confirmDelete(props.row.accounting_id)"></b-button>
+                                            @click="confirmDelete(props.row.budgeting_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -147,8 +151,6 @@ export default{
                 'button': true,
                 'is-loading':false,
             },
-
-
 
         }
 

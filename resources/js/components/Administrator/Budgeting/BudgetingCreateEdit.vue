@@ -9,11 +9,11 @@
                         <div class="mt-2">
 
                             <b-button
-                                    @click="debug"
-                                    icon-left="note-multiple-outline"
-                                    class="button is-info"
-                                    outlined
-                                    label="Debug">
+                                @click="debug"
+                                icon-left="note-multiple-outline"
+                                class="button is-info"
+                                outlined
+                                label="Debug">
                                 </b-button>
 
                             <div class="columns">
@@ -54,7 +54,7 @@
                                     <b-field label="Activity Date"
                                         :type="errors.activity_date ? 'is-danger':''"
                                         :message="errors.date_time ? errors.date_time[0] : ''">
-                                        <b-datetimepicker v-model="fields.date_time" required></b-datetimepicker>
+                                        <b-datepicker v-model="fields.date_time" required></b-datepicker>
                                     </b-field>
                                 </div>
                                 <div class="column">
@@ -259,8 +259,7 @@ export default{
                 allotment_class_account_code: null,
 
                 amount: null,
-                priority_program: null,
-                priority_program_code: null,
+                priority_program_id: null,
 
                 supplemental_budget: null,
                 capital_outlay: null,
@@ -285,7 +284,8 @@ export default{
             },
 
             priority_program: {
-                priority_program: ''
+                priority_program: '',
+                priority_program_code: ''
             },
 
             office: {
@@ -350,78 +350,13 @@ export default{
         },
 
 
-        //attaching documents
-        newDocAttachment(){
-            this.fields.documentary_attachments.push({
-                documentary_attachment_id: 0,
-                file_upload: null
-            })
-        },
-        removeDoctAttchment(ix){
-            this.$buefy.dialog.confirm({
-                title: 'DELETE?',
-                message: 'Are you sure you want to remove this attachment? This cannot be undone.',
-
-                onConfirm: ()=>{
-                    let nId = this.fields.documentary_attachments[ix].acctg_doc_attachment_id;
-
-                    if(nId > 0){
-                        axios.delete('/accounting/' + nId).then(res=>{
-                            if(res.data.status === 'deleted'){
-                                this.$buefy.toast.open({
-                                    message: `Attachment deleted successfully.`,
-                                    type: 'is-primary'
-                                })
-                            }
-                        });
-                    }
-
-                    this.fields.documentary_attachments.splice(ix, 1)
-
-                }
-            });
-       
-        },
-
-
-
         submit: function(){
-            //format the date
-
-            let formData = new FormData();
-            formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
-           
-            formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
-            formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
-
-            formData.append('activity_date', this.fields.date_time ? this.$formatDate(this.fields.activity_date) : '');
-            formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
-         
-            formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
-
-            formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-            formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
-
-            formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-            formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-            
-            formData.append('amount', this.fields.amount ? this.fields.amount : '');
-            
-            formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
-            formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
-            formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
-
-            formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-            formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-            formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-            formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-            formData.append('others', this.fields.others ? this.fields.others : '');
-            formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
-
+            this.fields.format_date_time = this.$formatDateAndTime(this.fields.date_time);
+            this.fields.format_activity_date = this.$formatDate(this.fields.activity_date);
 
             if(this.id > 0){
                 //update
-                axios.post('/budgeting/'+this.id, formData).then(res=>{
+                axios.put('/budgeting/'+this.id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -439,7 +374,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/budgeting', formData).then(res=>{
+                axios.post('/budgeting', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -485,14 +420,12 @@ export default{
             this.fields.activity_date = new Date();
             this.fields.total_amount = 10000
 
-
             this.fields.payee_id = 1
             
             this.fields.allotment_class_id = 1
             this.fields.allotment_class_account_id = 1
 
             this.fields.amount = 12000
-
 
             this.fields.supplemental_budget = 'sample supplemental'
             this.fields.capital_outlay = 'sample capital outlay'
@@ -503,17 +436,15 @@ export default{
         },
 
 
-
-
         getData(){
 
             axios.get('/budgeting/' + this.id).then(res=>{
-                const result = res.data
 
+                const result = res.data
+        
                 this.fields.date_time = new Date(result.date_time)
                 this.fields.training_control_no = result.training_control_no
                 this.fields.particulars = result.particulars
-
 
                 this.fields.activity_date = new Date(result.activity_date)
                 this.fields.total_amount = Number(result.total_amount)
@@ -524,16 +455,13 @@ export default{
                 this.fields.allotment_class_id = result.allotment_class_id
 
                 //for display
-                this.allotment.allotment = '(' + result.allotment_class.allotment_class_account_code + ') ' + result.allotment_class_account
+                this.allotment.allotment = ' (' + result.allotment_class_account.allotment_class_account_code + ') ' + result.allotment_class_account.allotment_class_account
                 this.fields.allotment_class_account_id = result.allotment_class_account_id
                
                 this.fields.amount = Number(result.amount)
 
-                this.priority_program.priority_program = result.priority_program
+                this.priority_program.priority_program = ' (' + result.priority_program.priority_program_code + ')' + result.priority_program.priority_program
                 this.fields.priority_program_id = result.priority_program_id
-                this.fields.priority_program = result.priority_program
-                this.fields.priority_program_code = result.priority_program_code
-
 
                 this.fields.supplemental_budget = result.supplemental_budget
                 this.fields.capital_outlay = result.capital_outlay
@@ -541,7 +469,7 @@ export default{
                 this.fields.tes_trust_fund = result.tes_trust_fund
                 this.fields.others = result.others
                 this.fields.office_id = result.office_id
-
+                this.office.office = result.office.office + ' (' + result.office.description + ')'
             })
         }
 
@@ -550,9 +478,9 @@ export default{
 
     mounted(){
 
-        // if(this.id > 0){
-        //     this.getData()
-        // }
+        if(this.id > 0){
+            this.getData()
+        }
 
 
         this.loadAllotmentClasses()

@@ -21,11 +21,12 @@ class CreateProcurementsTable extends Migration
             $table->string('particulars')->nullable();
             $table->double('pr_amount')->default(0);
             $table->unsignedBigInteger('payee_id');
-            $table->string('payee')->nullable();
             $table->string('pr_status')->nullable();
             $table->string('remarks')->nullable();
             $table->unsignedBigInteger('allotment_class_id');
             $table->unsignedBigInteger('allotment_class_account_id');
+            $table->unsignedBigInteger('priority_program_id');
+            
             $table->string('supplemental_budget')->nullable();
             $table->string('capital_outlay')->nullable();
             $table->string('account_payable')->nullable();

@@ -37,6 +37,18 @@
 
                             <div class="columns">
                                 <div class="column">
+                                    <b-field label="PR Number"
+                                        :type="errors.pr_number ? 'is-danger':''"
+                                        :message="errors.pr_number ? errors.pr_number[0] : ''">
+                                        <b-input type="text" placholder="PR Number"
+                                            v-model="fields.pr_number">
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
                                     <b-field label="Particulars"
                                         :type="errors.particulars ? 'is-danger':''"
                                         :message="errors.particulars ? errors.particulars[0] : ''">
@@ -47,19 +59,19 @@
                                 </div>
                             </div>
 
-
-
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="PR Number"
-                                        :type="errors.pr_number ? 'is-danger':''"
-                                        :message="errors.pr_number ? errors.pr_number[0] : ''">
-                                        <b-input type="text" placholder="PR Number"
-                                            v-model="fields.pr_number">
-                                        </b-input>
+                                    <b-field label="PR Amount"
+                                        :type="errors.pr_amount ? 'is-danger':''"
+                                        :message="errors.pr_amount ? errors.pr_amount[0] : ''">
+                                        <b-numberinput placholder="PR Amount"
+                                            :controls="false" step="0.0001"
+                                            v-model="fields.pr_amount">
+                                        </b-numberinput>
                                     </b-field>
                                 </div>
                             </div>
+
 
                             <div class="columns">
                                 <div class="column">
@@ -257,7 +269,6 @@ export default{
                 pr_amount: null,
 
                 payee_id: null,
-                payee: null,
 
                 pr_status: null,
                 remarks: null,
@@ -393,49 +404,55 @@ export default{
 
 
         submit: function(){
+            this.fields.date_time = this.$formatDateAndTime(this.fields.date_time);
+
             //format the date
 
-            let formData = new FormData();
-            formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
-           
-            formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
-            formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
+            // let formData = new FormData();
+            // formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
 
-            formData.append('activity_date', this.fields.date_time ? this.$formatDate(this.fields.activity_date) : '');
-            formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
+            // formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
+            // formData.append('pr_number', this.fields.pr_number ? this.fields.pr_number : '');
+            // formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
+            // formData.append('pr_amount', this.fields.pr_amount ? this.fields.pr_amount : '');
+
+            // //formData.append('activity_date', this.fields.date_time ? this.$formatDate(this.fields.activity_date) : '');
+            // //formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
          
-            formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
+            // formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
+            // formData.append('pr_status', this.fields.pr_status ? this.fields.pr_status : '');
+            // formData.append('remarks', this.fields.remarks ? this.fields.remarks : '');
 
-            formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-            formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
+            // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
+            // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
 
-            formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-            formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
+            // //formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
+            // //formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
             
-            formData.append('amount', this.fields.amount ? this.fields.amount : '');
+            // //formData.append('amount', this.fields.amount ? this.fields.amount : '');
             
-            formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
-            formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
-            formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
+            // formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
+            // //formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
+            // //formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
 
-            formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-            formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-            formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-            formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-            formData.append('others', this.fields.others ? this.fields.others : '');
-            formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
+            // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
+            // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
+            // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
+            // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
+            // formData.append('others', this.fields.others ? this.fields.others : '');
+            // formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
 
 
             if(this.id > 0){
                 //update
-                axios.post('/budgeting/'+this.id, formData).then(res=>{
+                axios.put('/procurements/'+this.id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
                             message: 'Successfully updated.',
                             type: 'is-success',
                             onConfirm: () => {
-                                window.location = '/budgeting'
+                                window.location = '/procurements'
                             }
                         })
                     }
@@ -446,7 +463,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/budgeting', formData).then(res=>{
+                axios.post('/procurements', formData).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -454,7 +471,7 @@ export default{
                             type: 'is-success',
                             confirmText: 'OK',
                             onConfirm: () => {
-                                window.location = '/budgeting'
+                                window.location = '/procurements'
                             }
                         })
                     }
@@ -488,18 +505,17 @@ export default{
             this.fields.date_time = new Date();
 
             this.fields.training_control_no = 'TD-1234-22-1122'
-            this.pr_number = 'PR-2023-001-IBFS'
-            this.fields.particulars = 'Sample particulars'
-            this.fields.activity_date = new Date();
-            this.fields.total_amount = 10000
-
-
+            this.fields.pr_number = 'PR-2023-001-IBFS'
+            this.fields.particulars = 'Sample particulars' 
+            this.fields.pr_amount = 12000
+            
             this.fields.payee_id = 1
             
             this.fields.allotment_class_id = 1
             this.fields.allotment_class_account_id = 1
 
-            this.fields.amount = 12000
+            this.fields.pr_status = 'pending';
+            this.fields.remarks = 'this is sample remarks';
 
 
             this.fields.supplemental_budget = 'sample supplemental'
@@ -515,33 +531,30 @@ export default{
 
         getData(){
 
-            axios.get('/budgeting/' + this.id).then(res=>{
+            axios.get('/procurements/' + this.id).then(res=>{
                 const result = res.data
-
                 this.fields.date_time = new Date(result.date_time)
                 this.fields.training_control_no = result.training_control_no
+                this.fields.pr_number = result.pr_number
                 this.fields.particulars = result.particulars
-
-
-                this.fields.activity_date = new Date(result.activity_date)
-                this.fields.total_amount = Number(result.total_amount)
-
-                this.payee.bank_account_payee = result.payee.bank_account_payee
-                this.fields.payee_id = result.payee_id
+                this.fields.pr_amount = Number(result.pr_amount)
                 
+                this.fields.payee_id = result.payee_id
+                this.payee.bank_account_payee = result.payee.bank_account_payee
+                
+                this.fields.pr_status = result.pr_status
+                this.fields.remarks = result.remarks
+
                 this.fields.allotment_class_id = result.allotment_class_id
 
                 //for display
-                this.allotment.allotment = '(' + result.allotment_class.allotment_class_account_code + ') ' + result.allotment_class_account
+                this.allotment.allotment = '(' + result.allotment_class_account.allotment_class_account_code + ') ' + result.allotment_class_account.allotment_class_account
                 this.fields.allotment_class_account_id = result.allotment_class_account_id
                
-                this.fields.amount = Number(result.amount)
-
                 this.priority_program.priority_program = result.priority_program
                 this.fields.priority_program_id = result.priority_program_id
                 this.fields.priority_program = result.priority_program
                 this.fields.priority_program_code = result.priority_program_code
-
 
                 this.fields.supplemental_budget = result.supplemental_budget
                 this.fields.capital_outlay = result.capital_outlay
@@ -549,7 +562,7 @@ export default{
                 this.fields.tes_trust_fund = result.tes_trust_fund
                 this.fields.others = result.others
                 this.fields.office_id = result.office_id
-
+                this.office.office = result.office.office + '(' + result.office.description + ')'
             })
         }
 
@@ -558,9 +571,10 @@ export default{
 
     mounted(){
 
-        // if(this.id > 0){
-        //     this.getData()
-        // }
+        if(this.id > 0){
+            this.getData()
+            console.log('edit mode');
+        }
 
 
         this.loadAllotmentClasses()

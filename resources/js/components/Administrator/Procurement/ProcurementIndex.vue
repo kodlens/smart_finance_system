@@ -50,7 +50,6 @@
                         <b-table
                             :data="data"
                             :loading="loading"
-                            detailed
                             paginated
                             backend-pagination
                             :total="total"
@@ -66,20 +65,28 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="accounting_id" label="ID" v-slot="props">
-                                {{ props.row.accounting_id }}
+                            <b-table-column field="procurement_id" label="ID" v-slot="props">
+                                {{ props.row.procurement_id }}
                             </b-table-column>
 
                             <b-table-column field="date_time" label="Date & Time" v-slot="props">
                                 {{ props.row.date_time }}
                             </b-table-column>
 
-                            <b-table-column field="transaction_no" label="Transaction No" v-slot="props">
-                                {{ props.row.transaction_no }}
+                            <b-table-column field="training_control_no" label="Training/Activity No" v-slot="props">
+                                {{ props.row.training_control_no }}
+                            </b-table-column>
+
+                            <b-table-column field="pr_number" label="PR No" v-slot="props">
+                                {{ props.row.pr_number }}
                             </b-table-column>
 
                             <b-table-column field="payee" label="Payee" v-slot="props">
                                 <span v-if="props.row.payee"> {{ props.row.payee.bank_account_payee }}</span>
+                            </b-table-column>
+                            
+                            <b-table-column field="pr_amount" label="PR Amount" v-slot="props">
+                                {{ props.row.pr_amount }}
                             </b-table-column>
 
                             <b-table-column field="particulars" label="Particulars" v-slot="props">
@@ -90,27 +97,18 @@
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" 
+                                        <b-button class="button is-small is-warning mr-1 is-outlined" 
                                             tag="a" 
                                             icon-right="pencil" 
-                                            :href="`/accounting/${props.row.accounting_id}/edit`"></b-button>
+                                            :href="`/procurements/${props.row.procurement_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.accounting_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1 is-outlined" 
+                                            icon-right="delete"
+                                            @click="confirmDelete(props.row.procurement_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
-
-                            <template #detail="props">
-                                <tr>
-                                    <th>Documentary Attachment</th>
-                                    <th>File</th>
-                                </tr>
-                                <tr v-for="(i, ix) in props.row.acctg_documentary_attachments" :key="ix">
-                                    <td>{{ i.documentary_attachment.documentary_attachment }}</td>
-                                    <td>{{ i.doc_attachment }}</td>
-                                </tr>
-                            </template>
 
 
                         </b-table>
@@ -132,7 +130,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'accounting_id',
+            sortField: 'procurement_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,
@@ -176,7 +174,7 @@ export default{
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-accounting-records?${params}`)
+            axios.get(`/get-procurements-records?${params}`)
                 .then(({data}) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -235,7 +233,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/accounting/' + delete_id).then(res => {
+            axios.delete('/procurements/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {

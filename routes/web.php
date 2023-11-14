@@ -111,9 +111,7 @@ Route::middleware(['auth', 'admin'])->group(function() {
 
 
     Route::resource('/procurements', App\Http\Controllers\Administrator\ProcurementController::class);
-    Route::post('/procurements-update/{id}', [App\Http\Controllers\Administrator\ProcurementController::class, 'updateAccounting']);
     Route::get('/get-procurements-records', [App\Http\Controllers\Administrator\ProcurementController::class, 'getData']);
-
 
 
 
