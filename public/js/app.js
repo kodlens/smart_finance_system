@@ -11136,6 +11136,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -41874,7 +41876,7 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
-                      attrs: { field: "priority_program", label: "Username" },
+                      attrs: { field: "priority_program_code", label: "Code" },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
@@ -41882,7 +41884,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.priority_program) +
+                                  _vm._s(props.row.priority_program_code) +
                                   "\n                        "
                               ),
                             ]
@@ -41892,7 +41894,10 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
-                      attrs: { field: "priority_program_code", label: "Name" },
+                      attrs: {
+                        field: "priority_program",
+                        label: "Priority Program",
+                      },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
@@ -41900,7 +41905,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.priority_program_code) +
+                                  _vm._s(props.row.priority_program) +
                                   "\n                        "
                               ),
                             ]
@@ -42066,51 +42071,6 @@ var render = function () {
                             "b-field",
                             {
                               attrs: {
-                                label: "Priority Program",
-                                "label-position": "on-border",
-                                type: this.errors.priority_program
-                                  ? "is-danger"
-                                  : "",
-                                message: this.errors.priority_program
-                                  ? this.errors.priority_program[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-input", {
-                                attrs: {
-                                  placeholder: "Priority Program",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.priority_program,
-                                  callback: function ($$v) {
-                                    _vm.$set(
-                                      _vm.fields,
-                                      "priority_program",
-                                      $$v
-                                    )
-                                  },
-                                  expression: "fields.priority_program",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
                                 label: "Priority Program Code",
                                 "label-position": "on-border",
                                 type: this.errors.priority_program_code
@@ -42137,6 +42097,51 @@ var render = function () {
                                     )
                                   },
                                   expression: "fields.priority_program_code",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Priority Program",
+                                "label-position": "on-border",
+                                type: this.errors.priority_program
+                                  ? "is-danger"
+                                  : "",
+                                message: this.errors.priority_program
+                                  ? this.errors.priority_program[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-input", {
+                                attrs: {
+                                  placeholder: "Priority Program",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.fields.priority_program,
+                                  callback: function ($$v) {
+                                    _vm.$set(
+                                      _vm.fields,
+                                      "priority_program",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "fields.priority_program",
                                 },
                               }),
                             ],

@@ -63,14 +63,13 @@
                                 {{ props.row.priority_program_id }}
                             </b-table-column>
 
-                            <b-table-column field="priority_program" label="Username" v-slot="props">
-                                {{ props.row.priority_program }}
-                            </b-table-column>
-
-                            <b-table-column field="priority_program_code" label="Name" v-slot="props">
+                            <b-table-column field="priority_program_code" label="Code" v-slot="props">
                                 {{ props.row.priority_program_code }}
                             </b-table-column>
 
+                            <b-table-column field="priority_program" label="Priority Program" v-slot="props">
+                                {{ props.row.priority_program }}
+                            </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
@@ -120,17 +119,6 @@
 
                     <section class="modal-card-body">
                         <div class="">
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Priority Program" label-position="on-border"
-                                             :type="this.errors.priority_program ? 'is-danger':''"
-                                             :message="this.errors.priority_program ? this.errors.priority_program[0] : ''">
-                                        <b-input v-model="fields.priority_program"
-                                                 placeholder="Priority Program" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
 
                             <div class="columns">
                                 <div class="column">
@@ -144,6 +132,20 @@
                                 </div>
 
                             </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Priority Program" label-position="on-border"
+                                             :type="this.errors.priority_program ? 'is-danger':''"
+                                             :message="this.errors.priority_program ? this.errors.priority_program[0] : ''">
+                                        <b-input v-model="fields.priority_program"
+                                                 placeholder="Priority Program" required>
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                           
                         </div>
                     </section>
                     <footer class="modal-card-foot">

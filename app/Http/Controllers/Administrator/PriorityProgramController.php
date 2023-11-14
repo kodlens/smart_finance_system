@@ -39,13 +39,13 @@ class PriorityProgramController extends Controller
     public function store(Request $req){
 
         $req->validate([
-            'priority_program' => ['required'],
-            'priority_program_code' => ['required']
+            'priority_program_code' => ['required'],
+            'priority_program' => ['required']
         ]);
 
         PriorityProgram::create([
-            'priority_program' => strtoupper($req->priority_program),
             'priority_program_code' =>strtoupper($req->priority_program_code),
+            'priority_program' => strtoupper($req->priority_program)
         ]);
 
         return response()->json([
@@ -57,17 +57,15 @@ class PriorityProgramController extends Controller
     public function update(Request $req, $id){
 
         $req->validate([
-            'priority_program' => ['required'],
-            'priority_program_code' => ['required']
+            'priority_program_code' => ['required'],
+            'priority_program' => ['required']
         ]);
 
 
         $data = PriorityProgram::find($id);
-        $data->priority_program = strtoupper($req->priority_program);
         $data->priority_program_code = strtoupper($req->priority_program_code);
-
+        $data->priority_program = strtoupper($req->priority_program);
         $data->save();
-
 
         return response()->json([
             'status' => 'updated'

@@ -22,7 +22,7 @@
 <body>
     <div id="app">
 
-        <b-navbar>
+        <b-navbar type="is-primary">
             <template #brand>
                 <b-navbar-item>
                     <img
@@ -103,7 +103,7 @@
                         <b-button
                             onclick="logout()"
                             icon-left="logout"
-                            class="button is-primary" outlined>
+                            class="button" outlined>
                         </b-button>
                     </div>
                 </b-navbar-item>
