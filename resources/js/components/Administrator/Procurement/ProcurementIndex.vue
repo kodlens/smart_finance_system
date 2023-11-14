@@ -5,7 +5,7 @@
                 <div class="column is-10-widescreen is-12-desktop is-12-tablet">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">BUDGETING RECORDS</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">PROCUMENT RECORDS</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -40,16 +40,17 @@
                             </div>
                         </div>
 
-                        <div class="buttons mb-2 is-right">
+                        <div class="buttons mt-3 is-right">
                             <b-button tag="a"
-                                href="/budgeting/create"
-                                icon-right="cash-multiple"
+                                href="/procurements/create"
+                                icon-right="mower"
                                 class="is-primary">ADD RECORD</b-button>
                         </div>
 
                         <b-table
                             :data="data"
                             :loading="loading"
+                            detailed
                             paginated
                             backend-pagination
                             :total="total"
@@ -65,16 +66,16 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="budgeting_id" label="ID" v-slot="props">
-                                {{ props.row.budgeting_id }}
+                            <b-table-column field="accounting_id" label="ID" v-slot="props">
+                                {{ props.row.accounting_id }}
                             </b-table-column>
 
                             <b-table-column field="date_time" label="Date & Time" v-slot="props">
                                 {{ props.row.date_time }}
                             </b-table-column>
 
-                            <b-table-column field="training_control_no" label="Training Control No." v-slot="props">
-                                {{ props.row.training_control_no }}
+                            <b-table-column field="transaction_no" label="Transaction No" v-slot="props">
+                                {{ props.row.transaction_no }}
                             </b-table-column>
 
                             <b-table-column field="payee" label="Payee" v-slot="props">
@@ -89,22 +90,30 @@
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-info mr-1 is-outlined" 
+                                        <b-button class="button is-small is-warning mr-1" 
                                             tag="a" 
                                             icon-right="pencil" 
                                             :href="`/accounting/${props.row.accounting_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button 
-                                            class="button is-small is-danger mr-1 is-outlined" 
-                                            icon-right="delete" 
-                                            @click="confirmDelete(props.row.accounting_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.accounting_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
-                        </b-table>
 
-                       
+                            <template #detail="props">
+                                <tr>
+                                    <th>Documentary Attachment</th>
+                                    <th>File</th>
+                                </tr>
+                                <tr v-for="(i, ix) in props.row.acctg_documentary_attachments" :key="ix">
+                                    <td>{{ i.documentary_attachment.documentary_attachment }}</td>
+                                    <td>{{ i.doc_attachment }}</td>
+                                </tr>
+                            </template>
+
+
+                        </b-table>
 
                     </div>
                 </div><!--col -->
@@ -123,7 +132,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'budgeting_id',
+            sortField: 'accounting_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,
@@ -167,7 +176,7 @@ export default{
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-budgeting-records?${params}`)
+            axios.get(`/get-accounting-records?${params}`)
                 .then(({data}) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -226,7 +235,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/budgeting/' + delete_id).then(res => {
+            axios.delete('/accounting/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {

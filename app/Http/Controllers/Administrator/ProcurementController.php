@@ -4,15 +4,17 @@ namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Budgeting;
 
-class BudgetingController extends Controller
+use App\Models\Procurement;
+
+class ProcurementController extends Controller
 {
     //
 
-
+    
+    
     public function index(){
-        return view('administrator.budgeting.budgeting-index');
+        return view('administrator.procurement.procurement-index');
     }
 
 
@@ -23,7 +25,7 @@ class BudgetingController extends Controller
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        $data = Budgeting::with(['payee', 'allotment_class', 'allotment_class_account', 'office'])
+        $data = Procurement::with(['payee', 'allotment_class', 'allotment_class_account', 'office'])
             ->where('particulars', 'like', $req->key . '%')
             ->orWhere('training_control_no', 'like', $req->key . '%')
             ->orderBy($sort[0], $sort[1])
@@ -34,13 +36,13 @@ class BudgetingController extends Controller
 
 
     public function create(){
-        return view('administrator.budgeting.budgeting-create-edit')
+        return view('administrator.procurement.procurement-create-edit')
             ->with('id', 0);
     }
 
 
     public function edit($id){
-        return view('administrator.budgeting.budgeting-create-edit')
+        return view('administrator.procurement.procurement-create-edit')
             ->with('id', $id);
     }
 
@@ -83,7 +85,7 @@ class BudgetingController extends Controller
         ]);
 
         
-        $data = Budgeting::create([
+        $data = Procurement::create([
             'date_time' => $req->date_time,
            
             'training_control_no' => $req->training_control_no,
@@ -118,6 +120,20 @@ class BudgetingController extends Controller
     }
 
 
-
     
+    public function updateProcurement(Request $req, $id){
+        return $req;
+    }
+
+
+
+    public function destroy($id){
+        Procurement::destroy($id);
+        return response()->json([
+            'status' => 'deleted'
+        ], 200);
+
+    }
+
+
 }

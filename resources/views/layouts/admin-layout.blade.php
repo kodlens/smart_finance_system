@@ -87,8 +87,8 @@
                     <b-navbar-item href="/budgeting">
                         Budgeting
                     </b-navbar-item>
-                    <b-navbar-item href="/procurement">
-                        Procurement
+                    <b-navbar-item href="/procurements">
+                        Procurements
                     </b-navbar-item>
 
                 </b-navbar-dropdown>

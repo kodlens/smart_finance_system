@@ -41,7 +41,7 @@
                                         :type="errors.particulars ? 'is-danger':''"
                                         :message="errors.particulars ? errors.particulars[0] : ''">
                                         <b-input type="text" placholder="Particulars"
-                                                 v-model="fields.particulars">
+                                            v-model="fields.particulars">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -51,20 +51,12 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Activity Date"
-                                        :type="errors.activity_date ? 'is-danger':''"
-                                        :message="errors.date_time ? errors.date_time[0] : ''">
-                                        <b-datetimepicker v-model="fields.date_time" required></b-datetimepicker>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Total Amount"
-                                        :type="errors.total_amount ? 'is-danger':''"
-                                        :message="errors.total_amount ? errors.total_amount[0] : ''">
-                                        <b-numberinput placholder="Total Amount"
-                                            :controls="false" step="0.0001"
-                                            v-model="fields.total_amount">
-                                        </b-numberinput>
+                                    <b-field label="PR Number"
+                                        :type="errors.pr_number ? 'is-danger':''"
+                                        :message="errors.pr_number ? errors.pr_number[0] : ''">
+                                        <b-input type="text" placholder="PR Number"
+                                            v-model="fields.pr_number">
+                                        </b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -79,6 +71,34 @@
                                             :prop-name="payee.bank_account_payee"></modal-browse-payee>
                                     </b-field>
                                 </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="PR Status"
+                                        :type="errors.pr_status ? 'is-danger':''"
+                                        expanded
+                                        :message="errors.pr_status ? errors.pr_status[0] : ''">
+                                        <b-select type="text" placholder="PR Status"
+                                            expanded
+                                            v-model="fields.pr_status">
+                                            <option value="on-process">Om-Process</option>
+                                            <option value="approved">Approved</option>
+                                            <option value="pending">Pending</option>
+                                            <option value="cancelled">Cancelled</option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                                <div class="column">
+                                    <b-field label="Remarks"
+                                        :type="errors.remarks ? 'is-danger':''"
+                                        :message="errors.remarks ? errors.remarks[0] : ''">
+                                        <b-input type="text" placholder="Remarks"
+                                            v-model="fields.remarks">
+                                        </b-input>
+                                    </b-field>
+                                </div>
+
                             </div>
 
 
@@ -107,20 +127,6 @@
                                             :prop-class-id="fields.allotment_class_id"
                                             :prop-allotment-account="allotment.allotment"
                                             @browseAllotmentAccount="emitAllotmentAccount"></modal-browse-allotment-class-account>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Amount"
-                                        :type="errors.amount ? 'is-danger':''"
-                                        :message="errors.amount ? errors.amount[0] : ''">
-                                        <b-numberinput 
-                                            v-model="fields.amount"
-                                            :controls="false"
-                                            step="0.0001">
-                                        </b-numberinput>
                                     </b-field>
                                 </div>
                             </div>
@@ -246,19 +252,21 @@ export default{
                 date_time: null,
              
                 training_control_no : null,
+                pr_number: null,
                 particulars: null,
-                activity_date: null,
-                total_amount: null,
+                pr_amount: null,
 
                 payee_id: null,
                 payee: null,
+
+                pr_status: null,
+                remarks: null,
 
                 allotment_class_id: null,
                 allotment_class_account_id: null,
                 allotment_class_account: null,
                 allotment_class_account_code: null,
 
-                amount: null,
                 priority_program: null,
                 priority_program_code: null,
 
@@ -271,7 +279,6 @@ export default{
             },
 
             errors: {},
-
 
             global_id: 0,
 
@@ -481,6 +488,7 @@ export default{
             this.fields.date_time = new Date();
 
             this.fields.training_control_no = 'TD-1234-22-1122'
+            this.pr_number = 'PR-2023-001-IBFS'
             this.fields.particulars = 'Sample particulars'
             this.fields.activity_date = new Date();
             this.fields.total_amount = 10000

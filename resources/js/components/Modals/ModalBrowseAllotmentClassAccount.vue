@@ -8,7 +8,8 @@
             </b-input>
 
             <p class="control">
-                <b-button class="button is-primary" @click="openModal">...</b-button>
+                <b-button class="button is-primary" 
+                    @click="openModal">...</b-button>
             </p>
         </b-field>
 
@@ -17,7 +18,7 @@
                  trap-focus scroll="keep" aria-role="dialog" aria-modal>
             <div class="modal-card card-width">
                 <header class="modal-card-head">
-                    <p class="modal-card-title">SELECT</p>
+                    <p class="modal-card-title has-text-weight-bold is-size-4">SELECT ALLOTMENT ACCOUNT</p>
                     <button type="button" class="delete"
                             @click="isModalActive = false" />
 
@@ -79,8 +80,10 @@
 
                                 <b-table-column field="" label="Action" v-slot="props">
                                     <div class="buttons">
-                                        <b-button class="is-small is-warning" @click="selectData(props.row)">
-                                            <i class="fa fa-pencil"></i>&nbsp;&nbsp;SELECT</b-button>
+                                        <b-button class="is-small is-info is-outlined is-rounded has-text-weight-bold" 
+                                            icon-right="arrow-right-thin"
+                                            @click="selectData(props.row)">
+                                            SELECT</b-button>
                                     </div>
                                 </b-table-column>
                             </b-table>

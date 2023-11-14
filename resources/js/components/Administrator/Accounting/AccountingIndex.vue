@@ -40,6 +40,13 @@
                             </div>
                         </div>
 
+                        <div class="buttons mt-3 is-right">
+                            <b-button tag="a"
+                                href="/accounting/create"
+                                icon-right="bank-outline"
+                                class="is-primary">ADD RECORD</b-button>
+                        </div>
+
                         <b-table
                             :data="data"
                             :loading="loading"
@@ -107,13 +114,6 @@
 
 
                         </b-table>
-
-                        <div class="buttons mt-3">
-                            <b-button tag="a"
-                                href="/accounting/create"
-                                icon-right="account"
-                                class="is-success">NEW</b-button>
-                        </div>
 
                     </div>
                 </div><!--col -->
