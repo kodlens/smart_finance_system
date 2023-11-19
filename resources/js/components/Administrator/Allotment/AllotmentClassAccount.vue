@@ -70,17 +70,21 @@
                                 {{ props.row.allotment_class_account_code }}
                             </b-table-column>
 
+                            <b-table-column field="allotment_class_account" label="Allotment Class Account" v-slot="props">
+                                {{ props.row.allotment_class_account }}
+                            </b-table-column>
+
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
                                         <b-button class="button is-small is-warning mr-1" 
                                             tag="a" 
-                                            icon-right="pencil" @click="getData(props.row.allotment_class_id)"></b-button>
+                                            icon-right="pencil" @click="getData(props.row.allotment_class_account_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
                                         <b-button class="button is-small is-danger mr-1" 
                                             icon-right="delete" 
-                                            @click="confirmDelete(props.row.allotment_class_id)"></b-button>
+                                            @click="confirmDelete(props.row.allotment_class_account_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -269,7 +273,7 @@ export default{
 
             if(this.global_id > 0){
                 //update
-                axios.put('/allotment-class-accounts/'+this.global_id, this.fields).then(res=>{
+                axios.put('/allotment-class-accounts/' + this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -321,13 +325,13 @@ export default{
                 type: 'is-danger',
                 message: 'Are you sure you want to delete this data?',
                 cancelText: 'Cancel',
-                confirmText: 'Delete user account?',
+                confirmText: 'Delete',
                 onConfirm: () => this.deleteSubmit(delete_id)
             });
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/users/' + delete_id).then(res => {
+            axios.delete('/allotment-class-accounts/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {

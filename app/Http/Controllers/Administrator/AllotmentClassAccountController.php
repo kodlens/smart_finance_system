@@ -15,6 +15,12 @@ class AllotmentClassAccountController extends Controller
         return view('administrator.allotment.allotment-class-account');
     }
 
+
+    public function show($id){
+        return AllotmentClassAccount::with(['allotment_class'])
+            ->find($id);
+    }
+
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
@@ -70,11 +76,6 @@ class AllotmentClassAccountController extends Controller
             'allotment_class_account' => ['required']
         ]);
 
-        AllotmentClassAccount::create([
-            'allotment_class_id' => $req->allotment_class_id,
-            'allotment_class_account_code' =>strtoupper($req->allotment_class_account_code),
-            'allotment_class_account' =>strtoupper($req->allotment_class_account),
-        ]);
 
         $data = AllotmentClassAccount::find($id);
         $data->allotment_class_id = $req->allotment_class_id;
