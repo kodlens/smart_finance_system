@@ -8241,6 +8241,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     id: {
@@ -38648,7 +38649,6 @@ var render = function () {
                         {
                           attrs: {
                             label: "Allotment Class",
-                            "label-position": "on-border",
                             expanded: "",
                             type: _vm.errors.allotment_class_id
                               ? "is-danger"
@@ -38776,7 +38776,7 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "GADTC Priority Program",
+                            label: "Priority Program",
                             type: _vm.errors.priority_program_id
                               ? "is-danger"
                               : "",

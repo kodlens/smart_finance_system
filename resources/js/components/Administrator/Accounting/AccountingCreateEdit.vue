@@ -157,7 +157,8 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Allotment Class" label-position="on-border" expanded
+                                    <b-field label="Allotment Class"
+                                        expanded
                                         :type="errors.allotment_class_id ? 'is-danger':''"
                                         :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
                                         <b-select v-model="fields.allotment_class_id"
@@ -201,7 +202,7 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="GADTC Priority Program"
+                                    <b-field label="Priority Program"
                                         :type="errors.priority_program_id ? 'is-danger':''"
                                         :message="errors.priority_program_id ? errors.priority_program_id[0] : ''">
                                         <modal-browse-priority-program
