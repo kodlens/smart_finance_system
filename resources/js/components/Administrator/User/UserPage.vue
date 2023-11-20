@@ -222,7 +222,7 @@
                                 </div>
                             </div>
 
-                            <div class="columns">
+                            <!-- <div class="columns">
                                 <div class="column">
                                     <b-field label="Province" label-position="on-border" expanded
                                              :type="this.errors.province ? 'is-danger':''"
@@ -261,7 +261,7 @@
                                         </b-input>
                                     </b-field>
                                 </div>
-                            </div>
+                            </div> -->
 
                         </div>
                     </section>
@@ -309,7 +309,7 @@ export default{
                 lname: '', fname: '', mname: '', suffix: '',
                 password: '', password_confirmation : '', 
                 sex : '', role: '',
-                province: '', city: '', barangay: '', street: '',
+                // province: '', city: '', barangay: '', street: '',
             },
             errors: {},
             offices: [],
@@ -472,9 +472,9 @@ export default{
             this.fields.password_confirmation = '';
             this.fields.role = '';
 
-            this.fields.province = ''
-            this.fields.city = ''
-            this.fields.barangay = ''
+            // this.fields.province = ''
+            // this.fields.city = ''
+            // this.fields.barangay = ''
         },
 
 
@@ -488,61 +488,61 @@ export default{
             //nested axios for getting the address 1 by 1 or request by request
             axios.get('/users/'+data_id).then(res=>{
                 this.fields = res.data;
-                this.fields.office = res.data.office_id;
-                let tempData = res.data;
+                //this.fields.office = res.data.office_id;
+                //let tempData = res.data;
                 //load city first
-                axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
-                    //load barangay
-                    this.cities = res.data;
-                    axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
-                        this.barangays = res.data;
+                // axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+                //     //load barangay
+                //     this.cities = res.data;
+                //     axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+                //         this.barangays = res.data;
                      
-                        this.fields.username = tempData.username
-                        this.fields.lname = tempData.lname
-                        this.fields.fname = tempData.fname
-                        this.fields.mname = tempData.mname
-                        this.fields.sex = tempData.sex
+                //         this.fields.username = tempData.username
+                //         this.fields.lname = tempData.lname
+                //         this.fields.fname = tempData.fname
+                //         this.fields.mname = tempData.mname
+                //         this.fields.sex = tempData.sex
                     
-                        this.fields.suffix = tempData.suffix
-                        this.fields.role = tempData.role
+                //         this.fields.suffix = tempData.suffix
+                //         this.fields.role = tempData.role
                   
 
-                        this.fields.province = tempData.province
-                        this.fields.city = tempData.city
-                        this.fields.barangay = tempData.barangay
-                        this.fields.street = tempData.street
+                //         // this.fields.province = tempData.province
+                //         // this.fields.city = tempData.city
+                //         // this.fields.barangay = tempData.barangay
+                //         // this.fields.street = tempData.street
 
-                    });
-                });
+                //     });
+                // });
             });
         },
 
 
 
-        //addresses
-        loadProvince: function(){
-            axios.get('/load-provinces').then(res=>{
-                this.provinces = res.data;
-            })
-        },
+        // //addresses
+        // loadProvince: function(){
+        //     axios.get('/load-provinces').then(res=>{
+        //         this.provinces = res.data;
+        //     })
+        // },
 
-        loadCity: function(){
-            axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
-                this.cities = res.data;
-            })
-        },
+        // loadCity: function(){
+        //     axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+        //         this.cities = res.data;
+        //     })
+        // },
 
-        loadBarangay: function(){
-            axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
-                this.barangays = res.data;
-            })
-        },
+        // loadBarangay: function(){
+        //     axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+        //         this.barangays = res.data;
+        //     })
+        // },
 
     },
 
     mounted() {
         this.loadAsyncData();
-        this.loadProvince()
+        //this.loadProvince()
     }
 }
 </script>

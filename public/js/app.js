@@ -13126,11 +13126,8 @@ __webpack_require__.r(__webpack_exports__);
         password: '',
         password_confirmation: '',
         sex: '',
-        role: '',
-        province: '',
-        city: '',
-        barangay: '',
-        street: ''
+        role: '' // province: '', city: '', barangay: '', street: '',
+
       },
       errors: {},
       offices: [],
@@ -13285,10 +13282,9 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.sex = '';
       this.fields.password = '';
       this.fields.password_confirmation = '';
-      this.fields.role = '';
-      this.fields.province = '';
-      this.fields.city = '';
-      this.fields.barangay = '';
+      this.fields.role = ''; // this.fields.province = ''
+      // this.fields.city = ''
+      // this.fields.barangay = ''
     },
     //update code here
     getData: function getData(data_id) {
@@ -13299,56 +13295,48 @@ __webpack_require__.r(__webpack_exports__);
       this.isModalCreate = true; //nested axios for getting the address 1 by 1 or request by request
 
       axios.get('/users/' + data_id).then(function (res) {
-        _this5.fields = res.data;
-        _this5.fields.office = res.data.office_id;
-        var tempData = res.data; //load city first
-
-        axios.get('/load-cities?prov=' + _this5.fields.province).then(function (res) {
-          //load barangay
-          _this5.cities = res.data;
-          axios.get('/load-barangays?prov=' + _this5.fields.province + '&city_code=' + _this5.fields.city).then(function (res) {
-            _this5.barangays = res.data;
-            _this5.fields.username = tempData.username;
-            _this5.fields.lname = tempData.lname;
-            _this5.fields.fname = tempData.fname;
-            _this5.fields.mname = tempData.mname;
-            _this5.fields.sex = tempData.sex;
-            _this5.fields.suffix = tempData.suffix;
-            _this5.fields.role = tempData.role;
-            _this5.fields.province = tempData.province;
-            _this5.fields.city = tempData.city;
-            _this5.fields.barangay = tempData.barangay;
-            _this5.fields.street = tempData.street;
-          });
-        });
+        _this5.fields = res.data; //this.fields.office = res.data.office_id;
+        //let tempData = res.data;
+        //load city first
+        // axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+        //     //load barangay
+        //     this.cities = res.data;
+        //     axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+        //         this.barangays = res.data;
+        //         this.fields.username = tempData.username
+        //         this.fields.lname = tempData.lname
+        //         this.fields.fname = tempData.fname
+        //         this.fields.mname = tempData.mname
+        //         this.fields.sex = tempData.sex
+        //         this.fields.suffix = tempData.suffix
+        //         this.fields.role = tempData.role
+        //         // this.fields.province = tempData.province
+        //         // this.fields.city = tempData.city
+        //         // this.fields.barangay = tempData.barangay
+        //         // this.fields.street = tempData.street
+        //     });
+        // });
       });
-    },
-    //addresses
-    loadProvince: function loadProvince() {
-      var _this6 = this;
+    } // //addresses
+    // loadProvince: function(){
+    //     axios.get('/load-provinces').then(res=>{
+    //         this.provinces = res.data;
+    //     })
+    // },
+    // loadCity: function(){
+    //     axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
+    //         this.cities = res.data;
+    //     })
+    // },
+    // loadBarangay: function(){
+    //     axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
+    //         this.barangays = res.data;
+    //     })
+    // },
 
-      axios.get('/load-provinces').then(function (res) {
-        _this6.provinces = res.data;
-      });
-    },
-    loadCity: function loadCity() {
-      var _this7 = this;
-
-      axios.get('/load-cities?prov=' + this.fields.province).then(function (res) {
-        _this7.cities = res.data;
-      });
-    },
-    loadBarangay: function loadBarangay() {
-      var _this8 = this;
-
-      axios.get('/load-barangays?prov=' + this.fields.province + '&city_code=' + this.fields.city).then(function (res) {
-        _this8.barangays = res.data;
-      });
-    }
   },
   mounted: function mounted() {
-    this.loadAsyncData();
-    this.loadProvince();
+    this.loadAsyncData(); //this.loadProvince()
   }
 });
 
@@ -46228,189 +46216,6 @@ var render = function () {
                                   ]),
                                 ]
                               ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Province",
-                                "label-position": "on-border",
-                                expanded: "",
-                                type: this.errors.province ? "is-danger" : "",
-                                message: this.errors.province
-                                  ? this.errors.province[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: { expanded: "" },
-                                  on: { input: _vm.loadCity },
-                                  model: {
-                                    value: _vm.fields.province,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "province", $$v)
-                                    },
-                                    expression: "fields.province",
-                                  },
-                                },
-                                _vm._l(_vm.provinces, function (item, index) {
-                                  return _c(
-                                    "option",
-                                    {
-                                      key: index,
-                                      domProps: { value: item.provCode },
-                                    },
-                                    [_vm._v(_vm._s(item.provDesc))]
-                                  )
-                                }),
-                                0
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "City",
-                                "label-position": "on-border",
-                                expanded: "",
-                                type: this.errors.city ? "is-danger" : "",
-                                message: this.errors.city
-                                  ? this.errors.city[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: { expanded: "" },
-                                  on: { input: _vm.loadBarangay },
-                                  model: {
-                                    value: _vm.fields.city,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "city", $$v)
-                                    },
-                                    expression: "fields.city",
-                                  },
-                                },
-                                _vm._l(_vm.cities, function (item, index) {
-                                  return _c(
-                                    "option",
-                                    {
-                                      key: index,
-                                      domProps: { value: item.citymunCode },
-                                    },
-                                    [_vm._v(_vm._s(item.citymunDesc))]
-                                  )
-                                }),
-                                0
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Barangay",
-                                "label-position": "on-border",
-                                expanded: "",
-                                type: this.errors.barangay ? "is-danger" : "",
-                                message: this.errors.barangay
-                                  ? this.errors.barangay[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: { expanded: "" },
-                                  model: {
-                                    value: _vm.fields.barangay,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "barangay", $$v)
-                                    },
-                                    expression: "fields.barangay",
-                                  },
-                                },
-                                _vm._l(_vm.barangays, function (item, index) {
-                                  return _c(
-                                    "option",
-                                    {
-                                      key: index,
-                                      domProps: { value: item.brgyCode },
-                                    },
-                                    [_vm._v(_vm._s(item.brgyDesc))]
-                                  )
-                                }),
-                                0
-                              ),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                      _vm._v(" "),
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Street",
-                                "label-position": "on-border",
-                              },
-                            },
-                            [
-                              _c("b-input", {
-                                attrs: { placeholder: "Street" },
-                                model: {
-                                  value: _vm.fields.street,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "street", $$v)
-                                  },
-                                  expression: "fields.street",
-                                },
-                              }),
                             ],
                             1
                           ),

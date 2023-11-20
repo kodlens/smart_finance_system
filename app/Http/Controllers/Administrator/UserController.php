@@ -61,10 +61,10 @@ class UserController extends Controller
             'suffix' => strtoupper($req->suffix),
             'sex' => $req->sex,
             'role' => $req->role,
-            'province' => $req->province,
-            'city' => $req->city,
-            'barangay' => $req->barangay,
-            'street' => $req->street,
+            // 'province' => $req->province,
+            // 'city' => $req->city,
+            // 'barangay' => $req->barangay,
+            // 'street' => $req->street,
 
         ]);
 
@@ -93,10 +93,10 @@ class UserController extends Controller
         $data->sex = $req->sex;
         $data->role = $req->role;
 
-        $data->province = $req->province;
-        $data->city = $req->city;
-        $data->barangay = $req->barangay;
-        $data->street = $req->street;
+        // $data->province = $req->province;
+        // $data->city = $req->city;
+        // $data->barangay = $req->barangay;
+        // $data->street = $req->street;
 
         $data->save();
 
