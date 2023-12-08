@@ -77,6 +77,7 @@ class AccountingController extends Controller
 
         
         $data = Accounting::create([
+            'financial_year_id' => $req->financial_year_id,
             'date_time' => $req->date_time,
             'transaction_no' => $req->transaction_no,
             'training_control_no' => $req->training_control_no,
@@ -162,6 +163,7 @@ class AccountingController extends Controller
 
         $data = Accounting::where('accounting_id', $id)
             ->update([
+                'financial_year_id' => $req->financial_year_id,
                 'date_time' => $req->date_time,
                 'transaction_no' => $req->transaction_no,
                 'training_control_no' => $req->training_control_no,

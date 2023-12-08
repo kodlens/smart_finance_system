@@ -42,6 +42,10 @@ class Accounting extends Model
     ];
 
 
+    public function financial_year(){
+        return $this->hasMany(FinancialYear::class, 'financial_year_id', 'financial_year_id');
+    }
+
     public function documentary_attachments(){
         return $this->hasMany(DocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }

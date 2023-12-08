@@ -19,13 +19,34 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Financial Year"
+                                        expanded
                                         :type="errors.financial_year_id ? 'is-danger':''"
                                         :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
-                                        <b-select v-model="fields.financial_year_id" 
+                                        <b-select v-model="fields.financial_year_id" expanded
                                             required
+                                            @input=""
                                             placeholder="Financial Year">
                                             <option v-for="(item, indx) in financialYears" 
-                                                :value="item.financial_year_id">{{ item.financial_year }}</option>
+                                                :key="`fy${indx}`"
+                                                :value="item.financial_year_id">
+                                                {{ item.financial_year_code }}
+                                                -
+                                                {{ item.financial_year_desc }}
+                                            </option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                                <div class="column">
+                                    <b-field label="Fund Source"
+                                        expanded
+                                        :type="errors.fund_source ? 'is-danger':''"
+                                        :message="errors.fund_source ? errors.fund_source[0] : ''">
+                                        <b-select v-model="fields.fund_source" expanded
+                                            required
+                                            placeholder="Fund Source">
+                                           <option value="">PERSONAL SERVICES</option>
+                                           <option value="">CAPITAL OUTLAY</option>
+                                           <option value="">MAINTENANCE AND OTHER OPERATING</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -317,6 +338,11 @@ export default{
 
     data(){
         return {
+
+            financialYears: [],
+
+            fundSources: [],
+            
             fields: {
                 date_time: null,
                 transaction_no: null,
@@ -325,6 +351,8 @@ export default{
                 payee_id: null,
                 payee: null,
                 particulars: null,
+
+
                 total_amount: null,
                 documentary_attachments: [],
                 allotment_class_id: null,
@@ -383,6 +411,14 @@ export default{
         loadAllotmentClasses(){
             axios.get('/load-allotment-classes').then(res=>{
                 this.allotmentClasses = res.data
+            }).catch(err=>{
+
+            })
+        },
+
+        loadFinancialYears(){
+            axios.get('/load-financial-years').then(res=>{
+                this.financialYears = res.data
             }).catch(err=>{
 
             })
@@ -624,7 +660,7 @@ export default{
             this.getData()
         }
 
-
+        this.loadFinancialYears()
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()
         this.loadAllotmentClasses()

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\DocumentaryAttachment;
 use Illuminate\Http\Request;
 use App\Models\TransactionType;
-use App\Models\AcademicYear;
+use App\Models\FinancialYear;
 use App\Models\AllotmentClass;
 use App\Models\Office;
 
@@ -19,8 +19,8 @@ class OpenController extends Controller
     }
 
 
-    public function loadAcadYears(Request $req){
-        return AcademicYear::orderBy('academic_year_code', 'desc')
+    public function loadFinancialYears(Request $req){
+        return FinancialYear::orderBy('financial_year_code', 'desc')
             ->get();
     }
 

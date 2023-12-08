@@ -53,7 +53,7 @@ Route::get('/load-provinces', [App\Http\Controllers\AddressController::class, 'l
 Route::get('/load-cities', [App\Http\Controllers\AddressController::class, 'loadCities']);
 Route::get('/load-barangays', [App\Http\Controllers\AddressController::class, 'loadBarangays']);
 
-Route::get('/load-acadyears', [App\Http\Controllers\OpenController::class, 'loadAcadYears']);
+Route::get('/load-financial-years', [App\Http\Controllers\OpenController::class, 'loadFinancialYears']);
 Route::get('/load-offices', [App\Http\Controllers\OpenController::class, 'loadOffices']);
 Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::class, 'loadAllotmentClasses']);
 Route::get('/load-transaction-types', [App\Http\Controllers\OpenController::class, 'loadTransactionTypes']);

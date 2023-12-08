@@ -8257,6 +8257,27 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     id: {
@@ -8266,6 +8287,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
+      financialYears: [],
+      fundSources: [],
       fields: {
         date_time: null,
         transaction_no: null,
@@ -8328,6 +8351,13 @@ __webpack_require__.r(__webpack_exports__);
         _this3.allotmentClasses = res.data;
       })["catch"](function (err) {});
     },
+    loadFinancialYears: function loadFinancialYears() {
+      var _this4 = this;
+
+      axios.get('/load-financial-years').then(function (res) {
+        _this4.financialYears = res.data;
+      })["catch"](function (err) {});
+    },
     emitPayee: function emitPayee(row) {
       this.payee.payee_id = row.payee_id;
       this.payee.bank_account_payee = row.bank_account_payee;
@@ -8353,18 +8383,18 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     removeDoctAttchment: function removeDoctAttchment(ix) {
-      var _this4 = this;
+      var _this5 = this;
 
       this.$buefy.dialog.confirm({
         title: 'DELETE?',
         message: 'Are you sure you want to remove this attachment? This cannot be undone.',
         onConfirm: function onConfirm() {
-          var nId = _this4.fields.documentary_attachments[ix].acctg_doc_attachment_id;
+          var nId = _this5.fields.documentary_attachments[ix].acctg_doc_attachment_id;
 
           if (nId > 0) {
             axios["delete"]('/accounting/' + nId).then(function (res) {
               if (res.data.status === 'deleted') {
-                _this4.$buefy.toast.open({
+                _this5.$buefy.toast.open({
                   message: "Attachment deleted successfully.",
                   type: 'is-primary'
                 });
@@ -8372,12 +8402,12 @@ __webpack_require__.r(__webpack_exports__);
             });
           }
 
-          _this4.fields.documentary_attachments.splice(ix, 1);
+          _this5.fields.documentary_attachments.splice(ix, 1);
         }
       });
     },
     submit: function submit() {
-      var _this5 = this;
+      var _this6 = this;
 
       //format the date
       var formData = new FormData();
@@ -8415,7 +8445,7 @@ __webpack_require__.r(__webpack_exports__);
         //update
         axios.post('/accounting-update/' + this.id, formData).then(function (res) {
           if (res.data.status === 'updated') {
-            _this5.$buefy.dialog.alert({
+            _this6.$buefy.dialog.alert({
               title: 'UPDATED!',
               message: 'Successfully updated.',
               type: 'is-success',
@@ -8426,14 +8456,14 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (err) {
           if (err.response.status === 422) {
-            _this5.errors = err.response.data.errors;
+            _this6.errors = err.response.data.errors;
           }
         });
       } else {
         //INSERT HERE
         axios.post('/accounting', formData).then(function (res) {
           if (res.data.status === 'saved') {
-            _this5.$buefy.dialog.alert({
+            _this6.$buefy.dialog.alert({
               title: 'SAVED!',
               message: 'Successfully saved.',
               type: 'is-success',
@@ -8445,9 +8475,9 @@ __webpack_require__.r(__webpack_exports__);
           }
         })["catch"](function (err) {
           if (err.response.status === 422) {
-            _this5.errors = err.response.data.errors;
+            _this6.errors = err.response.data.errors;
 
-            _this5.$buefy.dialog.alert({
+            _this6.$buefy.dialog.alert({
               type: 'is-danger',
               title: 'EMPTY FIELDS.',
               message: 'Please fill out all required fields.'
@@ -8477,42 +8507,42 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.others = 'sample others';
     },
     getData: function getData() {
-      var _this6 = this;
+      var _this7 = this;
 
       axios.get('/accounting/' + this.id).then(function (res) {
         var result = res.data;
-        _this6.fields.date_time = new Date(result.date_time);
-        _this6.fields.transaction_no = result.transaction_no;
-        _this6.fields.training_control_no = result.training_control_no;
-        _this6.fields.transaction_type_id = result.transaction_type_id;
-        _this6.payee.bank_account_payee = result.payee.bank_account_payee;
-        _this6.fields.payee_id = result.payee_id;
-        _this6.fields.particulars = result.particulars;
-        _this6.fields.total_amount = Number(result.total_amount); //attachments
+        _this7.fields.date_time = new Date(result.date_time);
+        _this7.fields.transaction_no = result.transaction_no;
+        _this7.fields.training_control_no = result.training_control_no;
+        _this7.fields.transaction_type_id = result.transaction_type_id;
+        _this7.payee.bank_account_payee = result.payee.bank_account_payee;
+        _this7.fields.payee_id = result.payee_id;
+        _this7.fields.particulars = result.particulars;
+        _this7.fields.total_amount = Number(result.total_amount); //attachments
 
         result.acctg_documentary_attachments.forEach(function (item) {
-          _this6.fields.documentary_attachments.push({
+          _this7.fields.documentary_attachments.push({
             documentary_attachment_id: item.documentary_attachment_id,
             acctg_doc_attachment_id: item.acctg_doc_attachment_id,
             accounting_id: item.accounting_id
           });
         });
-        _this6.fields.allotment_class_id = result.allotment_class_id; //for display
+        _this7.fields.allotment_class_id = result.allotment_class_id; //for display
 
-        _this6.allotment.allotment = '(' + result.allotment_class_account_code + ') ' + result.allotment_class_account;
-        _this6.fields.allotment_class_account_id = result.allotment_class_account_id;
-        _this6.fields.allotment_class_account = result.allotment_class_account;
-        _this6.fields.allotment_class_account_code = result.allotment_class_account_code;
-        _this6.fields.amount = Number(result.amount);
-        _this6.priority_program.priority_program = result.priority_program;
-        _this6.fields.priority_program_id = result.priority_program_id;
-        _this6.fields.priority_program = result.priority_program;
-        _this6.fields.priority_program_code = result.priority_program_code;
-        _this6.fields.supplemental_budget = result.supplemental_budget;
-        _this6.fields.capital_outlay = result.capital_outlay;
-        _this6.fields.account_payable = result.account_payable;
-        _this6.fields.tes_trust_fund = result.tes_trust_fund;
-        _this6.fields.others = result.others;
+        _this7.allotment.allotment = '(' + result.allotment_class_account_code + ') ' + result.allotment_class_account;
+        _this7.fields.allotment_class_account_id = result.allotment_class_account_id;
+        _this7.fields.allotment_class_account = result.allotment_class_account;
+        _this7.fields.allotment_class_account_code = result.allotment_class_account_code;
+        _this7.fields.amount = Number(result.amount);
+        _this7.priority_program.priority_program = result.priority_program;
+        _this7.fields.priority_program_id = result.priority_program_id;
+        _this7.fields.priority_program = result.priority_program;
+        _this7.fields.priority_program_code = result.priority_program_code;
+        _this7.fields.supplemental_budget = result.supplemental_budget;
+        _this7.fields.capital_outlay = result.capital_outlay;
+        _this7.fields.account_payable = result.account_payable;
+        _this7.fields.tes_trust_fund = result.tes_trust_fund;
+        _this7.fields.others = result.others;
       });
     }
   },
@@ -8521,6 +8551,7 @@ __webpack_require__.r(__webpack_exports__);
       this.getData();
     }
 
+    this.loadFinancialYears();
     this.loadTransactionTypes();
     this.loadDocumentaryAttachments();
     this.loadAllotmentClasses();
@@ -38102,8 +38133,867 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function () {}
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "section" }, [
+      _c("div", { staticClass: "columns is-centered" }, [
+        _c("div", { staticClass: "column is-8-desktop is-10-tablet" }, [
+          _c("div", { staticClass: "box" }, [
+            _c("div", { staticClass: "has-text-weight-bold" }, [
+              _vm._v("ADD/EDIT RECORD"),
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "mt-2" },
+              [
+                _c("b-button", {
+                  staticClass: "button is-info",
+                  attrs: {
+                    "icon-left": "note-multiple-outline",
+                    outlined: "",
+                    label: "Debug",
+                  },
+                  on: { click: _vm.debug },
+                }),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Financial Year",
+                            expanded: "",
+                            type: _vm.errors.financial_year_id
+                              ? "is-danger"
+                              : "",
+                            message: _vm.errors.financial_year_id
+                              ? _vm.errors.financial_year_id[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: {
+                                expanded: "",
+                                required: "",
+                                placeholder: "Financial Year",
+                              },
+                              on: { input: function ($event) {} },
+                              model: {
+                                value: _vm.fields.financial_year_id,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "financial_year_id", $$v)
+                                },
+                                expression: "fields.financial_year_id",
+                              },
+                            },
+                            _vm._l(_vm.financialYears, function (item, indx) {
+                              return _c(
+                                "option",
+                                {
+                                  key: "fy" + indx,
+                                  domProps: { value: item.financial_year_id },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                            " +
+                                      _vm._s(item.financial_year_code) +
+                                      "\n                                            -\n                                            " +
+                                      _vm._s(item.financial_year_desc) +
+                                      "\n                                        "
+                                  ),
+                                ]
+                              )
+                            }),
+                            0
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Fund Source",
+                            expanded: "",
+                            type: _vm.errors.fund_source ? "is-danger" : "",
+                            message: _vm.errors.fund_source
+                              ? _vm.errors.fund_source[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: {
+                                expanded: "",
+                                required: "",
+                                placeholder: "Fund Source",
+                              },
+                              model: {
+                                value: _vm.fields.fund_source,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "fund_source", $$v)
+                                },
+                                expression: "fields.fund_source",
+                              },
+                            },
+                            [
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("PERSONAL SERVICES"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("CAPITAL OUTLAY"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "" } }, [
+                                _vm._v("MAINTENANCE AND OTHER OPERATING"),
+                              ]),
+                            ]
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Date Time",
+                            type: _vm.errors.date_time ? "is-danger" : "",
+                            message: _vm.errors.date_time
+                              ? _vm.errors.date_time[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("b-datetimepicker", {
+                            attrs: { required: "" },
+                            model: {
+                              value: _vm.fields.date_time,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "date_time", $$v)
+                              },
+                              expression: "fields.date_time",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Transaction No.",
+                            type: _vm.errors.transaction_no ? "is-danger" : "",
+                            message: _vm.errors.transaction_no
+                              ? _vm.errors.transaction_no[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              type: "text",
+                              placholder: "Transaction No.",
+                              required: "",
+                            },
+                            model: {
+                              value: _vm.fields.transaction_no,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "transaction_no", $$v)
+                              },
+                              expression: "fields.transaction_no",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Training Control No.",
+                            type: _vm.errors.training_control_no
+                              ? "is-danger"
+                              : "",
+                            message: _vm.errors.training_control_no
+                              ? _vm.errors.training_control_no[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: {
+                              type: "text",
+                              placholder: "Training Control No.",
+                              required: "",
+                            },
+                            model: {
+                              value: _vm.fields.training_control_no,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "training_control_no", $$v)
+                              },
+                              expression: "fields.training_control_no",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Transaction Type",
+                            expanded: "",
+                            type: _vm.errors.transaction_type_id
+                              ? "is-danger"
+                              : "",
+                            message: _vm.errors.transaction_type_id
+                              ? _vm.errors.transaction_type_id[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: {
+                                placholder: "Transaction Type",
+                                expanded: "",
+                              },
+                              model: {
+                                value: _vm.fields.transaction_type_id,
+                                callback: function ($$v) {
+                                  _vm.$set(
+                                    _vm.fields,
+                                    "transaction_type_id",
+                                    $$v
+                                  )
+                                },
+                                expression: "fields.transaction_type_id",
+                              },
+                            },
+                            _vm._l(
+                              _vm.transactionTypes,
+                              function (item, index) {
+                                return _c(
+                                  "option",
+                                  {
+                                    key: index,
+                                    domProps: {
+                                      value: item.transaction_type_id,
+                                    },
+                                  },
+                                  [_vm._v(_vm._s(item.transaction_type))]
+                                )
+                              }
+                            ),
+                            0
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Bank Account/Payee",
+                            type: _vm.errors.payee_id ? "is-danger" : "",
+                            message: _vm.errors.payee_id
+                              ? _vm.errors.payee_id[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("modal-browse-payee", {
+                            attrs: {
+                              "prop-name": _vm.payee.bank_account_payee,
+                            },
+                            on: { browsPayee: _vm.emitPayee },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Particulars",
+                            type: _vm.errors.particulars ? "is-danger" : "",
+                            message: _vm.errors.particulars
+                              ? _vm.errors.particulars[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: { type: "text", placholder: "Particulars" },
+                            model: {
+                              value: _vm.fields.particulars,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "particulars", $$v)
+                              },
+                              expression: "fields.particulars",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Total Amount",
+                            type: _vm.errors.total_amount ? "is-danger" : "",
+                            message: _vm.errors.total_amount
+                              ? _vm.errors.total_amount[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("b-numberinput", {
+                            attrs: {
+                              placholder: "Total Amount",
+                              controls: false,
+                              step: "0.0001",
+                            },
+                            model: {
+                              value: _vm.fields.total_amount,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "total_amount", $$v)
+                              },
+                              expression: "fields.total_amount",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        { attrs: { label: "Documentary Attachments" } },
+                        [
+                          _c(
+                            "div",
+                            { staticClass: "m-2" },
+                            [
+                              _vm._l(
+                                _vm.fields.documentary_attachments,
+                                function (item, ixdoc) {
+                                  return _c(
+                                    "div",
+                                    { key: "doc" + ixdoc, staticClass: "my-2" },
+                                    [
+                                      _c("div", { staticClass: "columns" }, [
+                                        _c(
+                                          "div",
+                                          { staticClass: "column" },
+                                          [
+                                            _c(
+                                              "b-field",
+                                              {
+                                                attrs: {
+                                                  label: "Attachment",
+                                                  "label-position": "on-border",
+                                                  expanded: "",
+                                                  type:
+                                                    _vm.id > 0
+                                                      ? "is-primary"
+                                                      : "",
+                                                  message:
+                                                    _vm.id > 0
+                                                      ? "Upload new file to overwrite the old one."
+                                                      : "",
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  "b-select",
+                                                  {
+                                                    attrs: {
+                                                      expanded: "",
+                                                      required: "",
+                                                    },
+                                                    model: {
+                                                      value:
+                                                        item.documentary_attachment_id,
+                                                      callback: function ($$v) {
+                                                        _vm.$set(
+                                                          item,
+                                                          "documentary_attachment_id",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "item.documentary_attachment_id",
+                                                    },
+                                                  },
+                                                  _vm._l(
+                                                    _vm.documentaryAttachments,
+                                                    function (doc, ix) {
+                                                      return _c(
+                                                        "option",
+                                                        {
+                                                          key: "idoc" + ix,
+                                                          domProps: {
+                                                            value:
+                                                              doc.documentary_attachment_id,
+                                                          },
+                                                        },
+                                                        [
+                                                          _vm._v(
+                                                            "\n                                                                    " +
+                                                              _vm._s(
+                                                                doc.documentary_attachment
+                                                              ) +
+                                                              "\n                                                            "
+                                                          ),
+                                                        ]
+                                                      )
+                                                    }
+                                                  ),
+                                                  0
+                                                ),
+                                              ],
+                                              1
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "column" },
+                                          [
+                                            _c(
+                                              "b-field",
+                                              {
+                                                staticClass: "file is-primary",
+                                                class: {
+                                                  "has-name":
+                                                    !!item.file_upload,
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  "b-upload",
+                                                  {
+                                                    staticClass: "file-label",
+                                                    model: {
+                                                      value: item.file_upload,
+                                                      callback: function ($$v) {
+                                                        _vm.$set(
+                                                          item,
+                                                          "file_upload",
+                                                          $$v
+                                                        )
+                                                      },
+                                                      expression:
+                                                        "item.file_upload",
+                                                    },
+                                                  },
+                                                  [
+                                                    _c(
+                                                      "span",
+                                                      {
+                                                        staticClass: "file-cta",
+                                                      },
+                                                      [
+                                                        _c("b-icon", {
+                                                          staticClass:
+                                                            "file-icon",
+                                                          attrs: {
+                                                            icon: "upload",
+                                                          },
+                                                        }),
+                                                        _vm._v(" "),
+                                                        _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "file-label",
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "Click to upload"
+                                                            ),
+                                                          ]
+                                                        ),
+                                                      ],
+                                                      1
+                                                    ),
+                                                    _vm._v(" "),
+                                                    item.file_upload
+                                                      ? _c(
+                                                          "span",
+                                                          {
+                                                            staticClass:
+                                                              "file-name",
+                                                          },
+                                                          [
+                                                            _vm._v(
+                                                              "\n                                                            " +
+                                                                _vm._s(
+                                                                  item
+                                                                    .file_upload
+                                                                    .name
+                                                                ) +
+                                                                "\n                                                        "
+                                                            ),
+                                                          ]
+                                                        )
+                                                      : _vm._e(),
+                                                  ]
+                                                ),
+                                              ],
+                                              1
+                                            ),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "div",
+                                          { staticClass: "column is-1" },
+                                          [
+                                            _c("b-button", {
+                                              staticClass: "is-danger",
+                                              attrs: {
+                                                "icon-left": "delete-outline",
+                                              },
+                                              on: {
+                                                click: function ($event) {
+                                                  return _vm.removeDoctAttchment(
+                                                    ixdoc
+                                                  )
+                                                },
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                      ]),
+                                    ]
+                                  )
+                                }
+                              ),
+                              _vm._v(" "),
+                              _c(
+                                "div",
+                                { staticClass: "buttons mt-2" },
+                                [
+                                  _c(
+                                    "b-button",
+                                    {
+                                      staticClass:
+                                        "button is-small is-outlined is-primary",
+                                      attrs: { "icon-left": "plus" },
+                                      on: { click: _vm.newDocAttachment },
+                                    },
+                                    [
+                                      _vm._v(
+                                        "\n                                                NEW ATTACHMENT\n                                            "
+                                      ),
+                                    ]
+                                  ),
+                                ],
+                                1
+                              ),
+                            ],
+                            2
+                          ),
+                        ]
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Allotment Class",
+                            expanded: "",
+                            type: _vm.errors.allotment_class_id
+                              ? "is-danger"
+                              : "",
+                            message: _vm.errors.allotment_class_id
+                              ? _vm.errors.allotment_class_id[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: { expanded: "" },
+                              on: { input: _vm.refreshAccountAllotment },
+                              model: {
+                                value: _vm.fields.allotment_class_id,
+                                callback: function ($$v) {
+                                  _vm.$set(
+                                    _vm.fields,
+                                    "allotment_class_id",
+                                    $$v
+                                  )
+                                },
+                                expression: "fields.allotment_class_id",
+                              },
+                            },
+                            _vm._l(_vm.allotmentClasses, function (allot, ix) {
+                              return _c(
+                                "option",
+                                {
+                                  key: "allotclass" + ix,
+                                  domProps: { value: allot.allotment_class_id },
+                                },
+                                [_vm._v(_vm._s(allot.allotment_class))]
+                              )
+                            }),
+                            0
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Account",
+                            type: _vm.errors.allotment_class_account_id
+                              ? "is-danger"
+                              : "",
+                            message: _vm.errors.allotment_class_account_id
+                              ? _vm.errors.allotment_class_account_id[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("modal-browse-allotment-class-account", {
+                            attrs: {
+                              "prop-class-id": _vm.fields.allotment_class_id,
+                              "prop-allotment-account": _vm.allotment.allotment,
+                            },
+                            on: {
+                              browseAllotmentAccount: _vm.emitAllotmentAccount,
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Amount",
+                            type: _vm.errors.amount ? "is-danger" : "",
+                            message: _vm.errors.amount
+                              ? _vm.errors.amount[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("b-numberinput", {
+                            attrs: { controls: false, step: "0.0001" },
+                            model: {
+                              value: _vm.fields.amount,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "amount", $$v)
+                              },
+                              expression: "fields.amount",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Priority Program",
+                            type: _vm.errors.priority_program_id
+                              ? "is-danger"
+                              : "",
+                            message: _vm.errors.priority_program_id
+                              ? _vm.errors.priority_program_id[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("modal-browse-priority-program", {
+                            attrs: {
+                              "prop-priority-program":
+                                _vm.priority_program.priority_program,
+                            },
+                            on: {
+                              browsePriorityProgram: _vm.emitPriorityProgram,
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "div",
+                  { staticClass: "buttons mt-4" },
+                  [
+                    _c("b-button", {
+                      staticClass: "button is-primary",
+                      attrs: {
+                        "icon-left": "note-multiple-outline",
+                        label: "Save Transaction",
+                      },
+                      on: { click: _vm.submit },
+                    }),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
+}
 var staticRenderFns = []
+render._withStripped = true
 
 
 
