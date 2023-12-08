@@ -42,10 +42,10 @@ class PayeeController extends Controller
 
         $req->validate([
             'bank_account_payee' => ['required', 'unique:payee'],
-            'owner' => ['required'],
-            'tin' => ['required'],
-            'contact_no' => ['required'],
-            'email' => ['required'],
+            // 'owner' => ['required'],
+            // 'tin' => ['required'],
+            // 'contact_no' => ['required'],
+            // 'email' => ['required'],
         ]);
 
         Payee::create([

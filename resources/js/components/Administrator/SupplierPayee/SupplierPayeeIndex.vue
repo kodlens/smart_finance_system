@@ -148,7 +148,7 @@
                                         :type="this.errors.owner ? 'is-danger':''"
                                         :message="this.errors.owner ? this.errors.owner[0] : ''">
                                         <b-input type="text" v-model="fields.owner"
-                                            placeholder="Owner/In-charge" required>
+                                            placeholder="Owner/In-charge">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -157,7 +157,7 @@
                                         :type="this.errors.tin ? 'is-danger':''"
                                         :message="this.errors.tin ? this.errors.tin[0] : ''">
                                         <b-input type="text" v-model="fields.tin"
-                                            placeholder="TIN" required>
+                                            placeholder="TIN">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -170,7 +170,7 @@
                                         :type="this.errors.contact_no ? 'is-danger':''"
                                         :message="this.errors.contact_no ? this.errors.contact_no[0] : ''">
                                         <b-input type="text" v-model="fields.contact_no"
-                                            placeholder="Contact No." required>
+                                            placeholder="Contact No.">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -180,7 +180,7 @@
                                         :type="this.errors.email ? 'is-danger':''"
                                         :message="this.errors.email ? this.errors.email[0] : ''">
                                         <b-input type="email" v-model="fields.email"
-                                            placeholder="Email" required>
+                                            placeholder="Email">
                                         </b-input>
                                     </b-field>
                                 </div>

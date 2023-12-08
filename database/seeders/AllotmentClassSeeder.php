@@ -24,6 +24,22 @@ class AllotmentClassSeeder extends Seeder
             [
                 'allotment_class' => 'CAPITAL OUTLAY',
             ],
+
+            [
+                'allotment_class' => 'OTHERS',
+            ],
+            [
+                'allotment_class' => 'TES TRUST FUND',
+            ],
+            [
+                'allotment_class' => 'ACCOUNTS PAYABLE',
+            ],
+            [
+                'allotment_class' => 'CONTINUING CAPITAL OUTLAY',
+            ],
+            [
+                'allotment_class' => 'SUPPLEMENTAL BUDGET',
+            ],
         ];
 
         \App\Models\AllotmentClass::insertOrIgnore($data);

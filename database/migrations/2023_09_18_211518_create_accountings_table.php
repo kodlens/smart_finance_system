@@ -17,6 +17,9 @@ class CreateAccountingsTable extends Migration
             $table->id('accounting_id');
 
             $table->dateTime('date_time')->nullable();
+
+            $table->unsignedBigInteger('financial_year_id')->default(0);
+
             $table->string('transaction_no')->nullable();
             $table->string('training_control_no')->nullable();
 

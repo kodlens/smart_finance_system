@@ -18,9 +18,24 @@
 
                             <div class="columns">
                                 <div class="column">
+                                    <b-field label="Financial Year"
+                                        :type="errors.financial_year_id ? 'is-danger':''"
+                                        :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
+                                        <b-select v-model="fields.financial_year_id" 
+                                            required
+                                            placeholder="Financial Year">
+                                            <option v-for="(item, indx) in financialYears" 
+                                                :value="item.financial_year_id">{{ item.financial_year }}</option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
                                     <b-field label="Date Time"
-                                             :type="errors.date_time ? 'is-danger':''"
-                                             :message="errors.date_time ? errors.date_time[0] : ''">
+                                        :type="errors.date_time ? 'is-danger':''"
+                                        :message="errors.date_time ? errors.date_time[0] : ''">
                                         <b-datetimepicker v-model="fields.date_time" required></b-datetimepicker>
                                     </b-field>
                                 </div>
@@ -212,7 +227,7 @@
                                 </div>
                             </div>
 
-                            <div class="columns">
+                            <!-- <div class="columns">
                                 <div class="column">
                                     <b-field label="Supplemental Budget"
                                         :type="errors.supplemental_budget ? 'is-danger':''"
@@ -266,7 +281,7 @@
                                         </b-input>
                                     </b-field>
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="buttons mt-4">
                                 <b-button
