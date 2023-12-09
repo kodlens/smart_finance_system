@@ -78,8 +78,8 @@ Route::middleware(['auth'])->group(function() {
 
 Route::middleware(['auth', 'admin'])->group(function() {
 
-    Route::resource('/academic-years', App\Http\Controllers\Administrator\AcademicYearController::class);
-    Route::get('/get-academic-years', [App\Http\Controllers\Administrator\AcademicYearController::class, 'getData']);
+    Route::resource('/financial-years', App\Http\Controllers\Administrator\FinancialYearController::class);
+    Route::get('/get-financial-years', [App\Http\Controllers\Administrator\FinancialYearController::class, 'getData']);
 
 
     Route::resource('/users', App\Http\Controllers\Administrator\UserController::class);

@@ -5,7 +5,7 @@
                 <div class="column is-8">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF ALLOTMENT CLASS</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">ACADEMIC YEARS</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -28,7 +28,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.lname" placeholder="Search Lastname"
+                                                 v-model="search.academic_year" placeholder="Search Academic Year"
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -58,32 +58,38 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="allotment_class_id" label="ID" v-slot="props">
-                                {{ props.row.allotment_class_id }}
+                            <b-table-column field="financial_year_id" label="ID" v-slot="props">
+                                {{ props.row.financial_year_id }}
                             </b-table-column>
 
-                            <b-table-column field="allotmant_class" label="Allotment Class" v-slot="props">
-                                {{ props.row.allotment_class }}
+                            <b-table-column field="financial_year_code" label="Code" v-slot="props">
+                                {{ props.row.financial_year_code }}
+                            </b-table-column>
+
+                            <b-table-column field="name" label="Description" v-slot="props">
+                                {{ props.row.financial_year_desc }}
+                            </b-table-column>
+
+                            <b-table-column field="active" label="Active" v-slot="props">
+                                <span v-if="props.row.active === 1">Yes</span>
+                                <span v-else>No</span>
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" 
-                                            tag="a" 
-                                            icon-right="pencil" @click="getData(props.row.allotment_class_id)"></b-button>
+                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil" 
+                                            @click="getData(props.row.financial_year_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" 
-                                            icon-right="delete" 
-                                            @click="confirmDelete(props.row.allotment_class_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.financial_year_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
                         </b-table>
 
                         <div class="buttons mt-3">
-                            <b-button @click="openModal" icon-right="account-arrow-up-outline" class="is-success">NEW</b-button>
+                            <b-button @click="openModal" icon-right="calendar" class="is-success">NEW</b-button>
                         </div>
 
                     </div>
@@ -104,7 +110,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">ALLOTMENT CLASS</p>
+                        <p class="modal-card-title">Academic Year</p>
                         <button
                             type="button"
                             class="delete"
@@ -112,23 +118,47 @@
                     </header>
 
                     <section class="modal-card-body">
-
                         <div class="">
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Allotment Class" label-position="on-border"
-                                             :type="this.errors.allotment_class ? 'is-danger':''"
-                                             :message="this.errors.allotment_class ? this.errors.allotment_class[0] : ''">
-                                        <b-input v-model="fields.allotment_class"
-                                                 placeholder="Allotment Class" required>
+                                    <b-field label="Academic Year Code" label-position="on-border"
+                                             :type="errors.financial_year_code ? 'is-danger':''"
+                                             :message="errors.financial_year_code ? errors.financial_year_code[0] : ''">
+                                        <b-input v-model="fields.financial_year_code"
+                                                 placeholder="Academic Year Code" required>
                                         </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Academic Year Description" label-position="on-border"
+                                             :type="errors.financial_year_desc ? 'is-danger':''"
+                                             :message="errors.financial_year_desc ? errors.financial_year_desc[0] : ''">
+                                        <b-input v-model="fields.financial_year_desc"
+                                                 placeholder="Academic Year Description" required>
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Active">
+                                        <b-checkbox v-model="fields.active"
+                                            :true-value="1"
+                                            :false-value="0">
+                                        </b-checkbox>
                                     </b-field>
                                 </div>
                             </div>
                         </div>
                     </section>
-
                     <footer class="modal-card-foot">
+                        <b-button
+                            label="Close"
+                            @click="isModalCreate=false"/>
                         <button
                             :class="btnClass"
                             label="Save"
@@ -151,7 +181,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'allotment_class_id',
+            sortField: 'financial_year_code',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,
@@ -161,21 +191,26 @@ export default{
             global_id : 0,
 
             search: {
-                allotment_class: '',
+                academic_year: '',
             },
 
             isModalCreate: false,
 
             fields: {
-                allotment_class: '',
+                academic_year_code: '',
+                academic_year_desc: '',
+                active : 0
             },
             errors: {},
-  
+            
+
             btnClass: {
                 'is-success': true,
                 'button': true,
                 'is-loading':false,
             },
+
+            
 
         }
 
@@ -188,13 +223,13 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `lname=${this.search.allotment_class}`,
+                `academic_year=${this.search.academic_year}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-allotment-classes?${params}`)
+            axios.get(`/get-financial-years?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -236,7 +271,7 @@ export default{
 
         openModal(){
             this.isModalCreate=true;
-            this.fields = {};
+            this.clearFields()
             this.errors = {};
         },
 
@@ -246,7 +281,7 @@ export default{
 
             if(this.global_id > 0){
                 //update
-                axios.put('/allotment-classes/'+this.global_id, this.fields).then(res=>{
+                axios.put('/academic-years/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -267,7 +302,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/allotment-classes', this.fields).then(res=>{
+                axios.post('/academic-years', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -304,7 +339,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/allotment-classes/' + delete_id).then(res => {
+            axios.delete('/academic-years/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -314,70 +349,40 @@ export default{
         },
 
         clearFields(){
-            this.fields.username = '';
-            this.fields.lname = '';
-            this.fields.fname = '';
-            this.fields.mname = '';
-            this.fields.suffix = '';
-            this.fields.sex = '';
-        
-            this.fields.password = '';
-            this.fields.password_confirmation = '';
-            this.fields.role = '';
-
-            this.fields.province = ''
-            this.fields.city = ''
-            this.fields.barangay = ''
+            this.global_id = 0;
+            this.fields.academic_year_code = '';
+            this.fields.academic_year_desc = '';
+            this.fields.active = 0;
         },
 
 
         //update code here
-        getData: function(data_id){
+    getData: function(data_id){
             this.clearFields();
             this.global_id = data_id;
             this.isModalCreate = true;
 
-            axios.get('/allotment-classes/'+data_id).then(res=>{
+            axios.get('/academic-years/'+data_id).then(res=>{
                 this.fields = res.data;
-                //load city first
+               
                 
             });
         },
 
 
 
-        //addresses
-        loadProvince: function(){
-            axios.get('/load-provinces').then(res=>{
-                this.provinces = res.data;
-            })
-        },
-
-        loadCity: function(){
-            axios.get('/load-cities?prov=' + this.fields.province).then(res=>{
-                this.cities = res.data;
-            })
-        },
-
-        loadBarangay: function(){
-            axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
-                this.barangays = res.data;
-            })
-        },
 
     },
 
     mounted() {
         this.loadAsyncData();
-        this.loadProvince()
+
     }
 }
 </script>
 
 
-<style scoped>
-    .modal-card-title{
-        font-weight: bold;
-    }
+<style>
+
 
 </style>

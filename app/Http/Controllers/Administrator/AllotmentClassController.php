@@ -42,4 +42,12 @@ class AllotmentClassController extends Controller
 
 
 
+    public function destroy($id){
+        AllotmentClass::destroy($id);
+
+        return response()->json([
+            'status' => 'deleted'
+        ], 200);
+    }
+
 }
