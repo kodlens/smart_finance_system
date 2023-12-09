@@ -15,6 +15,8 @@ class Accounting extends Model
 
 
     protected $fillable = [
+        'financial_year_id',
+        'fund_source',
         'date_time',
         'transaction_no',
         'training_control_no',
@@ -22,22 +24,12 @@ class Accounting extends Model
         'payee_id',
         'particulars',
         'total_amount',
-        'allotment_class_id',
-        'allotment_class',
-        'allotment_class_account_id',
-        'allotment_class_account',
-        'allotment_class_account_code',
-        'account',
-        'account_code',
-        'amount',
+
         'priority_program_id',
         'priority_program',
         'priority_program_code',
         'pp_account_code',
-        'supplemental_budget',
-        'capital_outlay',
-        'account_payable',
-        'tes_trust_fund',
+
         'others'
     ];
 
@@ -55,11 +47,23 @@ class Accounting extends Model
         return $this->hasMany(AccountingDocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }
 
+    public function accounting_allotment_classes(){
+        return $this->hasMany(AccountingAllotmentClasses::class, 'accounting_id', 'accounting_id');
+    }
+
 
     public function payee(){
         return $this->hasOne(Payee::class, 'payee_id', 'payee_id');
     }
 
+
+    public function priority_program(){
+        return $this->hasOne(PriorityProgram::class, 'priority_program_id', 'priority_program_id');
+    }
+
+    public function office(){
+        return $this->hasOne(Office::class, 'office_id', 'office_id');
+    }
 
 
 
