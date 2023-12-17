@@ -9,14 +9,14 @@ class AllotmentClassAccount extends Model
 {
     use HasFactory;
 
-    
+
     protected $table = 'allotment_class_accounts';
     protected $primaryKey = 'allotment_class_account_id';
 
 
     protected $fillable = [
-        'allotment_class_id', 
-        'allotment_class_account_code', 
+        'allotment_class_id',
+        'allotment_class_account_code',
         'allotment_class_account'
     ];
 
@@ -25,5 +25,7 @@ class AllotmentClassAccount extends Model
         return $this->hasOne(AllotmentClass::class, 'allotment_class_id', 'allotment_class_id');
     }
 
-    
+
+
+
 }

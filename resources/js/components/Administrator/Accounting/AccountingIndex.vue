@@ -102,14 +102,36 @@
                             </b-table-column>
 
                             <template #detail="props">
-                                <tr>
-                                    <th>Documentary Attachment</th>
-                                    <th>File</th>
-                                </tr>
-                                <tr v-for="(i, ix) in props.row.acctg_documentary_attachments" :key="ix">
-                                    <td>{{ i.documentary_attachment.documentary_attachment }}</td>
-                                    <td>{{ i.doc_attachment }}</td>
-                                </tr>
+                                <table>
+                                    <tr>
+                                        <th>Documentary Attachment</th>
+                                        <th>File</th>
+                                    </tr>
+                                    <tr v-for="(i, ix) in props.row.acctg_documentary_attachments" :key="ix">
+                                        <td>{{ i.documentary_attachment.documentary_attachment }}</td>
+                                        <td>
+                                            <a :href="`/storage/doc_attachments/${i.doc_attachment}`"
+                                                target="_blank">
+                                                Go to
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </table>
+
+                                <table class="mt-2">
+                                    <tr>
+                                        <th>Allotment Class</th>
+                                        <th>Allotment Class Account</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                    <tr v-for="(i, ix) in props.row.accounting_allotment_classes" :key="ix">
+                                        <td>{{ i.allotment_class.allotment_class }}</td>
+                                        <td>({{ i.allotment_class_account.allotment_class_account_code  }}) {{ i.allotment_class_account.allotment_class_account }}</td>
+                                        <td>{{ i.amount }}</td>
+                                   
+                                    </tr>
+                                </table>
+                              
                             </template>
 
 
@@ -119,6 +141,7 @@
                 </div><!--col -->
             </div><!-- cols -->
         </div><!--section div-->
+
 
 
     </div>
@@ -145,7 +168,8 @@ export default{
                 key: '',
             },
 
-            isModalCreate: false,
+
+            modalViewFile: false,
 
 
             errors: {},

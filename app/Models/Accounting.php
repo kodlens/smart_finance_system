@@ -38,6 +38,11 @@ class Accounting extends Model
         return $this->hasMany(FinancialYear::class, 'financial_year_id', 'financial_year_id');
     }
 
+    public function fund_source(){
+        return $this->hasMany(Fund::class, 'financial_year_id', 'financial_year_id');
+    }
+
+
     public function documentary_attachments(){
         return $this->hasMany(DocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }
@@ -48,8 +53,11 @@ class Accounting extends Model
     }
 
     public function accounting_allotment_classes(){
-        return $this->hasMany(AccountingAllotmentClasses::class, 'accounting_id', 'accounting_id');
+        return $this->hasMany(AccountingAllotmentClasses::class, 'accounting_id', 'accounting_id')
+            ->with(['allotment_class', 'allotment_class_account']);
     }
+
+
 
 
     public function payee(){

@@ -5,7 +5,7 @@
                 <div class="column is-8">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">ACADEMIC YEARS</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">FINANCIAL YEARS</div>
 
                         <div class="level">
                             <div class="level-left">

@@ -18,14 +18,16 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call([
             UserSeeder::class,
-            AcademicYearSeeder::class,
+            FinancialYearSeeder::class,
             TransactionTypeSeeder::class,
             OfficeSeeder::class,
             DocumentaryAttachmentSeeder::class,
             AllotmentClassSeeder::class,
             AllotmentCLassAccountSeeder::class,
             PriorityProgramSeeder::class,
-            PayeeSeeder::class
+            PayeeSeeder::class,
+            FundSourceSeeder::class
+
         ]);
     }
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\DocumentaryAttachment;
+use App\Models\FundSource;
 use Illuminate\Http\Request;
 use App\Models\TransactionType;
 use App\Models\FinancialYear;
@@ -38,6 +39,13 @@ class OpenController extends Controller
         return DocumentaryAttachment::orderBy('documentary_attachment', 'asc')
             ->get();
     }
+
+    public function loadFundSources(Request $req){
+        return FundSource::orderBy('fund_source', 'asc')
+            ->get();
+    }
+
+
 
 
 

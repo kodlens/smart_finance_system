@@ -59,6 +59,7 @@ Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::clas
 Route::get('/load-transaction-types', [App\Http\Controllers\OpenController::class, 'loadTransactionTypes']);
 Route::get('/load-documentary-attachments', [App\Http\Controllers\OpenController::class, 'loadDocumentaryAttachments']);
 Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::class, 'loadAllotmentClasses']);
+Route::get('/load-fund-sources', [App\Http\Controllers\OpenController::class, 'loadFundSources']);
 
 
 Route::get('/get-modal-offices', [App\Http\Controllers\OpenModalResourcesController::class, 'getModalOffices']);

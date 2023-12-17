@@ -18,7 +18,6 @@ class AccountingAllotmentClasses extends Model
         'allotment_class_id',
         'allotment_class_account_id',
         'amount',
-
     ];
 
     public function allotment_class(){

@@ -7954,7 +7954,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
+var _methods;
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -8362,7 +8365,7 @@ __webpack_require__.r(__webpack_exports__);
       allotmentClasses: []
     };
   },
-  methods: {
+  methods: (_methods = {
     loadTransactionTypes: function loadTransactionTypes() {
       var _this = this;
 
@@ -8390,247 +8393,243 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/load-financial-years').then(function (res) {
         _this4.financialYears = res.data;
       })["catch"](function (err) {});
-    },
-    emitPayee: function emitPayee(row) {
-      this.payee.payee_id = row.payee_id;
-      this.payee.bank_account_payee = row.bank_account_payee;
-      this.fields.payee_id = row.payee_id;
-    },
-    emitAllotmentAccount: function emitAllotmentAccount(index, row) {
-      this.fields.allotment_classes[index].allotment = '(' + row.allotment_class_account_code + ') ' + row.allotment_class_account;
-      this.fields.allotment_classes[index].allotment_class_id = row.allotment_class_id;
-      this.fields.allotment_classes[index].allotment_class_account_id = row.allotment_class_account_id;
-    },
-    emitPriorityProgram: function emitPriorityProgram(row) {
-      this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
-      this.fields.priority_program_id = row.priority_program_id;
-    },
-    emitBrowseOffice: function emitBrowseOffice(row) {
-      this.office.office = row.office + " (".concat(row.description, ")");
-      this.fields.office_id = row.office_id;
-      this.fields.office = row.office;
-    },
-    //attaching documents
-    newDocAttachment: function newDocAttachment() {
-      this.fields.documentary_attachments.push({
-        documentary_attachment_id: 0,
-        file_upload: null
-      });
-    },
-    removeDoctAttchment: function removeDoctAttchment(ix) {
-      var _this5 = this;
+    }
+  }, _defineProperty(_methods, "loadFinancialYears", function loadFinancialYears() {
+    var _this5 = this;
 
-      this.$buefy.dialog.confirm({
-        title: 'DELETE?',
-        message: 'Are you sure you want to remove this attachment? This cannot be undone.',
-        onConfirm: function onConfirm() {
-          var nId = _this5.fields.documentary_attachments[ix].acctg_doc_attachment_id;
+    axios.get('/load-fund_sources').then(function (res) {
+      _this5.fundSources = res.data;
+    })["catch"](function (err) {});
+  }), _defineProperty(_methods, "emitPayee", function emitPayee(row) {
+    this.payee.payee_id = row.payee_id;
+    this.payee.bank_account_payee = row.bank_account_payee;
+    this.fields.payee_id = row.payee_id;
+  }), _defineProperty(_methods, "emitAllotmentAccount", function emitAllotmentAccount(index, row) {
+    this.fields.allotment_classes[index].allotment = '(' + row.allotment_class_account_code + ') ' + row.allotment_class_account;
+    this.fields.allotment_classes[index].allotment_class_id = row.allotment_class_id;
+    this.fields.allotment_classes[index].allotment_class_account_id = row.allotment_class_account_id;
+  }), _defineProperty(_methods, "emitPriorityProgram", function emitPriorityProgram(row) {
+    console.log(row);
+    this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program;
+    this.fields.priority_program_id = row.priority_program_id;
+  }), _defineProperty(_methods, "emitBrowseOffice", function emitBrowseOffice(row) {
+    this.office.office = row.office + " (".concat(row.description, ")");
+    this.fields.office_id = row.office_id;
+    this.fields.office = row.office;
+  }), _defineProperty(_methods, "newDocAttachment", function newDocAttachment() {
+    this.fields.documentary_attachments.push({
+      documentary_attachment_id: 0,
+      file_upload: null
+    });
+  }), _defineProperty(_methods, "removeDoctAttchment", function removeDoctAttchment(ix) {
+    var _this6 = this;
 
-          if (nId > 0) {
-            axios["delete"]('/accounting/' + nId).then(function (res) {
-              if (res.data.status === 'deleted') {
-                _this5.$buefy.toast.open({
-                  message: "Attachment deleted successfully.",
-                  type: 'is-primary'
-                });
-              }
-            });
-          }
+    this.$buefy.dialog.confirm({
+      title: 'DELETE?',
+      message: 'Are you sure you want to remove this attachment? This cannot be undone.',
+      onConfirm: function onConfirm() {
+        var nId = _this6.fields.documentary_attachments[ix].acctg_doc_attachment_id;
 
-          _this5.fields.documentary_attachments.splice(ix, 1);
+        if (nId > 0) {
+          axios["delete"]('/accounting/' + nId).then(function (res) {
+            if (res.data.status === 'deleted') {
+              _this6.$buefy.toast.open({
+                message: "Attachment deleted successfully.",
+                type: 'is-primary'
+              });
+            }
+          });
         }
-      });
-    },
-    //attaching documents
-    newAllotmentClass: function newAllotmentClass() {
-      this.fields.allotment_classes.push({
-        accounting_allotment_class_id: 0,
-        allotment_class_id: 0,
-        allotment_class_account_id: 0,
-        amount: 0,
-        allotment: null
-      });
-    },
-    removeAllotmentClass: function removeAllotmentClass(ix) {
-      var _this6 = this;
 
-      this.$buefy.dialog.confirm({
-        title: 'DELETE?',
-        message: 'Are you sure you want to remove this attachment? This cannot be undone.',
-        onConfirm: function onConfirm() {
-          var nId = _this6.fields.accounts[ix].account_id;
-
-          if (nId > 0) {
-            axios["delete"]('/#/' + nId).then(function (res) {
-              if (res.data.status === 'deleted') {
-                _this6.$buefy.toast.open({
-                  message: "Account deleted successfully.",
-                  type: 'is-primary'
-                });
-              }
-            });
-          }
-
-          _this6.fields.accounts.splice(ix, 1);
-        }
-      });
-    },
-    submit: function submit() {
-      var _this7 = this;
-
-      //format the date
-      var formData = new FormData();
-      formData.append('accounting_id', this.id);
-      formData.append('financial_year_id', this.fields.financial_year_id ? this.fields.financial_year_id : '');
-      formData.append('fund_source', this.fields.fund_source ? this.fields.fund_source : '');
-      formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
-      formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
-      formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
-      formData.append('transaction_type_id', this.fields.transaction_type_id ? this.fields.transaction_type_id : '');
-      formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
-      formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
-      formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : ''); //doc attachment
-
-      if (this.fields.documentary_attachments) {
-        this.fields.documentary_attachments.forEach(function (doc, index) {
-          formData.append("documentary_attachments[".concat(index, "][documentary_attachment_id]"), doc.documentary_attachment_id);
-          formData.append("documentary_attachments[".concat(index, "][file_upload]"), doc.file_upload);
-        });
-      } //will be code later
-
-
-      if (this.fields.allotment_classes) {
-        this.fields.allotment_classes.forEach(function (item, index) {
-          formData.append("allotment_classes[".concat(index, "][accounting_allotment_class_id]"), item.accounting_allotment_class_id);
-          formData.append("allotment_classes[".concat(index, "][allotment_class_id]"), item.allotment_class_id);
-          formData.append("allotment_classes[".concat(index, "][allotment_class_account_id]"), item.allotment_class_account_id);
-          formData.append("allotment_classes[".concat(index, "][amount]"), item.amount);
-        });
-      } // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-      // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
-      // formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-      // formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-      // formData.append('amount', this.fields.amount ? this.fields.amount : '');
-
-
-      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : ''); // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-      // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-      // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-      // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-      // formData.append('others', this.fields.others ? this.fields.others : '');
-
-      formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
-
-      if (this.id > 0) {
-        //update
-        axios.post('/accounting-update/' + this.id, formData).then(function (res) {
-          if (res.data.status === 'updated') {
-            _this7.$buefy.dialog.alert({
-              title: 'UPDATED!',
-              message: 'Successfully updated.',
-              type: 'is-success',
-              onConfirm: function onConfirm() {
-                window.location = '/accounting';
-              }
-            });
-          }
-        })["catch"](function (err) {
-          if (err.response.status === 422) {
-            _this7.errors = err.response.data.errors;
-          }
-        });
-      } else {
-        //INSERT HERE
-        axios.post('/accounting', formData).then(function (res) {
-          if (res.data.status === 'saved') {
-            _this7.$buefy.dialog.alert({
-              title: 'SAVED!',
-              message: 'Successfully saved.',
-              type: 'is-success',
-              confirmText: 'OK',
-              onConfirm: function onConfirm() {
-                window.location = '/accounting';
-              }
-            });
-          }
-        })["catch"](function (err) {
-          if (err.response.status === 422) {
-            _this7.errors = err.response.data.errors;
-
-            _this7.$buefy.dialog.alert({
-              type: 'is-danger',
-              title: 'EMPTY FIELDS.',
-              message: 'Please fill out all required fields.'
-            });
-          }
-        });
+        _this6.fields.documentary_attachments.splice(ix, 1);
       }
-    },
-    refreshAccountAllotment: function refreshAccountAllotment() {
-      this.allotment.allotment = null;
-      this.fields.allotment_class_account_id = null;
-      this.allotment_class_account = null;
-      this.allotment_class_account_code = null;
-    },
-    debug: function debug() {
-      this.fields.financial_year_id = 1;
-      this.fields.fund_source = 1;
-      this.fields.date_time = new Date();
-      this.fields.transaction_no = '23-01-0001';
-      this.fields.training_control_no = 'TD-1234-22-1122';
-      this.fields.transaction_type_id = 1;
-      this.fields.particulars = 'Sample particulars';
-      this.fields.total_amount = 10000; //this.fields.amount = 12000
-      // this.fields.supplemental_budget = 'sample supplemental'
-      // this.fields.capital_outlay = 'sample capital outlay'
-      // this.fields.account_payable = 'sample ap'
-      // this.fields.tes_trust_fund = 'tes trust fund'
+    });
+  }), _defineProperty(_methods, "newAllotmentClass", function newAllotmentClass() {
+    this.fields.allotment_classes.push({
+      accounting_allotment_class_id: 0,
+      allotment_class_id: 0,
+      allotment_class_account_id: 0,
+      amount: 0,
+      allotment: null
+    });
+  }), _defineProperty(_methods, "removeAllotmentClass", function removeAllotmentClass(ix) {
+    var _this7 = this;
 
-      this.fields.others = 'sample others';
-    },
-    getData: function getData() {
-      var _this8 = this;
+    this.$buefy.dialog.confirm({
+      title: 'DELETE?',
+      message: 'Are you sure you want to remove this attachment? This cannot be undone.',
+      onConfirm: function onConfirm() {
+        var nId = _this7.fields.accounts[ix].account_id;
 
-      axios.get('/accounting/' + this.id).then(function (res) {
-        var result = res.data;
-        _this8.fields.accounting_id = result.accounting_id;
-        _this8.fields.financial_year_id = result.financial_year_id;
-        _this8.fields.fund_source = result.fund_source;
-        console.log(result.fund_source);
-        _this8.fields.date_time = new Date(result.date_time);
-        _this8.fields.transaction_no = result.transaction_no;
-        _this8.fields.training_control_no = result.training_control_no;
-        _this8.fields.transaction_type_id = result.transaction_type_id;
-        _this8.payee.bank_account_payee = result.payee.bank_account_payee;
-        _this8.fields.payee_id = result.payee_id;
-        _this8.fields.particulars = result.particulars;
-        _this8.fields.total_amount = Number(result.total_amount); //attachments
-
-        result.acctg_documentary_attachments.forEach(function (item) {
-          _this8.fields.documentary_attachments.push({
-            documentary_attachment_id: item.documentary_attachment_id,
-            acctg_doc_attachment_id: item.acctg_doc_attachment_id,
-            accounting_id: item.accounting_id
+        if (nId > 0) {
+          axios["delete"]('/#/' + nId).then(function (res) {
+            if (res.data.status === 'deleted') {
+              _this7.$buefy.toast.open({
+                message: "Account deleted successfully.",
+                type: 'is-primary'
+              });
+            }
           });
-        });
-        result.accounting_allotment_classes.forEach(function (item) {
-          _this8.fields.allotment_classes.push({
-            accounting_allotment_class_id: item.accounting_allotment_class_id,
-            allotment_class_id: item.allotment_class_id,
-            allotment_class_account_id: item.allotment_class_account_id,
-            amount: item.amount,
-            //for viewing only
-            allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+        }
+
+        _this7.fields.accounts.splice(ix, 1);
+      }
+    });
+  }), _defineProperty(_methods, "submit", function submit() {
+    var _this8 = this;
+
+    //format the date
+    var formData = new FormData();
+    formData.append('accounting_id', this.id);
+    formData.append('financial_year_id', this.fields.financial_year_id ? this.fields.financial_year_id : '');
+    formData.append('fund_source', this.fields.fund_source ? this.fields.fund_source : '');
+    formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
+    formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
+    formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
+    formData.append('transaction_type_id', this.fields.transaction_type_id ? this.fields.transaction_type_id : '');
+    formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
+    formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
+    formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : ''); //doc attachment
+
+    if (this.fields.documentary_attachments) {
+      this.fields.documentary_attachments.forEach(function (doc, index) {
+        formData.append("documentary_attachments[".concat(index, "][documentary_attachment_id]"), doc.documentary_attachment_id);
+        formData.append("documentary_attachments[".concat(index, "][file_upload]"), doc.file_upload);
+      });
+    } //will be code later
+
+
+    if (this.fields.allotment_classes) {
+      this.fields.allotment_classes.forEach(function (item, index) {
+        formData.append("allotment_classes[".concat(index, "][accounting_allotment_class_id]"), item.accounting_allotment_class_id);
+        formData.append("allotment_classes[".concat(index, "][allotment_class_id]"), item.allotment_class_id);
+        formData.append("allotment_classes[".concat(index, "][allotment_class_account_id]"), item.allotment_class_account_id);
+        formData.append("allotment_classes[".concat(index, "][amount]"), item.amount);
+      });
+    } // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
+    // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
+    // formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
+    // formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
+    // formData.append('amount', this.fields.amount ? this.fields.amount : '');
+
+
+    formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : ''); // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
+    // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
+    // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
+    // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
+    // formData.append('others', this.fields.others ? this.fields.others : '');
+
+    formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
+
+    if (this.id > 0) {
+      //update
+      axios.post('/accounting-update/' + this.id, formData).then(function (res) {
+        if (res.data.status === 'updated') {
+          _this8.$buefy.dialog.alert({
+            title: 'UPDATED!',
+            message: 'Successfully updated.',
+            type: 'is-success',
+            onConfirm: function onConfirm() {
+              window.location = '/accounting';
+            }
           });
-        });
-        _this8.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
-        _this8.fields.priority_program_id = result.priority_program_id;
-        _this8.fields.office_id = result.office.office_id;
-        _this8.fields.office = '(' + result.office.office + ') ' + result.office.description;
-        _this8.fields.others = result.others;
+        }
+      })["catch"](function (err) {
+        if (err.response.status === 422) {
+          _this8.errors = err.response.data.errors;
+        }
+      });
+    } else {
+      //INSERT HERE
+      axios.post('/accounting', formData).then(function (res) {
+        if (res.data.status === 'saved') {
+          _this8.$buefy.dialog.alert({
+            title: 'SAVED!',
+            message: 'Successfully saved.',
+            type: 'is-success',
+            confirmText: 'OK',
+            onConfirm: function onConfirm() {
+              window.location = '/accounting';
+            }
+          });
+        }
+      })["catch"](function (err) {
+        if (err.response.status === 422) {
+          _this8.errors = err.response.data.errors;
+
+          _this8.$buefy.dialog.alert({
+            type: 'is-danger',
+            title: 'EMPTY FIELDS.',
+            message: 'Please fill out all required fields.'
+          });
+        }
       });
     }
-  },
+  }), _defineProperty(_methods, "refreshAccountAllotment", function refreshAccountAllotment() {
+    this.allotment.allotment = null;
+    this.fields.allotment_class_account_id = null;
+    this.allotment_class_account = null;
+    this.allotment_class_account_code = null;
+  }), _defineProperty(_methods, "clearChargeTo", function clearChargeTo() {
+    console.log('clear');
+    this.fields.allotment_classes = [];
+  }), _defineProperty(_methods, "debug", function debug() {
+    this.fields.financial_year_id = 1;
+    this.fields.fund_source = 1;
+    this.fields.date_time = new Date();
+    this.fields.transaction_no = '23-01-0001';
+    this.fields.training_control_no = 'TD-1234-22-1122';
+    this.fields.transaction_type_id = 1;
+    this.fields.particulars = 'Sample particulars';
+    this.fields.total_amount = 10000; //this.fields.amount = 12000
+    // this.fields.supplemental_budget = 'sample supplemental'
+    // this.fields.capital_outlay = 'sample capital outlay'
+    // this.fields.account_payable = 'sample ap'
+    // this.fields.tes_trust_fund = 'tes trust fund'
+
+    this.fields.others = 'sample others';
+  }), _defineProperty(_methods, "getData", function getData() {
+    var _this9 = this;
+
+    axios.get('/accounting/' + this.id).then(function (res) {
+      var result = res.data;
+      _this9.fields.accounting_id = result.accounting_id;
+      _this9.fields.financial_year_id = result.financial_year_id;
+      _this9.fields.fund_source = result.fund_source;
+      console.log(result.fund_source);
+      _this9.fields.date_time = new Date(result.date_time);
+      _this9.fields.transaction_no = result.transaction_no;
+      _this9.fields.training_control_no = result.training_control_no;
+      _this9.fields.transaction_type_id = result.transaction_type_id;
+      _this9.payee.bank_account_payee = result.payee.bank_account_payee;
+      _this9.fields.payee_id = result.payee_id;
+      _this9.fields.particulars = result.particulars;
+      _this9.fields.total_amount = Number(result.total_amount); //attachments
+
+      result.acctg_documentary_attachments.forEach(function (item) {
+        _this9.fields.documentary_attachments.push({
+          documentary_attachment_id: item.documentary_attachment_id,
+          acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+          accounting_id: item.accounting_id
+        });
+      });
+      result.accounting_allotment_classes.forEach(function (item) {
+        _this9.fields.allotment_classes.push({
+          accounting_allotment_class_id: item.accounting_allotment_class_id,
+          allotment_class_id: item.allotment_class_id,
+          allotment_class_account_id: item.allotment_class_account_id,
+          amount: item.amount,
+          //for viewing only
+          allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+        });
+      });
+      _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
+      _this9.fields.priority_program_id = result.priority_program_id;
+      _this9.fields.office_id = result.office.office_id;
+      _this9.fields.office = '(' + result.office.office + ') ' + result.office.description;
+      _this9.fields.others = result.others;
+    });
+  }), _methods),
   mounted: function mounted() {
     if (this.id > 0) {
       this.getData();
@@ -8782,6 +8781,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8797,7 +8819,7 @@ __webpack_require__.r(__webpack_exports__);
       search: {
         key: ''
       },
-      isModalCreate: false,
+      modalViewFile: false,
       errors: {},
       btnClass: {
         'is-success': true,
@@ -38756,6 +38778,7 @@ var render = function () {
                                 required: "",
                                 placeholder: "Fund Source",
                               },
+                              on: { input: _vm.clearChargeTo },
                               model: {
                                 value: _vm.fields.fund_source,
                                 callback: function ($$v) {
@@ -38764,31 +38787,22 @@ var render = function () {
                                 expression: "fields.fund_source",
                               },
                             },
-                            [
-                              _c("option", { domProps: { value: 1 } }, [
-                                _vm._v("CURRENT FINANCIAL YEAR"),
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { domProps: { value: 2 } }, [
-                                _vm._v("SUPPLEMENTAL BUGDET"),
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { domProps: { value: 3 } }, [
-                                _vm._v("CONTINUING CAPITAL OUTLAY"),
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { domProps: { value: 4 } }, [
-                                _vm._v("ACCOUNT PAYABLE"),
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { domProps: { value: 5 } }, [
-                                _vm._v("TES TRUST FUND"),
-                              ]),
-                              _vm._v(" "),
-                              _c("option", { domProps: { value: 6 } }, [
-                                _vm._v("OTHERS"),
-                              ]),
-                            ]
+                            _vm._l(_vm.fundSources, function (item, index) {
+                              return _c(
+                                "option",
+                                {
+                                  key: "fund" + index,
+                                  domProps: { value: item.fund_source_id },
+                                },
+                                [
+                                  _vm._v(
+                                    "\n                                            " +
+                                      _vm._s(item.fund_source)
+                                  ),
+                                ]
+                              )
+                            }),
+                            0
                           ),
                         ],
                         1
@@ -39876,28 +39890,98 @@ var render = function () {
                         key: "detail",
                         fn: function (props) {
                           return [
-                            _c("tr", [
-                              _c("th", [_vm._v("Documentary Attachment")]),
-                              _vm._v(" "),
-                              _c("th", [_vm._v("File")]),
-                            ]),
-                            _vm._v(" "),
-                            _vm._l(
-                              props.row.acctg_documentary_attachments,
-                              function (i, ix) {
-                                return _c("tr", { key: ix }, [
-                                  _c("td", [
-                                    _vm._v(
-                                      _vm._s(
-                                        i.documentary_attachment
-                                          .documentary_attachment
-                                      )
-                                    ),
-                                  ]),
+                            _c(
+                              "table",
+                              [
+                                _c("tr", [
+                                  _c("th", [_vm._v("Documentary Attachment")]),
                                   _vm._v(" "),
-                                  _c("td", [_vm._v(_vm._s(i.doc_attachment))]),
-                                ])
-                              }
+                                  _c("th", [_vm._v("File")]),
+                                ]),
+                                _vm._v(" "),
+                                _vm._l(
+                                  props.row.acctg_documentary_attachments,
+                                  function (i, ix) {
+                                    return _c("tr", { key: ix }, [
+                                      _c("td", [
+                                        _vm._v(
+                                          _vm._s(
+                                            i.documentary_attachment
+                                              .documentary_attachment
+                                          )
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _c(
+                                          "a",
+                                          {
+                                            attrs: {
+                                              href:
+                                                "/storage/doc_attachments/" +
+                                                i.doc_attachment,
+                                              target: "_blank",
+                                            },
+                                          },
+                                          [
+                                            _vm._v(
+                                              "\n                                            Go to\n                                        "
+                                            ),
+                                          ]
+                                        ),
+                                      ]),
+                                    ])
+                                  }
+                                ),
+                              ],
+                              2
+                            ),
+                            _vm._v(" "),
+                            _c(
+                              "table",
+                              { staticClass: "mt-2" },
+                              [
+                                _c("tr", [
+                                  _c("th", [_vm._v("Allotment Class")]),
+                                  _vm._v(" "),
+                                  _c("th", [_vm._v("Allotment Class Account")]),
+                                  _vm._v(" "),
+                                  _c("th", [_vm._v("Amount")]),
+                                ]),
+                                _vm._v(" "),
+                                _vm._l(
+                                  props.row.accounting_allotment_classes,
+                                  function (i, ix) {
+                                    return _c("tr", { key: ix }, [
+                                      _c("td", [
+                                        _vm._v(
+                                          _vm._s(
+                                            i.allotment_class.allotment_class
+                                          )
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [
+                                        _vm._v(
+                                          "(" +
+                                            _vm._s(
+                                              i.allotment_class_account
+                                                .allotment_class_account_code
+                                            ) +
+                                            ") " +
+                                            _vm._s(
+                                              i.allotment_class_account
+                                                .allotment_class_account
+                                            )
+                                        ),
+                                      ]),
+                                      _vm._v(" "),
+                                      _c("td", [_vm._v(_vm._s(i.amount))]),
+                                    ])
+                                  }
+                                ),
+                              ],
+                              2
                             ),
                           ]
                         },
@@ -42774,7 +42858,7 @@ var render = function () {
                     staticClass: "is-flex is-justify-content-center mb-2",
                     staticStyle: { "font-size": "20px", "font-weight": "bold" },
                   },
-                  [_vm._v("ACADEMIC YEARS")]
+                  [_vm._v("FINANCIAL YEARS")]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "level" }, [

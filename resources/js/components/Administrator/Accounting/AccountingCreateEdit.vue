@@ -42,14 +42,13 @@
                                         :type="errors.fund_source ? 'is-danger':''"
                                         :message="errors.fund_source ? errors.fund_source[0] : ''">
                                         <b-select v-model="fields.fund_source" expanded
+                                            @input="clearChargeTo"
                                             required
                                             placeholder="Fund Source">
-                                           <option :value="1">CURRENT FINANCIAL YEAR</option>
-                                           <option :value="2">SUPPLEMENTAL BUGDET</option>
-                                           <option :value="3">CONTINUING CAPITAL OUTLAY</option>
-                                           <option :value="4">ACCOUNT PAYABLE</option>
-                                           <option :value="5">TES TRUST FUND</option>
-                                           <option :value="6">OTHERS</option>
+                                            <option v-for="(item,index) in fundSources"
+                                                :key="`fund${index}`" :value="item.fund_source_id">
+                                                {{ item.fund_source }}</option>
+                                         
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -460,6 +459,14 @@ export default{
             })
         },
 
+        loadFinancialYears(){
+            axios.get('/load-fund_sources').then(res=>{
+                this.fundSources = res.data
+            }).catch(err=>{
+
+            })
+        },
+
 
         emitPayee(row){
             this.payee.payee_id = row.payee_id
@@ -474,7 +481,9 @@ export default{
         },
 
         emitPriorityProgram(row){
-            this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
+            console.log(row);
+ 
+            this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program
             this.fields.priority_program_id = row.priority_program_id
         },
 
@@ -663,6 +672,10 @@ export default{
         },
 
 
+        clearChargeTo(){
+            console.log('clear');
+            this.fields.allotment_classes = []
+        },
 
         debug(){
 

@@ -26,7 +26,8 @@ class AccountingController extends Controller
 
         $sort = explode('.', $req->sort_by);
 
-        $data = Accounting::with(['payee', 'acctg_documentary_attachments.documentary_attachment'])
+        $data = Accounting::with(['payee', 'acctg_documentary_attachments.documentary_attachment',
+            'accounting_allotment_classes'])
             ->where('particulars', 'like', $req->key . '%')
             ->orWhere('transaction_no', 'like', $req->key . '%')
             ->orWhere('training_control_no', 'like', $req->key . '%')
@@ -54,6 +55,7 @@ class AccountingController extends Controller
 
     public function store(Request $req){
        //return $req->allotment_classes;
+        //return $req;
 
         $req->validate([
             'financial_year_id' => ['required'],
@@ -121,9 +123,9 @@ class AccountingController extends Controller
             AccountingAllotmentClasses::insert($allotmentClasses);
         }
 
-       return response()->json([
-           'status' => 'saved'
-       ], 200);
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
 
     }
 
