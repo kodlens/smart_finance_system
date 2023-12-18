@@ -67,14 +67,14 @@ class AccountingController extends Controller
             'payee_id' => ['required'],
             'particulars' => ['required'],
             'total_amount' => ['required'],
-            'priority_program_id' => ['required'],
+
         ],[
             'financial_year_id.required' => 'Please select financial year.',
             'transaction_type_id.required' => 'Please select transaction.',
             'payee_id.required' => 'Please select bank account/payee.',
             'allotment_class_id.required' => 'Please allotment class.',
             'allotment_class_account_id.required' => 'Please allotment class account.',
-            'priority_program_id.required' => 'Please select priority program.'
+
         ]);
 
         $data = Accounting::create([
@@ -89,7 +89,8 @@ class AccountingController extends Controller
             'total_amount' => $req->total_amount,
             //naa pai attachment
             'priority_program_id' => $req->priority_program_id,
-            'others' => $req->others
+            'others' => $req->others,
+            'office_id' => $req->office_id
         ]);
 
 
@@ -172,31 +173,40 @@ class AccountingController extends Controller
                 'total_amount' => $req->total_amount,
                 //naa pai attachment
                 'priority_program_id' => $req->priority_program_id,
+                'office_id' => $req->office_id,
                 'others' => $req->others
             ]);
 
 
         if($req->has('allotment_classes')){
             foreach ($req->allotment_classes as $item) {
-                if($item['accounting_allotment_class_id'] > 0){
-                    AccountingAllotmentClasses::where('accounting_allotment_class_id', $item['accounting_allotment_class_id'])
-                        ->update(
-                            [
-                                'allotment_class_id' => $item['allotment_class_id'],
-                                'allotment_class_account_id' => $item['allotment_class_account_id'],
-                                'amount' => $item['amount'],
-                            ]
-                        );
-                }else{
-                    AccountingAllotmentClasses::create([
-                        [
-                            'accounting_id' => $req->accounting_id,
-                            'allotment_class_id' => $item['allotment_class_id'],
-                            'allotment_class_account_id' => $item['allotment_class_account_id'],
-                            'amount' => $item['amount'],
-                        ]
-                    ]);
-                }
+                AccountingAllotmentClasses::updateOrCreate([
+                    'accounting_allotment_class_id' => $item['accounting_allotment_class_id']
+                ],[
+                    'allotment_class_id' => $item['allotment_class_id'],
+                    'allotment_class_account_id' => $item['allotment_class_account_id'],
+                    'amount' => $item['amount'],
+                ]);
+
+//                if($item['accounting_allotment_class_id'] > 0){
+//                    AccountingAllotmentClasses::where('accounting_allotment_class_id', $item['accounting_allotment_class_id'])
+//                        ->update(
+//                            [
+//                                'allotment_class_id' => $item['allotment_class_id'],
+//                                'allotment_class_account_id' => $item['allotment_class_account_id'],
+//                                'amount' => $item['amount'],
+//                            ]
+//                        );
+//                }else{
+//                    AccountingAllotmentClasses::create([
+//                        [
+//                            'accounting_id' => $req->accounting_id,
+//                            'allotment_class_id' => $item['allotment_class_id'],
+//                            'allotment_class_account_id' => $item['allotment_class_account_id'],
+//                            'amount' => $item['amount'],
+//                        ]
+//                    ]);
+//                }
             }
         }
         return $req;

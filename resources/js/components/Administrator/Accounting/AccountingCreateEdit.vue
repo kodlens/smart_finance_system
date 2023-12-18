@@ -48,7 +48,7 @@
                                             <option v-for="(item,index) in fundSources"
                                                 :key="`fund${index}`" :value="item.fund_source_id">
                                                 {{ item.fund_source }}</option>
-                                         
+
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -141,7 +141,7 @@
                                                             </b-select>
                                                         </b-field>
                                                     </div>
-                                                    <div class="column">
+                                                    <div class="column" v-if="id < 1">
                                                         <b-field class="file is-primary" :class="{'has-name': !!item.file_upload}">
                                                             <b-upload v-model="item.file_upload" class="file-label">
                                                             <span class="file-cta">
@@ -358,7 +358,9 @@ export default{
         id: {
             type: Number,
             default: 0
-        }
+        },
+
+
     },
 
 
@@ -478,7 +480,7 @@ export default{
 
         emitPriorityProgram(row){
             console.log(row);
- 
+
             this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program
             this.fields.priority_program_id = row.priority_program_id
         },
@@ -759,7 +761,7 @@ export default{
             this.getData()
         }
 
-     
+
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()
         this.loadAllotmentClasses()

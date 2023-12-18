@@ -68,14 +68,12 @@ class BudgetingController extends Controller
              'payee_id' => ['required'],
              'particulars' => ['required'],
              'total_amount' => ['required'],
-             'priority_program_id' => ['required'],
          ],[
              'financial_year_id.required' => 'Please select financial year.',
              'transaction_type_id.required' => 'Please select transaction.',
              'payee_id.required' => 'Please select bank account/payee.',
              'allotment_class_id.required' => 'Please allotment class.',
              'allotment_class_account_id.required' => 'Please allotment class account.',
-             'priority_program_id.required' => 'Please select priority program.'
          ]);
 
          $data = Budgeting::create([
@@ -136,20 +134,14 @@ class BudgetingController extends Controller
         $req->validate([
             'format_date_time' => ['required'],
             'training_control_no' => ['required'],
-
             'particulars' => ['required'],
-
             'format_activity_date' => ['required'],
             'total_amount' => ['required'],
             'payee_id' => ['required'],
-
             'allotment_class_id' => ['required'],
             'allotment_class_account_id' => ['required'],
-
             'amount' => ['required'],
-
             'priority_program_id' => ['required'],
-
             'supplemental_budget' => ['required'],
             'capital_outlay' => ['required'],
             'account_payable' => ['required'],

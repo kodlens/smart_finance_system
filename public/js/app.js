@@ -40469,96 +40469,104 @@ var render = function () {
                                           1
                                         ),
                                         _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "column" },
-                                          [
-                                            _c(
-                                              "b-field",
-                                              {
-                                                staticClass: "file is-primary",
-                                                class: {
-                                                  "has-name":
-                                                    !!item.file_upload,
-                                                },
-                                              },
+                                        _vm.id < 1
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "column" },
                                               [
                                                 _c(
-                                                  "b-upload",
+                                                  "b-field",
                                                   {
-                                                    staticClass: "file-label",
-                                                    model: {
-                                                      value: item.file_upload,
-                                                      callback: function ($$v) {
-                                                        _vm.$set(
-                                                          item,
-                                                          "file_upload",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression:
-                                                        "item.file_upload",
+                                                    staticClass:
+                                                      "file is-primary",
+                                                    class: {
+                                                      "has-name":
+                                                        !!item.file_upload,
                                                     },
                                                   },
                                                   [
                                                     _c(
-                                                      "span",
+                                                      "b-upload",
                                                       {
-                                                        staticClass: "file-cta",
+                                                        staticClass:
+                                                          "file-label",
+                                                        model: {
+                                                          value:
+                                                            item.file_upload,
+                                                          callback: function (
+                                                            $$v
+                                                          ) {
+                                                            _vm.$set(
+                                                              item,
+                                                              "file_upload",
+                                                              $$v
+                                                            )
+                                                          },
+                                                          expression:
+                                                            "item.file_upload",
+                                                        },
                                                       },
                                                       [
-                                                        _c("b-icon", {
-                                                          staticClass:
-                                                            "file-icon",
-                                                          attrs: {
-                                                            icon: "upload",
-                                                          },
-                                                        }),
-                                                        _vm._v(" "),
                                                         _c(
                                                           "span",
                                                           {
                                                             staticClass:
-                                                              "file-label",
+                                                              "file-cta",
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "Click to upload"
+                                                            _c("b-icon", {
+                                                              staticClass:
+                                                                "file-icon",
+                                                              attrs: {
+                                                                icon: "upload",
+                                                              },
+                                                            }),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "file-label",
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Click to upload"
+                                                                ),
+                                                              ]
                                                             ),
-                                                          ]
+                                                          ],
+                                                          1
                                                         ),
-                                                      ],
-                                                      1
+                                                        _vm._v(" "),
+                                                        item.file_upload
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "file-name",
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                            " +
+                                                                    _vm._s(
+                                                                      item
+                                                                        .file_upload
+                                                                        .name
+                                                                    ) +
+                                                                    "\n                                                        "
+                                                                ),
+                                                              ]
+                                                            )
+                                                          : _vm._e(),
+                                                      ]
                                                     ),
-                                                    _vm._v(" "),
-                                                    item.file_upload
-                                                      ? _c(
-                                                          "span",
-                                                          {
-                                                            staticClass:
-                                                              "file-name",
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                            " +
-                                                                _vm._s(
-                                                                  item
-                                                                    .file_upload
-                                                                    .name
-                                                                ) +
-                                                                "\n                                                        "
-                                                            ),
-                                                          ]
-                                                        )
-                                                      : _vm._e(),
-                                                  ]
+                                                  ],
+                                                  1
                                                 ),
                                               ],
                                               1
-                                            ),
-                                          ],
-                                          1
-                                        ),
+                                            )
+                                          : _vm._e(),
                                         _vm._v(" "),
                                         _c(
                                           "div",
