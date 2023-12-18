@@ -94,7 +94,7 @@
                 @endif
            
                 <b-navbar-dropdown label="Services">
-                    @if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING OFFICER']))
+                    @if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF']))
                     <b-navbar-item href="/accounting">
                         Accounting
                     </b-navbar-item>

@@ -38,6 +38,10 @@ class RedirectIfAuthenticated
                 if($role == 'PROCUREMENT OFFICER'){
                     return redirect('/dashboard');
                 }
+
+                if($role == 'ACCOUNTING STAFF'){
+                    return redirect('/dashboard');
+                }
             }
         }
 
