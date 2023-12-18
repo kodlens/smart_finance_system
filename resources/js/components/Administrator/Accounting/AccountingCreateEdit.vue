@@ -141,7 +141,7 @@
                                                             </b-select>
                                                         </b-field>
                                                     </div>
-                                                    <div class="column" v-if="id < 1">
+                                                    <div class="column">
                                                         <b-field class="file is-primary" :class="{'has-name': !!item.file_upload}">
                                                             <b-upload v-model="item.file_upload" class="file-label">
                                                             <span class="file-cta">
@@ -610,7 +610,7 @@ export default{
             // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
             // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
             // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-            // formData.append('others', this.fields.others ? this.fields.others : '');
+            formData.append('others', this.fields.others ? this.fields.others : '');
             formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
 
 

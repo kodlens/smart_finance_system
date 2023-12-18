@@ -138,7 +138,7 @@ class AccountingController extends Controller
     }
 
     public function updateAccounting(Request $req, $id){
-
+        return $req;
         $req->validate([
             'financial_year_id' => ['required'],
             'fund_source' => ['required'],
@@ -160,22 +160,38 @@ class AccountingController extends Controller
 
         ]);
 
-        $data = Accounting::where('accounting_id', $id)
-            ->update([
-                'financial_year_id' => $req->financial_year_id,
-                'fund_source' => $req->fund_source,
-                'date_time' => $req->date_time,
-                'transaction_no' => $req->transaction_no,
-                'training_control_no' => $req->training_control_no,
-                'transaction_type_id' => $req->transaction_type_id,
-                'payee_id' => $req->payee_id,
-                'particulars' => $req->particulars,
-                'total_amount' => $req->total_amount,
-                //naa pai attachment
-                'priority_program_id' => $req->priority_program_id,
-                'office_id' => $req->office_id,
-                'others' => $req->others
-            ]);
+        $data = Accounting::find($id);
+
+        $data->financial_year_id = $req->financial_year_id;
+        $data->fund_source =  $req->fund_source;
+        $data->date_time =  $req->date_time;
+        $data->transaction_no =  $req->transaction_no;
+        $data->training_control_no =  $req->training_control_no;
+        $data->transaction_type_id =  $req->transaction_type_id;
+        $data->payee_id =  $req->payee_id;
+        $data->particulars =  $req->particulars;
+        $data->total_amount =  $req->total_amount;
+        $data->priority_program_id =  $req->priority_program_id;
+        $data->office_id =  $req->office_id;
+        $data->others =  $req->others;
+
+
+        if($req->has('documentary_attachments')){
+            foreach ($req->documentary_attachments as $item) {
+                $n = [];
+                if($item['file_upload']){
+                    $pathFile = $item['file_upload']->store('public/doc_attachments'); //get path of the file
+                    $n = explode('/', $pathFile); //split into array using /
+                }
+
+                //insert into database after upload 1 image
+                AccountingDocumentaryAttachment::create([
+                    'accounting_id' => $data->accounting_id,
+                    'documentary_attachment_id' => $item['documentary_attachment_id'],
+                    'doc_attachment' => $n[2]
+                ]);
+            }
+        }
 
 
         if($req->has('allotment_classes')){
@@ -225,13 +241,16 @@ class AccountingController extends Controller
     //delete attachment and image from storage
     public function destroy($id){
 
-        $data = AccountingDocumentaryAttachment::find($id);
-
-        if(Storage::exists('public/doc_attachments/' .$data->doc_attachment)) {
-            Storage::delete('public/doc_attachments/' . $data->doc_attachment);
+        $data = Accounting::find($id);
+        $attchments = AccountingDocumentaryAttachment::where('accounting_id', $data->accounting_id)
+                ->get();
+        foreach($attchments as $item){
+            if(Storage::exists('public/doc_attachments/' . $item['doc_attachment'])) {
+                Storage::delete('public/doc_attachments/' . $item['doc_attachment']);
+            }
         }
 
-        AccountingDocumentaryAttachment::destroy($id);
+        Accounting::destroy($id);
 
         return response()->json([
             'status' => 'deleted'
