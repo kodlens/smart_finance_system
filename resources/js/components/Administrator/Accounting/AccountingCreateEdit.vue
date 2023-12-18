@@ -39,9 +39,9 @@
                                 <div class="column">
                                     <b-field label="Fund Source"
                                         expanded
-                                        :type="errors.fund_source ? 'is-danger':''"
-                                        :message="errors.fund_source ? errors.fund_source[0] : ''">
-                                        <b-select v-model="fields.fund_source" expanded
+                                        :type="errors.fund_source_id ? 'is-danger':''"
+                                        :message="errors.fund_source_id ? errors.fund_source_id[0] : ''">
+                                        <b-select v-model="fields.fund_source_id" expanded
                                             @input="clearChargeTo"
                                             required
                                             placeholder="Fund Source">
@@ -131,7 +131,7 @@
                                                     <div class="column">
                                                         <b-field label="Attachment" label-position="on-border" expanded
                                                             :type="id > 0 ? 'is-primary' : ''"
-                                                            :message="id > 0 ? 'Upload new file to overwrite the old one.' : ''">
+                                                            :message="id > 0 ? 'To update file, delete first the old one and upload a newer version.' : ''">
                                                             <b-select v-model="item.documentary_attachment_id" expanded required>
                                                                 <option v-for="(doc, ix) in documentaryAttachments"
                                                                     :key="`idoc${ix}`"
@@ -141,7 +141,7 @@
                                                             </b-select>
                                                         </b-field>
                                                     </div>
-                                                    <div class="column">
+                                                    <div class="column" v-if="!item.acctg_doc_attachment_id">
                                                         <b-field class="file is-primary" :class="{'has-name': !!item.file_upload}">
                                                             <b-upload v-model="item.file_upload" class="file-label">
                                                             <span class="file-cta">
@@ -181,15 +181,15 @@
                             </div>
 
 
-                            <div v-if="fields.fund_source === 1">
+                            <div v-if="fields.fund_source_id === 1">
                                 <div class="has-text-weight-bold mb-4">CHARGE TO</div>
                                 <div class="ml-4" v-for="(item, index) in fields.allotment_classes" :key="`acc${index}`">
                                     <div class="columns">
                                         <div class="column">
                                             <b-field label="Allotment Class" label-position="on-border"
-                                                     expanded
-                                                     :type="errors.allotment_class_id ? 'is-danger':''"
-                                                     :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
+                                                    expanded
+                                                    :type="errors.allotment_class_id ? 'is-danger':''"
+                                                    :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
                                                 <b-select v-model="item.allotment_class_id"
                                                           expanded>
                                                     <option v-for="(allot, ix) in allotmentClasses"
@@ -374,8 +374,8 @@ export default{
             fields: {
                 accounting_id: 0,
                 financial_year_id: null,
-                fund_source: null,
-                date_time: null,
+                fund_source_id: null,
+                date_time: new Date(),
                 transaction_no: null,
                 training_control_no : null,
                 transaction_type_id: null,
@@ -509,7 +509,7 @@ export default{
                     let nId = this.fields.documentary_attachments[ix].acctg_doc_attachment_id;
 
                     if(nId > 0){
-                        axios.delete('/accounting/' + nId).then(res=>{
+                        axios.delete('/accounting-documentary-attachment-delete/' + nId).then(res=>{
                             if(res.data.status === 'deleted'){
                                 this.$buefy.toast.open({
                                     message: `Attachment deleted successfully.`,
@@ -570,7 +570,7 @@ export default{
             let formData = new FormData();
             formData.append('accounting_id', this.id);
             formData.append('financial_year_id', this.fields.financial_year_id ? this.fields.financial_year_id : '');
-            formData.append('fund_source', this.fields.fund_source ? this.fields.fund_source : '');
+            formData.append('fund_source_id', this.fields.fund_source_id ? this.fields.fund_source_id : '');
 
             formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
             formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
@@ -597,19 +597,7 @@ export default{
                     formData.append(`allotment_classes[${index}][amount]`, item.amount);
                 });
             }
-
-            // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-            // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
-            // formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-            // formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-            // formData.append('amount', this.fields.amount ? this.fields.amount : '');
-
             formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
-
-            // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-            // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-            // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-            // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
             formData.append('others', this.fields.others ? this.fields.others : '');
             formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
 
@@ -661,13 +649,6 @@ export default{
 
         },
 
-        refreshAccountAllotment(){
-            this.allotment.allotment = null
-            this.fields.allotment_class_account_id = null
-            this.allotment_class_account = null
-            this.allotment_class_account_code = null
-
-        },
 
 
         clearChargeTo(){
@@ -706,9 +687,8 @@ export default{
 
                 this.fields.accounting_id = result.accounting_id
                 this.fields.financial_year_id = result.financial_year_id
-                this.fields.fund_source = result.fund_source
-                console.log(result.fund_source);
-
+                this.fields.fund_source_id = result.fund_source_id
+  
                 this.fields.date_time = new Date(result.date_time)
                 this.fields.transaction_no = result.transaction_no
                 this.fields.training_control_no = result.training_control_no
@@ -740,8 +720,12 @@ export default{
                     });
                 })
 
-                this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
-                this.fields.priority_program_id = result.priority_program_id
+                //if has priority program
+                if(result.priority_program_id){
+                    this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
+                    this.fields.priority_program_id = result.priority_program_id
+                }
+              
 
                 this.fields.office_id = result.office.office_id
                 this.fields.office = '(' + result.office.office + ') ' + result.office.description

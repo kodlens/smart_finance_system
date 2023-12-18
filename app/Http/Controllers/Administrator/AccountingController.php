@@ -59,7 +59,7 @@ class AccountingController extends Controller
 
         $req->validate([
             'financial_year_id' => ['required'],
-            'fund_source' => ['required'],
+            'fund_source_id' => ['required'],
             'date_time' => ['required'],
             'transaction_no' => ['required'],
             'training_control_no' => ['required'],
@@ -67,6 +67,7 @@ class AccountingController extends Controller
             'payee_id' => ['required'],
             'particulars' => ['required'],
             'total_amount' => ['required'],
+            'office_id' => ['required']
 
         ],[
             'financial_year_id.required' => 'Please select financial year.',
@@ -74,6 +75,7 @@ class AccountingController extends Controller
             'payee_id.required' => 'Please select bank account/payee.',
             'allotment_class_id.required' => 'Please allotment class.',
             'allotment_class_account_id.required' => 'Please allotment class account.',
+            'office.required' => 'Please select office.',
 
         ]);
 
@@ -138,10 +140,10 @@ class AccountingController extends Controller
     }
 
     public function updateAccounting(Request $req, $id){
-        return $req;
+      
         $req->validate([
             'financial_year_id' => ['required'],
-            'fund_source' => ['required'],
+            'fund_source_id' => ['required'],
             'date_time' => ['required'],
             'transaction_no' => ['required'],
             'training_control_no' => ['required'],
@@ -149,21 +151,19 @@ class AccountingController extends Controller
             'payee_id' => ['required'],
             'particulars' => ['required'],
             'total_amount' => ['required'],
-            'priority_program_id' => ['required'],
+            'office_id' => ['required']
         ],[
             'financial_year_id.required' => 'Please select financial year.',
+            'fund_source_id.required' => 'Please select financial year.',
             'transaction_type_id.required' => 'Please select transaction.',
             'payee_id.required' => 'Please select bank account/payee.',
-            'allotment_class_id.required' => 'Please allotment class.',
-            'allotment_class_account_id.required' => 'Please allotment class account.',
-            'priority_program_id.required' => 'Please select priority program.'
 
         ]);
 
         $data = Accounting::find($id);
 
         $data->financial_year_id = $req->financial_year_id;
-        $data->fund_source =  $req->fund_source;
+        $data->fund_source_id =  $req->fund_source_id;
         $data->date_time =  $req->date_time;
         $data->transaction_no =  $req->transaction_no;
         $data->training_control_no =  $req->training_control_no;
@@ -171,25 +171,32 @@ class AccountingController extends Controller
         $data->payee_id =  $req->payee_id;
         $data->particulars =  $req->particulars;
         $data->total_amount =  $req->total_amount;
-        $data->priority_program_id =  $req->priority_program_id;
+        $data->priority_program_id =  $req->priority_program_id ? $req->priority_program_id : null;
         $data->office_id =  $req->office_id;
         $data->others =  $req->others;
+        $data->save();
 
-
+        
         if($req->has('documentary_attachments')){
             foreach ($req->documentary_attachments as $item) {
-                $n = [];
-                if($item['file_upload']){
+               
+                $path = null;
+                if($item['file_upload'] && is_file($item['file_upload'])){
+                    
                     $pathFile = $item['file_upload']->store('public/doc_attachments'); //get path of the file
                     $n = explode('/', $pathFile); //split into array using /
+                    $path = $n[2];
+                    AccountingDocumentaryAttachment::create(
+                    [
+                        'accounting_id' => $data->accounting_id,
+                        'documentary_attachment_id' => $item['documentary_attachment_id'],
+                        'doc_attachment' => is_file($item['file_upload']) ? $path : $data->doc_attachment
+                    ]);
+
                 }
 
                 //insert into database after upload 1 image
-                AccountingDocumentaryAttachment::create([
-                    'accounting_id' => $data->accounting_id,
-                    'documentary_attachment_id' => $item['documentary_attachment_id'],
-                    'doc_attachment' => $n[2]
-                ]);
+                
             }
         }
 
@@ -199,30 +206,32 @@ class AccountingController extends Controller
                 AccountingAllotmentClasses::updateOrCreate([
                     'accounting_allotment_class_id' => $item['accounting_allotment_class_id']
                 ],[
+                    'accounting_id' => $id,
                     'allotment_class_id' => $item['allotment_class_id'],
                     'allotment_class_account_id' => $item['allotment_class_account_id'],
                     'amount' => $item['amount'],
                 ]);
 
-//                if($item['accounting_allotment_class_id'] > 0){
-//                    AccountingAllotmentClasses::where('accounting_allotment_class_id', $item['accounting_allotment_class_id'])
-//                        ->update(
-//                            [
-//                                'allotment_class_id' => $item['allotment_class_id'],
-//                                'allotment_class_account_id' => $item['allotment_class_account_id'],
-//                                'amount' => $item['amount'],
-//                            ]
-//                        );
-//                }else{
-//                    AccountingAllotmentClasses::create([
-//                        [
-//                            'accounting_id' => $req->accounting_id,
-//                            'allotment_class_id' => $item['allotment_class_id'],
-//                            'allotment_class_account_id' => $item['allotment_class_account_id'],
-//                            'amount' => $item['amount'],
-//                        ]
-//                    ]);
-//                }
+                // if($item['accounting_allotment_class_id'] > 0){
+                //     AccountingAllotmentClasses::where('accounting_allotment_class_id', $item['accounting_allotment_class_id'])
+                //         ->update(
+                //             [
+                //                 'allotment_class_id' => $item['allotment_class_id'],
+                //                 'allotment_class_account_id' => $item['allotment_class_account_id'],
+                //                 'amount' => $item['amount'],
+                //             ]
+                //         );
+                // }else{
+                //     AccountingAllotmentClasses::create([
+                //         [
+                //             'accounting_id' => $req->accounting_id,
+                //             'allotment_class_id' => $item['allotment_class_id'],
+                //             'allotment_class_account_id' => $item['allotment_class_account_id'],
+                //             'amount' => $item['amount'],
+                //         ]
+                //     ]);
+                // }
+
             }
         }
         return $req;
@@ -239,18 +248,17 @@ class AccountingController extends Controller
 
 
     //delete attachment and image from storage
-    public function destroy($id){
+    public function deleteAcctgDocAttachment($id){
 
-        $data = Accounting::find($id);
-        $attchments = AccountingDocumentaryAttachment::where('accounting_id', $data->accounting_id)
-                ->get();
-        foreach($attchments as $item){
-            if(Storage::exists('public/doc_attachments/' . $item['doc_attachment'])) {
-                Storage::delete('public/doc_attachments/' . $item['doc_attachment']);
-            }
+        $data = AccountingDocumentaryAttachment::find($id);
+
+        // $attchments = AccountingDocumentaryAttachment::where('accounting_id', $data->accounting_id)
+        //         ->get();
+        if(Storage::exists('public/doc_attachments/' . $data->doc_attachment)) {
+            Storage::delete('public/doc_attachments/' . $data->doc_attachment);
         }
 
-        Accounting::destroy($id);
+        AccountingDocumentaryAttachment::destroy($id);
 
         return response()->json([
             'status' => 'deleted'

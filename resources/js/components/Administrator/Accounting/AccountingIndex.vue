@@ -32,7 +32,7 @@
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
-                                            <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                            <b-button type="is-primary" icon-right="magnify" @click="loadAsyncData"/>
                                              </b-tooltip>
                                         </p>
                                     </b-field>

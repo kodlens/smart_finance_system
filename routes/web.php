@@ -102,8 +102,8 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/accounting', App\Http\Controllers\Administrator\AccountingController::class);
     Route::post('/accounting-update/{id}', [App\Http\Controllers\Administrator\AccountingController::class, 'updateAccounting']);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
-
-
+    Route::delete('/accounting-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\AccountingController::class, 'deleteAcctgDocAttachment']);
+    
 
     Route::resource('/procurements', App\Http\Controllers\Administrator\ProcurementController::class);
     Route::get('/get-procurements-records', [App\Http\Controllers\Administrator\ProcurementController::class, 'getData']);

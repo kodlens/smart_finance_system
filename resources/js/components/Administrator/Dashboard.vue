@@ -1,10 +1,17 @@
 <template>
 	<div>
-		<section class="hero is-fullheight">
+		<div class="main-page">
 			<!-- Hero head: will stick at the top -->
-			<div class="hero-head">
+			<div>
+				<div class="main-text">
+				WELCOME TO SMART FINANCE SYSTEM
+				</div>
+				<div class="has-text-weight-bold has-text-centered is-size-3">
+					TANGUB CITY GLOBAL COLLEGE
+				</div>
 			</div>
-		</section>
+			
+		</div>
 		
 	</div>
 </template>
@@ -21,4 +28,18 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
 }  */
+
+	.main-page{
+		height: 100vh;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: -80px;
+		border: 1px solid blue;
+	}
+
+	.main-text{
+		font-weight: bold;
+		font-size: 3rem;
+	}
 </style>

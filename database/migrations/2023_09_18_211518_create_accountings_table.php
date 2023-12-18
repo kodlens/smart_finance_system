@@ -22,7 +22,7 @@ class CreateAccountingsTable extends Migration
             $table->unsignedBigInteger('financial_year_id')->default(0)
                 ->nullable();
             
-            $table->unsignedBigInteger('fund_source')->default(0)
+            $table->unsignedBigInteger('fund_source_id')->default(0)
                 ->nullable();
 
             $table->string('transaction_no')->nullable();
@@ -32,21 +32,19 @@ class CreateAccountingsTable extends Migration
             $table->string('transaction_type')->nullable();
 
             $table->unsignedBigInteger('payee_id')->default(0);
-            $table->string('payee')->nullable();
-
+    
             $table->string('particulars')->nullable();
             $table->string('total_amount')->nullable();
 
-            $table->unsignedBigInteger('allotment_class_id')->default(0);
-            $table->unsignedBigInteger('allotment_class_account_id')->default(0);
-            $table->string('allotment_class_account')->nullable();
-            $table->string('allotment_class_account_code')->nullable();
+            $table->unsignedBigInteger('allotment_class_id')->default(0)
+                ->nullable();
+            $table->unsignedBigInteger('allotment_class_account_id')->default(0)
+                ->nullable();
             $table->string('amount')->nullable();
 
-            $table->unsignedBigInteger('priority_program_id')->default(0);
-            $table->string('priority_program')->nullable();
-            $table->string('priority_program_code')->nullable();
-
+            $table->unsignedBigInteger('priority_program_id')->default(0)
+                ->nullable();
+   
             $table->string('supplemental_budget')->nullable();
             $table->string('capital_outlay')->nullable();
             $table->string('account_payable')->nullable();

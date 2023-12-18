@@ -16,7 +16,7 @@ class Accounting extends Model
 
     protected $fillable = [
         'financial_year_id',
-        'fund_source',
+        'fund_source_id',
         'date_time',
         'transaction_no',
         'training_control_no',

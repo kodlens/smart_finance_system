@@ -16,7 +16,15 @@
 
     <!-- Styles -->
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Yantramanav:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        html, body{
+            font-family: 'Josefin Sans', sans-serif;
+            font-family: 'Yantramanav', sans-serif;
+        }
+    </style>
 
 </head>
 <body>
@@ -30,9 +38,13 @@
             <template #brand>
                 <b-navbar-item>
                     <img
-                        src=""
+                        src="/img/logo_small.png"
                         alt=""
                     >
+                    <span>
+                        <div class="has-text-weight-bold is-size-5">SMART FINANCE</div>
+                        <div class="has-text-weight-bold is-size-6">TANGUB CITY GLOBAL COLLEGE</div>
+                    </span>
                 </b-navbar-item>
             </template>
             <template #start>
