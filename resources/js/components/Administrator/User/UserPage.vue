@@ -74,7 +74,7 @@
                                 {{ props.row.sex }}
                             </b-table-column>
 
-                            <b-table-column field="role" label="Role" v-slot="props">
+                            <b-table-column field="role" label="User Type" v-slot="props">
                                 {{ props.row.role }}
                             </b-table-column>
 
@@ -211,12 +211,15 @@
                                 </div>
 
                                 <div class="column">
-                                    <b-field label="Role" label-position="on-border" expanded
+                                    <b-field label="User Type" label-position="on-border" expanded
                                             :type="this.errors.role ? 'is-danger':''"
                                             :message="this.errors.role ? this.errors.role[0] : ''">
                                         <b-select v-model="fields.role" expanded>
                                             <option value="ADMINISTRATOR">ADMINISTRATOR</option>
-                                            <option value="STAFF">STAFF</option>
+                                            <option value="ACCOUNTING STAFF">ACCOUNTING STAFF</option>
+                                            <option value="PROCESSOR">PROCESSOR</option>
+                                            <option value="BUDGET OFFICER">BUDGET OFFICER</option>
+                                            <option value="PROCUREMENT OFFICER">PROCUREMENT OFFICER</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -266,7 +269,7 @@
                         </div>
                     </section>
                     <footer class="modal-card-foot">
-                      
+
                         <button
                             :class="btnClass"
                             label="Save"
@@ -307,7 +310,7 @@ export default{
             fields: {
                 username: '',
                 lname: '', fname: '', mname: '', suffix: '',
-                password: '', password_confirmation : '', 
+                password: '', password_confirmation : '',
                 sex : '', role: '',
                 // province: '', city: '', barangay: '', street: '',
             },
@@ -467,7 +470,7 @@ export default{
             this.fields.mname = '';
             this.fields.suffix = '';
             this.fields.sex = '';
-        
+
             this.fields.password = '';
             this.fields.password_confirmation = '';
             this.fields.role = '';
@@ -496,16 +499,16 @@ export default{
                 //     this.cities = res.data;
                 //     axios.get('/load-barangays?prov=' + this.fields.province + '&city_code='+this.fields.city).then(res=>{
                 //         this.barangays = res.data;
-                     
+
                 //         this.fields.username = tempData.username
                 //         this.fields.lname = tempData.lname
                 //         this.fields.fname = tempData.fname
                 //         this.fields.mname = tempData.mname
                 //         this.fields.sex = tempData.sex
-                    
+
                 //         this.fields.suffix = tempData.suffix
                 //         this.fields.role = tempData.role
-                  
+
 
                 //         // this.fields.province = tempData.province
                 //         // this.fields.city = tempData.city

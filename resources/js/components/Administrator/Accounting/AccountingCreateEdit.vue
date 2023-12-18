@@ -454,16 +454,12 @@ export default{
         loadFinancialYears(){
             axios.get('/load-financial-years').then(res=>{
                 this.financialYears = res.data
-            }).catch(err=>{
-
             })
         },
 
-        loadFinancialYears(){
-            axios.get('/load-fund_sources').then(res=>{
+        loadFundSources(){
+            axios.get('/load-fund-sources').then(res=>{
                 this.fundSources = res.data
-            }).catch(err=>{
-
             })
         },
 
@@ -757,12 +753,13 @@ export default{
     },
 
     mounted(){
-
+        this.loadFinancialYears()
+        this.loadFundSources()
         if(this.id > 0){
             this.getData()
         }
 
-        this.loadFinancialYears()
+     
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()
         this.loadAllotmentClasses()

@@ -40,17 +40,16 @@
                             </div>
                         </div>
 
-                        <div class="buttons mt-3 is-right">
+                        <div class="buttons mb-2 is-right">
                             <b-button tag="a"
                                 href="/budgeting/create"
-                                icon-right="bank-outline"
+                                icon-right="cash-multiple"
                                 class="is-primary">ADD RECORD</b-button>
                         </div>
 
                         <b-table
                             :data="data"
                             :loading="loading"
-                            detailed
                             paginated
                             backend-pagination
                             :total="total"
@@ -66,16 +65,16 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="accounting_id" label="ID" v-slot="props">
-                                {{ props.row.accounting_id }}
+                            <b-table-column field="budgeting_id" label="ID" v-slot="props">
+                                {{ props.row.budgeting_id }}
                             </b-table-column>
 
                             <b-table-column field="date_time" label="Date & Time" v-slot="props">
                                 {{ props.row.date_time }}
                             </b-table-column>
 
-                            <b-table-column field="transaction_no" label="Transaction No" v-slot="props">
-                                {{ props.row.transaction_no }}
+                            <b-table-column field="training_control_no" label="Training Control No." v-slot="props">
+                                {{ props.row.training_control_no }}
                             </b-table-column>
 
                             <b-table-column field="payee" label="Payee" v-slot="props">
@@ -86,62 +85,35 @@
                                 {{ props.row.particulars }}
                             </b-table-column>
 
+                            <b-table-column field="activity_date" label="Activity Date" v-slot="props">
+                                {{ props.row.activity_date }}
+                            </b-table-column>
+
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1"
-                                            tag="a"
-                                            icon-right="pencil"
-                                            :href="`/accounting/${props.row.accounting_id}/edit`"></b-button>
+                                        <b-button class="button is-small is-info mr-1 is-outlined" 
+                                            tag="a" 
+                                            icon-right="pencil" 
+                                            :href="`/budgeting/${props.row.budgeting_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.accounting_id)"></b-button>
+                                        <b-button 
+                                            class="button is-small is-danger mr-1 is-outlined" 
+                                            icon-right="delete" 
+                                            @click="confirmDelete(props.row.budgeting_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
-
-                            <template #detail="props">
-                                <table>
-                                    <tr>
-                                        <th>Documentary Attachment</th>
-                                        <th>File</th>
-                                    </tr>
-                                    <tr v-for="(i, ix) in props.row.budgeting_documentary_attachments" :key="ix">
-                                        <td>{{ i.documentary_attachment.documentary_attachment }}</td>
-                                        <td>
-                                            <a :href="`/storage/budgeting_doc_attachments/${i.doc_attachment}`"
-                                                target="_blank">
-                                                Go to
-                                            </a>
-                                        </td>
-                                    </tr>
-                                </table>
-
-                                <table class="mt-2">
-                                    <tr>
-                                        <th>Allotment Class</th>
-                                        <th>Allotment Class Account</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                    <tr v-for="(i, ix) in props.row.accounting_allotment_classes" :key="ix">
-                                        <td>{{ i.allotment_class.allotment_class }}</td>
-                                        <td>({{ i.allotment_class_account.allotment_class_account_code  }}) {{ i.allotment_class_account.allotment_class_account }}</td>
-                                        <td>{{ i.amount }}</td>
-
-                                    </tr>
-                                </table>
-
-                            </template>
-
-
                         </b-table>
+
+                       
 
                     </div>
                 </div><!--col -->
             </div><!-- cols -->
         </div><!--section div-->
-
 
 
     </div>
@@ -168,8 +140,7 @@ export default{
                 key: '',
             },
 
-
-            modalViewFile: false,
+            isModalCreate: false,
 
 
             errors: {},
@@ -180,8 +151,6 @@ export default{
                 'button': true,
                 'is-loading':false,
             },
-
-
 
         }
 
@@ -259,7 +228,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/accounting/' + delete_id).then(res => {
+            axios.delete('/budgeting/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {

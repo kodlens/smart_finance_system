@@ -67,7 +67,18 @@ class UserSeeder extends Seeder
                 'mname' => '',
                 'suffix' => 'JR',
                 'sex' => 'MALE',
-                'role' => 'PROCESSOR',
+                'role' => 'BUDGET OFFICER',
+                'password' => Hash::make('a')
+            ],
+
+            [
+                'username' => 'lada',
+                'lname' => 'LADA.',
+                'fname' => 'CHERRY',
+                'mname' => '',
+                'suffix' => '',
+                'sex' => 'FEMALE',
+                'role' => 'PROCUREMENT OFFICER',
                 'password' => Hash::make('a')
             ],
 

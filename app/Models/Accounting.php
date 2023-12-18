@@ -24,12 +24,8 @@ class Accounting extends Model
         'payee_id',
         'particulars',
         'total_amount',
-
         'priority_program_id',
-        'priority_program',
-        'priority_program_code',
-        'pp_account_code',
-
+        'office_id',
         'others'
     ];
 
@@ -39,7 +35,7 @@ class Accounting extends Model
     }
 
     public function fund_source(){
-        return $this->hasMany(Fund::class, 'financial_year_id', 'financial_year_id');
+        return $this->hasMany(Fund::class, 'fund_source_id', 'fund_source_id');
     }
 
 

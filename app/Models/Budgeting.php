@@ -10,33 +10,48 @@ class Budgeting extends Model
     use HasFactory;
 
 
-    
+
 
     protected $table = 'budgetings';
     protected $primaryKey = 'budgeting_id';
-    
+
 
     protected $fillable = [
+        'financial_year_id',
+        'fund_source',
         'date_time',
+        'transaction_no',
         'training_control_no',
+        'transaction_type_id',
+        'payee_id',
         'particulars',
         'total_amount',
-        'activity_date',
-        'payee_id',
-        'allotment_class_id',
-        'allotment_class_account_id',
- 
-        'amount',
         'priority_program_id',
-       
-        'supplemental_budget',
-        'capital_outlay',
-        'account_payable',
-        'tes_trust_fund',
-        'others',
-        'office_id'
+        'office_id',
+        'others'
     ];
 
+
+    public function financial_year(){
+        return $this->hasMany(FinancialYear::class, 'financial_year_id', 'financial_year_id');
+    }
+
+
+    public function fund_source(){
+        return $this->hasMany(Fund::class, 'fund_source_id', 'fund_source_id');
+    }
+
+
+
+    public function budgeting_documentary_attachments(){
+        return $this->hasMany(BudgetingDocumentaryAttachment::class, 'budgeting_id', 'budgeting_id');
+    }
+
+
+    public function budgeting_allotment_classes(){
+        return $this->hasMany(BudgetingAllotmentClasses::class, 'budgeting_id', 'budgeting_id')
+            ->with(['allotment_class', 'allotment_class_account']);
+    }
 
 
     public function payee(){
@@ -59,5 +74,5 @@ class Budgeting extends Model
     public function office(){
         return $this->hasOne(Office::class, 'office_id', 'office_id');
     }
-    
+
 }
