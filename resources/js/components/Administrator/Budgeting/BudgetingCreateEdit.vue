@@ -39,9 +39,9 @@
                                 <div class="column">
                                     <b-field label="Fund Source"
                                         expanded
-                                        :type="errors.fund_source ? 'is-danger':''"
-                                        :message="errors.fund_source ? errors.fund_source[0] : ''">
-                                        <b-select v-model="fields.fund_source" expanded
+                                        :type="errors.fund_source_id ? 'is-danger':''"
+                                        :message="errors.fund_source_id ? errors.fund_source_id[0] : ''">
+                                        <b-select v-model="fields.fund_source_id" expanded
                                             @input="clearChargeTo"
                                             required
                                             placeholder="Fund Source">
@@ -131,7 +131,7 @@
                                                     <div class="column">
                                                         <b-field label="Attachment" label-position="on-border" expanded
                                                             :type="id > 0 ? 'is-primary' : ''"
-                                                            :message="id > 0 ? 'Upload new file to overwrite the old one.' : ''">
+                                                            :message="id > 0 ? 'To update file, delete first the old one and upload a newer version.' : ''">
                                                             <b-select v-model="item.documentary_attachment_id" expanded required>
                                                                 <option v-for="(doc, ix) in documentaryAttachments"
                                                                     :key="`idoc${ix}`"
@@ -141,7 +141,7 @@
                                                             </b-select>
                                                         </b-field>
                                                     </div>
-                                                    <div class="column">
+                                                    <div class="column" v-if="!item.budgeting_documentary_attachment_id">
                                                         <b-field class="file is-primary" :class="{'has-name': !!item.file_upload}">
                                                             <b-upload v-model="item.file_upload" class="file-label">
                                                             <span class="file-cta">
@@ -495,7 +495,7 @@ export default{
                     let nId = this.fields.documentary_attachments[ix].acctg_doc_attachment_id;
 
                     if(nId > 0){
-                        axios.delete('/accounting/' + nId).then(res=>{
+                        axios.delete('/budgeting-documentary-attachment-delete/' + nId).then(res=>{
                             if(res.data.status === 'deleted'){
                                 this.$buefy.toast.open({
                                     message: `Attachment deleted successfully.`,

@@ -140,7 +140,7 @@ class AccountingController extends Controller
     }
 
     public function updateAccounting(Request $req, $id){
-      
+
         $req->validate([
             'financial_year_id' => ['required'],
             'fund_source_id' => ['required'],
@@ -176,13 +176,13 @@ class AccountingController extends Controller
         $data->others =  $req->others;
         $data->save();
 
-        
+
         if($req->has('documentary_attachments')){
             foreach ($req->documentary_attachments as $item) {
-               
+
                 $path = null;
                 if($item['file_upload'] && is_file($item['file_upload'])){
-                    
+
                     $pathFile = $item['file_upload']->store('public/doc_attachments'); //get path of the file
                     $n = explode('/', $pathFile); //split into array using /
                     $path = $n[2];
@@ -196,7 +196,7 @@ class AccountingController extends Controller
                 }
 
                 //insert into database after upload 1 image
-                
+
             }
         }
 
