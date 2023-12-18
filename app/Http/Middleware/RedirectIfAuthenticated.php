@@ -31,8 +31,12 @@ class RedirectIfAuthenticated
                     return redirect('/dashboard');
                 }
 
-                if($role == 'PROCESSOR'){
-                    return redirect('/processor-dashboard');
+                if($role == 'BUDGET OFFICER'){
+                    return redirect('/dashboard');
+                }
+
+                if($role == 'PROCUREMENT OFFICER'){
+                    return redirect('/dashboard');
                 }
             }
         }

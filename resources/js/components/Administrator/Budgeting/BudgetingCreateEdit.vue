@@ -380,23 +380,11 @@ export default{
                 payee_id: null,
                 payee: null,
                 particulars: null,
-
                 documentary_attachments: [],
-
                 allotment_classes: [],
                 total_amount: null,
-
-                // allotment_class_id: null,
-                // allotment_class_account_id: null,
-                // allotment_class_account: null,
-                // allotment_class_account_code: null,
-                // amount: null,
                 priority_program_id: null,
                 priority_program: null,
-                // supplemental_budget: null,
-                // capital_outlay: null,
-                // account_payable: null,
-                // tes_trust_fund: null,
 
                 office_id: null,
                 office: null,
@@ -621,7 +609,7 @@ export default{
                             message: 'Successfully updated.',
                             type: 'is-success',
                             onConfirm: () => {
-                                window.location = '/accounting'
+                                window.location = '/budgeting'
                             }
                         })
                     }

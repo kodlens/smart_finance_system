@@ -4,17 +4,55 @@
             <div class="columns is-centered">
                 <div class="column is-8-desktop is-10-tablet">
                     <div class="box">
-                        <div class="has-text-weight-bold">ADD/EDIT RECORD</div>
+                        <div class="has-text-weight-bold">ADD/EDIT PROCUREMENT RECORD</div>
 
                         <div class="mt-2">
 
                             <b-button
-                                    @click="debug"
-                                    icon-left="note-multiple-outline"
-                                    class="button is-info"
-                                    outlined
-                                    label="Debug">
-                                </b-button>
+                                @click="debug"
+                                icon-left="note-multiple-outline"
+                                class="button is-info"
+                                outlined
+                                label="Debug">
+                            </b-button>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Financial Year"
+                                             expanded
+                                             :type="errors.financial_year_id ? 'is-danger':''"
+                                             :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
+                                        <b-select v-model="fields.financial_year_id" expanded
+                                                  required
+                                                  @input=""
+                                                  placeholder="Financial Year">
+                                            <option v-for="(item, indx) in financialYears"
+                                                    :key="`fy${indx}`"
+                                                    :value="item.financial_year_id">
+                                                {{ item.financial_year_code }}
+                                                -
+                                                {{ item.financial_year_desc }}
+                                            </option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                                <div class="column">
+                                    <b-field label="Fund Source"
+                                             expanded
+                                             :type="errors.fund_source ? 'is-danger':''"
+                                             :message="errors.fund_source ? errors.fund_source[0] : ''">
+                                        <b-select v-model="fields.fund_source" expanded
+                                                  @input="clearChargeTo"
+                                                  required
+                                                  placeholder="Fund Source">
+                                            <option v-for="(item,index) in fundSources"
+                                                    :key="`fund${index}`" :value="item.fund_source_id">
+                                                {{ item.fund_source }}</option>
+
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
 
                             <div class="columns">
                                 <div class="column">
@@ -26,34 +64,34 @@
                                 </div>
                                 <div class="column">
                                     <b-field label="Training Control No."
-                                        :type="errors.training_control_no ? 'is-danger':''"
-                                        :message="errors.training_control_no ? errors.training_control_no[0] : ''">
+                                             :type="errors.training_control_no ? 'is-danger':''"
+                                             :message="errors.training_control_no ? errors.training_control_no[0] : ''">
                                         <b-input type="text" placholder="Training Control No."
-                                            v-model="fields.training_control_no" required>
+                                                 v-model="fields.training_control_no" required>
                                         </b-input>
                                     </b-field>
                                 </div>
                             </div>
 
                             <div class="columns">
-                                <div class="column">
-                                    <b-field label="PR Number"
-                                        :type="errors.pr_number ? 'is-danger':''"
-                                        :message="errors.pr_number ? errors.pr_number[0] : ''">
-                                        <b-input type="text" placholder="PR Number"
-                                            v-model="fields.pr_number">
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
+                               <div class="column">
+                                   <b-field label="PR No."
+                                            :type="errors.pr_no ? 'is-danger':''"
+                                            :message="errors.pr_no ? errors.pr_no[0] : ''">
+                                       <b-input type="text" placholder="Transaction No."
+                                                v-model="fields.pr_no" required>
+                                       </b-input>
+                                   </b-field>
+                               </div>
 
+                            </div>
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Particulars"
-                                        :type="errors.particulars ? 'is-danger':''"
-                                        :message="errors.particulars ? errors.particulars[0] : ''">
+                                             :type="errors.particulars ? 'is-danger':''"
+                                             :message="errors.particulars ? errors.particulars[0] : ''">
                                         <b-input type="text" placholder="Particulars"
-                                            v-model="fields.particulars">
+                                                 v-model="fields.particulars">
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -62,11 +100,11 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="PR Amount"
-                                        :type="errors.pr_amount ? 'is-danger':''"
-                                        :message="errors.pr_amount ? errors.pr_amount[0] : ''">
-                                        <b-numberinput placholder="PR Amount"
-                                            :controls="false" step="0.0001"
-                                            v-model="fields.pr_amount">
+                                         :type="errors.pr_amount ? 'is-danger':''"
+                                         :message="errors.pr_amount ? errors.pr_amount[0] : ''">
+                                        <b-numberinput placholder="Total Amount"
+                                           :controls="false" step="0.0001"
+                                           v-model="fields.pr_amount">
                                         </b-numberinput>
                                     </b-field>
                                 </div>
@@ -75,9 +113,9 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Supplier/Payee"
-                                        :type="errors.payee_id ? 'is-danger':''"
-                                        :message="errors.payee_id ? errors.payee_id[0] : ''">
+                                    <b-field label="Bank Account/Payee"
+                                             :type="errors.payee_id ? 'is-danger':''"
+                                             :message="errors.payee_id ? errors.payee_id[0] : ''">
                                         <modal-browse-payee
                                             @browsPayee="emitPayee"
                                             :prop-name="payee.bank_account_payee"></modal-browse-payee>
@@ -85,78 +123,136 @@
                                 </div>
                             </div>
 
+
+
+
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="PR Status"
-                                        :type="errors.pr_status ? 'is-danger':''"
-                                        expanded
-                                        :message="errors.pr_status ? errors.pr_status[0] : ''">
-                                        <b-select type="text" placholder="PR Status"
-                                            expanded
-                                            v-model="fields.pr_status">
-                                            <option value="on-process">Om-Process</option>
-                                            <option value="approved">Approved</option>
-                                            <option value="pending">Pending</option>
-                                            <option value="cancelled">Cancelled</option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Remarks"
-                                        :type="errors.remarks ? 'is-danger':''"
-                                        :message="errors.remarks ? errors.remarks[0] : ''">
-                                        <b-input type="text" placholder="Remarks"
-                                            v-model="fields.remarks">
-                                        </b-input>
-                                    </b-field>
-                                </div>
 
+                                    <b-field label="Documentary Attachments">
+                                        <div class="m-2">
+                                            <div class="my-2" v-for="(item, ixdoc) in fields.documentary_attachments" :key="`doc${ixdoc}`">
+                                                <div class="columns">
+                                                    <div class="column">
+                                                        <b-field label="Attachment" label-position="on-border" expanded
+                                                                 :type="id > 0 ? 'is-primary' : ''"
+                                                                 :message="id > 0 ? 'Upload new file to overwrite the old one.' : ''">
+                                                            <b-select v-model="item.documentary_attachment_id" expanded required>
+                                                                <option v-for="(doc, ix) in documentaryAttachments"
+                                                                        :key="`idoc${ix}`"
+                                                                        :value="doc.documentary_attachment_id">
+                                                                    {{ doc.documentary_attachment }}
+                                                                </option>
+                                                            </b-select>
+                                                        </b-field>
+                                                    </div>
+                                                    <div class="column">
+                                                        <b-field class="file is-primary" :class="{'has-name': !!item.file_upload}">
+                                                            <b-upload v-model="item.file_upload" class="file-label">
+                                                            <span class="file-cta">
+                                                                <b-icon class="file-icon" icon="upload"></b-icon>
+                                                                <span class="file-label">Click to upload</span>
+                                                            </span>
+                                                                <span class="file-name" v-if="item.file_upload">
+                                                                {{ item.file_upload.name }}
+                                                            </span>
+                                                            </b-upload>
+                                                        </b-field>
+
+                                                    </div>
+
+
+                                                    <div class="column is-1">
+                                                        <b-button icon-left="delete-outline"
+                                                                  @click="removeDoctAttchment(ixdoc)"
+                                                                  class="is-danger">
+                                                        </b-button>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="buttons mt-2">
+                                                <b-button @click="newDocAttachment"
+                                                          icon-left="plus"
+                                                          class="button is-small is-outlined is-primary">
+                                                    NEW ATTACHMENT
+                                                </b-button>
+                                            </div>
+                                        </div>
+                                    </b-field>
+                                </div>
                             </div>
 
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Allotment Class" expanded
-                                        :type="errors.allotment_class_id ? 'is-danger':''"
-                                        :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
-                                        <b-select v-model="fields.allotment_class_id"
-                                            @input="refreshAccountAllotment" 
-                                            expanded>
-                                            <option v-for="(allot, ix) in allotmentClasses"
-                                                :key="`allotclass${ix}`"
-                                                :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
-                                        </b-select>
-                                    </b-field>
+                            <div v-if="fields.fund_source === 1">
+                                <div class="has-text-weight-bold mb-4">CHARGE TO</div>
+                                <div class="ml-4" v-for="(item, index) in fields.allotment_classes" :key="`acc${index}`">
+                                    <div class="columns">
+                                        <div class="column">
+                                            <b-field label="Allotment Class" label-position="on-border"
+                                                     expanded
+                                                     :type="errors.allotment_class_id ? 'is-danger':''"
+                                                     :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
+                                                <b-select v-model="item.allotment_class_id"
+                                                          expanded>
+                                                    <option v-for="(allot, ix) in allotmentClasses"
+                                                            :key="`allotclass${ix}`"
+                                                            :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
+                                                </b-select>
+                                            </b-field>
+                                        </div>
+                                        <div class="column">
+                                            <b-field label="Account" label-position="on-border"
+                                                     :type="errors.allotment_class_account_id ? 'is-danger':''"
+                                                     :message="errors.allotment_class_account_id ? errors.allotment_class_account_id[0] : ''">
+                                                <modal-browse-allotment-class-account
+                                                    :prop-class-id="item.allotment_class_id"
+                                                    :prop-allotment-account="item.allotment"
+                                                    @browseAllotmentAccount="emitAllotmentAccount(index, $event)"></modal-browse-allotment-class-account>
+                                            </b-field>
+                                        </div>
+                                    </div>
+
+                                    <div class="columns">
+                                        <div class="column">
+                                            <b-field label="Amount" label-position="on-border"
+                                                     :type="errors.amount ? 'is-danger':''"
+                                                     :message="errors.amount ? errors.amount[0] : ''">
+                                                <b-numberinput
+                                                    v-model="item.amount"
+                                                    :controls="false"
+                                                    step="0.0001">
+                                                </b-numberinput>
+                                            </b-field>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                </div><!-- ccount loop-->
+                                <div class="buttons mt-2">
+                                    <b-button @click="newAllotmentClass"
+                                              icon-left="plus"
+                                              class="button is-small is-outlined is-primary">
+                                        NEW ALLOTMENT CLASS
+                                    </b-button>
                                 </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Account"
-                                        :type="errors.allotment_class_account_id ? 'is-danger':''"
-                                        :message="errors.allotment_class_account_id ? errors.allotment_class_account_id[0] : ''">
-                                        <modal-browse-allotment-class-account
-                                            :prop-class-id="fields.allotment_class_id"
-                                            :prop-allotment-account="allotment.allotment"
-                                            @browseAllotmentAccount="emitAllotmentAccount"></modal-browse-allotment-class-account>
-                                    </b-field>
-                                </div>
-                            </div>
+                            </div><!--container div for loop -->
 
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="GADTC Priority Program"
-                                        :type="errors.priority_program_id ? 'is-danger':''"
-                                        :message="errors.priority_program_id ? errors.priority_program_id[0] : ''">
+                                    <b-field label="Priority Program"
+                                             :type="errors.priority_program_id ? 'is-danger':''"
+                                             :message="errors.priority_program_id ? errors.priority_program_id[0] : ''">
                                         <modal-browse-priority-program
-                                            :prop-priority-program="priority_program.priority_program"
+                                            :prop-priority-program="fields.priority_program"
                                             @browsePriorityProgram="emitPriorityProgram"></modal-browse-priority-program>
                                     </b-field>
                                 </div>
                             </div>
 
-                            <div class="columns">
+                            <!-- <div class="columns">
                                 <div class="column">
                                     <b-field label="Supplemental Budget"
                                         :type="errors.supplemental_budget ? 'is-danger':''"
@@ -200,18 +296,8 @@
                                         </b-input>
                                     </b-field>
                                 </div>
-                            </div>
+                            </div>-->
 
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Others">
-                                        <b-input type="text" v-model="fields.others"
-                                            placeholder="Others">
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-                            
                             <div class="columns">
                                 <div class="column">
                                     <modal-browse-office
@@ -219,8 +305,27 @@
                                         :status-type="errors.office_id ? 'is-danger':''"
                                         :message="errors.office_id ? errors.office_id[0] : ''"
                                         @browseOffice="emitBrowseOffice"
-                                        :prop-name="office.office"
+                                        :prop-name="fields.office"
                                     ></modal-browse-office>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Status">
+                                        <b-input type="text" v-model="fields.status"
+                                                 placeholder="Status">
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Remarks">
+                                        <b-input type="text" v-model="fields.remarks"
+                                                 placeholder="Remarks">
+                                        </b-input>
+                                    </b-field>
                                 </div>
                             </div>
 
@@ -243,8 +348,6 @@
 </template>
 
 <script>
-import { toSJIS } from '@chenfengyuan/vue-qrcode'
-
 
 
 
@@ -260,36 +363,40 @@ export default{
 
     data(){
         return {
+
+            financialYears: [],
+
+            fundSources: [],
+
             fields: {
+                procurement_id: 0,
+                financial_year_id: null,
+                fund_source: null,
                 date_time: null,
-             
+                transaction_no: null,
                 training_control_no : null,
-                pr_number: null,
+                pr_no: null,
                 particulars: null,
                 pr_amount: null,
 
                 payee_id: null,
+                payee: null,
 
-                pr_status: null,
-                remarks: null,
-
-                allotment_class_id: null,
-                allotment_class_account_id: null,
-                allotment_class_account: null,
-                allotment_class_account_code: null,
-
+                documentary_attachments: [],
+                allotment_classes: [],
+                priority_program_id: null,
                 priority_program: null,
-                priority_program_code: null,
 
-                supplemental_budget: null,
-                capital_outlay: null,
-                account_payable: null,
-                tes_trust_fund: null,
-                others: null,
-                office_id: null
+                office_id: null,
+                office: null,
+                status: null,
+                remarks: null
             },
 
+
             errors: {},
+
+            transactionTypes: [],
 
             global_id: 0,
 
@@ -297,15 +404,10 @@ export default{
                 payee_id: 0,
                 bank_account_payee: '',
             },
-            
-            allotment: {
-                allotment: ''
-            },
 
             priority_program: {
                 priority_program: ''
             },
-
             office: {
                 office: ''
             },
@@ -340,6 +442,18 @@ export default{
             })
         },
 
+        loadFinancialYears(){
+            axios.get('/load-financial-years').then(res=>{
+                this.financialYears = res.data
+            })
+        },
+
+        loadFundSources(){
+            axios.get('/load-fund-sources').then(res=>{
+                this.fundSources = res.data
+            })
+        },
+
 
         emitPayee(row){
             this.payee.payee_id = row.payee_id
@@ -347,19 +461,19 @@ export default{
             this.fields.payee_id = row.payee_id
         },
 
-        emitAllotmentAccount(row){
-            this.allotment.allotment = '(' + row.allotment_class_account_code + ') ' + row.allotment_class_account
-            this.fields.allotment_class_account_id = row.allotment_class_account_id
-            this.fields.allotment_class_account = row.allotment_class_account
-            this.fields.allotment_class_account_code = row.allotment_class_account_code
+        emitAllotmentAccount(index, row){
+            this.fields.allotment_classes[index].allotment = '(' + row.allotment_class_account_code + ') ' + row.allotment_class_account
+            this.fields.allotment_classes[index].allotment_class_id = row.allotment_class_id
+            this.fields.allotment_classes[index].allotment_class_account_id = row.allotment_class_account_id
         },
 
         emitPriorityProgram(row){
-            this.priority_program.priority_program = row.priority_program
+            console.log(row);
+
+            this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program
             this.fields.priority_program_id = row.priority_program_id
-            this.fields.priority_program = row.priority_program
-            this.fields.priority_program_code = row.priority_program_code
         },
+
 
         emitBrowseOffice(row){
             this.office.office = row.office + ` (${row.description})`
@@ -393,66 +507,112 @@ export default{
                             }
                         });
                     }
-
                     this.fields.documentary_attachments.splice(ix, 1)
 
                 }
             });
-       
+
+        },
+
+
+        //attaching documents
+        newAllotmentClass(){
+            this.fields.allotment_classes.push({
+                accounting_allotment_class_id: 0,
+                allotment_class_id: 0,
+                allotment_class_account_id: 0,
+                amount: 0,
+                allotment: null
+            })
+        },
+        removeAllotmentClass(ix){
+            this.$buefy.dialog.confirm({
+                title: 'DELETE?',
+                message: 'Are you sure you want to remove this attachment? This cannot be undone.',
+
+                onConfirm: ()=>{
+                    let nId = this.fields.accounts[ix].account_id;
+                    if(nId > 0){
+                        axios.delete('/#/' + nId).then(res=>{
+                            if(res.data.status === 'deleted'){
+                                this.$buefy.toast.open({
+                                    message: `Account deleted successfully.`,
+                                    type: 'is-primary'
+                                })
+                            }
+                        });
+                    }
+
+                    this.fields.accounts.splice(ix, 1)
+
+                }
+            });
+
         },
 
 
 
-        submit: function(){
-            this.fields.date_time = this.$formatDateAndTime(this.fields.date_time);
 
+        submit: function(){
             //format the date
 
-            // let formData = new FormData();
-            // formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
+            let formData = new FormData();
+            formData.append('budgeting_id', this.id);
+            formData.append('financial_year_id', this.fields.financial_year_id ? this.fields.financial_year_id : '');
+            formData.append('fund_source', this.fields.fund_source ? this.fields.fund_source : '');
 
-            // formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
-            // formData.append('pr_number', this.fields.pr_number ? this.fields.pr_number : '');
-            // formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
-            // formData.append('pr_amount', this.fields.pr_amount ? this.fields.pr_amount : '');
+            formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
+            formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
+            formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
+            formData.append('transaction_type_id', this.fields.transaction_type_id ? this.fields.transaction_type_id : '');
+            formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
+            formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
+            formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
 
-            // //formData.append('activity_date', this.fields.date_time ? this.$formatDate(this.fields.activity_date) : '');
-            // //formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : '');
-         
-            // formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
-            // formData.append('pr_status', this.fields.pr_status ? this.fields.pr_status : '');
-            // formData.append('remarks', this.fields.remarks ? this.fields.remarks : '');
+            //doc attachment
+            if(this.fields.documentary_attachments){
+                this.fields.documentary_attachments.forEach((doc, index) =>{
+                    formData.append(`documentary_attachments[${index}][documentary_attachment_id]`, doc.documentary_attachment_id);
+                    formData.append(`documentary_attachments[${index}][file_upload]`, doc.file_upload);
+
+                });
+            }
+            //will be code later
+            if(this.fields.allotment_classes){
+                this.fields.allotment_classes.forEach((item, index) =>{
+                    formData.append(`allotment_classes[${index}][accounting_allotment_class_id]`, item.accounting_allotment_class_id);
+                    formData.append(`allotment_classes[${index}][allotment_class_id]`, item.allotment_class_id);
+                    formData.append(`allotment_classes[${index}][allotment_class_account_id]`, item.allotment_class_account_id);
+                    formData.append(`allotment_classes[${index}][amount]`, item.amount);
+                });
+            }
 
             // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
             // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
+            // formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
+            // formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
+            // formData.append('amount', this.fields.amount ? this.fields.amount : '');
 
-            // //formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-            // //formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-            
-            // //formData.append('amount', this.fields.amount ? this.fields.amount : '');
-            
-            // formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
-            // //formData.append('priority_program', this.fields.priority_program ? this.fields.priority_program : '');
-            // //formData.append('priority_program_code', this.fields.priority_program_code ? this.fields.priority_program_code : '');
+            formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
 
             // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
             // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
             // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
             // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
             // formData.append('others', this.fields.others ? this.fields.others : '');
-            // formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
+            formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
 
 
             if(this.id > 0){
                 //update
-                axios.put('/procurements/'+this.id, this.fields).then(res=>{
+                axios.post('/budgeting-update/'+this.id, formData).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
                             message: 'Successfully updated.',
                             type: 'is-success',
                             onConfirm: () => {
-                                window.location = '/procurements'
+                                window.location = '/budgeting'
                             }
                         })
                     }
@@ -463,7 +623,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/procurements', formData).then(res=>{
+                axios.post('/budgeting', formData).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -471,7 +631,7 @@ export default{
                             type: 'is-success',
                             confirmText: 'OK',
                             onConfirm: () => {
-                                window.location = '/procurements'
+                                window.location = '/accounting'
                             }
                         })
                     }
@@ -499,31 +659,30 @@ export default{
         },
 
 
+        clearChargeTo(){
+            console.log('clear');
+            this.fields.allotment_classes = []
+        },
 
         debug(){
 
+            this.fields.financial_year_id = 1
+            this.fields.fund_source = 1
+
             this.fields.date_time = new Date();
-
+            this.fields.transaction_no = '23-01-0001'
             this.fields.training_control_no = 'TD-1234-22-1122'
-            this.fields.pr_number = 'PR-2023-001-IBFS'
-            this.fields.particulars = 'Sample particulars' 
-            this.fields.pr_amount = 12000
-            
-            this.fields.payee_id = 1
-            
-            this.fields.allotment_class_id = 1
-            this.fields.allotment_class_account_id = 1
+            this.fields.transaction_type_id = 1
 
-            this.fields.pr_status = 'pending';
-            this.fields.remarks = 'this is sample remarks';
+            this.fields.particulars = 'Sample particulars'
+            this.fields.total_amount = 10000
 
-
-            this.fields.supplemental_budget = 'sample supplemental'
-            this.fields.capital_outlay = 'sample capital outlay'
-            this.fields.account_payable = 'sample ap'
-            this.fields.tes_trust_fund = 'tes trust fund'
+            //this.fields.amount = 12000
+            // this.fields.supplemental_budget = 'sample supplemental'
+            // this.fields.capital_outlay = 'sample capital outlay'
+            // this.fields.account_payable = 'sample ap'
+            // this.fields.tes_trust_fund = 'tes trust fund'
             this.fields.others = 'sample others'
-          
         },
 
 
@@ -531,52 +690,69 @@ export default{
 
         getData(){
 
-            axios.get('/procurements/' + this.id).then(res=>{
+            axios.get('/budgeting/' + this.id).then(res=>{
                 const result = res.data
+
+                this.fields.budgeting = result.budgeting
+                this.fields.financial_year_id = result.financial_year_id
+                this.fields.fund_source = result.fund_source
+                console.log(result.fund_source);
+
                 this.fields.date_time = new Date(result.date_time)
+                this.fields.transaction_no = result.transaction_no
                 this.fields.training_control_no = result.training_control_no
-                this.fields.pr_number = result.pr_number
-                this.fields.particulars = result.particulars
-                this.fields.pr_amount = Number(result.pr_amount)
-                
-                this.fields.payee_id = result.payee_id
+                this.fields.transaction_type_id = result.transaction_type_id
+
                 this.payee.bank_account_payee = result.payee.bank_account_payee
-                
-                this.fields.pr_status = result.pr_status
-                this.fields.remarks = result.remarks
+                this.fields.payee_id = result.payee_id
 
-                this.fields.allotment_class_id = result.allotment_class_id
+                this.fields.particulars = result.particulars
+                this.fields.total_amount = Number(result.total_amount)
 
-                //for display
-                this.allotment.allotment = '(' + result.allotment_class_account.allotment_class_account_code + ') ' + result.allotment_class_account.allotment_class_account
-                this.fields.allotment_class_account_id = result.allotment_class_account_id
-               
-                this.priority_program.priority_program = result.priority_program
+                //attachments
+                result.acctg_documentary_attachments.forEach(item => {
+                    this.fields.documentary_attachments.push({
+                        documentary_attachment_id: item.documentary_attachment_id,
+                        acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+                        budgeting_id: item.budgeting_id,
+                    });
+                })
+
+                result.accounting_allotment_classes.forEach(item => {
+                    this.fields.allotment_classes.push({
+                        accounting_allotment_class_id: item.accounting_allotment_class_id,
+                        allotment_class_id: item.allotment_class_id,
+                        allotment_class_account_id: item.allotment_class_account_id,
+                        amount: item.amount,
+                        //for viewing only
+                        allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+                    });
+                })
+
+                this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
                 this.fields.priority_program_id = result.priority_program_id
-                this.fields.priority_program = result.priority_program
-                this.fields.priority_program_code = result.priority_program_code
 
-                this.fields.supplemental_budget = result.supplemental_budget
-                this.fields.capital_outlay = result.capital_outlay
-                this.fields.account_payable = result.account_payable
-                this.fields.tes_trust_fund = result.tes_trust_fund
+                this.fields.office_id = result.office.office_id
+                this.fields.office = '(' + result.office.office + ') ' + result.office.description
                 this.fields.others = result.others
-                this.fields.office_id = result.office_id
-                this.office.office = result.office.office + '(' + result.office.description + ')'
+
             })
-        }
+        },
+
 
 
     },
 
     mounted(){
-
+        this.loadFinancialYears()
+        this.loadFundSources()
         if(this.id > 0){
             this.getData()
-            console.log('edit mode');
         }
 
 
+        this.loadTransactionTypes()
+        this.loadDocumentaryAttachments()
         this.loadAllotmentClasses()
     }
 }

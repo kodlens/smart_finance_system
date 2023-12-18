@@ -124,7 +124,7 @@
                                         <th>Allotment Class Account</th>
                                         <th>Amount</th>
                                     </tr>
-                                    <tr v-for="(i, ix) in props.row.accounting_allotment_classes" :key="ix">
+                                    <tr v-for="(i, ix) in props.row.budgeting_allotment_classes" :key="ix">
                                         <td>{{ i.allotment_class.allotment_class }}</td>
                                         <td>({{ i.allotment_class_account.allotment_class_account_code  }}) {{ i.allotment_class_account.allotment_class_account }}</td>
                                         <td>{{ i.amount }}</td>

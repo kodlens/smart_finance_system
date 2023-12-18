@@ -4,8 +4,9 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
-class DeanMiddleware
+class BudgetMiddleware
 {
     /**
      * Handle an incoming request.
@@ -18,7 +19,7 @@ class DeanMiddleware
     {
         $role = Auth::user()->role;
        
-        if($role === 'DEAN'){
+        if(in_array($role, ['BUDGET OFFICER', 'ADMINISTRATOR'])){
 
             $response = $next($request);
             $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');
@@ -29,5 +30,7 @@ class DeanMiddleware
         }
 
         abort(403);
+
+
     }
 }

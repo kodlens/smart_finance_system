@@ -92,12 +92,10 @@ Route::middleware(['auth', 'admin'])->group(function() {
 
     Route::resource('/allotment-class-accounts', App\Http\Controllers\Administrator\AllotmentClassAccountController::class);
     Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
-    Route::get('/get-modal-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getModalAllotmentClassAccounts']);
 
 
     Route::resource('/priority-programs', App\Http\Controllers\Administrator\PriorityProgramController::class);
     Route::get('/get-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getData']);
-    Route::get('/get-modal-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getModalPriorityPrograms']);
 
 
 
@@ -105,10 +103,6 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::post('/accounting-update/{id}', [App\Http\Controllers\Administrator\AccountingController::class, 'updateAccounting']);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
 
-
-    Route::resource('/budgeting', App\Http\Controllers\Administrator\BudgetingController::class);
-    Route::post('/budgeting-update/{id}', [App\Http\Controllers\Administrator\BudgetingController::class, 'updateProcurement']);
-    Route::get('/get-budgeting-records', [App\Http\Controllers\Administrator\BudgetingController::class, 'getData']);
 
 
     Route::resource('/procurements', App\Http\Controllers\Administrator\ProcurementController::class);
@@ -118,7 +112,6 @@ Route::middleware(['auth', 'admin'])->group(function() {
 
     Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);
     Route::get('/get-supplier-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getData']);
-    Route::get('/get-modal-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getModalPayee']);
 
 
     Route::resource('/transaction-types', App\Http\Controllers\Administrator\TransactionTypeController::class);
@@ -134,6 +127,20 @@ Route::middleware(['auth', 'admin'])->group(function() {
 });
 
 
+Route::middleware(['auth'])->group(function() {
+    Route::get('/get-modal-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getModalPriorityPrograms']);
+    Route::get('/get-modal-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getModalAllotmentClassAccounts']);
+    Route::get('/get-modal-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getModalPayee']);
+
+});
+
+Route::middleware(['auth', 'budget'])->group(function() {
+    Route::resource('/budgeting', App\Http\Controllers\Administrator\BudgetingController::class);
+    Route::post('/budgeting-update/{id}', [App\Http\Controllers\Administrator\BudgetingController::class, 'updateProcurement']);
+    Route::get('/get-budgeting-records', [App\Http\Controllers\Administrator\BudgetingController::class, 'getData']);
+
+
+});
 
 
 

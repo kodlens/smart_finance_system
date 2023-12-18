@@ -49,7 +49,7 @@ class Budgeting extends Model
 
 
     public function budgeting_allotment_classes(){
-        return $this->hasMany(BudgetingAllotmentClasses::class, 'budgeting_id', 'budgeting_id')
+        return $this->hasMany(BudgetingAllotmentClass::class, 'budgeting_id', 'budgeting_id')
             ->with(['allotment_class', 'allotment_class_account']);
     }
 

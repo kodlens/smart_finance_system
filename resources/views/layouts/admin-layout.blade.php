@@ -20,6 +20,10 @@
 
 </head>
 <body>
+
+@php
+    $role = Auth::user()->role;
+@endphp
     <div id="app">
 
         <b-navbar type="is-primary">
@@ -48,9 +52,8 @@
                 <b-navbar-item href="/dashboard">
                     Home
                 </b-navbar-item>
-
+                @if($role === 'ADMINISTRATOR')
                 <b-navbar-dropdown label="Settings">
-
                     <b-navbar-item href="/financial-years">
                         Financial Years
                     </b-navbar-item>
@@ -75,28 +78,36 @@
                     <b-navbar-item href="/priority-programs">
                         Priority Program
                     </b-navbar-item>
-
-
                 </b-navbar-dropdown>
-
+                @endif
+           
                 <b-navbar-dropdown label="Services">
-
+                    @if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING OFFICER']))
                     <b-navbar-item href="/accounting">
                         Accounting
                     </b-navbar-item>
+                    @endif
+                    @if(in_array($role, ['ADMINISTRATOR', 'BUDGET OFFICER']))
                     <b-navbar-item href="/budgeting">
                         Budgeting
                     </b-navbar-item>
+                    @endif
+                    @if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER']))
                     <b-navbar-item href="/procurements">
                         Procurements
                     </b-navbar-item>
+                    @endif
+                 
+                  
 
                 </b-navbar-dropdown>
 
-
+                @if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER']))
                 <b-navbar-item href="/users">
                     Users
                 </b-navbar-item>
+                @endif
+               
 
                 <b-navbar-item tag="div">
                     <div class="buttons">
