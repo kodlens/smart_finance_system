@@ -18,7 +18,7 @@ class Procurement extends Model
         'fund_source_id',
         'date_time',
         'training_control_no',
-        'pr_number',
+        'pr_no',
         'particulars',
         'pr_amount',
         'payee_id',
@@ -61,6 +61,9 @@ class Procurement extends Model
         return $this->hasOne(Payee::class, 'payee_id', 'payee_id');
     }
 
+    public function priority_program(){
+        return $this->hasOne(PriorityProgram::class, 'priority_program_id', 'priority_program_id');
+    }
     public function office(){
         return $this->hasOne(Office::class, 'office_id', 'office_id');
     }

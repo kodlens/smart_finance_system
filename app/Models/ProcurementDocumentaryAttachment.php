@@ -20,4 +20,11 @@ class ProcurementDocumentaryAttachment extends Model
         'doc_attachment',
        
     ];
+
+    
+    public function documentary_attachment(){
+        return $this->hasOne(DocumentaryAttachment::class, 'documentary_attachment_id', 'documentary_attachment_id');
+    }
+
+
 }

@@ -21,10 +21,6 @@ class CreateAcctgDocumentaryAttachments extends Migration
                     ->onDelete('cascade')->onUpdate('cascade');
 
             $table->unsignedBigInteger('documentary_attachment_id');
-//            $table->foreign('documentary_attachment_id')
-//                ->references('documentary_attachment_id')
-//                ->on('documentary_attachments')
-//                ->onDelete('cascade')->onUpdate('cascade');
 
             $table->string('documentary_attachment')->nullable();
             $table->string('doc_attachment')->nullable();

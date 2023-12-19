@@ -103,10 +103,6 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::post('/accounting-update/{id}', [App\Http\Controllers\Administrator\AccountingController::class, 'updateAccounting']);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
     Route::delete('/accounting-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\AccountingController::class, 'deleteAcctgDocAttachment']);
-    
-
-    Route::resource('/procurements', App\Http\Controllers\Administrator\ProcurementController::class);
-    Route::get('/get-procurements-records', [App\Http\Controllers\Administrator\ProcurementController::class, 'getData']);
 
 
 
@@ -138,8 +134,22 @@ Route::middleware(['auth', 'budget'])->group(function() {
     Route::resource('/budgeting', App\Http\Controllers\Administrator\BudgetingController::class);
     Route::post('/budgeting-update/{id}', [App\Http\Controllers\Administrator\BudgetingController::class, 'updateBudgeting']);
     Route::get('/get-budgeting-records', [App\Http\Controllers\Administrator\BudgetingController::class, 'getData']);
-    
+
     Route::post('/budgeting-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\BudgetingController::class, 'deleteDocAttachment']);
+
+});
+
+
+
+
+Route::middleware(['auth', 'procurement'])->group(function() {
+
+    Route::resource('/procurements', App\Http\Controllers\Administrator\ProcurementController::class);
+    Route::post('/procurements-update/{id}', [App\Http\Controllers\Administrator\ProcurementController::class, 'updateProcurement']);
+
+    Route::get('/get-procurements-records', [App\Http\Controllers\Administrator\ProcurementController::class, 'getData']);
+    Route::post('/procurement-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\BudgetingController::class, 'deleteProcurementDocAttachment']);
+
 
 });
 

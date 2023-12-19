@@ -12735,7 +12735,7 @@ __webpack_require__.r(__webpack_exports__);
           var nId = _this6.fields.documentary_attachments[ix].acctg_doc_attachment_id;
 
           if (nId > 0) {
-            axios["delete"]('/accounting-documentary-attachment-delete/' + nId).then(function (res) {
+            axios["delete"]('/procurement-documentary-attachment-delete/' + nId).then(function (res) {
               if (res.data.status === 'deleted') {
                 _this6.$buefy.toast.open({
                   message: "Attachment deleted successfully.",
@@ -12890,30 +12890,29 @@ __webpack_require__.r(__webpack_exports__);
     getData: function getData() {
       var _this9 = this;
 
-      axios.get('/accounting/' + this.id).then(function (res) {
+      axios.get('/procurements/' + this.id).then(function (res) {
         var result = res.data;
-        _this9.fields.accounting_id = result.accounting_id;
+        _this9.fields.procurement_id = result.procurement_id;
         _this9.fields.financial_year_id = result.financial_year_id;
         _this9.fields.fund_source_id = result.fund_source_id;
         _this9.fields.date_time = new Date(result.date_time);
-        _this9.fields.transaction_no = result.transaction_no;
         _this9.fields.training_control_no = result.training_control_no;
-        _this9.fields.transaction_type_id = result.transaction_type_id;
+        _this9.fields.pr_no = result.pr_no;
         _this9.payee.bank_account_payee = result.payee.bank_account_payee;
         _this9.fields.payee_id = result.payee_id;
         _this9.fields.particulars = result.particulars;
         _this9.fields.pr_amount = Number(result.pr_amount); //attachments
 
-        result.acctg_documentary_attachments.forEach(function (item) {
+        result.procurement_documentary_attachments.forEach(function (item) {
           _this9.fields.documentary_attachments.push({
             documentary_attachment_id: item.documentary_attachment_id,
             acctg_doc_attachment_id: item.acctg_doc_attachment_id,
-            accounting_id: item.accounting_id
+            procurement_id: item.procurement_id
           });
         });
-        result.accounting_allotment_classes.forEach(function (item) {
+        result.procurement_allotment_classes.forEach(function (item) {
           _this9.fields.allotment_classes.push({
-            accounting_allotment_class_id: item.accounting_allotment_class_id,
+            procurement_allotment_class_id: item.procurement_allotment_class_id,
             allotment_class_id: item.allotment_class_id,
             allotment_class_account_id: item.allotment_class_account_id,
             amount: item.amount,

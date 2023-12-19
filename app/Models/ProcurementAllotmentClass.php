@@ -18,9 +18,17 @@ class ProcurementAllotmentClass extends Model
         'allotment_class_id',
         'allotment_class_account_id',
         'amount',
-       
+
     ];
 
+
+    public function allotment_class(){
+        return $this->hasOne(AllotmentClass::class, 'allotment_class_id', 'allotment_class_id');
+    }
+
+    public function allotment_class_account(){
+        return $this->hasOne(AllotmentClassAccount::class, 'allotment_class_account_id', 'allotment_class_account_id');
+    }
 
 
 }
