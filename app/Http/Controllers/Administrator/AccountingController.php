@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Administrator;
 use App\Http\Controllers\Controller;
 use App\Models\AccountingAllotmentClasses;
 use Illuminate\Http\Request;
-
+use Illuminate\Support\Facades\DB;
 use App\Models\Accounting;
 use App\Models\AccountingDocumentaryAttachment;
 
@@ -264,6 +264,43 @@ class AccountingController extends Controller
             'status' => 'deleted'
         ],200);
 
+    }
+
+
+
+    //for excel
+    public function fetchAccountings(){
+
+        return DB::select('
+        SELECT
+            a.`accounting_id`,
+            b.`financial_year_code`,
+            b.`financial_year_desc`,
+            c.`fund_source`,
+            a.`transaction_no`,
+            a.`training_control_no`,
+            d.`transaction_type`,
+            e.`bank_account_payee`,
+            a.`total_amount`,
+            gg.`allotment_class`,
+            hh.`allotment_class_account_code`,
+            hh.`allotment_class_account`,
+            g.`amount`,
+            h.`priority_program_code`,
+            h.`priority_program`,
+            f.`office`
+
+            FROM accountings a
+            JOIN `financial_years` b ON a.`financial_year_id` = b.`financial_year_id`
+            JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
+            JOIN `transaction_types` d ON a.`transaction_type_id` = d.`transaction_type_id`
+            JOIN payee AS e ON a.`payee_id` = e.`payee_id`
+            JOIN offices f ON a.`office_id` = f.`office_id`
+            LEFT JOIN `accounting_allotment_classes` g ON a.`accounting_id` = g.`accounting_id`
+            LEFT JOIN `allotment_classes` gg ON g.`allotment_class_id` = gg.`allotment_class_id`
+            LEFT JOIN `allotment_class_accounts` hh ON g.`accounting_allotment_class_id` = hh.`allotment_class_account_id`
+            JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
+        ');
     }
 
 

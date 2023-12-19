@@ -147,6 +147,18 @@
 
                         </b-table>
 
+                        <div class="buttons">
+                            <download-excel
+                                class="button is-primary"
+                                size="is-small"
+                                :fetch="fetchData"
+                                type="csv"
+                                name="filename.xls"
+                            >
+                                Download to Excel
+                            </download-excel>
+                        </div>
+
                     </div>
                 </div><!--col -->
             </div><!-- cols -->
@@ -171,6 +183,8 @@ export default{
             perPage: 20,
             defaultSortDirection: 'asc',
 
+
+            
 
             global_id : 0,
 
@@ -275,6 +289,14 @@ export default{
                 }
             });
         },
+
+
+
+
+        async fetchData(){
+            const res = await axios.get('/fetch-accountings')
+            return res.data
+        }
     },
 
 

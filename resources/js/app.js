@@ -18,6 +18,7 @@ import VueQrcodeReader from "vue-qrcode-reader";
 //for QR CODE Generation
 import VueQrcode from '@chenfengyuan/vue-qrcode';
 
+import JsonExcel from "vue-json-excel";
 
 
 
@@ -54,10 +55,15 @@ files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(
  */
 
 
- Vue.use(Buefy)
+Vue.use(Buefy)
 
 Vue.use(VueQrcodeReader); //https://gruhn.github.io/vue-qrcode-reader/demos/CustomTracking.html
 Vue.component(VueQrcode.name, VueQrcode);
+
+//vue excel
+//https://github.com/jecovier/vue-json-excel
+Vue.component("downloadExcel", JsonExcel);
+
 
 
 Vue.filter('formatTime', function(value) {

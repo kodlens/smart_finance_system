@@ -113,6 +113,18 @@
 
                         </b-table>
 
+                        <div class="buttons">
+                            <download-excel
+                                class="button is-primary"
+                                size="is-small"
+                                :fetch="fetchData"
+                                type="csv"
+                                name="filename.xls"
+                            >
+                                Download to Excel
+                            </download-excel>
+                        </div>
+
                     </div>
                 </div><!--col -->
             </div><!-- cols -->
@@ -241,6 +253,11 @@ export default{
                 }
             });
         },
+
+        async fetchData(){
+            const res = await axios.get('/fetch-procurements')
+            return res.data
+        }
     },
 
 

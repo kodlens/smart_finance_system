@@ -103,9 +103,10 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::post('/accounting-update/{id}', [App\Http\Controllers\Administrator\AccountingController::class, 'updateAccounting']);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
     Route::delete('/accounting-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\AccountingController::class, 'deleteAcctgDocAttachment']);
+    Route::get('/fetch-accountings', [App\Http\Controllers\Administrator\AccountingController::class, 'fetchAccountings']);
 
 
-
+   
     Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);
     Route::get('/get-supplier-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getData']);
 
@@ -136,6 +137,7 @@ Route::middleware(['auth', 'budget'])->group(function() {
     Route::get('/get-budgeting-records', [App\Http\Controllers\Administrator\BudgetingController::class, 'getData']);
 
     Route::post('/budgeting-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\BudgetingController::class, 'deleteDocAttachment']);
+    Route::get('/fetch-budgetings', [App\Http\Controllers\Administrator\BudgetingController::class, 'fetchBudgetings']);
 
 });
 
@@ -148,7 +150,8 @@ Route::middleware(['auth', 'procurement'])->group(function() {
     Route::post('/procurements-update/{id}', [App\Http\Controllers\Administrator\ProcurementController::class, 'updateProcurement']);
 
     Route::get('/get-procurements-records', [App\Http\Controllers\Administrator\ProcurementController::class, 'getData']);
-    Route::post('/procurement-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\BudgetingController::class, 'deleteProcurementDocAttachment']);
+    Route::post('/procurement-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\ProcurementController::class, 'deleteProcurementDocAttachment']);
+    Route::get('/fetch-procurements', [App\Http\Controllers\Administrator\ProcurementController::class, 'fetchProcurements']);
 
 
 });
