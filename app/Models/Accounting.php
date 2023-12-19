@@ -35,7 +35,7 @@ class Accounting extends Model
     }
 
     public function fund_source(){
-        return $this->hasMany(Fund::class, 'fund_source_id', 'fund_source_id');
+        return $this->hasOne(FundSource::class, 'fund_source_id', 'fund_source_id');
     }
 
 

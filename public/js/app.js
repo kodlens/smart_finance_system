@@ -8808,6 +8808,14 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -10024,7 +10032,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     id: {
@@ -10040,7 +10047,7 @@ __webpack_require__.r(__webpack_exports__);
         budgeting: 0,
         financial_year_id: null,
         fund_source: null,
-        date_time: null,
+        date_time: new Date(),
         transaction_no: null,
         training_control_no: null,
         transaction_type_id: null,
@@ -10120,7 +10127,6 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.allotment_classes[index].allotment_class_account_id = row.allotment_class_account_id;
     },
     emitPriorityProgram: function emitPriorityProgram(row) {
-      console.log(row);
       this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program;
       this.fields.priority_program_id = row.priority_program_id;
     },
@@ -10143,10 +10149,10 @@ __webpack_require__.r(__webpack_exports__);
         title: 'DELETE?',
         message: 'Are you sure you want to remove this attachment? This cannot be undone.',
         onConfirm: function onConfirm() {
-          var nId = _this6.fields.documentary_attachments[ix].acctg_doc_attachment_id;
+          var nId = _this6.fields.documentary_attachments[ix].budgeting_documentary_attachment_id;
 
           if (nId > 0) {
-            axios["delete"]('/budgeting-documentary-attachment-delete/' + nId).then(function (res) {
+            axios.post('/budgeting-documentary-attachment-delete/' + nId).then(function (res) {
               if (res.data.status === 'deleted') {
                 _this6.$buefy.toast.open({
                   message: "Attachment deleted successfully.",
@@ -10201,7 +10207,7 @@ __webpack_require__.r(__webpack_exports__);
       var formData = new FormData();
       formData.append('budgeting_id', this.id);
       formData.append('financial_year_id', this.fields.financial_year_id ? this.fields.financial_year_id : '');
-      formData.append('fund_source', this.fields.fund_source ? this.fields.fund_source : '');
+      formData.append('fund_source_id', this.fields.fund_source_id ? this.fields.fund_source_id : '');
       formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
       formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
       formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
@@ -10225,19 +10231,10 @@ __webpack_require__.r(__webpack_exports__);
           formData.append("allotment_classes[".concat(index, "][allotment_class_account_id]"), item.allotment_class_account_id);
           formData.append("allotment_classes[".concat(index, "][amount]"), item.amount);
         });
-      } // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-      // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
-      // formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-      // formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-      // formData.append('amount', this.fields.amount ? this.fields.amount : '');
+      }
 
-
-      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : ''); // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-      // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-      // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-      // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-      // formData.append('others', this.fields.others ? this.fields.others : '');
-
+      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
+      formData.append('others', this.fields.others ? this.fields.others : '');
       formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
 
       if (this.id > 0) {
@@ -10268,7 +10265,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'is-success',
               confirmText: 'OK',
               onConfirm: function onConfirm() {
-                window.location = '/accounting';
+                window.location = '/budgeting';
               }
             });
           }
@@ -10318,8 +10315,7 @@ __webpack_require__.r(__webpack_exports__);
         var result = res.data;
         _this9.fields.budgeting = result.budgeting;
         _this9.fields.financial_year_id = result.financial_year_id;
-        _this9.fields.fund_source = result.fund_source;
-        console.log(result.fund_source);
+        _this9.fields.fund_source_id = result.fund_source_id;
         _this9.fields.date_time = new Date(result.date_time);
         _this9.fields.transaction_no = result.transaction_no;
         _this9.fields.training_control_no = result.training_control_no;
@@ -10329,16 +10325,16 @@ __webpack_require__.r(__webpack_exports__);
         _this9.fields.particulars = result.particulars;
         _this9.fields.total_amount = Number(result.total_amount); //attachments
 
-        result.acctg_documentary_attachments.forEach(function (item) {
+        result.budgeting_documentary_attachments.forEach(function (item) {
           _this9.fields.documentary_attachments.push({
             documentary_attachment_id: item.documentary_attachment_id,
-            acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+            budgeting_documentary_attachment_id: item.budgeting_documentary_attachment_id,
             budgeting_id: item.budgeting_id
           });
         });
-        result.accounting_allotment_classes.forEach(function (item) {
+        result.budgeting_allotment_classes.forEach(function (item) {
           _this9.fields.allotment_classes.push({
-            accounting_allotment_class_id: item.accounting_allotment_class_id,
+            budgeting_allotment_class_id: item.budgeting_allotment_class_id,
             allotment_class_id: item.allotment_class_id,
             allotment_class_account_id: item.allotment_class_account_id,
             amount: item.amount,
@@ -10348,7 +10344,7 @@ __webpack_require__.r(__webpack_exports__);
         });
         _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
         _this9.fields.priority_program_id = result.priority_program_id;
-        _this9.fields.office_id = result.office.office_id;
+        _this9.fields.office_id = result.office_id;
         _this9.fields.office = '(' + result.office.office + ') ' + result.office.description;
         _this9.fields.others = result.others;
       });
@@ -10625,7 +10621,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteSubmit: function deleteSubmit(delete_id) {
       var _this3 = this;
 
-      axios["delete"]('/accounting/' + delete_id).then(function (res) {
+      axios["delete"]('/budgeting/' + delete_id).then(function (res) {
         _this3.loadAsyncData();
       })["catch"](function (err) {
         if (err.response.status === 422) {
@@ -10652,6 +10648,159 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -34619,7 +34768,7 @@ __webpack_require__.r(__webpack_exports__);
 
 var ___CSS_LOADER_EXPORT___ = _node_modules_css_loader_dist_runtime_api_js__WEBPACK_IMPORTED_MODULE_0___default()(function(i){return i[1]});
 // Module
-___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .hero{\n    background-image: url(\"/img/bg-hero.jpg\");\n    background-repeat: no-repeat;\n    background-size: cover;\n}  */\n.main-page{\n\t\theight: 100vh;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tjustify-content: center;\n\t\tmargin-top: -80px;\n\t\tborder: 1px solid blue;\n}\n.main-text{\n\t\tfont-weight: bold;\n\t\tfont-size: 3rem;\n}\n", ""]);
+___CSS_LOADER_EXPORT___.push([module.id, "\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n /* .hero{\n    background-image: url(\"/img/bg-hero.jpg\");\n    background-repeat: no-repeat;\n    background-size: cover;\n}  */\n.main-page{\n\t\theight: 100vh;\n\t\tdisplay: flex;\n\t\talign-items: center;\n\t\tjustify-content: center;\n\t\tmargin-top: -80px;\n\t\tborder: 1px solid blue;\n}\n.main-text{\n\t\tfont-weight: bold;\n\t\tfont-size: 3rem;\n}\n.box-card{\n\t\tborder: 1px solid gray;\n\t\tmax-width: 400px;\n\t\tpadding: 15px;\n}\n.box-card-container{\n\t\tdisplay: flex;\n}\n.box-card-title{\n\t\tcolor: gray;\n\t\tflex: 1;\n}\n", ""]);
 // Exports
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (___CSS_LOADER_EXPORT___);
 
@@ -40516,6 +40665,30 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
+                      attrs: { field: "fund_source", label: "Fund/Source" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              props.row.fund_source
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          props.row.fund_source.fund_source
+                                        ) +
+                                        "\n                            "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
                       attrs: {
                         field: "transaction_no",
                         label: "Transaction No",
@@ -40569,6 +40742,24 @@ var render = function () {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(props.row.particulars) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: { field: "total_amount", label: "Total Amount" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.total_amount) +
                                   "\n                        "
                               ),
                             ]
@@ -42387,7 +42578,7 @@ var render = function () {
                   ),
                 ]),
                 _vm._v(" "),
-                _vm.fields.fund_source === 1
+                _vm.fields.fund_source_id === 1
                   ? _c(
                       "div",
                       [
@@ -43079,7 +43270,7 @@ var render = function () {
                   },
                   [
                     _c("b-table-column", {
-                      attrs: { field: "accounting_id", label: "ID" },
+                      attrs: { field: "budgeting_id", label: "ID" },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
@@ -43087,7 +43278,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.accounting_id) +
+                                  _vm._s(props.row.budgeting_id) +
                                   "\n                        "
                               ),
                             ]
@@ -43203,8 +43394,8 @@ var render = function () {
                                           tag: "a",
                                           "icon-right": "pencil",
                                           href:
-                                            "/accounting/" +
-                                            props.row.accounting_id +
+                                            "/budgeting/" +
+                                            props.row.budgeting_id +
                                             "/edit",
                                         },
                                       }),
@@ -43228,7 +43419,7 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
-                                              props.row.accounting_id
+                                              props.row.budgeting_id
                                             )
                                           },
                                         },
@@ -43275,35 +43466,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "render": () => (/* binding */ render),
 /* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
 /* harmony export */ });
-var render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _vm._m(0)
-}
-var staticRenderFns = [
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", [
-      _c("div", { staticClass: "main-page" }, [
-        _c("div", [
-          _c("div", { staticClass: "main-text" }, [
-            _vm._v("\n\t\t\tWELCOME TO SMART FINANCE SYSTEM\n\t\t\t"),
-          ]),
-          _vm._v(" "),
-          _c(
-            "div",
-            { staticClass: "has-text-weight-bold has-text-centered is-size-3" },
-            [_vm._v("\n\t\t\t\tTANGUB CITY GLOBAL COLLEGE\n\t\t\t")]
-          ),
-        ]),
-      ]),
-    ])
-  },
-]
-render._withStripped = true
+var render = function () {}
+var staticRenderFns = []
 
 
 

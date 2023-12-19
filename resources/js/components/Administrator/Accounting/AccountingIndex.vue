@@ -74,6 +74,12 @@
                                 {{ props.row.date_time }}
                             </b-table-column>
 
+                            <b-table-column field="fund_source" label="Fund/Source" v-slot="props">
+                                <span v-if="props.row.fund_source">
+                                    {{ props.row.fund_source.fund_source }}
+                                </span>
+                            </b-table-column>
+
                             <b-table-column field="transaction_no" label="Transaction No" v-slot="props">
                                 {{ props.row.transaction_no }}
                             </b-table-column>
@@ -85,7 +91,9 @@
                             <b-table-column field="particulars" label="Particulars" v-slot="props">
                                 {{ props.row.particulars }}
                             </b-table-column>
-
+                            <b-table-column field="total_amount" label="Total Amount" v-slot="props">
+                                {{ props.row.total_amount }}
+                            </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
@@ -182,8 +190,6 @@ export default{
                 'button': true,
                 'is-loading':false,
             },
-
-
 
         }
 

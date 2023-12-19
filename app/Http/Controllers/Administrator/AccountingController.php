@@ -26,7 +26,7 @@ class AccountingController extends Controller
 
         $sort = explode('.', $req->sort_by);
 
-        $data = Accounting::with(['payee', 'acctg_documentary_attachments.documentary_attachment',
+        $data = Accounting::with(['fund_source', 'payee', 'acctg_documentary_attachments.documentary_attachment',
             'accounting_allotment_classes'])
             ->where('particulars', 'like', $req->key . '%')
             ->orWhere('transaction_no', 'like', $req->key . '%')
@@ -81,7 +81,7 @@ class AccountingController extends Controller
 
         $data = Accounting::create([
             'financial_year_id' => $req->financial_year_id,
-            'fund_source' => $req->fund_source,
+            'fund_source_id' => $req->fund_source_id,
             'date_time' => $req->date_time,
             'transaction_no' => $req->transaction_no,
             'training_control_no' => $req->training_control_no,
@@ -157,7 +157,7 @@ class AccountingController extends Controller
             'fund_source_id.required' => 'Please select financial year.',
             'transaction_type_id.required' => 'Please select transaction.',
             'payee_id.required' => 'Please select bank account/payee.',
-
+            'office_id.required' => 'Please select office.'
         ]);
 
         $data = Accounting::find($id);
@@ -234,7 +234,7 @@ class AccountingController extends Controller
 
             }
         }
-        return $req;
+        //return $req;
         return response()->json([
             'status' => 'updated'
         ], 200);

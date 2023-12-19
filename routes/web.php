@@ -136,9 +136,10 @@ Route::middleware(['auth'])->group(function() {
 
 Route::middleware(['auth', 'budget'])->group(function() {
     Route::resource('/budgeting', App\Http\Controllers\Administrator\BudgetingController::class);
-    Route::post('/budgeting-update/{id}', [App\Http\Controllers\Administrator\BudgetingController::class, 'updateProcurement']);
+    Route::post('/budgeting-update/{id}', [App\Http\Controllers\Administrator\BudgetingController::class, 'updateBudgeting']);
     Route::get('/get-budgeting-records', [App\Http\Controllers\Administrator\BudgetingController::class, 'getData']);
-
+    
+    Route::post('/budgeting-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\BudgetingController::class, 'deleteDocAttachment']);
 
 });
 

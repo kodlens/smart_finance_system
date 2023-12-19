@@ -48,7 +48,6 @@
                                             <option v-for="(item,index) in fundSources"
                                                 :key="`fund${index}`" :value="item.fund_source_id">
                                                 {{ item.fund_source }}</option>
-
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -67,7 +66,7 @@
                                              :type="errors.transaction_no ? 'is-danger':''"
                                              :message="errors.transaction_no ? errors.transaction_no[0] : ''">
                                         <b-input type="text" placholder="Transaction No."
-                                                 v-model="fields.transaction_no" required>
+                                             v-model="fields.transaction_no" required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -181,7 +180,7 @@
                             </div>
 
 
-                            <div v-if="fields.fund_source === 1">
+                            <div v-if="fields.fund_source_id === 1">
                                 <div class="has-text-weight-bold mb-4">CHARGE TO</div>
                                 <div class="ml-4" v-for="(item, index) in fields.allotment_classes" :key="`acc${index}`">
                                     <div class="columns">
@@ -373,7 +372,7 @@ export default{
                 budgeting: 0,
                 financial_year_id: null,
                 fund_source: null,
-                date_time: null,
+                date_time: new Date(),
                 transaction_no: null,
                 training_control_no : null,
                 transaction_type_id: null,
@@ -465,7 +464,6 @@ export default{
         },
 
         emitPriorityProgram(row){
-            console.log(row);
 
             this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program
             this.fields.priority_program_id = row.priority_program_id
@@ -492,10 +490,10 @@ export default{
                 message: 'Are you sure you want to remove this attachment? This cannot be undone.',
 
                 onConfirm: ()=>{
-                    let nId = this.fields.documentary_attachments[ix].acctg_doc_attachment_id;
+                    let nId = this.fields.documentary_attachments[ix].budgeting_documentary_attachment_id;
 
                     if(nId > 0){
-                        axios.delete('/budgeting-documentary-attachment-delete/' + nId).then(res=>{
+                        axios.post('/budgeting-documentary-attachment-delete/' + nId).then(res=>{
                             if(res.data.status === 'deleted'){
                                 this.$buefy.toast.open({
                                     message: `Attachment deleted successfully.`,
@@ -556,7 +554,7 @@ export default{
             let formData = new FormData();
             formData.append('budgeting_id', this.id);
             formData.append('financial_year_id', this.fields.financial_year_id ? this.fields.financial_year_id : '');
-            formData.append('fund_source', this.fields.fund_source ? this.fields.fund_source : '');
+            formData.append('fund_source_id', this.fields.fund_source_id ? this.fields.fund_source_id : '');
 
             formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
             formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
@@ -571,7 +569,6 @@ export default{
                 this.fields.documentary_attachments.forEach((doc, index) =>{
                     formData.append(`documentary_attachments[${index}][documentary_attachment_id]`, doc.documentary_attachment_id);
                     formData.append(`documentary_attachments[${index}][file_upload]`, doc.file_upload);
-
                 });
             }
             //will be code later
@@ -584,19 +581,8 @@ export default{
                 });
             }
 
-            // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-            // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
-            // formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-            // formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-            // formData.append('amount', this.fields.amount ? this.fields.amount : '');
-
             formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
-
-            // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-            // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-            // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-            // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-            // formData.append('others', this.fields.others ? this.fields.others : '');
+            formData.append('others', this.fields.others ? this.fields.others : '');
             formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
 
 
@@ -628,7 +614,7 @@ export default{
                             type: 'is-success',
                             confirmText: 'OK',
                             onConfirm: () => {
-                                window.location = '/accounting'
+                                window.location = '/budgeting'
                             }
                         })
                     }
@@ -692,8 +678,7 @@ export default{
 
                 this.fields.budgeting = result.budgeting
                 this.fields.financial_year_id = result.financial_year_id
-                this.fields.fund_source = result.fund_source
-                console.log(result.fund_source);
+                this.fields.fund_source_id = result.fund_source_id
 
                 this.fields.date_time = new Date(result.date_time)
                 this.fields.transaction_no = result.transaction_no
@@ -707,17 +692,17 @@ export default{
                 this.fields.total_amount = Number(result.total_amount)
 
                 //attachments
-                result.acctg_documentary_attachments.forEach(item => {
+                result.budgeting_documentary_attachments.forEach(item => {
                     this.fields.documentary_attachments.push({
                         documentary_attachment_id: item.documentary_attachment_id,
-                        acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+                        budgeting_documentary_attachment_id: item.budgeting_documentary_attachment_id,
                         budgeting_id: item.budgeting_id,
                     });
                 })
 
-                result.accounting_allotment_classes.forEach(item => {
+                result.budgeting_allotment_classes.forEach(item => {
                     this.fields.allotment_classes.push({
-                        accounting_allotment_class_id: item.accounting_allotment_class_id,
+                        budgeting_allotment_class_id: item.budgeting_allotment_class_id,
                         allotment_class_id: item.allotment_class_id,
                         allotment_class_account_id: item.allotment_class_account_id,
                         amount: item.amount,
@@ -726,10 +711,11 @@ export default{
                     });
                 })
 
+
                 this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
                 this.fields.priority_program_id = result.priority_program_id
 
-                this.fields.office_id = result.office.office_id
+                this.fields.office_id = result.office_id
                 this.fields.office = '(' + result.office.office + ') ' + result.office.description
                 this.fields.others = result.others
 

@@ -7,6 +7,7 @@ use App\Models\BudgetingAllotmentClass;
 use Illuminate\Http\Request;
 use App\Models\Budgeting;
 use App\Models\BudgetingDocumentaryAttachment;
+use Illuminate\Support\Facades\Storage;
 
 class BudgetingController extends Controller
 {
@@ -19,8 +20,13 @@ class BudgetingController extends Controller
 
 
     public function show($id){
-        return Budgeting::with(['payee', 'allotment_class', 'allotment_class_account', 'priority_program', 'office'])
+        $data = Budgeting::with(['payee', 'budgeting_documentary_attachments.documentary_attachment',
+            'budgeting_allotment_classes.allotment_class', 'budgeting_allotment_classes.allotment_class_account',
+            'priority_program', 'office'
+        ])
             ->find($id);
+
+        return $data;
     }
 
 
@@ -28,7 +34,7 @@ class BudgetingController extends Controller
 
         $sort = explode('.', $req->sort_by);
 
-        $data = Budgeting::with(['payee', 'budgeting_documentary_attachments.documentary_attachment',
+        $data = Budgeting::with(['fund_source', 'payee', 'budgeting_documentary_attachments.documentary_attachment',
             'budgeting_allotment_classes'])
             ->where('particulars', 'like', $req->key . '%')
             ->orWhere('transaction_no', 'like', $req->key . '%')
@@ -58,27 +64,31 @@ class BudgetingController extends Controller
         //return $req->allotment_classes;
          //return $req;
 
-         $req->validate([
-             'financial_year_id' => ['required'],
-             'fund_source' => ['required'],
-             'date_time' => ['required'],
-             'transaction_no' => ['required'],
-             'training_control_no' => ['required'],
-             'transaction_type_id' => ['required'],
-             'payee_id' => ['required'],
-             'particulars' => ['required'],
-             'total_amount' => ['required'],
-         ],[
-             'financial_year_id.required' => 'Please select financial year.',
-             'transaction_type_id.required' => 'Please select transaction.',
-             'payee_id.required' => 'Please select bank account/payee.',
-             'allotment_class_id.required' => 'Please allotment class.',
-             'allotment_class_account_id.required' => 'Please allotment class account.',
-         ]);
+        $req->validate([
+            'financial_year_id' => ['required'],
+            'fund_source_id' => ['required'],
+            'date_time' => ['required'],
+            'transaction_no' => ['required'],
+            'training_control_no' => ['required'],
+            'transaction_type_id' => ['required'],
+            'payee_id' => ['required'],
+            'particulars' => ['required'],
+            'total_amount' => ['required'],
+            'office_id' => ['required']
+
+        ],[
+            'financial_year_id.required' => 'Please select financial year.',
+            'transaction_type_id.required' => 'Please select transaction.',
+            'payee_id.required' => 'Please select bank account/payee.',
+            'allotment_class_id.required' => 'Please allotment class.',
+            'allotment_class_account_id.required' => 'Please allotment class account.',
+            'office.required' => 'Please select office.',
+
+        ]);
 
          $data = Budgeting::create([
              'financial_year_id' => $req->financial_year_id,
-             'fund_source' => $req->fund_source,
+             'fund_source_id' => $req->fund_source_id,
              'date_time' => $req->date_time,
              'transaction_no' => $req->transaction_no,
              'training_control_no' => $req->training_control_no,
@@ -88,7 +98,9 @@ class BudgetingController extends Controller
              'total_amount' => $req->total_amount,
              //naa pai attachment
              'priority_program_id' => $req->priority_program_id,
-             'others' => $req->others
+             'others' => $req->others,
+             'office_id' => $req->office_id
+
          ]);
 
 
@@ -129,65 +141,99 @@ class BudgetingController extends Controller
      }
 
 
-    public function update(Request $req, $id){
+    public function updateBudgeting(Request $req, $id){
 
         $req->validate([
-            'format_date_time' => ['required'],
+            'financial_year_id' => ['required'],
+            'fund_source_id' => ['required'],
+            'date_time' => ['required'],
+            'transaction_no' => ['required'],
             'training_control_no' => ['required'],
-            'particulars' => ['required'],
-            'format_activity_date' => ['required'],
-            'total_amount' => ['required'],
+            'transaction_type_id' => ['required'],
             'payee_id' => ['required'],
-            'allotment_class_id' => ['required'],
-            'allotment_class_account_id' => ['required'],
-            'amount' => ['required'],
-            'priority_program_id' => ['required'],
-            'supplemental_budget' => ['required'],
-            'capital_outlay' => ['required'],
-            'account_payable' => ['required'],
-            'tes_trust_fund' => ['required'],
-            'office_id' => ['required'],
+            'particulars' => ['required'],
+            'total_amount' => ['required'],
+            'office_id' => ['required']
         ],[
+            'financial_year_id.required' => 'Please select financial year.',
+            'fund_source_id.required' => 'Please select financial year.',
+            'transaction_type_id.required' => 'Please select transaction.',
             'payee_id.required' => 'Please select bank account/payee.',
-            'allotment_class_id.required' => 'Please allotment class.',
-            'allotment_class_account_id.required' => 'Please allotment class account.',
-            'priority_program_id.required' => 'Please select priority program.',
             'office_id.required' => 'Please select office.'
         ]);
 
+        $data = Budgeting::find($id);
 
-        Budgeting::where('budgeting_id', $id)
-            ->update([
-                'date_time' => $req->format_date_time,
+        $data->financial_year_id = $req->financial_year_id;
+        $data->fund_source_id =  $req->fund_source_id;
+        $data->date_time =  $req->date_time;
+        $data->transaction_no =  $req->transaction_no;
+        $data->training_control_no =  $req->training_control_no;
+        $data->transaction_type_id =  $req->transaction_type_id;
+        $data->payee_id =  $req->payee_id;
+        $data->particulars =  $req->particulars;
+        $data->total_amount =  $req->total_amount;
+        $data->priority_program_id =  $req->priority_program_id ? $req->priority_program_id : null;
+        $data->office_id =  $req->office_id;
+        $data->others =  $req->others;
+        $data->save();
 
-                'training_control_no' => $req->training_control_no,
-                'particulars' => $req->particulars,
+        if($req->has('documentary_attachments')){
+            foreach ($req->documentary_attachments as $item) {
 
-                'total_amount' => $req->total_amount,
-                'activity_date' => $req->format_activity_date,
+                $path = null;
+                if($item['file_upload'] && is_file($item['file_upload'])){
 
-                'payee_id' => $req->payee_id,
+                    $pathFile = $item['file_upload']->store('public/budgeting_doc_attachments'); //get path of the file
+                    $n = explode('/', $pathFile); //split into array using /
+                    $path = $n[2];
+                    BudgetingDocumentaryAttachment::create(
+                        [
+                            'budgeting_id' => $data->budgeting_id,
+                            'documentary_attachment_id' => $item['documentary_attachment_id'],
+                            'doc_attachment' => is_file($item['file_upload']) ? $path : $data->doc_attachment
+                        ]);
+                }
+                //insert into database after upload 1 image
+            }
+        }
 
-                'allotment_class_id' => $req->allotment_class_id,
-                'allotment_class_account_id' => $req->allotment_class_id,
-
-                'amount' => $req->amount,
-                'priority_program_id' => $req->priority_program_id,
-
-                'supplemental_budget' => $req->supplemental_budget,
-                'capital_outlay' => $req->capital_outlay,
-                'account_payable' => $req->account_payable,
-                'tes_trust_fund' => $req->tes_trust_fund,
-                'others' => $req->others,
-                'office_id' => $req->office_id
-
-            ]);
-
-
+        if($req->has('allotment_classes')){
+            foreach ($req->allotment_classes as $item) {
+                BudgetingAllotmentClass::updateOrCreate([
+                    'budgeting_allotment_class_id' => $item['budgeting_allotment_class_id']
+                ],[
+                    'budgeting_id' => $id,
+                    'allotment_class_id' => $item['allotment_class_id'],
+                    'allotment_class_account_id' => $item['allotment_class_account_id'],
+                    'amount' => $item['amount'],
+                ]);
+            }
+        }
 
        return response()->json([
            'status' => 'updated'
        ], 200);
+
+    }
+
+
+
+    public function deleteDocAttachment($id){
+
+        $data = BudgetingDocumentaryAttachment::find($id);
+
+        // $attchments = AccountingDocumentaryAttachment::where('accounting_id', $data->accounting_id)
+        //         ->get();
+        if(Storage::exists('public/budgeting_doc_attachments/' . $data->doc_attachment)) {
+            Storage::delete('public/budgeting_doc_attachments/' . $data->doc_attachment);
+        }
+
+        BudgetingDocumentaryAttachment::destroy($id);
+
+        return response()->json([
+            'status' => 'deleted'
+        ],200);
 
     }
 

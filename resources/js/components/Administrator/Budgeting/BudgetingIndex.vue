@@ -66,8 +66,8 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="accounting_id" label="ID" v-slot="props">
-                                {{ props.row.accounting_id }}
+                            <b-table-column field="budgeting_id" label="ID" v-slot="props">
+                                {{ props.row.budgeting_id }}
                             </b-table-column>
 
                             <b-table-column field="date_time" label="Date & Time" v-slot="props">
@@ -93,10 +93,10 @@
                                         <b-button class="button is-small is-warning mr-1"
                                             tag="a"
                                             icon-right="pencil"
-                                            :href="`/accounting/${props.row.accounting_id}/edit`"></b-button>
+                                            :href="`/budgeting/${props.row.budgeting_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.accounting_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.budgeting_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -259,7 +259,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/accounting/' + delete_id).then(res => {
+            axios.delete('/budgeting/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {

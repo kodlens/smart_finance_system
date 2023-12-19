@@ -585,7 +585,6 @@ export default{
                 this.fields.documentary_attachments.forEach((doc, index) =>{
                     formData.append(`documentary_attachments[${index}][documentary_attachment_id]`, doc.documentary_attachment_id);
                     formData.append(`documentary_attachments[${index}][file_upload]`, doc.file_upload);
-
                 });
             }
             //will be code later

@@ -18,7 +18,7 @@ class Budgeting extends Model
 
     protected $fillable = [
         'financial_year_id',
-        'fund_source',
+        'fund_source_id',
         'date_time',
         'transaction_no',
         'training_control_no',
@@ -38,7 +38,7 @@ class Budgeting extends Model
 
 
     public function fund_source(){
-        return $this->hasMany(Fund::class, 'fund_source_id', 'fund_source_id');
+        return $this->hasOne(FundSource::class, 'fund_source_id', 'fund_source_id');
     }
 
 

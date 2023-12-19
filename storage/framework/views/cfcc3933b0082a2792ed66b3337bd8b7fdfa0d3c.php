@@ -94,7 +94,7 @@
                 <?php endif; ?>
            
                 <b-navbar-dropdown label="Services">
-                    <?php if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING OFFICER'])): ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF'])): ?>
                     <b-navbar-item href="/accounting">
                         Accounting
                     </b-navbar-item>
