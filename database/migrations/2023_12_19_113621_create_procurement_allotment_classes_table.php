@@ -14,7 +14,7 @@ class CreateProcurementAllotmentClassesTable extends Migration
     public function up()
     {
         Schema::create('procurement_allotment_classes', function (Blueprint $table) {
-            $table->id('procurement_allotment_classe_id');
+            $table->id('procurement_allotment_class_id');
 
             $table->unsignedBigInteger('procurement_id');
             $table->unsignedBigInteger('allotment_class_id');

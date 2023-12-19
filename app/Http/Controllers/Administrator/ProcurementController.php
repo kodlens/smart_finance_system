@@ -239,12 +239,12 @@ class ProcurementController extends Controller
             b.`financial_year_code`,
             b.`financial_year_desc`,
             c.`fund_source`,
-            a.`transaction_no`,
             a.`training_control_no`,
-            d.`transaction_type`,
+            a.`pr_no`,
+            a.`pr_status`,
             e.`bank_account_payee`,
-            a.`total_amount`,
-            gg.`allotment_class`,
+            a.`pr_amount`,
+            gg.allotment_class_id,
             hh.`allotment_class_account_code`,
             hh.`allotment_class_account`,
             g.`amount`,
@@ -255,13 +255,12 @@ class ProcurementController extends Controller
             FROM procurements a
             JOIN `financial_years` b ON a.`financial_year_id` = b.`financial_year_id`
             JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
-            JOIN `transaction_types` d ON a.`transaction_type_id` = d.`transaction_type_id`
             JOIN payee AS e ON a.`payee_id` = e.`payee_id`
             JOIN offices f ON a.`office_id` = f.`office_id`
-            LEFT JOIN `procurement_allotment_classes` g ON a.`procurement_id` = g.`procurement_id`
+            LEFT JOIN procurement_allotment_classes g ON a.`procurement_id` = g.procurement_id
             LEFT JOIN `allotment_classes` gg ON g.`allotment_class_id` = gg.`allotment_class_id`
-            LEFT JOIN `allotment_class_accounts` hh ON g.`procurement_allotment_class_id` = hh.`allotment_class_account_id`
-            JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
+            LEFT JOIN allotment_class_accounts hh ON g.`allotment_class_account_id` = hh.`allotment_class_account_id`
+            LEFT JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
         ');
     }
 
