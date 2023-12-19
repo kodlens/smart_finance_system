@@ -10044,7 +10044,7 @@ __webpack_require__.r(__webpack_exports__);
       financialYears: [],
       fundSources: [],
       fields: {
-        budgeting: 0,
+        budgeting_id: 0,
         financial_year_id: null,
         fund_source: null,
         date_time: new Date(),
@@ -10186,7 +10186,7 @@ __webpack_require__.r(__webpack_exports__);
           var nId = _this7.fields.accounts[ix].account_id;
 
           if (nId > 0) {
-            axios["delete"]('/#/' + nId).then(function (res) {
+            axios["delete"]('//' + nId).then(function (res) {
               if (res.data.status === 'deleted') {
                 _this7.$buefy.toast.open({
                   message: "Account deleted successfully.",
@@ -10226,7 +10226,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.fields.allotment_classes) {
         this.fields.allotment_classes.forEach(function (item, index) {
-          formData.append("allotment_classes[".concat(index, "][accounting_allotment_class_id]"), item.accounting_allotment_class_id);
+          formData.append("allotment_classes[".concat(index, "][budgeting_allotment_class_id]"), item.accounting_allotment_class_id);
           formData.append("allotment_classes[".concat(index, "][allotment_class_id]"), item.allotment_class_id);
           formData.append("allotment_classes[".concat(index, "][allotment_class_account_id]"), item.allotment_class_account_id);
           formData.append("allotment_classes[".concat(index, "][amount]"), item.amount);
@@ -10342,8 +10342,12 @@ __webpack_require__.r(__webpack_exports__);
             allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
           });
         });
-        _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
-        _this9.fields.priority_program_id = result.priority_program_id;
+
+        if (result.priority_program) {
+          _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
+          _this9.fields.priority_program_id = result.priority_program_id;
+        }
+
         _this9.fields.office_id = result.office_id;
         _this9.fields.office = '(' + result.office.office + ') ' + result.office.description;
         _this9.fields.others = result.others;
@@ -12599,6 +12603,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     id: {
@@ -12611,25 +12617,33 @@ __webpack_require__.r(__webpack_exports__);
       financialYears: [],
       fundSources: [],
       fields: {
-        procurement_id: 0,
+        accounting_id: 0,
         financial_year_id: null,
-        fund_source: null,
-        date_time: null,
+        fund_source_id: null,
+        date_time: new Date(),
         transaction_no: null,
         training_control_no: null,
-        pr_no: null,
-        particulars: null,
-        pr_amount: null,
+        transaction_type_id: null,
         payee_id: null,
         payee: null,
+        particulars: null,
         documentary_attachments: [],
         allotment_classes: [],
+        pr_amount: null,
+        // allotment_class_id: null,
+        // allotment_class_account_id: null,
+        // allotment_class_account: null,
+        // allotment_class_account_code: null,
+        // amount: null,
         priority_program_id: null,
         priority_program: null,
+        // supplemental_budget: null,
+        // capital_outlay: null,
+        // account_payable: null,
+        // tes_trust_fund: null,
         office_id: null,
         office: null,
-        status: null,
-        remarks: null
+        others: null
       },
       errors: {},
       transactionTypes: [],
@@ -12721,7 +12735,7 @@ __webpack_require__.r(__webpack_exports__);
           var nId = _this6.fields.documentary_attachments[ix].acctg_doc_attachment_id;
 
           if (nId > 0) {
-            axios["delete"]('/accounting/' + nId).then(function (res) {
+            axios["delete"]('/accounting-documentary-attachment-delete/' + nId).then(function (res) {
               if (res.data.status === 'deleted') {
                 _this6.$buefy.toast.open({
                   message: "Attachment deleted successfully.",
@@ -12774,16 +12788,16 @@ __webpack_require__.r(__webpack_exports__);
 
       //format the date
       var formData = new FormData();
-      formData.append('budgeting_id', this.id);
+      formData.append('accounting_id', this.id);
       formData.append('financial_year_id', this.fields.financial_year_id ? this.fields.financial_year_id : '');
-      formData.append('fund_source', this.fields.fund_source ? this.fields.fund_source : '');
+      formData.append('fund_source_id', this.fields.fund_source_id ? this.fields.fund_source_id : '');
       formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
-      formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
+      formData.append('pr_no', this.fields.pr_no ? this.fields.pr_no : '');
       formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
       formData.append('transaction_type_id', this.fields.transaction_type_id ? this.fields.transaction_type_id : '');
       formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
       formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
-      formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : ''); //doc attachment
+      formData.append('pr_amount', this.fields.pr_amount ? this.fields.pr_amount : ''); //doc attachment
 
       if (this.fields.documentary_attachments) {
         this.fields.documentary_attachments.forEach(function (doc, index) {
@@ -12800,31 +12814,22 @@ __webpack_require__.r(__webpack_exports__);
           formData.append("allotment_classes[".concat(index, "][allotment_class_account_id]"), item.allotment_class_account_id);
           formData.append("allotment_classes[".concat(index, "][amount]"), item.amount);
         });
-      } // formData.append('allotment_class_id', this.fields.allotment_class_id ? this.fields.allotment_class_id : '');
-      // formData.append('allotment_class_account_id', this.fields.allotment_class_account_id ? this.fields.allotment_class_account_id : '');
-      // formData.append('allotment_class_account', this.fields.allotment_class_account ? this.fields.allotment_class_account : '');
-      // formData.append('allotment_class_account_code', this.fields.allotment_class_account_code ? this.fields.allotment_class_account_code : '');
-      // formData.append('amount', this.fields.amount ? this.fields.amount : '');
+      }
 
-
-      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : ''); // formData.append('supplemental_budget', this.fields.supplemental_budget ? this.fields.supplemental_budget : '');
-      // formData.append('capital_outlay', this.fields.capital_outlay ? this.fields.capital_outlay : '');
-      // formData.append('account_payable', this.fields.account_payable ? this.fields.account_payable : '');
-      // formData.append('tes_trust_fund', this.fields.tes_trust_fund ? this.fields.tes_trust_fund : '');
-      // formData.append('others', this.fields.others ? this.fields.others : '');
-
+      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
+      formData.append('others', this.fields.others ? this.fields.others : '');
       formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
 
       if (this.id > 0) {
         //update
-        axios.post('/budgeting-update/' + this.id, formData).then(function (res) {
+        axios.post('/procurements-update/' + this.id, formData).then(function (res) {
           if (res.data.status === 'updated') {
             _this8.$buefy.dialog.alert({
               title: 'UPDATED!',
               message: 'Successfully updated.',
               type: 'is-success',
               onConfirm: function onConfirm() {
-                window.location = '/budgeting';
+                window.location = '/procurements';
               }
             });
           }
@@ -12835,7 +12840,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         //INSERT HERE
-        axios.post('/budgeting', formData).then(function (res) {
+        axios.post('/procurements', formData).then(function (res) {
           if (res.data.status === 'saved') {
             _this8.$buefy.dialog.alert({
               title: 'SAVED!',
@@ -12843,7 +12848,7 @@ __webpack_require__.r(__webpack_exports__);
               type: 'is-success',
               confirmText: 'OK',
               onConfirm: function onConfirm() {
-                window.location = '/accounting';
+                window.location = '/procurements';
               }
             });
           }
@@ -12860,25 +12865,21 @@ __webpack_require__.r(__webpack_exports__);
         });
       }
     },
-    refreshAccountAllotment: function refreshAccountAllotment() {
-      this.allotment.allotment = null;
-      this.fields.allotment_class_account_id = null;
-      this.allotment_class_account = null;
-      this.allotment_class_account_code = null;
-    },
     clearChargeTo: function clearChargeTo() {
       console.log('clear');
       this.fields.allotment_classes = [];
     },
     debug: function debug() {
       this.fields.financial_year_id = 1;
-      this.fields.fund_source = 1;
+      this.fields.fund_source_id = 2;
       this.fields.date_time = new Date();
       this.fields.transaction_no = '23-01-0001';
       this.fields.training_control_no = 'TD-1234-22-1122';
       this.fields.transaction_type_id = 1;
       this.fields.particulars = 'Sample particulars';
-      this.fields.total_amount = 10000; //this.fields.amount = 12000
+      this.fields.pr_amount = 10000;
+      this.fields.pr_no = 'PR112233';
+      this.fields.pr_status = 'Status sample of PR'; //this.fields.amount = 12000
       // this.fields.supplemental_budget = 'sample supplemental'
       // this.fields.capital_outlay = 'sample capital outlay'
       // this.fields.account_payable = 'sample ap'
@@ -12889,12 +12890,11 @@ __webpack_require__.r(__webpack_exports__);
     getData: function getData() {
       var _this9 = this;
 
-      axios.get('/budgeting/' + this.id).then(function (res) {
+      axios.get('/accounting/' + this.id).then(function (res) {
         var result = res.data;
-        _this9.fields.budgeting = result.budgeting;
+        _this9.fields.accounting_id = result.accounting_id;
         _this9.fields.financial_year_id = result.financial_year_id;
-        _this9.fields.fund_source = result.fund_source;
-        console.log(result.fund_source);
+        _this9.fields.fund_source_id = result.fund_source_id;
         _this9.fields.date_time = new Date(result.date_time);
         _this9.fields.transaction_no = result.transaction_no;
         _this9.fields.training_control_no = result.training_control_no;
@@ -12902,13 +12902,13 @@ __webpack_require__.r(__webpack_exports__);
         _this9.payee.bank_account_payee = result.payee.bank_account_payee;
         _this9.fields.payee_id = result.payee_id;
         _this9.fields.particulars = result.particulars;
-        _this9.fields.total_amount = Number(result.total_amount); //attachments
+        _this9.fields.pr_amount = Number(result.pr_amount); //attachments
 
         result.acctg_documentary_attachments.forEach(function (item) {
           _this9.fields.documentary_attachments.push({
             documentary_attachment_id: item.documentary_attachment_id,
             acctg_doc_attachment_id: item.acctg_doc_attachment_id,
-            budgeting_id: item.budgeting_id
+            accounting_id: item.accounting_id
           });
         });
         result.accounting_allotment_classes.forEach(function (item) {
@@ -12920,9 +12920,13 @@ __webpack_require__.r(__webpack_exports__);
             //for viewing only
             allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
           });
-        });
-        _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
-        _this9.fields.priority_program_id = result.priority_program_id;
+        }); //if has priority program
+
+        if (result.priority_program_id) {
+          _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
+          _this9.fields.priority_program_id = result.priority_program_id;
+        }
+
         _this9.fields.office_id = result.office.office_id;
         _this9.fields.office = '(' + result.office.office + ') ' + result.office.description;
         _this9.fields.others = result.others;
@@ -45537,7 +45541,7 @@ var render = function () {
         _c("div", { staticClass: "column is-8-desktop is-10-tablet" }, [
           _c("div", { staticClass: "box" }, [
             _c("div", { staticClass: "has-text-weight-bold" }, [
-              _vm._v("ADD/EDIT PROCUREMENT RECORD"),
+              _vm._v("ADD/EDIT RECORD"),
             ]),
             _vm._v(" "),
             _c(
@@ -45628,9 +45632,9 @@ var render = function () {
                           attrs: {
                             label: "Fund Source",
                             expanded: "",
-                            type: _vm.errors.fund_source ? "is-danger" : "",
-                            message: _vm.errors.fund_source
-                              ? _vm.errors.fund_source[0]
+                            type: _vm.errors.fund_source_id ? "is-danger" : "",
+                            message: _vm.errors.fund_source_id
+                              ? _vm.errors.fund_source_id[0]
                               : "",
                           },
                         },
@@ -45645,11 +45649,11 @@ var render = function () {
                               },
                               on: { input: _vm.clearChargeTo },
                               model: {
-                                value: _vm.fields.fund_source,
+                                value: _vm.fields.fund_source_id,
                                 callback: function ($$v) {
-                                  _vm.$set(_vm.fields, "fund_source", $$v)
+                                  _vm.$set(_vm.fields, "fund_source_id", $$v)
                                 },
-                                expression: "fields.fund_source",
+                                expression: "fields.fund_source_id",
                               },
                             },
                             _vm._l(_vm.fundSources, function (item, index) {
@@ -45834,7 +45838,7 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "PR Amount",
+                            label: "Total Amount",
                             type: _vm.errors.pr_amount ? "is-danger" : "",
                             message: _vm.errors.pr_amount
                               ? _vm.errors.pr_amount[0]
@@ -45933,7 +45937,7 @@ var render = function () {
                                                       : "",
                                                   message:
                                                     _vm.id > 0
-                                                      ? "Upload new file to overwrite the old one."
+                                                      ? "To update file, delete first the old one and upload a newer version."
                                                       : "",
                                                 },
                                               },
@@ -45973,7 +45977,7 @@ var render = function () {
                                                         },
                                                         [
                                                           _vm._v(
-                                                            "\n                                                                " +
+                                                            "\n                                                                    " +
                                                               _vm._s(
                                                                 doc.documentary_attachment
                                                               ) +
@@ -45992,96 +45996,104 @@ var render = function () {
                                           1
                                         ),
                                         _vm._v(" "),
-                                        _c(
-                                          "div",
-                                          { staticClass: "column" },
-                                          [
-                                            _c(
-                                              "b-field",
-                                              {
-                                                staticClass: "file is-primary",
-                                                class: {
-                                                  "has-name":
-                                                    !!item.file_upload,
-                                                },
-                                              },
+                                        !item.acctg_doc_attachment_id
+                                          ? _c(
+                                              "div",
+                                              { staticClass: "column" },
                                               [
                                                 _c(
-                                                  "b-upload",
+                                                  "b-field",
                                                   {
-                                                    staticClass: "file-label",
-                                                    model: {
-                                                      value: item.file_upload,
-                                                      callback: function ($$v) {
-                                                        _vm.$set(
-                                                          item,
-                                                          "file_upload",
-                                                          $$v
-                                                        )
-                                                      },
-                                                      expression:
-                                                        "item.file_upload",
+                                                    staticClass:
+                                                      "file is-primary",
+                                                    class: {
+                                                      "has-name":
+                                                        !!item.file_upload,
                                                     },
                                                   },
                                                   [
                                                     _c(
-                                                      "span",
+                                                      "b-upload",
                                                       {
-                                                        staticClass: "file-cta",
+                                                        staticClass:
+                                                          "file-label",
+                                                        model: {
+                                                          value:
+                                                            item.file_upload,
+                                                          callback: function (
+                                                            $$v
+                                                          ) {
+                                                            _vm.$set(
+                                                              item,
+                                                              "file_upload",
+                                                              $$v
+                                                            )
+                                                          },
+                                                          expression:
+                                                            "item.file_upload",
+                                                        },
                                                       },
                                                       [
-                                                        _c("b-icon", {
-                                                          staticClass:
-                                                            "file-icon",
-                                                          attrs: {
-                                                            icon: "upload",
-                                                          },
-                                                        }),
-                                                        _vm._v(" "),
                                                         _c(
                                                           "span",
                                                           {
                                                             staticClass:
-                                                              "file-label",
+                                                              "file-cta",
                                                           },
                                                           [
-                                                            _vm._v(
-                                                              "Click to upload"
+                                                            _c("b-icon", {
+                                                              staticClass:
+                                                                "file-icon",
+                                                              attrs: {
+                                                                icon: "upload",
+                                                              },
+                                                            }),
+                                                            _vm._v(" "),
+                                                            _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "file-label",
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "Click to upload"
+                                                                ),
+                                                              ]
                                                             ),
-                                                          ]
+                                                          ],
+                                                          1
                                                         ),
-                                                      ],
-                                                      1
+                                                        _vm._v(" "),
+                                                        item.file_upload
+                                                          ? _c(
+                                                              "span",
+                                                              {
+                                                                staticClass:
+                                                                  "file-name",
+                                                              },
+                                                              [
+                                                                _vm._v(
+                                                                  "\n                                                            " +
+                                                                    _vm._s(
+                                                                      item
+                                                                        .file_upload
+                                                                        .name
+                                                                    ) +
+                                                                    "\n                                                        "
+                                                                ),
+                                                              ]
+                                                            )
+                                                          : _vm._e(),
+                                                      ]
                                                     ),
-                                                    _vm._v(" "),
-                                                    item.file_upload
-                                                      ? _c(
-                                                          "span",
-                                                          {
-                                                            staticClass:
-                                                              "file-name",
-                                                          },
-                                                          [
-                                                            _vm._v(
-                                                              "\n                                                            " +
-                                                                _vm._s(
-                                                                  item
-                                                                    .file_upload
-                                                                    .name
-                                                                ) +
-                                                                "\n                                                        "
-                                                            ),
-                                                          ]
-                                                        )
-                                                      : _vm._e(),
-                                                  ]
+                                                  ],
+                                                  1
                                                 ),
                                               ],
                                               1
-                                            ),
-                                          ],
-                                          1
-                                        ),
+                                            )
+                                          : _vm._e(),
                                         _vm._v(" "),
                                         _c(
                                           "div",
@@ -46140,7 +46152,7 @@ var render = function () {
                   ),
                 ]),
                 _vm._v(" "),
-                _vm.fields.fund_source === 1
+                _vm.fields.fund_source_id === 1
                   ? _c(
                       "div",
                       [
@@ -46394,9 +46406,7 @@ var render = function () {
                       _c("modal-browse-office", {
                         attrs: {
                           label: "Office",
-                          "status-type": _vm.errors.office_id
-                            ? "is-danger"
-                            : "",
+                          type: _vm.errors.office_id ? "is-danger" : "",
                           message: _vm.errors.office_id
                             ? _vm.errors.office_id[0]
                             : "",
@@ -46421,11 +46431,11 @@ var render = function () {
                           _c("b-input", {
                             attrs: { type: "text", placeholder: "Status" },
                             model: {
-                              value: _vm.fields.status,
+                              value: _vm.fields.pr_status,
                               callback: function ($$v) {
-                                _vm.$set(_vm.fields, "status", $$v)
+                                _vm.$set(_vm.fields, "pr_status", $$v)
                               },
-                              expression: "fields.status",
+                              expression: "fields.pr_status",
                             },
                           }),
                         ],
@@ -46443,16 +46453,16 @@ var render = function () {
                     [
                       _c(
                         "b-field",
-                        { attrs: { label: "Remarks" } },
+                        { attrs: { label: "Others" } },
                         [
                           _c("b-input", {
-                            attrs: { type: "text", placeholder: "Remarks" },
+                            attrs: { type: "text", placeholder: "Others" },
                             model: {
-                              value: _vm.fields.remarks,
+                              value: _vm.fields.others,
                               callback: function ($$v) {
-                                _vm.$set(_vm.fields, "remarks", $$v)
+                                _vm.$set(_vm.fields, "others", $$v)
                               },
-                              expression: "fields.remarks",
+                              expression: "fields.others",
                             },
                           }),
                         ],

@@ -14,25 +14,38 @@ class Procurement extends Model
 
 
     protected $fillable = [
-        'date_time', 
+        'financial_year_id',
+        'fund_source_id',
+        'date_time',
         'training_control_no',
         'pr_number',
         'particulars',
         'pr_amount',
         'payee_id',
         'pr_status',
-        'remarks',
-        'allotment_class_id',
-        'allotment_class_account_id',
-        'priority_program_id',
-        'supplemental_budget',
-        'capital_outlay',
-        'account_payable',
-        'tes_trust_fund',
+
         'others',
         'office_id',
     ];
 
+
+    public function financial_year(){
+        return $this->hasMany(FinancialYear::class, 'financial_year_id', 'financial_year_id');
+    }
+
+    public function fund_source(){
+        return $this->hasOne(FundSource::class, 'fund_source_id', 'fund_source_id');
+    }
+
+
+    public function procurement_documentary_attachments(){
+        return $this->hasMany(ProcurementDocumentaryAttachment::class, 'procurement_id', 'procurement_id');
+    }
+
+    public function procurement_allotment_classes(){
+        return $this->hasMany(ProcurementAllotmentClass::class, 'procurement_id', 'procurement_id')
+            ->with(['allotment_class', 'allotment_class_account']);
+    }
 
 
     public function allotment_class(){

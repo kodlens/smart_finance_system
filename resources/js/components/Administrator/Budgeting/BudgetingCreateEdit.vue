@@ -369,7 +369,7 @@ export default{
             fundSources: [],
 
             fields: {
-                budgeting: 0,
+                budgeting_id: 0,
                 financial_year_id: null,
                 fund_source: null,
                 date_time: new Date(),
@@ -528,7 +528,7 @@ export default{
                 onConfirm: ()=>{
                     let nId = this.fields.accounts[ix].account_id;
                     if(nId > 0){
-                        axios.delete('/#/' + nId).then(res=>{
+                        axios.delete('//' + nId).then(res=>{
                             if(res.data.status === 'deleted'){
                                 this.$buefy.toast.open({
                                     message: `Account deleted successfully.`,
@@ -574,7 +574,7 @@ export default{
             //will be code later
             if(this.fields.allotment_classes){
                 this.fields.allotment_classes.forEach((item, index) =>{
-                    formData.append(`allotment_classes[${index}][accounting_allotment_class_id]`, item.accounting_allotment_class_id);
+                    formData.append(`allotment_classes[${index}][budgeting_allotment_class_id]`, item.accounting_allotment_class_id);
                     formData.append(`allotment_classes[${index}][allotment_class_id]`, item.allotment_class_id);
                     formData.append(`allotment_classes[${index}][allotment_class_account_id]`, item.allotment_class_account_id);
                     formData.append(`allotment_classes[${index}][amount]`, item.amount);
@@ -711,9 +711,11 @@ export default{
                     });
                 })
 
+                if(result.priority_program){
+                    this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
+                    this.fields.priority_program_id = result.priority_program_id
+                }
 
-                this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
-                this.fields.priority_program_id = result.priority_program_id
 
                 this.fields.office_id = result.office_id
                 this.fields.office = '(' + result.office.office + ') ' + result.office.description

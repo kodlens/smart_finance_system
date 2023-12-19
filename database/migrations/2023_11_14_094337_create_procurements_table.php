@@ -14,24 +14,30 @@ class CreateProcurementsTable extends Migration
     public function up()
     {
         Schema::create('procurements', function (Blueprint $table) {
+
             $table->id('procurement_id');
+
+            $table->unsignedBigInteger('financial_year_id')->default(0)
+                ->nullable();
+        
+            $table->unsignedBigInteger('fund_source_id')->default(0)
+                ->nullable();
+
             $table->dateTime('date_time')->nullable();
             $table->string('training_control_no')->nullable();
-            $table->string('pr_number')->nullable();
+            $table->string('pr_no')->nullable();
             $table->string('particulars')->nullable();
             $table->double('pr_amount')->default(0);
-            $table->unsignedBigInteger('payee_id');
+            $table->unsignedBigInteger('payee_id')->default(0)
+                ->nullable();
+
+            $table->unsignedBigInteger('priority_program_id')->default(0)
+                ->nullable();
+
             $table->string('pr_status')->nullable();
-            $table->string('remarks')->nullable();
-            $table->unsignedBigInteger('allotment_class_id');
-            $table->unsignedBigInteger('allotment_class_account_id');
-            $table->unsignedBigInteger('priority_program_id');
-            
-            $table->string('supplemental_budget')->nullable();
-            $table->string('capital_outlay')->nullable();
-            $table->string('account_payable')->nullable();
-            $table->string('tes_trust_fund')->nullable();
             $table->string('others')->nullable();
+            $table->unsignedBigInteger('office_id')->default(0);
+
             $table->unsignedBigInteger('office_id');
             $table->timestamps();
         });
