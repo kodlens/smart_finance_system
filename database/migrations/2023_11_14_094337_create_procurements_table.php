@@ -38,7 +38,6 @@ class CreateProcurementsTable extends Migration
             $table->string('others')->nullable();
             $table->unsignedBigInteger('office_id')->default(0);
 
-            $table->unsignedBigInteger('office_id');
             $table->timestamps();
         });
     }
