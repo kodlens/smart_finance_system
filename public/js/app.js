@@ -16519,6 +16519,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -16916,6 +16919,280 @@ __webpack_require__.r(__webpack_exports__);
     },
     openModalBidAwardRemarks: function openModalBidAwardRemarks() {
       this.modalRemarksBidAward = true;
+    },
+    emitRefresh: function emitRefresh() {
+      this.$emit('emitRefresh');
+    }
+  },
+  mounted: function mounted() {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Processor/TableCityAccounting.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Processor/TableCityAccounting.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    propRow: {
+      type: Object,
+      "default": {}
+    }
+  },
+  data: function data() {
+    return {
+      modalCityAccountingStatus: false,
+      modalCityAccountingRemarks: false,
+      fields: {},
+      errors: {},
+      btnClass: {
+        'is-success': true,
+        'button': true,
+        'is-loading': false
+      }
+    };
+  },
+  methods: {
+    confirmMark: function confirmMark(option, id) {
+      var _this = this;
+
+      this.$buefy.dialog.confirm({
+        title: 'Forward?',
+        type: 'is-info',
+        message: 'Are you sure you want to mark forwarded?',
+        cancelText: 'Cancel',
+        confirmText: 'Ok',
+        onConfirm: function onConfirm() {
+          return _this.forwardSubmit(option, id);
+        }
+      });
+    },
+    //execute delete after confirming
+    forwardSubmit: function forwardSubmit(option, id) {
+      var _this2 = this;
+
+      axios.post('/document-forward/' + option + '/' + id).then(function (res) {
+        _this2.emitRefresh();
+      })["catch"](function (err) {
+        if (err.response.status === 422) {
+          _this2.errors = err.response.data.errors;
+        }
+      });
+    },
+    submit: function submit() {
+      var _this3 = this;
+
+      axios.post('/document-city-accounting-status/' + this.propRow.accounting_id, this.fields).then(function (res) {
+        if (res.data.status === 'saved') {
+          _this3.$buefy.dialog.alert({
+            title: 'Save.',
+            type: 'is-success',
+            message: 'Status saved.',
+            onConfirm: function onConfirm() {
+              _this3.emitRefresh();
+
+              _this3.modalCityAccountingStatus = false;
+              _this3.fields = {};
+              _this3.errors = {};
+            }
+          });
+        }
+      })["catch"](function (err) {});
+    },
+    submitRemarks: function submitRemarks() {
+      var _this4 = this;
+
+      axios.post('/document-city-accounting-remarks/' + this.propRow.accounting_id, this.fields).then(function (res) {
+        if (res.data.status === 'saved') {
+          _this4.$buefy.dialog.alert({
+            title: 'Save.',
+            type: 'is-success',
+            message: 'Status saved.',
+            onConfirm: function onConfirm() {
+              _this4.emitRefresh();
+
+              _this4.modalCityAccountingStatus = false;
+              _this4.fields = {};
+              _this4.errors = {};
+            }
+          });
+        }
+      })["catch"](function (err) {});
+    },
+    openModalCityAccountingStatus: function openModalCityAccountingStatus() {
+      this.modalCityAccountingStatus = true;
+    },
+    openModalCityAccountingRemarks: function openModalCityAccountingRemarks() {
+      this.modalCityAccountingRemarks = true;
     },
     emitRefresh: function emitRefresh() {
       this.$emit('emitRefresh');
@@ -40012,6 +40289,45 @@ component.options.__file = "resources/js/components/Processor/TableBidAward.vue"
 
 /***/ }),
 
+/***/ "./resources/js/components/Processor/TableCityAccounting.vue":
+/*!*******************************************************************!*\
+  !*** ./resources/js/components/Processor/TableCityAccounting.vue ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _TableCityAccounting_vue_vue_type_template_id_463f89d6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./TableCityAccounting.vue?vue&type=template&id=463f89d6& */ "./resources/js/components/Processor/TableCityAccounting.vue?vue&type=template&id=463f89d6&");
+/* harmony import */ var _TableCityAccounting_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./TableCityAccounting.vue?vue&type=script&lang=js& */ "./resources/js/components/Processor/TableCityAccounting.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _TableCityAccounting_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _TableCityAccounting_vue_vue_type_template_id_463f89d6___WEBPACK_IMPORTED_MODULE_0__.render,
+  _TableCityAccounting_vue_vue_type_template_id_463f89d6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Processor/TableCityAccounting.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Processor/TableCityBudget.vue":
 /*!***************************************************************!*\
   !*** ./resources/js/components/Processor/TableCityBudget.vue ***!
@@ -40629,6 +40945,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableBidAward_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TableBidAward.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Processor/TableBidAward.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableBidAward_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Processor/TableCityAccounting.vue?vue&type=script&lang=js&":
+/*!********************************************************************************************!*\
+  !*** ./resources/js/components/Processor/TableCityAccounting.vue?vue&type=script&lang=js& ***!
+  \********************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCityAccounting_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TableCityAccounting.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Processor/TableCityAccounting.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCityAccounting_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -41433,6 +41765,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableBidAward_vue_vue_type_template_id_0c500554___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableBidAward_vue_vue_type_template_id_0c500554___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TableBidAward.vue?vue&type=template&id=0c500554& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Processor/TableBidAward.vue?vue&type=template&id=0c500554&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Processor/TableCityAccounting.vue?vue&type=template&id=463f89d6&":
+/*!**************************************************************************************************!*\
+  !*** ./resources/js/components/Processor/TableCityAccounting.vue?vue&type=template&id=463f89d6& ***!
+  \**************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCityAccounting_vue_vue_type_template_id_463f89d6___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCityAccounting_vue_vue_type_template_id_463f89d6___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_TableCityAccounting_vue_vue_type_template_id_463f89d6___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./TableCityAccounting.vue?vue&type=template&id=463f89d6& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Processor/TableCityAccounting.vue?vue&type=template&id=463f89d6&");
 
 
 /***/ }),
@@ -55355,6 +55704,13 @@ var render = function () {
                               attrs: { propRow: props.row },
                               on: { emitRefresh: _vm.loadAsyncData },
                             }),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("table-city-accounting", {
+                              attrs: { propRow: props.row },
+                              on: { emitRefresh: _vm.loadAsyncData },
+                            }),
                           ]
                         },
                       },
@@ -56061,6 +56417,426 @@ var staticRenderFns = [
       _c("th", [_vm._v("Bids & Award Status")]),
       _vm._v(" "),
       _c("th", [_vm._v("Bids & Award Remarks")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Action")]),
+    ])
+  },
+]
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Processor/TableCityAccounting.vue?vue&type=template&id=463f89d6&":
+/*!*****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Processor/TableCityAccounting.vue?vue&type=template&id=463f89d6& ***!
+  \*****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("table", [
+        _vm._m(0),
+        _vm._v(" "),
+        _c("tr", [
+          _c("td", [
+            _vm.propRow.city_accounting_datetime_forwarded
+              ? _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(
+                        new Date(
+                          _vm.propRow.city_accounting_datetime_forwarded
+                        ).toLocaleString()
+                      ) +
+                      "\n                "
+                  ),
+                ])
+              : _vm._e(),
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _vm.propRow.city_accounting_datetime_retrieved
+              ? _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(
+                        new Date(
+                          _vm.propRow.city_accounting_datetime_retrieved
+                        ).toLocaleString()
+                      ) +
+                      "\n                "
+                  ),
+                ])
+              : _vm._e(),
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _vm.propRow.city_accounting_status
+              ? _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.propRow.city_accounting_status) +
+                      "\n                "
+                  ),
+                ])
+              : _vm._e(),
+          ]),
+          _vm._v(" "),
+          _c("td", [
+            _vm.propRow.city_accounting_remarks
+              ? _c("span", [
+                  _vm._v(
+                    "\n                    " +
+                      _vm._s(_vm.propRow.city_accounting_remarks) +
+                      "\n                "
+                  ),
+                ])
+              : _vm._e(),
+          ]),
+          _vm._v(" "),
+          _c(
+            "td",
+            [
+              _c(
+                "b-dropdown",
+                {
+                  attrs: { "aria-role": "list" },
+                  scopedSlots: _vm._u([
+                    {
+                      key: "trigger",
+                      fn: function (ref) {
+                        var active = ref.active
+                        return [
+                          _c("b-button", {
+                            attrs: {
+                              label: "",
+                              size: "is-small",
+                              type: "is-info",
+                              "icon-right": active ? "menu-up" : "menu-down",
+                            },
+                          }),
+                        ]
+                      },
+                    },
+                  ]),
+                },
+                [
+                  _vm._v(" "),
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      attrs: { "aria-role": "listitem" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.confirmMark(
+                            "city_accounting_forward",
+                            _vm.propRow.accounting_id
+                          )
+                        },
+                      },
+                    },
+                    [_vm._v("Mark Forwarded")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      attrs: { "aria-role": "listitem" },
+                      on: {
+                        click: function ($event) {
+                          return _vm.confirmMark(
+                            "city_accounting_retrieve",
+                            _vm.propRow.accounting_id
+                          )
+                        },
+                      },
+                    },
+                    [_vm._v("Mark Retrieved")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      attrs: { "aria-role": "listitem" },
+                      on: { click: _vm.openModalCityAccountingStatus },
+                    },
+                    [_vm._v("Mark Status")]
+                  ),
+                  _vm._v(" "),
+                  _c(
+                    "b-dropdown-item",
+                    {
+                      attrs: { "aria-role": "listitem" },
+                      on: { click: _vm.openModalCityAccountingRemarks },
+                    },
+                    [_vm._v("Add Remarks")]
+                  ),
+                ],
+                1
+              ),
+            ],
+            1
+          ),
+        ]),
+      ]),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            width: 640,
+            "aria-role": "dialog",
+            "aria-label": "Modal",
+            "aria-modal": "",
+          },
+          model: {
+            value: _vm.modalCityAccountingStatus,
+            callback: function ($$v) {
+              _vm.modalCityAccountingStatus = $$v
+            },
+            expression: "modalCityAccountingStatus",
+          },
+        },
+        [
+          _c("div", { staticClass: "modal-card" }, [
+            _c("header", { staticClass: "modal-card-head" }, [
+              _c("p", { staticClass: "modal-card-title" }, [_vm._v("STATUS")]),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "delete",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    _vm.modalCityAccountingStatus = false
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("section", { staticClass: "modal-card-body" }, [
+              _c("div", {}, [
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Status",
+                            "label-position": "on-border",
+                            type: _vm.errors.status ? "is-danger" : "",
+                            message: _vm.errors.status
+                              ? _vm.errors.status[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c(
+                            "b-select",
+                            {
+                              attrs: { placeholder: "Status", required: "" },
+                              model: {
+                                value: _vm.fields.status,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "status", $$v)
+                                },
+                                expression: "fields.status",
+                              },
+                            },
+                            [
+                              _c("option", { attrs: { value: "ON-PROCESS" } }, [
+                                _vm._v("ON-PROCESS"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "PENDING" } }, [
+                                _vm._v("PENDING"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "CANCELLED" } }, [
+                                _vm._v("CANCELLED"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "APPROVED" } }, [
+                                _vm._v("APPROVED"),
+                              ]),
+                            ]
+                          ),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c(
+              "footer",
+              { staticClass: "modal-card-foot" },
+              [
+                _c("b-button", {
+                  attrs: { label: "Close" },
+                  on: {
+                    click: function ($event) {
+                      _vm.modalCityAccountingStatus = false
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    class: _vm.btnClass,
+                    attrs: { label: "Save", type: "is-success" },
+                    on: { click: _vm.submit },
+                  },
+                  [_vm._v("SAVE")]
+                ),
+              ],
+              1
+            ),
+          ]),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            width: 640,
+            "aria-role": "dialog",
+            "aria-label": "Modal",
+            "aria-modal": "",
+          },
+          model: {
+            value: _vm.modalCityAccountingRemarks,
+            callback: function ($$v) {
+              _vm.modalCityAccountingRemarks = $$v
+            },
+            expression: "modalCityAccountingRemarks",
+          },
+        },
+        [
+          _c("div", { staticClass: "modal-card" }, [
+            _c("header", { staticClass: "modal-card-head" }, [
+              _c("p", { staticClass: "modal-card-title" }, [_vm._v("STATUS")]),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "delete",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    _vm.modalCityAccountingRemarks = false
+                  },
+                },
+              }),
+            ]),
+            _vm._v(" "),
+            _c("section", { staticClass: "modal-card-body" }, [
+              _c("div", {}, [
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
+                      _c(
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Status",
+                            "label-position": "on-border",
+                            type: _vm.errors.remarks ? "is-danger" : "",
+                            message: _vm.errors.remarks
+                              ? _vm.errors.remarks[0]
+                              : "",
+                          },
+                        },
+                        [
+                          _c("b-input", {
+                            attrs: { placeholder: "Remarks" },
+                            model: {
+                              value: _vm.fields.remarks,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "remarks", $$v)
+                              },
+                              expression: "fields.remarks",
+                            },
+                          }),
+                        ],
+                        1
+                      ),
+                    ],
+                    1
+                  ),
+                ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c(
+              "footer",
+              { staticClass: "modal-card-foot" },
+              [
+                _c("b-button", {
+                  attrs: { label: "Close" },
+                  on: {
+                    click: function ($event) {
+                      _vm.modalCityAccountingRemarks = false
+                    },
+                  },
+                }),
+                _vm._v(" "),
+                _c(
+                  "b-button",
+                  {
+                    class: _vm.btnClass,
+                    attrs: { label: "Save", type: "is-success" },
+                    on: { click: _vm.submitRemarks },
+                  },
+                  [_vm._v("SAVE")]
+                ),
+              ],
+              1
+            ),
+          ]),
+        ]
+      ),
+    ],
+    1
+  )
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("City Accounting Forwarded")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("City Accounting Retrieved")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("City Accounting Status")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("City Accounting Remarks")]),
       _vm._v(" "),
       _c("th", [_vm._v("Action")]),
     ])
@@ -80738,6 +81514,7 @@ var map = {
 	"./components/Modals/ModalCourses.vue": "./resources/js/components/Modals/ModalCourses.vue",
 	"./components/Processor/DocumentIndex.vue": "./resources/js/components/Processor/DocumentIndex.vue",
 	"./components/Processor/TableBidAward.vue": "./resources/js/components/Processor/TableBidAward.vue",
+	"./components/Processor/TableCityAccounting.vue": "./resources/js/components/Processor/TableCityAccounting.vue",
 	"./components/Processor/TableCityBudget.vue": "./resources/js/components/Processor/TableCityBudget.vue",
 	"./components/SignupComponent.vue": "./resources/js/components/SignupComponent.vue",
 	"./components/UserNavbar.vue": "./resources/js/components/UserNavbar.vue",

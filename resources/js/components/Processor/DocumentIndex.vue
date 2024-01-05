@@ -130,6 +130,9 @@
                                 <br>
                                 <table-city-budget :propRow="props.row"
                                     @emitRefresh="loadAsyncData"></table-city-budget>
+                                <br>
+                                <table-city-accounting :propRow="props.row"
+                                    @emitRefresh="loadAsyncData"></table-city-accounting>
                             </template>
                         </b-table>
 
