@@ -104,9 +104,10 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);
     Route::delete('/accounting-documentary-attachment-delete/{docId}', [App\Http\Controllers\Administrator\AccountingController::class, 'deleteAcctgDocAttachment']);
     Route::get('/fetch-accountings', [App\Http\Controllers\Administrator\AccountingController::class, 'fetchAccountings']);
+    //get processors
+    Route::get('/get-modal-processors', [App\Http\Controllers\Administrator\AccountingController::class, 'getModalProcessor']);
+    Route::post('/accounting-assign-processor', [App\Http\Controllers\Administrator\AccountingController::class, 'assignProcessor']);
 
-
-   
     Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);
     Route::get('/get-supplier-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getData']);
 

@@ -8847,6 +8847,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -8971,6 +8989,23 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
           }
         }, _callee);
       }))();
+    },
+    emitBrowserProcessor: function emitBrowserProcessor(row) {
+      var _this4 = this;
+
+      console.log(row);
+      axios.post('/accounting-assign-processor', row).then(function (res) {
+        if (res.data.status === 'assigned') {
+          _this4.$buefy.dialog.alert({
+            title: 'ASSIGNED!',
+            message: 'Successfully assigned.',
+            type: 'is-success',
+            onConfirm: function onConfirm() {
+              _this4.loadAsyncData();
+            }
+          });
+        }
+      });
     }
   },
   mounted: function mounted() {
@@ -15907,6 +15942,217 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   computed: {}
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    propsAccountingId: {
+      type: Number,
+      "default": 0
+    },
+    propName: {
+      type: String,
+      "default": ''
+    }
+  },
+  data: function data() {
+    return {
+      data: [],
+      total: 0,
+      loading: false,
+      sortField: 'user_id',
+      sortOrder: 'desc',
+      page: 1,
+      perPage: 20,
+      defaultSortDirection: 'asc',
+      modalAssignProcessor: false,
+      accountingId: null,
+      btnClass: {
+        'is-success': true,
+        'button': true,
+        'is-loading': false
+      },
+      search: {
+        name: ''
+      }
+    };
+  },
+  methods: {
+    /*
+    * Load async data
+    */
+    loadAsyncData: function loadAsyncData() {
+      var _this = this;
+
+      var params = ["name=".concat(this.search.name), "sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
+      this.loading = true;
+      axios.get("/get-modal-processors?".concat(params)).then(function (_ref) {
+        var data = _ref.data;
+        _this.data = [];
+        var currentTotal = data.total;
+
+        if (data.total / _this.perPage > 1000) {
+          currentTotal = _this.perPage * 1000;
+        }
+
+        _this.total = currentTotal;
+        data.data.forEach(function (item) {
+          //item.release_date = item.release_date ? item.release_date.replace(/-/g, '/') : null
+          _this.data.push(item);
+        });
+        _this.loading = false;
+      })["catch"](function (error) {
+        _this.data = [];
+        _this.total = 0;
+        _this.loading = false;
+        throw error;
+      });
+    },
+
+    /*
+    * Handle page-change event
+    */
+    onPageChange: function onPageChange(page) {
+      this.page = page;
+      this.loadAsyncData();
+    },
+    onSort: function onSort(field, order) {
+      this.sortField = field;
+      this.sortOrder = order;
+      this.loadAsyncData();
+    },
+    setPerPage: function setPerPage() {
+      this.loadAsyncData();
+    },
+    assignProcessor: function assignProcessor() {
+      this.loadAsyncData();
+      this.modalAssignProcessor = true;
+      this.accountingId = this.propsAccountingId;
+    },
+    selectData: function selectData(dataRow) {
+      this.modalAssignProcessor = false;
+      dataRow.accounting_id = this.propsAccountingId;
+      this.$emit('browseProcessor', dataRow);
+    }
+  },
+  mounted: function mounted() {},
+  computed: {
+    valueItemName: function valueItemName() {
+      return this.propName;
+    }
+  }
 });
 
 /***/ }),
@@ -38749,6 +38995,45 @@ component.options.__file = "resources/js/components/Modals/ModalBrowseSchedules.
 
 /***/ }),
 
+/***/ "./resources/js/components/Modals/ModalButtonBrowseProcessor.vue":
+/*!***********************************************************************!*\
+  !*** ./resources/js/components/Modals/ModalButtonBrowseProcessor.vue ***!
+  \***********************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ModalButtonBrowseProcessor_vue_vue_type_template_id_2e648d12_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ModalButtonBrowseProcessor.vue?vue&type=template&id=2e648d12&scoped=true& */ "./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=template&id=2e648d12&scoped=true&");
+/* harmony import */ var _ModalButtonBrowseProcessor_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ModalButtonBrowseProcessor.vue?vue&type=script&lang=js& */ "./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ModalButtonBrowseProcessor_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ModalButtonBrowseProcessor_vue_vue_type_template_id_2e648d12_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ModalButtonBrowseProcessor_vue_vue_type_template_id_2e648d12_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  "2e648d12",
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Modals/ModalButtonBrowseProcessor.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Modals/ModalCourses.vue":
 /*!*********************************************************!*\
   !*** ./resources/js/components/Modals/ModalCourses.vue ***!
@@ -39304,6 +39589,22 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBrowseSchedules_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModalBrowseSchedules.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modals/ModalBrowseSchedules.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBrowseSchedules_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=script&lang=js&":
+/*!************************************************************************************************!*\
+  !*** ./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=script&lang=js& ***!
+  \************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalButtonBrowseProcessor_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModalButtonBrowseProcessor.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalButtonBrowseProcessor_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -40040,6 +40341,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBrowseSchedules_vue_vue_type_template_id_6cc193f3_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalBrowseSchedules_vue_vue_type_template_id_6cc193f3_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModalBrowseSchedules.vue?vue&type=template&id=6cc193f3&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modals/ModalBrowseSchedules.vue?vue&type=template&id=6cc193f3&scoped=true&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=template&id=2e648d12&scoped=true&":
+/*!******************************************************************************************************************!*\
+  !*** ./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=template&id=2e648d12&scoped=true& ***!
+  \******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalButtonBrowseProcessor_vue_vue_type_template_id_2e648d12_scoped_true___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalButtonBrowseProcessor_vue_vue_type_template_id_2e648d12_scoped_true___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ModalButtonBrowseProcessor_vue_vue_type_template_id_2e648d12_scoped_true___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ModalButtonBrowseProcessor.vue?vue&type=template&id=2e648d12&scoped=true& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=template&id=2e648d12&scoped=true&");
 
 
 /***/ }),
@@ -42181,6 +42499,35 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
+                      attrs: {
+                        field: "processor",
+                        label: "Assigned Processor",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              props.row.processor_id > 0
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(props.row.processor.lname) +
+                                        ", " +
+                                        _vm._s(props.row.processor.fname) +
+                                        " " +
+                                        _vm._s(props.row.processor.mname) +
+                                        "\n                            "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
                       attrs: { label: "Action" },
                       scopedSlots: _vm._u([
                         {
@@ -42228,7 +42575,7 @@ var render = function () {
                                       _c("b-button", {
                                         staticClass:
                                           "button is-small is-danger mr-1",
-                                        attrs: { i: "", "con-right": "delete" },
+                                        attrs: { "icon-right": "delete" },
                                         on: {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
@@ -42240,6 +42587,31 @@ var render = function () {
                                     ],
                                     1
                                   ),
+                                  _vm._v(" "),
+                                  !props.row.processor_id > 0
+                                    ? _c(
+                                        "b-tooltip",
+                                        {
+                                          attrs: {
+                                            label: "Assign Processor",
+                                            type: "is-info",
+                                          },
+                                        },
+                                        [
+                                          _c("modal-button-browse-processor", {
+                                            attrs: {
+                                              "props-accounting-id":
+                                                props.row.accounting_id,
+                                            },
+                                            on: {
+                                              browseProcessor:
+                                                _vm.emitBrowserProcessor,
+                                            },
+                                          }),
+                                        ],
+                                        1
+                                      )
+                                    : _vm._e(),
                                 ],
                                 1
                               ),
@@ -53060,6 +53432,273 @@ var render = function () {
                 ],
                 1
               ),
+            ]
+          ),
+        ]
+      ),
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=template&id=2e648d12&scoped=true&":
+/*!*********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Modals/ModalButtonBrowseProcessor.vue?vue&type=template&id=2e648d12&scoped=true& ***!
+  \*********************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("b-button", {
+        staticClass: "button is-small info mr-1",
+        attrs: { "icon-right": "human-male-board" },
+        on: { click: _vm.assignProcessor },
+      }),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            width: 640,
+            "aria-role": "dialog",
+            "aria-label": "Modal",
+            "aria-modal": "",
+          },
+          model: {
+            value: _vm.modalAssignProcessor,
+            callback: function ($$v) {
+              _vm.modalAssignProcessor = $$v
+            },
+            expression: "modalAssignProcessor",
+          },
+        },
+        [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function ($event) {
+                  $event.preventDefault()
+                  return _vm.submit.apply(null, arguments)
+                },
+              },
+            },
+            [
+              _c("div", { staticClass: "modal-card" }, [
+                _c("header", { staticClass: "modal-card-head" }, [
+                  _c("p", { staticClass: "modal-card-title" }, [
+                    _vm._v("SELECT PROCESSOR"),
+                  ]),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass: "delete",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        _vm.modalAssignProcessor = false
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "section",
+                  { staticClass: "modal-card-body" },
+                  [
+                    _c(
+                      "b-field",
+                      { attrs: { label: "Search", type: "is-danger" } },
+                      [
+                        _c("b-input", {
+                          attrs: {
+                            expanded: "",
+                            icon: "chair-rolling",
+                            placeholder: "Search...",
+                          },
+                          model: {
+                            value: _vm.search.name,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.search, "name", $$v)
+                            },
+                            expression: "search.name",
+                          },
+                        }),
+                        _vm._v(" "),
+                        _c(
+                          "p",
+                          { staticClass: "control" },
+                          [
+                            _c("b-button", {
+                              staticClass: "button is-primary",
+                              attrs: { "icon-right": "magnify" },
+                              on: { click: _vm.loadAsyncData },
+                            }),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                    _vm._v(" "),
+                    _c(
+                      "div",
+                      { staticClass: "table-container" },
+                      [
+                        _c(
+                          "b-table",
+                          {
+                            attrs: {
+                              data: _vm.data,
+                              loading: _vm.loading,
+                              paginated: "",
+                              "backend-pagination": "",
+                              total: _vm.total,
+                              "per-page": _vm.perPage,
+                              "detail-transition": "",
+                              "aria-next-label": "Next page",
+                              "aria-previous-label": "Previouse page",
+                              "aria-page-label": "Page",
+                              "show-detail-icon": true,
+                              "aria-current-label": "Current page",
+                              "default-sort-direction": "defualtSortDirection",
+                            },
+                            on: {
+                              "page-change": _vm.onPageChange,
+                              sort: _vm.onSort,
+                            },
+                          },
+                          [
+                            _c("b-table-column", {
+                              attrs: { field: "user_id", label: "ID" },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "default",
+                                  fn: function (props) {
+                                    return [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(props.row.user_id) +
+                                          "\n                                "
+                                      ),
+                                    ]
+                                  },
+                                },
+                              ]),
+                            }),
+                            _vm._v(" "),
+                            _c("b-table-column", {
+                              attrs: { field: "name", label: "NAME" },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "default",
+                                  fn: function (props) {
+                                    return [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(props.row.lname) +
+                                          ", " +
+                                          _vm._s(props.row.fname) +
+                                          " " +
+                                          _vm._s(props.row.mname) +
+                                          "\n                                "
+                                      ),
+                                    ]
+                                  },
+                                },
+                              ]),
+                            }),
+                            _vm._v(" "),
+                            _c("b-table-column", {
+                              attrs: { field: "sex", label: "Sex" },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "default",
+                                  fn: function (props) {
+                                    return [
+                                      _vm._v(
+                                        "\n                                    " +
+                                          _vm._s(props.row.sex) +
+                                          "\n                                "
+                                      ),
+                                    ]
+                                  },
+                                },
+                              ]),
+                            }),
+                            _vm._v(" "),
+                            _c("b-table-column", {
+                              attrs: { field: "", label: "Action" },
+                              scopedSlots: _vm._u([
+                                {
+                                  key: "default",
+                                  fn: function (props) {
+                                    return [
+                                      _c(
+                                        "div",
+                                        { staticClass: "buttons" },
+                                        [
+                                          _c(
+                                            "b-button",
+                                            {
+                                              staticClass:
+                                                "is-small is-info is-outlined is-rounded has-text-weight-bold",
+                                              attrs: {
+                                                "icon-right":
+                                                  "arrow-right-thin",
+                                              },
+                                              on: {
+                                                click: function ($event) {
+                                                  return _vm.selectData(
+                                                    props.row
+                                                  )
+                                                },
+                                              },
+                                            },
+                                            [
+                                              _vm._v(
+                                                "\n                                            SELECT"
+                                              ),
+                                            ]
+                                          ),
+                                        ],
+                                        1
+                                      ),
+                                    ]
+                                  },
+                                },
+                              ]),
+                            }),
+                          ],
+                          1
+                        ),
+                      ],
+                      1
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c("footer", { staticClass: "modal-card-foot" }),
+              ]),
             ]
           ),
         ]
@@ -77646,6 +78285,7 @@ var map = {
 	"./components/Modals/ModalBrowsePayee.vue": "./resources/js/components/Modals/ModalBrowsePayee.vue",
 	"./components/Modals/ModalBrowsePriorityProgram.vue": "./resources/js/components/Modals/ModalBrowsePriorityProgram.vue",
 	"./components/Modals/ModalBrowseSchedules.vue": "./resources/js/components/Modals/ModalBrowseSchedules.vue",
+	"./components/Modals/ModalButtonBrowseProcessor.vue": "./resources/js/components/Modals/ModalButtonBrowseProcessor.vue",
 	"./components/Modals/ModalCourses.vue": "./resources/js/components/Modals/ModalCourses.vue",
 	"./components/SignupComponent.vue": "./resources/js/components/SignupComponent.vue",
 	"./components/UserNavbar.vue": "./resources/js/components/UserNavbar.vue",

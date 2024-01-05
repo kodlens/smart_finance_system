@@ -192,6 +192,7 @@ class ProcurementController extends Controller
                     foreach ($req->allotment_classes as $item) {
                         ProcurementAllotmentClass::updateOrCreate([
                             'procurement_allotment_class_id' => $item['procurement_allotment_class_id']
+                            //wala siay ID or 0 id
                         ],[
                             'procurement_id' => $id,
                             'allotment_class_id' => $item['allotment_class_id'],
@@ -234,34 +235,34 @@ class ProcurementController extends Controller
     public function fetchProcurements(){
 
         return DB::select('
-        SELECT
-            a.`procurement_id`,
-            b.`financial_year_code`,
-            b.`financial_year_desc`,
-            c.`fund_source`,
-            a.`training_control_no`,
-            a.`pr_no`,
-            a.`pr_status`,
-            e.`bank_account_payee`,
-            a.`pr_amount`,
-            gg.allotment_class_id,
-            hh.`allotment_class_account_code`,
-            hh.`allotment_class_account`,
-            g.`amount`,
-            h.`priority_program_code`,
-            h.`priority_program`,
-            f.`office`
-
-            FROM procurements a
-            JOIN `financial_years` b ON a.`financial_year_id` = b.`financial_year_id`
-            JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
-            JOIN payee AS e ON a.`payee_id` = e.`payee_id`
-            JOIN offices f ON a.`office_id` = f.`office_id`
-            LEFT JOIN procurement_allotment_classes g ON a.`procurement_id` = g.procurement_id
-            LEFT JOIN `allotment_classes` gg ON g.`allotment_class_id` = gg.`allotment_class_id`
-            LEFT JOIN allotment_class_accounts hh ON g.`allotment_class_account_id` = hh.`allotment_class_account_id`
-            LEFT JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
-        ');
+            SELECT
+                a.`procurement_id`,
+                b.`financial_year_code`,
+                b.`financial_year_desc`,
+                c.`fund_source`,
+                a.`training_control_no`,
+                a.`pr_no`,
+                a.`pr_status`,
+                e.`bank_account_payee`,
+                a.`pr_amount`,
+                gg.allotment_class_id,
+                hh.`allotment_class_account_code`,
+                hh.`allotment_class_account`,
+                g.`amount`,
+                h.`priority_program_code`,
+                h.`priority_program`,
+                f.`office`
+                
+                FROM procurements a
+                JOIN `financial_years` b ON a.`financial_year_id` = b.`financial_year_id`
+                JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
+                JOIN payee AS e ON a.`payee_id` = e.`payee_id`
+                JOIN offices f ON a.`office_id` = f.`office_id`
+                LEFT JOIN procurement_allotment_classes g ON a.`procurement_id` = g.procurement_id
+                LEFT JOIN `allotment_classes` gg ON g.`allotment_class_id` = gg.`allotment_class_id`
+                LEFT JOIN allotment_class_accounts hh ON g.`allotment_class_account_id` = hh.`allotment_class_account_id`
+                LEFT JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
+            ');
     }
 
 

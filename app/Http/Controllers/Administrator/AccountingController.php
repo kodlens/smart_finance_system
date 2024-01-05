@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Accounting;
 use App\Models\AccountingDocumentaryAttachment;
+use App\Models\User;
 
 use Illuminate\Support\Facades\Storage;
 
@@ -27,7 +28,7 @@ class AccountingController extends Controller
         $sort = explode('.', $req->sort_by);
 
         $data = Accounting::with(['fund_source', 'payee', 'acctg_documentary_attachments.documentary_attachment',
-            'accounting_allotment_classes'])
+            'accounting_allotment_classes', 'processor'])
             ->where('particulars', 'like', $req->key . '%')
             ->orWhere('transaction_no', 'like', $req->key . '%')
             ->orWhere('training_control_no', 'like', $req->key . '%')
@@ -302,6 +303,37 @@ class AccountingController extends Controller
             JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
         ');
     }
+
+
+    public function getModalProcessor(Request $req){
+
+        $sort = explode('.', $req->sort_by);
+
+        $data = User::where('role', 'PROCESSOR')
+            ->where('lname', 'like', $req->name . '%')
+            //->orWhere('fname', 'like', $req->name . '%')
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);
+
+        return $data;
+    }
+    public function assignProcessor(Request $req){
+
+        $req->validate([
+            'accounting_id' => ['required'],
+            'user_id' => ['required'],
+        ]);
+
+        $data = Accounting::find($req->accounting_id);
+        $data->processor_id = $req->user_id;
+        $data->save();
+
+        return response()->json([
+            'status' => 'assigned'
+        ], 200);
+
+    }
+
 
 
 

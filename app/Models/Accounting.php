@@ -26,7 +26,8 @@ class Accounting extends Model
         'total_amount',
         'priority_program_id',
         'office_id',
-        'others'
+        'others',
+        'processor_id'
     ];
 
 
@@ -69,6 +70,10 @@ class Accounting extends Model
         return $this->hasOne(Office::class, 'office_id', 'office_id');
     }
 
+
+    public function processor(){
+        return $this->hasOne(User::class, 'user_id', 'processor_id');
+    }
 
 
 

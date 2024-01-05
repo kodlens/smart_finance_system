@@ -95,6 +95,12 @@
                                 {{ props.row.total_amount }}
                             </b-table-column>
 
+                            <b-table-column field="processor" label="Assigned Processor" v-slot="props">
+                                <span v-if="props.row.processor_id > 0">
+                                    {{ props.row.processor.lname }}, {{ props.row.processor.fname }} {{ props.row.processor.mname }}
+                                </span>
+                            </b-table-column>
+
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
@@ -104,9 +110,14 @@
                                             :href="`/accounting/${props.row.accounting_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" i
-                                            con-right="delete"
+                                        <b-button class="button is-small is-danger mr-1"
+                                            icon-right="delete"
                                             @click="confirmDelete(props.row.accounting_id)"></b-button>
+                                    </b-tooltip>
+                                    <b-tooltip label="Assign Processor" type="is-info" v-if="!props.row.processor_id > 0">
+                                        <modal-button-browse-processor
+                                            :props-accounting-id="props.row.accounting_id"
+                                            @browseProcessor="emitBrowserProcessor"></modal-button-browse-processor>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -142,6 +153,10 @@
                                     </tr>
                                 </table>
 
+                                <!-- <div v-if="props.row.processor_id">
+                                    Processor: {{ props.row.processor_id }}
+                                </div> -->
+
                             </template>
 
 
@@ -166,12 +181,16 @@
 
 
 
+
+
+
     </div>
 </template>
 
 <script>
 
 export default{
+
     data() {
         return{
             data: [],
@@ -184,20 +203,15 @@ export default{
             defaultSortDirection: 'asc',
 
 
-            
-
             global_id : 0,
 
             search: {
                 key: '',
             },
 
-
             modalViewFile: false,
 
-
             errors: {},
-
 
             btnClass: {
                 'is-success': true,
@@ -296,6 +310,24 @@ export default{
         async fetchData(){
             const res = await axios.get('/fetch-accountings')
             return res.data
+        },
+
+        emitBrowserProcessor(row){
+            console.log(row)
+
+            axios.post('/accounting-assign-processor', row).then(res=>{
+                if(res.data.status === 'assigned'){
+                    this.$buefy.dialog.alert({
+                        title: 'ASSIGNED!',
+                        message: 'Successfully assigned.',
+                        type: 'is-success',
+                        onConfirm: () => {
+                            this.loadAsyncData()
+                        }
+                    })
+                }
+            })
+
         }
     },
 
