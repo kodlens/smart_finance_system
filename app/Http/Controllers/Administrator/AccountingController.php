@@ -301,7 +301,7 @@ class AccountingController extends Controller
             LEFT JOIN `accounting_allotment_classes` g ON a.`accounting_id` = g.`accounting_id`
             LEFT JOIN `allotment_classes` gg ON g.`allotment_class_id` = gg.`allotment_class_id`
             LEFT JOIN `allotment_class_accounts` hh ON g.`accounting_allotment_class_id` = hh.`allotment_class_account_id`
-            JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
+            LEFT JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
         ');
     }
 
