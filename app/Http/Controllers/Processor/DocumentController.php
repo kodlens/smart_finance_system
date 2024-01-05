@@ -76,6 +76,13 @@ class DocumentController extends Controller
             $this->cityTreasurerRetrieve($id);
         }
 
+        if($option === 'college_updated'){
+            $this->collegeUpdated($id);
+        }
+ 
+
+        
+
         return response()->json([
             'status' => 'saved'
         ], 200);
@@ -204,7 +211,6 @@ class DocumentController extends Controller
 
 
     //city treasurer
-
     public function cityTreasurerUpdateStatus(Request $req, $id){
 
         $data = Accounting::find($id);
@@ -242,6 +248,38 @@ class DocumentController extends Controller
         $data->save();
     }
 
+
+    //College Accounting
+    public function collegeAccountingUpdateStatus(Request $req, $id){
+
+        $data = Accounting::find($id);
+        $data->final_status = $req->status;
+        $data->save();
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+    public function collegeAccountingUpdateRemarks(Request $req, $id){
+
+        $data = Accounting::find($id);
+        $data->final_remarks = $req->remarks;
+        $data->save();
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+
+    public function collegeUpdated($id){
+        $data = Accounting::find($id);
+        if(!$data->college_accounting_datetime_updated){
+            $data->college_accounting_datetime_updated = date('Y-m-d H:i');
+        }
+        $data->save();
+    }
+
+   
 
 
 

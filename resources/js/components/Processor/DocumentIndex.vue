@@ -136,6 +136,9 @@
                                 <br>
                                 <table-city-treasurer :propRow="props.row"
                                     @emitRefresh="loadAsyncData"></table-city-treasurer>
+                                <br>
+                                <table-college-accounting :propRow="props.row"
+                                    @emitRefresh="loadAsyncData"></table-college-accounting>
                             </template>
                         </b-table>
 
