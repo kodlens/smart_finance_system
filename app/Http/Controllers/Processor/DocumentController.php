@@ -69,6 +69,13 @@ class DocumentController extends Controller
             $this->cityAccountingRetrieve($id);
         }
 
+        if($option === 'city_treasurer_forward'){
+            $this->cityTreasurerForward($id);
+        }
+        if($option === 'city_treasurer_retrieve'){
+            $this->cityTreasurerRetrieve($id);
+        }
+
         return response()->json([
             'status' => 'saved'
         ], 200);
@@ -157,7 +164,6 @@ class DocumentController extends Controller
 
 
     //city accounting
-    //citybudget
     public function cityAccountingUpdateStatus(Request $req, $id){
 
         $data = Accounting::find($id);
@@ -195,6 +201,46 @@ class DocumentController extends Controller
         $data->save();
     }
 
+
+
+    //city treasurer
+
+    public function cityTreasurerUpdateStatus(Request $req, $id){
+
+        $data = Accounting::find($id);
+        $data->city_treasurer_status = $req->status;
+        $data->save();
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+    public function cityTreasurerUpdateRemarks(Request $req, $id){
+
+        $data = Accounting::find($id);
+        $data->city_treasurer_remarks = $req->remarks;
+        $data->save();
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+
+    public function cityTreasurerForward($id){
+        $data = Accounting::find($id);
+        if(!$data->city_treasurer_datetime_forwarded){
+            $data->city_treasurer_datetime_forwarded = date('Y-m-d H:i');
+        }
+        $data->save();
+    }
+
+    public function cityTreasurerRetrieve($id){
+        $data = Accounting::find($id);
+        if(!$data->city_treasurer_datetime_retrieved){
+            $data->city_treasurer_datetime_retrieved = date('Y-m-d H:i');
+        }
+        $data->save();
+    }
 
 
 

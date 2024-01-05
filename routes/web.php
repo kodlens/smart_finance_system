@@ -179,6 +179,9 @@ Route::middleware(['auth', 'processor'])->group(function() {
     Route::post('/document-city-accounting-status/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'cityAccountingUpdateStatus']);
     Route::post('/document-city-accounting-remarks/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'cityAccountingUpdateRemarks']);
 
+    Route::post('/document-city-treasurer-status/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'cityTreasurerUpdateStatus']);
+    Route::post('/document-city-treasurer-remarks/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'cityTreasurerUpdateRemarks']);
+
 
 });
 
