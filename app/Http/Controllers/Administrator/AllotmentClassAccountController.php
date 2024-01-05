@@ -25,7 +25,8 @@ class AllotmentClassAccountController extends Controller
         $sort = explode('.', $req->sort_by);
 
         return AllotmentClassAccount::with(['allotment_class'])
-            ->where('allotment_class_account_code', 'like', '%' . $req->code . '%')
+            ->where('allotment_class_account_code', 'like', '%' . $req->allotment . '%')
+            ->orWhere('allotment_class_account', 'like', '%' . $req->allotment . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }

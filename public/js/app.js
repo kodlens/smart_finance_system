@@ -9200,7 +9200,7 @@ __webpack_require__.r(__webpack_exports__);
       defaultSortDirection: 'asc',
       global_id: 0,
       search: {
-        allotment_class: ''
+        allotment: ''
       },
       isModalCreate: false,
       fields: {
@@ -9221,7 +9221,7 @@ __webpack_require__.r(__webpack_exports__);
     loadAsyncData: function loadAsyncData() {
       var _this = this;
 
-      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "lname=".concat(this.search.allotment_class), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
+      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "allotment=".concat(this.search.allotment), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
       axios.get("/get-allotment-classes?".concat(params)).then(function (_ref) {
         var data = _ref.data;
@@ -9598,7 +9598,7 @@ __webpack_require__.r(__webpack_exports__);
       defaultSortDirection: 'asc',
       global_id: 0,
       search: {
-        allotment_class: ''
+        allotment: ''
       },
       isModalCreate: false,
       fields: {
@@ -9619,7 +9619,7 @@ __webpack_require__.r(__webpack_exports__);
     loadAsyncData: function loadAsyncData() {
       var _this = this;
 
-      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "lname=".concat(this.search.allotment_class), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
+      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "allotment=".concat(this.search.allotment), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
       axios.get("/get-allotment-class-accounts?".concat(params)).then(function (_ref) {
         var data = _ref.data;
@@ -12076,7 +12076,7 @@ __webpack_require__.r(__webpack_exports__);
     loadAsyncData: function loadAsyncData() {
       var _this = this;
 
-      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "code=".concat(this.search.code), "program=".concat(this.search.program), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
+      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "program=".concat(this.search.program), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
       axios.get("/get-priority-programs?".concat(params)).then(function (_ref) {
         var data = _ref.data;
@@ -44949,7 +44949,7 @@ var render = function () {
                             _c("b-input", {
                               attrs: {
                                 type: "text",
-                                placeholder: "Search Lastname",
+                                placeholder: "Search Allotment",
                               },
                               nativeOn: {
                                 keyup: function ($event) {
@@ -44972,11 +44972,11 @@ var render = function () {
                                 },
                               },
                               model: {
-                                value: _vm.search.lname,
+                                value: _vm.search.allotment,
                                 callback: function ($$v) {
-                                  _vm.$set(_vm.search, "lname", $$v)
+                                  _vm.$set(_vm.search, "allotment", $$v)
                                 },
-                                expression: "search.lname",
+                                expression: "search.allotment",
                               },
                             }),
                             _vm._v(" "),
@@ -45429,11 +45429,11 @@ var render = function () {
                                 },
                               },
                               model: {
-                                value: _vm.search.lname,
+                                value: _vm.search.allotment,
                                 callback: function ($$v) {
-                                  _vm.$set(_vm.search, "lname", $$v)
+                                  _vm.$set(_vm.search, "allotment", $$v)
                                 },
-                                expression: "search.lname",
+                                expression: "search.allotment",
                               },
                             }),
                             _vm._v(" "),
@@ -49111,10 +49111,7 @@ var render = function () {
                           { attrs: { label: "Search" } },
                           [
                             _c("b-input", {
-                              attrs: {
-                                type: "text",
-                                placeholder: "Search Lastname",
-                              },
+                              attrs: { type: "text", placeholder: "Search..." },
                               nativeOn: {
                                 keyup: function ($event) {
                                   if (
@@ -49136,11 +49133,11 @@ var render = function () {
                                 },
                               },
                               model: {
-                                value: _vm.search.lname,
+                                value: _vm.search.program,
                                 callback: function ($$v) {
-                                  _vm.$set(_vm.search, "lname", $$v)
+                                  _vm.$set(_vm.search, "program", $$v)
                                 },
-                                expression: "search.lname",
+                                expression: "search.program",
                               },
                             }),
                             _vm._v(" "),
@@ -51091,10 +51088,7 @@ var render = function () {
                           { attrs: { label: "Search" } },
                           [
                             _c("b-input", {
-                              attrs: {
-                                type: "text",
-                                placeholder: "Search Lastname",
-                              },
+                              attrs: { type: "text", placeholder: "Search..." },
                               nativeOn: {
                                 keyup: function ($event) {
                                   if (

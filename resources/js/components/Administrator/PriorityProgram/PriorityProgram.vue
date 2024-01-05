@@ -29,7 +29,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.lname" placeholder="Search Lastname"
+                                                 v-model="search.program" placeholder="Search..."
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -216,7 +216,6 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `code=${this.search.code}`,
                 `program=${this.search.program}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`

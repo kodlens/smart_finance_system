@@ -18,7 +18,8 @@ class PriorityProgramController extends Controller
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        return PriorityProgram::where('priority_program', 'like', '%' . $req->pp . '%')
+        return PriorityProgram::where('priority_program', 'like', '%' . $req->program . '%')
+            ->orWhere('priority_program_code', 'like', '%' . $req->program . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }

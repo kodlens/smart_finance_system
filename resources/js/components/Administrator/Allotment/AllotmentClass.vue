@@ -28,7 +28,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.lname" placeholder="Search Lastname"
+                                                 v-model="search.allotment" placeholder="Search Allotment"
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -161,7 +161,7 @@ export default{
             global_id : 0,
 
             search: {
-                allotment_class: '',
+                allotment: '',
             },
 
             isModalCreate: false,
@@ -188,7 +188,7 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `lname=${this.search.allotment_class}`,
+                `allotment=${this.search.allotment}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
