@@ -27,7 +27,34 @@ class Accounting extends Model
         'priority_program_id',
         'office_id',
         'others',
-        'processor_id'
+        'processor_id',
+
+        'processor_datetime_received',
+
+        'bids_award_datetime_forwarded',
+        'bids_award_datetime_retrieved',
+        'bids_award_status',
+        'bids_award_remarks',
+
+        'city_budget_datetime_forwarded',
+        'city_budget_datetime_retrieved',
+        'city_budget_status',
+        'city_budget_remarks',
+
+        'city_accounting_datetime_forwarded',
+        'city_accounting_datetime_retrieved',
+        'city_accounting_status',
+        'city_accounting_remarks',
+
+        'city_treasurer_datetime_forwarded',
+        'city_treasurer_datetime_retrieved',
+        'city_treasurer_status',
+        'city_treasurer_remarks',
+
+        'college_accounting_datetime_updated',
+        'final_status',
+        'final_remarks'
+
     ];
 
 

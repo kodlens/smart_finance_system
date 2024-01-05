@@ -160,7 +160,20 @@ Route::middleware(['auth', 'procurement'])->group(function() {
 
 
 
+Route::middleware(['auth', 'processor'])->group(function() {
 
+    Route::resource('/documents', App\Http\Controllers\Processor\DocumentController::class);
+    Route::get('/get-documents', [App\Http\Controllers\Processor\DocumentController::class, 'getData']);
+
+    Route::post('/document-mark-receive/{accountingId}', [App\Http\Controllers\Processor\DocumentController::class, 'documentMarkReceive']);
+
+
+    Route::post('/document-forward/{option}/{accountingId}', [App\Http\Controllers\Processor\DocumentController::class, 'documentMark']);
+
+    Route::post('/document-bid-award-status/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'documentBidAwardUpdate']);
+    Route::post('/document-bid-award-remarks/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'documentBidAwardUpdateRemarks']);
+
+});
 
 
 

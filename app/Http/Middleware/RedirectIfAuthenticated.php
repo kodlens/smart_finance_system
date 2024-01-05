@@ -42,6 +42,10 @@ class RedirectIfAuthenticated
                 if($role == 'ACCOUNTING STAFF'){
                     return redirect('/dashboard');
                 }
+
+                if($role == 'PROCESSOR'){
+                    return redirect('/dashboard');
+                }
             }
         }
 
