@@ -53126,7 +53126,7 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("div", {}, [
       _c("div", { staticClass: "box-heading-text" }, [
-        _vm._v("\n                    SMART FINANCE SYSTEM\n                "),
+        _vm._v("\n                    SMART FINANCE MANAGER\n                "),
       ]),
       _vm._v(" "),
       _c("div", { staticClass: "img-container" }, [

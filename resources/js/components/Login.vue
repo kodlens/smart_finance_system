@@ -8,7 +8,7 @@
 
                 <div class="">
                     <div class="box-heading-text">
-                        SMART FINANCE SYSTEM
+                        SMART FINANCE MANAGER
                     </div>
                     <div class="img-container">
                         <img class="img" src="/img/logo_small.png" />
