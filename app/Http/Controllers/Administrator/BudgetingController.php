@@ -271,7 +271,7 @@ class BudgetingController extends Controller
             LEFT JOIN `budgeting_allotment_classes` g ON a.`budgeting_id` = g.`budgeting_id`
             LEFT JOIN `allotment_classes` gg ON g.`allotment_class_id` = gg.`allotment_class_id`
             LEFT JOIN `allotment_class_accounts` hh ON g.`budgeting_allotment_class_id` = hh.`allotment_class_account_id`
-            JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
+            LEFT JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
         ');
     }
 
