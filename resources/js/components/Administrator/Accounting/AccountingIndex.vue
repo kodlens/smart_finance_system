@@ -157,6 +157,22 @@
                                     Processor: {{ props.row.processor_id }}
                                 </div> -->
 
+
+                                <table-bid-award :propRow="props.row"
+                                    @emitRefresh="loadAsyncData"></table-bid-award>
+                                <br>
+                                <table-city-budget :propRow="props.row"
+                                    @emitRefresh="loadAsyncData"></table-city-budget>
+                                <br>
+                                <table-city-accounting :propRow="props.row"
+                                    @emitRefresh="loadAsyncData"></table-city-accounting>
+                                <br>
+                                <table-city-treasurer :propRow="props.row"
+                                    @emitRefresh="loadAsyncData"></table-city-treasurer>
+                                <br>
+                                <table-college-accounting :propRow="props.row"
+                                    @emitRefresh="loadAsyncData"></table-college-accounting>
+
                             </template>
 
 

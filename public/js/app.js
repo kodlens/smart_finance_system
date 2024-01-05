@@ -8865,6 +8865,22 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -44472,6 +44488,39 @@ var render = function () {
                               ],
                               2
                             ),
+                            _vm._v(" "),
+                            _c("table-bid-award", {
+                              attrs: { propRow: props.row },
+                              on: { emitRefresh: _vm.loadAsyncData },
+                            }),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("table-city-budget", {
+                              attrs: { propRow: props.row },
+                              on: { emitRefresh: _vm.loadAsyncData },
+                            }),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("table-city-accounting", {
+                              attrs: { propRow: props.row },
+                              on: { emitRefresh: _vm.loadAsyncData },
+                            }),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("table-city-treasurer", {
+                              attrs: { propRow: props.row },
+                              on: { emitRefresh: _vm.loadAsyncData },
+                            }),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("table-college-accounting", {
+                              attrs: { propRow: props.row },
+                              on: { emitRefresh: _vm.loadAsyncData },
+                            }),
                           ]
                         },
                       },

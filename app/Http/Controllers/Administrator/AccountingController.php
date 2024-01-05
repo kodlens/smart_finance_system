@@ -18,6 +18,7 @@ class AccountingController extends Controller
 {
     //
 
+
     public function index(){
         return view('administrator.accounting.accounting-index');
     }

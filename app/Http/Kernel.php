@@ -67,6 +67,7 @@ class Kernel extends HttpKernel
         'budget' => \App\Http\Middleware\BudgetMiddleware::class,
         'procurement' => \App\Http\Middleware\ProcurementOfficerMiddleware::class,
         'processor' => \App\Http\Middleware\ProcessorMiddleware::class,
+        'astaff' => \App\Http\Middleware\AccountingStaffMiddleware::class,
 
     ];
 }
