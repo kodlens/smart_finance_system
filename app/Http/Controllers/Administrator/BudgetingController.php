@@ -276,5 +276,13 @@ class BudgetingController extends Controller
     }
 
 
+    public function destroy($id){
+        Budgeting::destroy($id);
+
+        return response()->json([
+            'status' => 'deleted'
+        ], 200);
+    }
+
 
 }

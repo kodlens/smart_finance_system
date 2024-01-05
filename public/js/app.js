@@ -11346,12 +11346,12 @@ __webpack_require__.r(__webpack_exports__);
       defaultSortDirection: 'asc',
       global_id: 0,
       search: {
-        academic_year: ''
+        financial_year: ''
       },
       isModalCreate: false,
       fields: {
-        academic_year_code: '',
-        academic_year_desc: '',
+        financial_year_code: '',
+        financial_year_desc: '',
         active: 0
       },
       errors: {},
@@ -11369,7 +11369,7 @@ __webpack_require__.r(__webpack_exports__);
     loadAsyncData: function loadAsyncData() {
       var _this = this;
 
-      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "academic_year=".concat(this.search.academic_year), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
+      var params = ["sort_by=".concat(this.sortField, ".").concat(this.sortOrder), "financial_year=".concat(this.search.financial_year), "perpage=".concat(this.perPage), "page=".concat(this.page)].join('&');
       this.loading = true;
       axios.get("/get-financial-years?".concat(params)).then(function (_ref) {
         var data = _ref.data;
@@ -11419,7 +11419,7 @@ __webpack_require__.r(__webpack_exports__);
 
       if (this.global_id > 0) {
         //update
-        axios.put('/academic-years/' + this.global_id, this.fields).then(function (res) {
+        axios.put('/financial-years/' + this.global_id, this.fields).then(function (res) {
           if (res.data.status === 'updated') {
             _this2.$buefy.dialog.alert({
               title: 'UPDATED!',
@@ -11442,7 +11442,7 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         //INSERT HERE
-        axios.post('/academic-years', this.fields).then(function (res) {
+        axios.post('/financial-years', this.fields).then(function (res) {
           if (res.data.status === 'saved') {
             _this2.$buefy.dialog.alert({
               title: 'SAVED!',
@@ -11486,7 +11486,7 @@ __webpack_require__.r(__webpack_exports__);
     deleteSubmit: function deleteSubmit(delete_id) {
       var _this4 = this;
 
-      axios["delete"]('/academic-years/' + delete_id).then(function (res) {
+      axios["delete"]('/financial-years/' + delete_id).then(function (res) {
         _this4.loadAsyncData();
       })["catch"](function (err) {
         if (err.response.status === 422) {
@@ -11496,8 +11496,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearFields: function clearFields() {
       this.global_id = 0;
-      this.fields.academic_year_code = '';
-      this.fields.academic_year_desc = '';
+      this.fields.financial_year_code = '';
+      this.fields.financial_year_desc = '';
       this.fields.active = 0;
     },
     //update code here
@@ -11507,7 +11507,7 @@ __webpack_require__.r(__webpack_exports__);
       this.clearFields();
       this.global_id = data_id;
       this.isModalCreate = true;
-      axios.get('/academic-years/' + data_id).then(function (res) {
+      axios.get('/financial-years/' + data_id).then(function (res) {
         _this5.fields = res.data;
       });
     }
@@ -48095,11 +48095,11 @@ var render = function () {
                                 },
                               },
                               model: {
-                                value: _vm.search.academic_year,
+                                value: _vm.search.financial_year,
                                 callback: function ($$v) {
-                                  _vm.$set(_vm.search, "academic_year", $$v)
+                                  _vm.$set(_vm.search, "financial_year", $$v)
                                 },
-                                expression: "search.academic_year",
+                                expression: "search.financial_year",
                               },
                             }),
                             _vm._v(" "),
@@ -48362,7 +48362,7 @@ var render = function () {
               _c("div", { staticClass: "modal-card" }, [
                 _c("header", { staticClass: "modal-card-head" }, [
                   _c("p", { staticClass: "modal-card-title" }, [
-                    _vm._v("Academic Year"),
+                    _vm._v("Financial Year"),
                   ]),
                   _vm._v(" "),
                   _c("button", {
@@ -48400,7 +48400,7 @@ var render = function () {
                             [
                               _c("b-input", {
                                 attrs: {
-                                  placeholder: "Academic Year Code",
+                                  placeholder: "Financial Year Code",
                                   required: "",
                                 },
                                 model: {
@@ -48445,7 +48445,7 @@ var render = function () {
                             [
                               _c("b-input", {
                                 attrs: {
-                                  placeholder: "Academic Year Description",
+                                  placeholder: "Financial Year Description",
                                   required: "",
                                 },
                                 model: {

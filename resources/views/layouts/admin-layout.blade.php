@@ -109,7 +109,7 @@
                         Procurements
                     </b-navbar-item>
                     @endif
-                    @if(in_array($role, ['ADMINISTRATOR', 'PROCESSOR']))
+                    @if(in_array($role, ['PROCESSOR']))
                     <b-navbar-item href="/documents">
                         Documents
                     </b-navbar-item>

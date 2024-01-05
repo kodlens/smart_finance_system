@@ -252,7 +252,7 @@ class ProcurementController extends Controller
                 h.`priority_program_code`,
                 h.`priority_program`,
                 f.`office`
-                
+
                 FROM procurements a
                 JOIN `financial_years` b ON a.`financial_year_id` = b.`financial_year_id`
                 JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
@@ -265,6 +265,14 @@ class ProcurementController extends Controller
             ');
     }
 
+
+    public function destroy($id){
+        Procurement::destroy($id);
+
+        return response()->json([
+            'status' => 'deleted'
+        ], 200);
+    }
 
 
 }

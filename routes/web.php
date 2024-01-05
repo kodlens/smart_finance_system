@@ -118,6 +118,7 @@ Route::middleware(['auth', 'admin'])->group(function() {
 
 
 Route::middleware(['auth', 'astaff'])->group(function() {
+
     Route::resource('/accounting', App\Http\Controllers\Administrator\AccountingController::class);
     Route::post('/accounting-update/{id}', [App\Http\Controllers\Administrator\AccountingController::class, 'updateAccounting']);
     Route::get('/get-accounting-records', [App\Http\Controllers\Administrator\AccountingController::class, 'getData']);

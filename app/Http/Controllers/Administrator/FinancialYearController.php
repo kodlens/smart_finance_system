@@ -19,14 +19,15 @@ class FinancialYearController extends Controller
 
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
-        return FinancialYear::where('financial_year_desc', 'like', $req->academic_year . '%')
+        return FinancialYear::where('financial_year_desc', 'like', $req->financial_year . '%')
+            ->orWhere('financial_year_code', 'like', $req->financial_year . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }
 
     public function store(Request $req){
         $req->validate([
-            'financial_year_code' => ['required', 'unique:academic_years'],
+            'financial_year_code' => ['required', 'unique:financial_years'],
             'financial_year_desc' => ['required']
         ]);
 
@@ -83,5 +84,5 @@ class FinancialYearController extends Controller
             'status' => 'deleted'
         ], 200);
     }
-    
+
 }

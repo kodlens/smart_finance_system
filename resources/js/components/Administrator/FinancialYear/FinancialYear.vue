@@ -28,7 +28,7 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.academic_year" placeholder="Search Academic Year"
+                                                 v-model="search.financial_year" placeholder="Search Academic Year"
                                                  @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
@@ -110,7 +110,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Academic Year</p>
+                        <p class="modal-card-title">Financial Year</p>
                         <button
                             type="button"
                             class="delete"
@@ -125,7 +125,7 @@
                                              :type="errors.financial_year_code ? 'is-danger':''"
                                              :message="errors.financial_year_code ? errors.financial_year_code[0] : ''">
                                         <b-input v-model="fields.financial_year_code"
-                                                 placeholder="Academic Year Code" required>
+                                                 placeholder="Financial Year Code" required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -137,7 +137,7 @@
                                              :type="errors.financial_year_desc ? 'is-danger':''"
                                              :message="errors.financial_year_desc ? errors.financial_year_desc[0] : ''">
                                         <b-input v-model="fields.financial_year_desc"
-                                                 placeholder="Academic Year Description" required>
+                                                 placeholder="Financial Year Description" required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -191,14 +191,14 @@ export default{
             global_id : 0,
 
             search: {
-                academic_year: '',
+                financial_year: '',
             },
 
             isModalCreate: false,
 
             fields: {
-                academic_year_code: '',
-                academic_year_desc: '',
+                financial_year_code: '',
+                financial_year_desc: '',
                 active : 0
             },
             errors: {},
@@ -223,7 +223,7 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `academic_year=${this.search.academic_year}`,
+                `financial_year=${this.search.financial_year}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
@@ -281,7 +281,7 @@ export default{
 
             if(this.global_id > 0){
                 //update
-                axios.put('/academic-years/'+this.global_id, this.fields).then(res=>{
+                axios.put('/financial-years/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -302,7 +302,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/academic-years', this.fields).then(res=>{
+                axios.post('/financial-years', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -339,7 +339,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/academic-years/' + delete_id).then(res => {
+            axios.delete('/financial-years/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -350,8 +350,8 @@ export default{
 
         clearFields(){
             this.global_id = 0;
-            this.fields.academic_year_code = '';
-            this.fields.academic_year_desc = '';
+            this.fields.financial_year_code = '';
+            this.fields.financial_year_desc = '';
             this.fields.active = 0;
         },
 
@@ -362,7 +362,7 @@ export default{
             this.global_id = data_id;
             this.isModalCreate = true;
 
-            axios.get('/academic-years/'+data_id).then(res=>{
+            axios.get('/financial-years/'+data_id).then(res=>{
                 this.fields = res.data;
                
                 

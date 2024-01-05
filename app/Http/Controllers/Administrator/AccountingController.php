@@ -305,7 +305,12 @@ class AccountingController extends Controller
         ');
     }
 
-
+    public function destroy($id){
+        Accounting::destroy($id);
+        return response()->json([
+            'status' => 'deleted'
+        ], 200);
+    }
     public function getModalProcessor(Request $req){
 
         $sort = explode('.', $req->sort_by);
