@@ -3,31 +3,31 @@
         <table>
             <tr>
 
-                <th>Bids & Award Forwarded</th>
-                <th>Bids & Award Retrieved</th>
-                <th>Bids & Award Status</th>
-                <th>Bids & Award Remarks</th>
+                <th>City Budget Forwarded</th>
+                <th>City Budget Retrieved</th>
+                <th>City Budget Status</th>
+                <th>City Budget Remarks</th>
                 <th>Action</th>
             </tr>
             <tr>
                 <td>
-                    <span v-if="propRow.bids_award_datetime_forwarded">
-                        {{ new Date(propRow.bids_award_datetime_forwarded).toLocaleString() }}
+                    <span v-if="propRow.city_budget_datetime_forwarded">
+                        {{ new Date(propRow.city_budget_datetime_forwarded).toLocaleString() }}
                     </span>
                 </td>
                 <td>
-                    <span v-if="propRow.bids_award_datetime_retrieved">
-                        {{ new Date(propRow.bids_award_datetime_retrieved).toLocaleString() }}
+                    <span v-if="propRow.city_budget_datetime_retrieved">
+                        {{ new Date(propRow.city_budget_datetime_retrieved).toLocaleString() }}
                     </span>
                 </td>
                 <td>
-                    <span v-if="propRow.bids_award_status">
-                        {{ propRow.bids_award_status }}
+                    <span v-if="propRow.city_budget_status">
+                        {{ propRow.city_budget_status }}
                     </span>
                 </td>
                 <td>
-                    <span v-if="propRow.bids_award_remarks">
-                        {{ propRow.bids_award_remarks }}
+                    <span v-if="propRow.city_budget_remarks">
+                        {{ propRow.city_budget_remarks }}
                     </span>
                 </td>
                 <td>
@@ -42,8 +42,8 @@
                         <b-dropdown-item aria-role="listitem" @click="confirmMark('city_budget_forward', propRow.accounting_id)">Mark Forwarded</b-dropdown-item>
                         <b-dropdown-item aria-role="listitem" @click="confirmMark('city_budget_retrieve', propRow.accounting_id)">Mark Retrieved</b-dropdown-item>
                         
-                        <b-dropdown-item aria-role="listitem" @click="openModalBidAwardStatus">Mark Status</b-dropdown-item>
-                        <b-dropdown-item aria-role="listitem" @click="openModalBidAwardRemarks">Add Remarks</b-dropdown-item>
+                        <b-dropdown-item aria-role="listitem" @click="openModalCityBudgetStatus">Mark Status</b-dropdown-item>
+                        <b-dropdown-item aria-role="listitem" @click="openModalCityBudgetRemarks">Add Remarks</b-dropdown-item>
                     </b-dropdown>
                 </td>
             </tr>
@@ -51,54 +51,52 @@
 
 
         <!--modal create-->
-        <b-modal v-model="modalStatusBidAward" has-modal-card
-                trap-focus
-                :width="640"
-                aria-role="dialog"
-                aria-label="Modal"
-                aria-modal>
+        <b-modal v-model="modalCityBudgetStatus" has-modal-card
+            trap-focus
+            :width="640"
+            aria-role="dialog"
+            aria-label="Modal"
+            aria-modal>
 
-            <form @submit.prevent="submit">
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">STATUS</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="modalStatusBidAward = false"/>
-                    </header>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">STATUS</p>
+                    <button
+                        type="button"
+                        class="delete"
+                        @click="modalCityBudgetStatus = false"/>
+                </header>
 
-                    <section class="modal-card-body">
-                        <div class="">
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Status" label-position="on-border"
-                                            :type="errors.status ? 'is-danger':''"
-                                            :message="errors.status ? errors.status[0] : ''">
-                                        <b-select v-model="fields.status"
-                                            placeholder="Status" required>
-                                            <option value="ON-PROCESS">ON-PROCESS</option>
-                                            <option value="PENDING">PENDING</option>
-                                            <option value="CANCELLED">CANCELLED</option>
-                                            <option value="APPROVED">APPROVED</option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
+                <section class="modal-card-body">
+                    <div class="">
+                        <div class="columns">
+                            <div class="column">
+                                <b-field label="Status" label-position="on-border"
+                                        :type="errors.status ? 'is-danger':''"
+                                        :message="errors.status ? errors.status[0] : ''">
+                                    <b-select v-model="fields.status"
+                                        placeholder="Status" required>
+                                        <option value="ON-PROCESS">ON-PROCESS</option>
+                                        <option value="PENDING">PENDING</option>
+                                        <option value="CANCELLED">CANCELLED</option>
+                                        <option value="APPROVED">APPROVED</option>
+                                    </b-select>
+                                </b-field>
                             </div>
                         </div>
-                    </section>
-                    <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="modalStatusBidAward=false"/>
-                        <b-button
-                            :class="btnClass"
-                            @click="submit"
-                            label="Save"
-                            type="is-success">SAVE</b-button>
-                    </footer>
-                </div>
-            </form><!--close form-->
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <b-button
+                        label="Close"
+                        @click="modalCityBudgetStatus=false"/>
+                    <b-button
+                        :class="btnClass"
+                        @click="submit"
+                        label="Save"
+                        type="is-success">SAVE</b-button>
+                </footer>
+            </div>
         </b-modal>
         <!--close modal-->
 
@@ -111,49 +109,47 @@
 
 
         <!--modal create-->
-        <b-modal v-model="modalRemarksBidAward" has-modal-card
-                trap-focus
-                :width="640"
-                aria-role="dialog"
-                aria-label="Modal"
-                aria-modal>
+        <b-modal v-model="modalCityBudgetRemarks" has-modal-card
+            trap-focus
+            :width="640"
+            aria-role="dialog"
+            aria-label="Modal"
+            aria-modal>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">STATUS</p>
+                    <button
+                        type="button"
+                        class="delete"
+                        @click="modalCityBudgetRemarks = false"/>
+                </header>
 
-            <form @submit.prevent="submit">
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">STATUS</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="modalRemarksBidAward = false"/>
-                    </header>
-
-                    <section class="modal-card-body">
-                        <div class="">
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Status" label-position="on-border"
-                                            :type="errors.remarks ? 'is-danger':''"
-                                            :message="errors.remarks ? errors.remarks[0] : ''">
-                                        <b-input v-model="fields.remarks" placeholder="Remarks">
-                                          </b-input>
-                                    </b-field>
-                                </div>
+                <section class="modal-card-body">
+                    <div class="">
+                        <div class="columns">
+                            <div class="column">
+                                <b-field label="Status" label-position="on-border"
+                                        :type="errors.remarks ? 'is-danger':''"
+                                        :message="errors.remarks ? errors.remarks[0] : ''">
+                                    <b-input v-model="fields.remarks" placeholder="Remarks">
+                                        </b-input>
+                                </b-field>
                             </div>
                         </div>
-                    </section>
-                    <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="modalRemarksBidAward=false"/>
-                        <b-button
-                            :class="btnClass"
-                            @click="submitRemarks"
-                            label="Save"
-                            type="is-success">SAVE</b-button>
-                    </footer>
-                </div>
-            </form><!--close form-->
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <b-button
+                        label="Close"
+                        @click="modalCityBudgetRemarks=false"/>
+                    <b-button
+                        :class="btnClass"
+                        @click="submitRemarks"
+                        label="Save"
+                        type="is-success">SAVE</b-button>
+                </footer>
+            </div>
+
         </b-modal>
         <!--close modal-->
 
@@ -176,8 +172,8 @@ export default{
 
     data(){
         return {
-            modalStatusBidAward : false,
-            modalRemarksBidAward : false,
+            modalCityBudgetStatus : false,
+            modalCityBudgetRemarks : false,
 
             fields: {},
             errors: {},
@@ -216,7 +212,7 @@ export default{
 
 
         submit(){
-            axios.post('/document-bid-award-status/' + this.propRow.accounting_id, this.fields).then(res=>{
+            axios.post('/document-city-budget-status/' + this.propRow.accounting_id, this.fields).then(res=>{
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({
                         title: 'Save.',
@@ -224,7 +220,7 @@ export default{
                         message: 'Status saved.',
                         onConfirm: () => {
                             this.emitRefresh()
-                            this.modalStatusBidAward = false
+                            this.modalCityBudgetStatus = false
                             this.fields = {}
                             this.errors = {}
                         }
@@ -237,7 +233,7 @@ export default{
 
 
         submitRemarks(){
-            axios.post('/document-bid-award-remarks/' + this.propRow.accounting_id, this.fields).then(res=>{
+            axios.post('/document-city-budget-remarks/' + this.propRow.accounting_id, this.fields).then(res=>{
                 if(res.data.status === 'saved'){
                     this.$buefy.dialog.alert({
                         title: 'Save.',
@@ -245,7 +241,7 @@ export default{
                         message: 'Status saved.',
                         onConfirm: () => {
                             this.emitRefresh()
-                            this.modalStatusBidAward = false
+                            this.modalCityBudgetStatus = false
                             this.fields = {}
                             this.errors = {}
                         }
@@ -257,11 +253,11 @@ export default{
         },
 
 
-        openModalBidAwardStatus(){
-            this.modalStatusBidAward = true
+        openModalCityBudgetStatus(){
+            this.modalCityBudgetStatus = true
         },
-        openModalBidAwardRemarks(){
-            this.modalRemarksBidAward = true
+        openModalCityBudgetRemarks(){
+            this.modalCityBudgetRemarks = true
         },
 
         emitRefresh(){

@@ -167,11 +167,16 @@ Route::middleware(['auth', 'processor'])->group(function() {
 
     Route::post('/document-mark-receive/{accountingId}', [App\Http\Controllers\Processor\DocumentController::class, 'documentMarkReceive']);
 
-
     Route::post('/document-forward/{option}/{accountingId}', [App\Http\Controllers\Processor\DocumentController::class, 'documentMark']);
+
 
     Route::post('/document-bid-award-status/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'documentBidAwardUpdate']);
     Route::post('/document-bid-award-remarks/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'documentBidAwardUpdateRemarks']);
+
+    Route::post('/document-city-budget-status/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'cityBudgetUpdateStatus']);
+    Route::post('/document-city-budget-remarks/{acctgId}', [App\Http\Controllers\Processor\DocumentController::class, 'cityBudgetUpdateRemarks']);
+
+
 
 });
 

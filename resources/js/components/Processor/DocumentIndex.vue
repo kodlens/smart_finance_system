@@ -127,6 +127,9 @@
                             <template #detail="props">
                                 <table-bid-award :propRow="props.row"
                                     @emitRefresh="loadAsyncData"></table-bid-award>
+                                <br>
+                                <table-city-budget :propRow="props.row"
+                                    @emitRefresh="loadAsyncData"></table-city-budget>
                             </template>
                         </b-table>
 

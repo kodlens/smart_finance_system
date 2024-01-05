@@ -55,6 +55,13 @@ class DocumentController extends Controller
             $this->bidAwardRetrieve($id);
         }
 
+        if($option === 'city_budget_forward'){
+            $this->cityBudgetForward($id);
+        }
+        if($option === 'city_budget_retrieve'){
+            $this->cityBudgetRetrieve($id);
+        }
+
         return response()->json([
             'status' => 'saved'
         ], 200);
@@ -102,6 +109,44 @@ class DocumentController extends Controller
         $data->save();
     }
 
+
+    //citybudget
+    public function cityBudgetUpdateStatus(Request $req, $id){
+
+        $data = Accounting::find($id);
+        $data->city_budget_status = $req->status;
+        $data->save();
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+    public function cityBudgetUpdateRemarks(Request $req, $id){
+
+        $data = Accounting::find($id);
+        $data->city_budget_remarks = $req->remarks;
+        $data->save();
+
+        return response()->json([
+            'status' => 'saved'
+        ], 200);
+    }
+
+    public function cityBudgetForward($id){
+        $data = Accounting::find($id);
+        if(!$data->city_budget_datetime_forwarded){
+            $data->city_budget_datetime_forwarded = date('Y-m-d H:i');
+        }
+        $data->save();
+    }
+
+    public function cityBudgetRetrieve($id){
+        $data = Accounting::find($id);
+        if(!$data->city_budget_datetime_retrieved){
+            $data->city_budget_datetime_retrieved = date('Y-m-d H:i');
+        }
+        $data->save();
+    }
 
 
 

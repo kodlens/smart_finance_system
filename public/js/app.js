@@ -16516,6 +16516,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -16667,16 +16670,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 //
 //
 //
@@ -17105,10 +17098,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propRow: {
@@ -17118,8 +17107,8 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      modalStatusBidAward: false,
-      modalRemarksBidAward: false,
+      modalCityBudgetStatus: false,
+      modalCityBudgetRemarks: false,
       fields: {},
       errors: {},
       btnClass: {
@@ -17159,7 +17148,7 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this3 = this;
 
-      axios.post('/document-bid-award-status/' + this.propRow.accounting_id, this.fields).then(function (res) {
+      axios.post('/document-city-budget-status/' + this.propRow.accounting_id, this.fields).then(function (res) {
         if (res.data.status === 'saved') {
           _this3.$buefy.dialog.alert({
             title: 'Save.',
@@ -17168,7 +17157,7 @@ __webpack_require__.r(__webpack_exports__);
             onConfirm: function onConfirm() {
               _this3.emitRefresh();
 
-              _this3.modalStatusBidAward = false;
+              _this3.modalCityBudgetStatus = false;
               _this3.fields = {};
               _this3.errors = {};
             }
@@ -17179,7 +17168,7 @@ __webpack_require__.r(__webpack_exports__);
     submitRemarks: function submitRemarks() {
       var _this4 = this;
 
-      axios.post('/document-bid-award-remarks/' + this.propRow.accounting_id, this.fields).then(function (res) {
+      axios.post('/document-city-budget-remarks/' + this.propRow.accounting_id, this.fields).then(function (res) {
         if (res.data.status === 'saved') {
           _this4.$buefy.dialog.alert({
             title: 'Save.',
@@ -17188,7 +17177,7 @@ __webpack_require__.r(__webpack_exports__);
             onConfirm: function onConfirm() {
               _this4.emitRefresh();
 
-              _this4.modalStatusBidAward = false;
+              _this4.modalCityBudgetStatus = false;
               _this4.fields = {};
               _this4.errors = {};
             }
@@ -17196,11 +17185,11 @@ __webpack_require__.r(__webpack_exports__);
         }
       })["catch"](function (err) {});
     },
-    openModalBidAwardStatus: function openModalBidAwardStatus() {
-      this.modalStatusBidAward = true;
+    openModalCityBudgetStatus: function openModalCityBudgetStatus() {
+      this.modalCityBudgetStatus = true;
     },
-    openModalBidAwardRemarks: function openModalBidAwardRemarks() {
-      this.modalRemarksBidAward = true;
+    openModalCityBudgetRemarks: function openModalCityBudgetRemarks() {
+      this.modalCityBudgetRemarks = true;
     },
     emitRefresh: function emitRefresh() {
       this.$emit('emitRefresh');
@@ -55359,6 +55348,13 @@ var render = function () {
                               attrs: { propRow: props.row },
                               on: { emitRefresh: _vm.loadAsyncData },
                             }),
+                            _vm._v(" "),
+                            _c("br"),
+                            _vm._v(" "),
+                            _c("table-city-budget", {
+                              attrs: { propRow: props.row },
+                              on: { emitRefresh: _vm.loadAsyncData },
+                            }),
                           ]
                         },
                       },
@@ -55841,133 +55837,107 @@ var render = function () {
           },
         },
         [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function ($event) {
-                  $event.preventDefault()
-                  return _vm.submit.apply(null, arguments)
+          _c("div", { staticClass: "modal-card" }, [
+            _c("header", { staticClass: "modal-card-head" }, [
+              _c("p", { staticClass: "modal-card-title" }, [_vm._v("STATUS")]),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "delete",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    _vm.modalStatusBidAward = false
+                  },
                 },
-              },
-            },
-            [
-              _c("div", { staticClass: "modal-card" }, [
-                _c("header", { staticClass: "modal-card-head" }, [
-                  _c("p", { staticClass: "modal-card-title" }, [
-                    _vm._v("STATUS"),
-                  ]),
-                  _vm._v(" "),
-                  _c("button", {
-                    staticClass: "delete",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function ($event) {
-                        _vm.modalStatusBidAward = false
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("section", { staticClass: "modal-card-body" }, [
-                  _c("div", {}, [
-                    _c("div", { staticClass: "columns" }, [
+              }),
+            ]),
+            _vm._v(" "),
+            _c("section", { staticClass: "modal-card-body" }, [
+              _c("div", {}, [
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
                       _c(
-                        "div",
-                        { staticClass: "column" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Status",
+                            "label-position": "on-border",
+                            type: _vm.errors.status ? "is-danger" : "",
+                            message: _vm.errors.status
+                              ? _vm.errors.status[0]
+                              : "",
+                          },
+                        },
                         [
                           _c(
-                            "b-field",
+                            "b-select",
                             {
-                              attrs: {
-                                label: "Status",
-                                "label-position": "on-border",
-                                type: _vm.errors.status ? "is-danger" : "",
-                                message: _vm.errors.status
-                                  ? _vm.errors.status[0]
-                                  : "",
+                              attrs: { placeholder: "Status", required: "" },
+                              model: {
+                                value: _vm.fields.status,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "status", $$v)
+                                },
+                                expression: "fields.status",
                               },
                             },
                             [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: {
-                                    placeholder: "Status",
-                                    required: "",
-                                  },
-                                  model: {
-                                    value: _vm.fields.status,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "status", $$v)
-                                    },
-                                    expression: "fields.status",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "ON-PROCESS" } },
-                                    [_vm._v("ON-PROCESS")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "PENDING" } },
-                                    [_vm._v("PENDING")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "CANCELLED" } },
-                                    [_vm._v("CANCELLED")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "APPROVED" } },
-                                    [_vm._v("APPROVED")]
-                                  ),
-                                ]
-                              ),
-                            ],
-                            1
+                              _c("option", { attrs: { value: "ON-PROCESS" } }, [
+                                _vm._v("ON-PROCESS"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "PENDING" } }, [
+                                _vm._v("PENDING"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "CANCELLED" } }, [
+                                _vm._v("CANCELLED"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "APPROVED" } }, [
+                                _vm._v("APPROVED"),
+                              ]),
+                            ]
                           ),
                         ],
                         1
                       ),
-                    ]),
-                  ]),
+                    ],
+                    1
+                  ),
                 ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c(
+              "footer",
+              { staticClass: "modal-card-foot" },
+              [
+                _c("b-button", {
+                  attrs: { label: "Close" },
+                  on: {
+                    click: function ($event) {
+                      _vm.modalStatusBidAward = false
+                    },
+                  },
+                }),
                 _vm._v(" "),
                 _c(
-                  "footer",
-                  { staticClass: "modal-card-foot" },
-                  [
-                    _c("b-button", {
-                      attrs: { label: "Close" },
-                      on: {
-                        click: function ($event) {
-                          _vm.modalStatusBidAward = false
-                        },
-                      },
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "b-button",
-                      {
-                        class: _vm.btnClass,
-                        attrs: { label: "Save", type: "is-success" },
-                        on: { click: _vm.submit },
-                      },
-                      [_vm._v("SAVE")]
-                    ),
-                  ],
-                  1
+                  "b-button",
+                  {
+                    class: _vm.btnClass,
+                    attrs: { label: "Save", type: "is-success" },
+                    on: { click: _vm.submit },
+                  },
+                  [_vm._v("SAVE")]
                 ),
-              ]),
-            ]
-          ),
+              ],
+              1
+            ),
+          ]),
         ]
       ),
       _vm._v(" "),
@@ -55991,102 +55961,87 @@ var render = function () {
           },
         },
         [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function ($event) {
-                  $event.preventDefault()
-                  return _vm.submit.apply(null, arguments)
+          _c("div", { staticClass: "modal-card" }, [
+            _c("header", { staticClass: "modal-card-head" }, [
+              _c("p", { staticClass: "modal-card-title" }, [_vm._v("STATUS")]),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "delete",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    _vm.modalRemarksBidAward = false
+                  },
                 },
-              },
-            },
-            [
-              _c("div", { staticClass: "modal-card" }, [
-                _c("header", { staticClass: "modal-card-head" }, [
-                  _c("p", { staticClass: "modal-card-title" }, [
-                    _vm._v("STATUS"),
-                  ]),
-                  _vm._v(" "),
-                  _c("button", {
-                    staticClass: "delete",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function ($event) {
-                        _vm.modalRemarksBidAward = false
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("section", { staticClass: "modal-card-body" }, [
-                  _c("div", {}, [
-                    _c("div", { staticClass: "columns" }, [
+              }),
+            ]),
+            _vm._v(" "),
+            _c("section", { staticClass: "modal-card-body" }, [
+              _c("div", {}, [
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
                       _c(
-                        "div",
-                        { staticClass: "column" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Status",
+                            "label-position": "on-border",
+                            type: _vm.errors.remarks ? "is-danger" : "",
+                            message: _vm.errors.remarks
+                              ? _vm.errors.remarks[0]
+                              : "",
+                          },
+                        },
                         [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Status",
-                                "label-position": "on-border",
-                                type: _vm.errors.remarks ? "is-danger" : "",
-                                message: _vm.errors.remarks
-                                  ? _vm.errors.remarks[0]
-                                  : "",
+                          _c("b-input", {
+                            attrs: { placeholder: "Remarks" },
+                            model: {
+                              value: _vm.fields.remarks,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "remarks", $$v)
                               },
+                              expression: "fields.remarks",
                             },
-                            [
-                              _c("b-input", {
-                                attrs: { placeholder: "Remarks" },
-                                model: {
-                                  value: _vm.fields.remarks,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "remarks", $$v)
-                                  },
-                                  expression: "fields.remarks",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
+                          }),
                         ],
                         1
                       ),
-                    ]),
-                  ]),
+                    ],
+                    1
+                  ),
                 ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c(
+              "footer",
+              { staticClass: "modal-card-foot" },
+              [
+                _c("b-button", {
+                  attrs: { label: "Close" },
+                  on: {
+                    click: function ($event) {
+                      _vm.modalRemarksBidAward = false
+                    },
+                  },
+                }),
                 _vm._v(" "),
                 _c(
-                  "footer",
-                  { staticClass: "modal-card-foot" },
-                  [
-                    _c("b-button", {
-                      attrs: { label: "Close" },
-                      on: {
-                        click: function ($event) {
-                          _vm.modalRemarksBidAward = false
-                        },
-                      },
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "b-button",
-                      {
-                        class: _vm.btnClass,
-                        attrs: { label: "Save", type: "is-success" },
-                        on: { click: _vm.submitRemarks },
-                      },
-                      [_vm._v("SAVE")]
-                    ),
-                  ],
-                  1
+                  "b-button",
+                  {
+                    class: _vm.btnClass,
+                    attrs: { label: "Save", type: "is-success" },
+                    on: { click: _vm.submitRemarks },
+                  },
+                  [_vm._v("SAVE")]
                 ),
-              ]),
-            ]
-          ),
+              ],
+              1
+            ),
+          ]),
         ]
       ),
     ],
@@ -56141,13 +56096,13 @@ var render = function () {
         _vm._v(" "),
         _c("tr", [
           _c("td", [
-            _vm.propRow.bids_award_datetime_forwarded
+            _vm.propRow.city_budget_datetime_forwarded
               ? _c("span", [
                   _vm._v(
                     "\n                    " +
                       _vm._s(
                         new Date(
-                          _vm.propRow.bids_award_datetime_forwarded
+                          _vm.propRow.city_budget_datetime_forwarded
                         ).toLocaleString()
                       ) +
                       "\n                "
@@ -56157,13 +56112,13 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("td", [
-            _vm.propRow.bids_award_datetime_retrieved
+            _vm.propRow.city_budget_datetime_retrieved
               ? _c("span", [
                   _vm._v(
                     "\n                    " +
                       _vm._s(
                         new Date(
-                          _vm.propRow.bids_award_datetime_retrieved
+                          _vm.propRow.city_budget_datetime_retrieved
                         ).toLocaleString()
                       ) +
                       "\n                "
@@ -56173,11 +56128,11 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("td", [
-            _vm.propRow.bids_award_status
+            _vm.propRow.city_budget_status
               ? _c("span", [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.propRow.bids_award_status) +
+                      _vm._s(_vm.propRow.city_budget_status) +
                       "\n                "
                   ),
                 ])
@@ -56185,11 +56140,11 @@ var render = function () {
           ]),
           _vm._v(" "),
           _c("td", [
-            _vm.propRow.bids_award_remarks
+            _vm.propRow.city_budget_remarks
               ? _c("span", [
                   _vm._v(
                     "\n                    " +
-                      _vm._s(_vm.propRow.bids_award_remarks) +
+                      _vm._s(_vm.propRow.city_budget_remarks) +
                       "\n                "
                   ),
                 ])
@@ -56260,7 +56215,7 @@ var render = function () {
                     "b-dropdown-item",
                     {
                       attrs: { "aria-role": "listitem" },
-                      on: { click: _vm.openModalBidAwardStatus },
+                      on: { click: _vm.openModalCityBudgetStatus },
                     },
                     [_vm._v("Mark Status")]
                   ),
@@ -56269,7 +56224,7 @@ var render = function () {
                     "b-dropdown-item",
                     {
                       attrs: { "aria-role": "listitem" },
-                      on: { click: _vm.openModalBidAwardRemarks },
+                      on: { click: _vm.openModalCityBudgetRemarks },
                     },
                     [_vm._v("Add Remarks")]
                   ),
@@ -56294,141 +56249,115 @@ var render = function () {
             "aria-modal": "",
           },
           model: {
-            value: _vm.modalStatusBidAward,
+            value: _vm.modalCityBudgetStatus,
             callback: function ($$v) {
-              _vm.modalStatusBidAward = $$v
+              _vm.modalCityBudgetStatus = $$v
             },
-            expression: "modalStatusBidAward",
+            expression: "modalCityBudgetStatus",
           },
         },
         [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function ($event) {
-                  $event.preventDefault()
-                  return _vm.submit.apply(null, arguments)
+          _c("div", { staticClass: "modal-card" }, [
+            _c("header", { staticClass: "modal-card-head" }, [
+              _c("p", { staticClass: "modal-card-title" }, [_vm._v("STATUS")]),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "delete",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    _vm.modalCityBudgetStatus = false
+                  },
                 },
-              },
-            },
-            [
-              _c("div", { staticClass: "modal-card" }, [
-                _c("header", { staticClass: "modal-card-head" }, [
-                  _c("p", { staticClass: "modal-card-title" }, [
-                    _vm._v("STATUS"),
-                  ]),
-                  _vm._v(" "),
-                  _c("button", {
-                    staticClass: "delete",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function ($event) {
-                        _vm.modalStatusBidAward = false
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("section", { staticClass: "modal-card-body" }, [
-                  _c("div", {}, [
-                    _c("div", { staticClass: "columns" }, [
+              }),
+            ]),
+            _vm._v(" "),
+            _c("section", { staticClass: "modal-card-body" }, [
+              _c("div", {}, [
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
                       _c(
-                        "div",
-                        { staticClass: "column" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Status",
+                            "label-position": "on-border",
+                            type: _vm.errors.status ? "is-danger" : "",
+                            message: _vm.errors.status
+                              ? _vm.errors.status[0]
+                              : "",
+                          },
+                        },
                         [
                           _c(
-                            "b-field",
+                            "b-select",
                             {
-                              attrs: {
-                                label: "Status",
-                                "label-position": "on-border",
-                                type: _vm.errors.status ? "is-danger" : "",
-                                message: _vm.errors.status
-                                  ? _vm.errors.status[0]
-                                  : "",
+                              attrs: { placeholder: "Status", required: "" },
+                              model: {
+                                value: _vm.fields.status,
+                                callback: function ($$v) {
+                                  _vm.$set(_vm.fields, "status", $$v)
+                                },
+                                expression: "fields.status",
                               },
                             },
                             [
-                              _c(
-                                "b-select",
-                                {
-                                  attrs: {
-                                    placeholder: "Status",
-                                    required: "",
-                                  },
-                                  model: {
-                                    value: _vm.fields.status,
-                                    callback: function ($$v) {
-                                      _vm.$set(_vm.fields, "status", $$v)
-                                    },
-                                    expression: "fields.status",
-                                  },
-                                },
-                                [
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "ON-PROCESS" } },
-                                    [_vm._v("ON-PROCESS")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "PENDING" } },
-                                    [_vm._v("PENDING")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "CANCELLED" } },
-                                    [_vm._v("CANCELLED")]
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "option",
-                                    { attrs: { value: "APPROVED" } },
-                                    [_vm._v("APPROVED")]
-                                  ),
-                                ]
-                              ),
-                            ],
-                            1
+                              _c("option", { attrs: { value: "ON-PROCESS" } }, [
+                                _vm._v("ON-PROCESS"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "PENDING" } }, [
+                                _vm._v("PENDING"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "CANCELLED" } }, [
+                                _vm._v("CANCELLED"),
+                              ]),
+                              _vm._v(" "),
+                              _c("option", { attrs: { value: "APPROVED" } }, [
+                                _vm._v("APPROVED"),
+                              ]),
+                            ]
                           ),
                         ],
                         1
                       ),
-                    ]),
-                  ]),
+                    ],
+                    1
+                  ),
                 ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c(
+              "footer",
+              { staticClass: "modal-card-foot" },
+              [
+                _c("b-button", {
+                  attrs: { label: "Close" },
+                  on: {
+                    click: function ($event) {
+                      _vm.modalCityBudgetStatus = false
+                    },
+                  },
+                }),
                 _vm._v(" "),
                 _c(
-                  "footer",
-                  { staticClass: "modal-card-foot" },
-                  [
-                    _c("b-button", {
-                      attrs: { label: "Close" },
-                      on: {
-                        click: function ($event) {
-                          _vm.modalStatusBidAward = false
-                        },
-                      },
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "b-button",
-                      {
-                        class: _vm.btnClass,
-                        attrs: { label: "Save", type: "is-success" },
-                        on: { click: _vm.submit },
-                      },
-                      [_vm._v("SAVE")]
-                    ),
-                  ],
-                  1
+                  "b-button",
+                  {
+                    class: _vm.btnClass,
+                    attrs: { label: "Save", type: "is-success" },
+                    on: { click: _vm.submit },
+                  },
+                  [_vm._v("SAVE")]
                 ),
-              ]),
-            ]
-          ),
+              ],
+              1
+            ),
+          ]),
         ]
       ),
       _vm._v(" "),
@@ -56444,110 +56373,95 @@ var render = function () {
             "aria-modal": "",
           },
           model: {
-            value: _vm.modalRemarksBidAward,
+            value: _vm.modalCityBudgetRemarks,
             callback: function ($$v) {
-              _vm.modalRemarksBidAward = $$v
+              _vm.modalCityBudgetRemarks = $$v
             },
-            expression: "modalRemarksBidAward",
+            expression: "modalCityBudgetRemarks",
           },
         },
         [
-          _c(
-            "form",
-            {
-              on: {
-                submit: function ($event) {
-                  $event.preventDefault()
-                  return _vm.submit.apply(null, arguments)
+          _c("div", { staticClass: "modal-card" }, [
+            _c("header", { staticClass: "modal-card-head" }, [
+              _c("p", { staticClass: "modal-card-title" }, [_vm._v("STATUS")]),
+              _vm._v(" "),
+              _c("button", {
+                staticClass: "delete",
+                attrs: { type: "button" },
+                on: {
+                  click: function ($event) {
+                    _vm.modalCityBudgetRemarks = false
+                  },
                 },
-              },
-            },
-            [
-              _c("div", { staticClass: "modal-card" }, [
-                _c("header", { staticClass: "modal-card-head" }, [
-                  _c("p", { staticClass: "modal-card-title" }, [
-                    _vm._v("STATUS"),
-                  ]),
-                  _vm._v(" "),
-                  _c("button", {
-                    staticClass: "delete",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function ($event) {
-                        _vm.modalRemarksBidAward = false
-                      },
-                    },
-                  }),
-                ]),
-                _vm._v(" "),
-                _c("section", { staticClass: "modal-card-body" }, [
-                  _c("div", {}, [
-                    _c("div", { staticClass: "columns" }, [
+              }),
+            ]),
+            _vm._v(" "),
+            _c("section", { staticClass: "modal-card-body" }, [
+              _c("div", {}, [
+                _c("div", { staticClass: "columns" }, [
+                  _c(
+                    "div",
+                    { staticClass: "column" },
+                    [
                       _c(
-                        "div",
-                        { staticClass: "column" },
+                        "b-field",
+                        {
+                          attrs: {
+                            label: "Status",
+                            "label-position": "on-border",
+                            type: _vm.errors.remarks ? "is-danger" : "",
+                            message: _vm.errors.remarks
+                              ? _vm.errors.remarks[0]
+                              : "",
+                          },
+                        },
                         [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Status",
-                                "label-position": "on-border",
-                                type: _vm.errors.remarks ? "is-danger" : "",
-                                message: _vm.errors.remarks
-                                  ? _vm.errors.remarks[0]
-                                  : "",
+                          _c("b-input", {
+                            attrs: { placeholder: "Remarks" },
+                            model: {
+                              value: _vm.fields.remarks,
+                              callback: function ($$v) {
+                                _vm.$set(_vm.fields, "remarks", $$v)
                               },
+                              expression: "fields.remarks",
                             },
-                            [
-                              _c("b-input", {
-                                attrs: { placeholder: "Remarks" },
-                                model: {
-                                  value: _vm.fields.remarks,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "remarks", $$v)
-                                  },
-                                  expression: "fields.remarks",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
+                          }),
                         ],
                         1
                       ),
-                    ]),
-                  ]),
+                    ],
+                    1
+                  ),
                 ]),
+              ]),
+            ]),
+            _vm._v(" "),
+            _c(
+              "footer",
+              { staticClass: "modal-card-foot" },
+              [
+                _c("b-button", {
+                  attrs: { label: "Close" },
+                  on: {
+                    click: function ($event) {
+                      _vm.modalCityBudgetRemarks = false
+                    },
+                  },
+                }),
                 _vm._v(" "),
                 _c(
-                  "footer",
-                  { staticClass: "modal-card-foot" },
-                  [
-                    _c("b-button", {
-                      attrs: { label: "Close" },
-                      on: {
-                        click: function ($event) {
-                          _vm.modalRemarksBidAward = false
-                        },
-                      },
-                    }),
-                    _vm._v(" "),
-                    _c(
-                      "b-button",
-                      {
-                        class: _vm.btnClass,
-                        attrs: { label: "Save", type: "is-success" },
-                        on: { click: _vm.submitRemarks },
-                      },
-                      [_vm._v("SAVE")]
-                    ),
-                  ],
-                  1
+                  "b-button",
+                  {
+                    class: _vm.btnClass,
+                    attrs: { label: "Save", type: "is-success" },
+                    on: { click: _vm.submitRemarks },
+                  },
+                  [_vm._v("SAVE")]
                 ),
-              ]),
-            ]
-          ),
+              ],
+              1
+            ),
+          ]),
         ]
       ),
     ],
@@ -56560,13 +56474,13 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
-      _c("th", [_vm._v("Bids & Award Forwarded")]),
+      _c("th", [_vm._v("City Budget Forwarded")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Bids & Award Retrieved")]),
+      _c("th", [_vm._v("City Budget Retrieved")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Bids & Award Status")]),
+      _c("th", [_vm._v("City Budget Status")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Bids & Award Remarks")]),
+      _c("th", [_vm._v("City Budget Remarks")]),
       _vm._v(" "),
       _c("th", [_vm._v("Action")]),
     ])

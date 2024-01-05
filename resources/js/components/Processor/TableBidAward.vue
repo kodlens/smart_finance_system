@@ -51,108 +51,98 @@
 
         <!--modal create-->
         <b-modal v-model="modalStatusBidAward" has-modal-card
-                trap-focus
-                :width="640"
-                aria-role="dialog"
-                aria-label="Modal"
-                aria-modal>
+            trap-focus
+            :width="640"
+            aria-role="dialog"
+            aria-label="Modal"
+            aria-modal>
 
-            <form @submit.prevent="submit">
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">STATUS</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="modalStatusBidAward = false"/>
-                    </header>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">STATUS</p>
+                    <button
+                        type="button"
+                        class="delete"
+                        @click="modalStatusBidAward = false"/>
+                </header>
 
-                    <section class="modal-card-body">
-                        <div class="">
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Status" label-position="on-border"
-                                            :type="errors.status ? 'is-danger':''"
-                                            :message="errors.status ? errors.status[0] : ''">
-                                        <b-select v-model="fields.status"
-                                            placeholder="Status" required>
-                                            <option value="ON-PROCESS">ON-PROCESS</option>
-                                            <option value="PENDING">PENDING</option>
-                                            <option value="CANCELLED">CANCELLED</option>
-                                            <option value="APPROVED">APPROVED</option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
+                <section class="modal-card-body">
+                    <div class="">
+                        <div class="columns">
+                            <div class="column">
+                                <b-field label="Status" label-position="on-border"
+                                        :type="errors.status ? 'is-danger':''"
+                                        :message="errors.status ? errors.status[0] : ''">
+                                    <b-select v-model="fields.status"
+                                        placeholder="Status" required>
+                                        <option value="ON-PROCESS">ON-PROCESS</option>
+                                        <option value="PENDING">PENDING</option>
+                                        <option value="CANCELLED">CANCELLED</option>
+                                        <option value="APPROVED">APPROVED</option>
+                                    </b-select>
+                                </b-field>
                             </div>
                         </div>
-                    </section>
-                    <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="modalStatusBidAward=false"/>
-                        <b-button
-                            :class="btnClass"
-                            @click="submit"
-                            label="Save"
-                            type="is-success">SAVE</b-button>
-                    </footer>
-                </div>
-            </form><!--close form-->
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <b-button
+                        label="Close"
+                        @click="modalStatusBidAward=false"/>
+                    <b-button
+                        :class="btnClass"
+                        @click="submit"
+                        label="Save"
+                        type="is-success">SAVE</b-button>
+                </footer>
+            </div>
         </b-modal>
         <!--close modal-->
 
 
 
-
-
-
-
-
-
         <!--modal create-->
         <b-modal v-model="modalRemarksBidAward" has-modal-card
-                trap-focus
-                :width="640"
-                aria-role="dialog"
-                aria-label="Modal"
-                aria-modal>
+            trap-focus
+            :width="640"
+            aria-role="dialog"
+            aria-label="Modal"
+            aria-modal>
 
-            <form @submit.prevent="submit">
-                <div class="modal-card">
-                    <header class="modal-card-head">
-                        <p class="modal-card-title">STATUS</p>
-                        <button
-                            type="button"
-                            class="delete"
-                            @click="modalRemarksBidAward = false"/>
-                    </header>
+            <div class="modal-card">
+                <header class="modal-card-head">
+                    <p class="modal-card-title">STATUS</p>
+                    <button
+                        type="button"
+                        class="delete"
+                        @click="modalRemarksBidAward = false"/>
+                </header>
 
-                    <section class="modal-card-body">
-                        <div class="">
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Status" label-position="on-border"
-                                            :type="errors.remarks ? 'is-danger':''"
-                                            :message="errors.remarks ? errors.remarks[0] : ''">
-                                        <b-input v-model="fields.remarks" placeholder="Remarks">
-                                          </b-input>
-                                    </b-field>
-                                </div>
+                <section class="modal-card-body">
+                    <div class="">
+                        <div class="columns">
+                            <div class="column">
+                                <b-field label="Status" label-position="on-border"
+                                        :type="errors.remarks ? 'is-danger':''"
+                                        :message="errors.remarks ? errors.remarks[0] : ''">
+                                    <b-input v-model="fields.remarks" placeholder="Remarks">
+                                        </b-input>
+                                </b-field>
                             </div>
                         </div>
-                    </section>
-                    <footer class="modal-card-foot">
-                        <b-button
-                            label="Close"
-                            @click="modalRemarksBidAward=false"/>
-                        <b-button
-                            :class="btnClass"
-                            @click="submitRemarks"
-                            label="Save"
-                            type="is-success">SAVE</b-button>
-                    </footer>
-                </div>
-            </form><!--close form-->
+                    </div>
+                </section>
+                <footer class="modal-card-foot">
+                    <b-button
+                        label="Close"
+                        @click="modalRemarksBidAward=false"/>
+                    <b-button
+                        :class="btnClass"
+                        @click="submitRemarks"
+                        label="Save"
+                        type="is-success">SAVE</b-button>
+                </footer>
+            </div>
         </b-modal>
         <!--close modal-->
 
