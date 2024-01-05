@@ -264,10 +264,10 @@ class BudgetingController extends Controller
 
             FROM budgetings a
             JOIN `financial_years` b ON a.`financial_year_id` = b.`financial_year_id`
-            JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
-            JOIN `transaction_types` d ON a.`transaction_type_id` = d.`transaction_type_id`
-            JOIN payee AS e ON a.`payee_id` = e.`payee_id`
-            JOIN offices f ON a.`office_id` = f.`office_id`
+            LEFT JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
+            LEFT JOIN `transaction_types` d ON a.`transaction_type_id` = d.`transaction_type_id`
+            LEFT JOIN payee AS e ON a.`payee_id` = e.`payee_id`
+            LEFT JOIN offices f ON a.`office_id` = f.`office_id`
             LEFT JOIN `budgeting_allotment_classes` g ON a.`budgeting_id` = g.`budgeting_id`
             LEFT JOIN `allotment_classes` gg ON g.`allotment_class_id` = gg.`allotment_class_id`
             LEFT JOIN `allotment_class_accounts` hh ON g.`budgeting_allotment_class_id` = hh.`allotment_class_account_id`
