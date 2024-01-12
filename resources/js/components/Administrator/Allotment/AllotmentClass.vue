@@ -117,8 +117,20 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Allotment Class" label-position="on-border"
-                                             :type="this.errors.allotment_class ? 'is-danger':''"
-                                             :message="this.errors.allotment_class ? this.errors.allotment_class[0] : ''">
+                                        :type="errors.financial_year_id ? 'is-danger':''"
+                                        :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
+                                        <b-select v-model="fields.financial_year_id"
+                                            placeholder="Allotment Class" required>
+
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Allotment Class" label-position="on-border"
+                                             :type="errors.allotment_class ? 'is-danger':''"
+                                             :message="errors.allotment_class ? errors.allotment_class[0] : ''">
                                         <b-input v-model="fields.allotment_class"
                                                  placeholder="Allotment Class" required>
                                         </b-input>
@@ -365,9 +377,18 @@ export default{
             })
         },
 
+
+        //financial year
+        loadFinancialYears: function(){
+            axios.get('/load-financial-years').then(res=>{
+                this.financialYears = res.data;
+            })
+        },
+
     },
 
     mounted() {
+        this.loadFinancialYears()
         this.loadAsyncData();
         this.loadProvince()
     }

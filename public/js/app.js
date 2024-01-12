@@ -9187,6 +9187,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -9392,9 +9404,18 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/load-barangays?prov=' + this.fields.province + '&city_code=' + this.fields.city).then(function (res) {
         _this8.barangays = res.data;
       });
+    },
+    //financial year
+    loadFinancialYears: function loadFinancialYears() {
+      var _this9 = this;
+
+      axios.get('/load-financial-years').then(function (res) {
+        _this9.financialYears = res.data;
+      });
     }
   },
   mounted: function mounted() {
+    this.loadFinancialYears();
     this.loadAsyncData();
     this.loadProvince();
   }
@@ -45235,11 +45256,56 @@ var render = function () {
                               attrs: {
                                 label: "Allotment Class",
                                 "label-position": "on-border",
-                                type: this.errors.allotment_class
+                                type: _vm.errors.financial_year_id
                                   ? "is-danger"
                                   : "",
-                                message: this.errors.allotment_class
-                                  ? this.errors.allotment_class[0]
+                                message: _vm.errors.financial_year_id
+                                  ? _vm.errors.financial_year_id[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-select", {
+                                attrs: {
+                                  placeholder: "Allotment Class",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.fields.financial_year_id,
+                                  callback: function ($$v) {
+                                    _vm.$set(
+                                      _vm.fields,
+                                      "financial_year_id",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "fields.financial_year_id",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Allotment Class",
+                                "label-position": "on-border",
+                                type: _vm.errors.allotment_class
+                                  ? "is-danger"
+                                  : "",
+                                message: _vm.errors.allotment_class
+                                  ? _vm.errors.allotment_class[0]
                                   : "",
                               },
                             },
