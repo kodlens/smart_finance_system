@@ -9199,6 +9199,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -9223,7 +9236,8 @@ __webpack_require__.r(__webpack_exports__);
         'is-success': true,
         'button': true,
         'is-loading': false
-      }
+      },
+      financialYears: []
     };
   },
   methods: {
@@ -45265,23 +45279,50 @@ var render = function () {
                               },
                             },
                             [
-                              _c("b-select", {
-                                attrs: {
-                                  placeholder: "Allotment Class",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.financial_year_id,
-                                  callback: function ($$v) {
-                                    _vm.$set(
-                                      _vm.fields,
-                                      "financial_year_id",
-                                      $$v
-                                    )
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: {
+                                    placeholder: "Allotment Class",
+                                    required: "",
                                   },
-                                  expression: "fields.financial_year_id",
+                                  model: {
+                                    value: _vm.fields.financial_year_id,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.fields,
+                                        "financial_year_id",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "fields.financial_year_id",
+                                  },
                                 },
-                              }),
+                                _vm._l(
+                                  _vm.financialYears,
+                                  function (item, index) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: "f" + index,
+                                        domProps: {
+                                          value: item.financial_year_id,
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                            " +
+                                            _vm._s(item.financial_year_code) +
+                                            " - (" +
+                                            _vm._s(item.financial_year_desc) +
+                                            ")\n                                        "
+                                        ),
+                                      ]
+                                    )
+                                  }
+                                ),
+                                0
+                              ),
                             ],
                             1
                           ),
@@ -45321,6 +45362,45 @@ var render = function () {
                                     _vm.$set(_vm.fields, "allotment_class", $$v)
                                   },
                                   expression: "fields.allotment_class",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Allotment Amount",
+                                "label-position": "on-border",
+                                type: _vm.errors.amount ? "is-danger" : "",
+                                message: _vm.errors.amount
+                                  ? _vm.errors.amount[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-input", {
+                                attrs: {
+                                  placeholder: "Allotment Amount",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.fields.amount,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.fields, "amount", $$v)
+                                  },
+                                  expression: "fields.amount",
                                 },
                               }),
                             ],

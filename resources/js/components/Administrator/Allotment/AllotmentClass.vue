@@ -121,7 +121,9 @@
                                         :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
                                         <b-select v-model="fields.financial_year_id"
                                             placeholder="Allotment Class" required>
-
+                                            <option :value="item.financial_year_id" v-for="(item, index) in financialYears" :key="`f${index}`">
+                                                {{ item.financial_year_code }} - ({{ item.financial_year_desc }})
+                                            </option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -133,6 +135,17 @@
                                              :message="errors.allotment_class ? errors.allotment_class[0] : ''">
                                         <b-input v-model="fields.allotment_class"
                                                  placeholder="Allotment Class" required>
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Allotment Amount" label-position="on-border"
+                                             :type="errors.amount ? 'is-danger':''"
+                                             :message="errors.amount ? errors.amount[0] : ''">
+                                        <b-input v-model="fields.amount"
+                                                 placeholder="Allotment Amount" required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -189,6 +202,7 @@ export default{
                 'is-loading':false,
             },
 
+            financialYears: [],
         }
 
     },
