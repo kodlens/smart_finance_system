@@ -13,7 +13,12 @@ class FinancialYear extends Model
     protected $primaryKey = 'financial_year_id';
 
 
-    protected $fillable = ['financial_year_code', 'financial_year_desc', 'active'];
+    protected $fillable = [
+        'financial_year_code', 
+        'financial_year_desc',
+        'financial_budget',
+        'active'
+    ];
 
 
 }

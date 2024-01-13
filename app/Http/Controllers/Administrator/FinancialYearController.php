@@ -28,12 +28,15 @@ class FinancialYearController extends Controller
     public function store(Request $req){
         $req->validate([
             'financial_year_code' => ['required', 'unique:financial_years'],
-            'financial_year_desc' => ['required']
+            'financial_year_desc' => ['required'],
+            'financial_budget' => ['required']
+
         ]);
 
         FinancialYear::create([
             'financial_year_code' => strtoupper($req->financial_year_code),
             'financial_year_desc' => strtoupper($req->financial_year_desc),
+            'financial_budget' => $req->financial_budget,
             'active' => $req->active,
         ]);
 
@@ -45,12 +48,14 @@ class FinancialYearController extends Controller
     public function update(Request $req, $id){
         $req->validate([
             'financial_year_code' => ['required', 'unique:financial_years,financial_year_code,'.$id.',financial_year_id'],
-            'financial_year_desc' => ['required']
+            'financial_year_desc' => ['required'],
+            'financial_budget' => ['required']
         ]);
 
         $data = FinancialYear::find($id);
         $data->financial_year_code = strtoupper($req->financial_year_code);
         $data->financial_year_desc = strtoupper($req->financial_year_desc);
+        $data->financial_budget = $req->financial_budget;
         $data->active = $req->active;
         $data->save();
 

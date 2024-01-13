@@ -9212,6 +9212,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -9288,6 +9301,7 @@ __webpack_require__.r(__webpack_exports__);
       this.loadAsyncData();
     },
     openModal: function openModal() {
+      this.global_id = 0;
       this.isModalCreate = true;
       this.fields = {};
       this.errors = {};
@@ -11368,6 +11382,22 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -11545,6 +11575,9 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/financial-years/' + data_id).then(function (res) {
         _this5.fields = res.data;
       });
+    },
+    numberWithCommas: function numberWithCommas(x) {
+      return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
     }
   },
   mounted: function mounted() {
@@ -18430,6 +18463,10 @@ Vue.prototype.$formatDate = function (value) {
   return "".concat(year, "-").concat(month, "-").concat(day);
 };
 
+Vue.filter('numberWithCommas', function (value) {
+  if (!value) return '';
+  return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+});
 var app = new Vue({
   el: '#app'
 });
@@ -44889,7 +44926,7 @@ var render = function () {
     [
       _c("div", { staticClass: "section" }, [
         _c("div", { staticClass: "columns is-centered" }, [
-          _c("div", { staticClass: "column is-8" }, [
+          _c("div", { staticClass: "column is-8-desktop" }, [
             _c(
               "div",
               { staticClass: "box" },
@@ -45092,6 +45129,39 @@ var render = function () {
                     _vm._v(" "),
                     _c("b-table-column", {
                       attrs: {
+                        field: "financial_year",
+                        label: "Financial Year",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              props.row.financial_year
+                                ? _c("span", [
+                                    _vm._v(
+                                      "\n                                " +
+                                        _vm._s(
+                                          props.row.financial_year
+                                            .financial_year_code
+                                        ) +
+                                        "\n                                -\n                                " +
+                                        _vm._s(
+                                          props.row.financial_year
+                                            .financial_year_desc
+                                        ) +
+                                        "\n                            "
+                                    ),
+                                  ])
+                                : _vm._e(),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: {
                         field: "allotmant_class",
                         label: "Allotment Class",
                       },
@@ -45103,6 +45173,31 @@ var render = function () {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(props.row.allotment_class) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: {
+                        field: "allotment_class_amount",
+                        label: "Amount",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      props.row.allotment_class_amount
+                                    )
+                                  ) +
                                   "\n                        "
                               ),
                             ]
@@ -45383,9 +45478,11 @@ var render = function () {
                               attrs: {
                                 label: "Allotment Amount",
                                 "label-position": "on-border",
-                                type: _vm.errors.amount ? "is-danger" : "",
-                                message: _vm.errors.amount
-                                  ? _vm.errors.amount[0]
+                                type: _vm.errors.allotment_class_amount
+                                  ? "is-danger"
+                                  : "",
+                                message: _vm.errors.allotment_class_amount
+                                  ? _vm.errors.allotment_class_amount[0]
                                   : "",
                               },
                             },
@@ -45396,11 +45493,15 @@ var render = function () {
                                   required: "",
                                 },
                                 model: {
-                                  value: _vm.fields.amount,
+                                  value: _vm.fields.allotment_class_amount,
                                   callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "amount", $$v)
+                                    _vm.$set(
+                                      _vm.fields,
+                                      "allotment_class_amount",
+                                      $$v
+                                    )
                                   },
-                                  expression: "fields.amount",
+                                  expression: "fields.allotment_class_amount",
                                 },
                               }),
                             ],
@@ -48361,6 +48462,31 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
+                      attrs: {
+                        field: "financial_budget",
+                        label: "Financial Budget",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.numberWithCommas(
+                                      props.row.financial_budget
+                                    )
+                                  )
+                                ),
+                              ]),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
                       attrs: { field: "active", label: "Active" },
                       scopedSlots: _vm._u([
                         {
@@ -48533,7 +48659,7 @@ var render = function () {
                             "b-field",
                             {
                               attrs: {
-                                label: "Academic Year Code",
+                                label: "Financial Year Code",
                                 "label-position": "on-border",
                                 type: _vm.errors.financial_year_code
                                   ? "is-danger"
@@ -48578,7 +48704,7 @@ var render = function () {
                             "b-field",
                             {
                               attrs: {
-                                label: "Academic Year Description",
+                                label: "Financial Year Description",
                                 "label-position": "on-border",
                                 type: _vm.errors.financial_year_desc
                                   ? "is-danger"
@@ -48604,6 +48730,51 @@ var render = function () {
                                     )
                                   },
                                   expression: "fields.financial_year_desc",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Financial Budget",
+                                "label-position": "on-border",
+                                type: _vm.errors.financial_budget
+                                  ? "is-danger"
+                                  : "",
+                                message: _vm.errors.financial_budget
+                                  ? _vm.errors.financial_budget[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-input", {
+                                attrs: {
+                                  placeholder: "Financial Budget",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.fields.financial_budget,
+                                  callback: function ($$v) {
+                                    _vm.$set(
+                                      _vm.fields,
+                                      "financial_budget",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "fields.financial_budget",
                                 },
                               }),
                             ],

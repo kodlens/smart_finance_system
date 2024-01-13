@@ -70,6 +70,10 @@
                                 {{ props.row.financial_year_desc }}
                             </b-table-column>
 
+                            <b-table-column field="financial_budget" label="Financial Budget" v-slot="props">
+                                <span>{{ numberWithCommas(props.row.financial_budget) }}</span>
+                            </b-table-column>
+
                             <b-table-column field="active" label="Active" v-slot="props">
                                 <span v-if="props.row.active === 1">Yes</span>
                                 <span v-else>No</span>
@@ -121,7 +125,7 @@
                         <div class="">
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Academic Year Code" label-position="on-border"
+                                    <b-field label="Financial Year Code" label-position="on-border"
                                              :type="errors.financial_year_code ? 'is-danger':''"
                                              :message="errors.financial_year_code ? errors.financial_year_code[0] : ''">
                                         <b-input v-model="fields.financial_year_code"
@@ -133,11 +137,22 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Academic Year Description" label-position="on-border"
-                                             :type="errors.financial_year_desc ? 'is-danger':''"
-                                             :message="errors.financial_year_desc ? errors.financial_year_desc[0] : ''">
+                                    <b-field label="Financial Year Description" label-position="on-border"
+                                        :type="errors.financial_year_desc ? 'is-danger':''"
+                                        :message="errors.financial_year_desc ? errors.financial_year_desc[0] : ''">
                                         <b-input v-model="fields.financial_year_desc"
-                                                 placeholder="Financial Year Description" required>
+                                            placeholder="Financial Year Description" required>
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Financial Budget" label-position="on-border"
+                                        :type="errors.financial_budget ? 'is-danger':''"
+                                        :message="errors.financial_budget ? errors.financial_budget[0] : ''">
+                                        <b-input v-model="fields.financial_budget"
+                                            placeholder="Financial Budget" required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -153,6 +168,7 @@
                                     </b-field>
                                 </div>
                             </div>
+
                         </div>
                     </section>
                     <footer class="modal-card-foot">
@@ -364,10 +380,13 @@ export default{
 
             axios.get('/financial-years/'+data_id).then(res=>{
                 this.fields = res.data;
-               
                 
             });
         },
+
+    numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
 
 

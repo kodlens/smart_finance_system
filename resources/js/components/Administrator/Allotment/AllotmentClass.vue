@@ -2,7 +2,7 @@
     <div>
         <div class="section">
             <div class="columns is-centered">
-                <div class="column is-8">
+                <div class="column is-8-desktop">
                     <div class="box">
 
                         <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF ALLOTMENT CLASS</div>
@@ -62,8 +62,21 @@
                                 {{ props.row.allotment_class_id }}
                             </b-table-column>
 
+                            <b-table-column field="financial_year" label="Financial Year" v-slot="props">
+                                <span v-if="props.row.financial_year">
+                                    {{ props.row.financial_year.financial_year_code }}
+                                    -
+                                    {{ props.row.financial_year.financial_year_desc }}
+                                </span>
+                                
+                            </b-table-column>
+
                             <b-table-column field="allotmant_class" label="Allotment Class" v-slot="props">
                                 {{ props.row.allotment_class }}
+                            </b-table-column>
+
+                            <b-table-column field="allotment_class_amount" label="Amount" v-slot="props">
+                                {{ props.row.allotment_class_amount | numberWithCommas }}
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
@@ -142,9 +155,9 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Allotment Amount" label-position="on-border"
-                                             :type="errors.amount ? 'is-danger':''"
-                                             :message="errors.amount ? errors.amount[0] : ''">
-                                        <b-input v-model="fields.amount"
+                                             :type="errors.allotment_class_amount ? 'is-danger':''"
+                                             :message="errors.allotment_class_amount ? errors.allotment_class_amount[0] : ''">
+                                        <b-input v-model="fields.allotment_class_amount"
                                                  placeholder="Allotment Amount" required>
                                         </b-input>
                                     </b-field>
@@ -261,6 +274,7 @@ export default{
         },
 
         openModal(){
+            this.global_id = 0
             this.isModalCreate=true;
             this.fields = {};
             this.errors = {};

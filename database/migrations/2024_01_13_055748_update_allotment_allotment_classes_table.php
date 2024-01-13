@@ -16,9 +16,11 @@ class UpdateAllotmentAllotmentClassesTable extends Migration
         Schema::table('allotment_classes', function (Blueprint $table) {
             //
             $table->unsignedBigInteger('financial_year_id')->nullable()
-                ->default(0);
+                ->default(0)
+                ->after('allotment_class_id');
 
-            $table->double('amount')->nullable();
+            $table->double('allotment_class_amount')->nullable()
+                ->after('allotment_class');
             
         });
     }

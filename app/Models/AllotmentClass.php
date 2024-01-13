@@ -13,9 +13,13 @@ class AllotmentClass extends Model
     protected $table = 'allotment_classes';
 
     protected $fillable = [
-        'allotment_class'
+        'financial_year_id',
+        'allotment_class',
+        'allotment_class_amount'
     ];
 
-   
+    public function financial_year(){
+        return $this->hasOne(FinancialYear::class, 'financial_year_id', 'financial_year_id');
+    }
 
 }

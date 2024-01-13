@@ -18,7 +18,8 @@ class AllotmentClassController extends Controller
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        return AllotmentClass::where('allotment_class', 'like', '%'. $req->allotment . '%')
+        return AllotmentClass::with(['financial_year'])
+            ->where('allotment_class', 'like', '%'. $req->allotment . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }
@@ -31,11 +32,15 @@ class AllotmentClassController extends Controller
     public function store(Request $req){
 
         $req->validate([
-            'allotment_class' => ['required', 'unique:allotment_classes']
+            'financial_year_id' => ['required'],
+            'allotment_class' => ['required', 'unique:allotment_classes'],
+            'allotment_class_amount' => ['required']
         ]);
 
         AllotmentClass::create([
-            'allotment_class' => strtoupper($req->allotment_class)
+            'financial_year_id' => $req->financial_year_id,
+            'allotment_class' => strtoupper($req->allotment_class),
+            'allotment_class_amount' => $req->allotment_class_amount
         ]);
 
 
@@ -47,11 +52,15 @@ class AllotmentClassController extends Controller
     public function update(Request $req, $id){
 
         $req->validate([
-            'allotment_class' => ['required', 'unique:allotment_classes,allotment_class,' .$id. ',allotment_class_id']
+            'financial_year_id' => ['required'],
+            'allotment_class' => ['required', 'unique:allotment_classes,allotment_class,' .$id. ',allotment_class_id'],
+            'allotment_class_amount' => ['required']
         ]);
 
         $data = AllotmentClass::find($id);
+        $data->financial_year_id = $req->financial_year_id;
         $data->allotment_class = strtoupper($req->allotment_class);
+        $data->allotment_class_amount = $req->allotment_class_amount;
         $data->save();
 
         return response()->json([
