@@ -131,7 +131,8 @@
                                         <b-select v-model="fields.allotment_class_id"
                                             placeholder="Select Allotment Class" required>
                                             <option v-for="(item, index) in allotment_classes"
-                                                :key="index" :value="item.allotment_class_id">{{ item.allotment_class }}</option>
+                                                :key="index" 
+                                                :value="{ allotment_class_id: item.allotment_class_id, allotment_class_budget: item.allotment_class_budget }">{{ item.allotment_class }}</option>
                                         </b-select>
                                     </b-field>
 

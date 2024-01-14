@@ -40,6 +40,18 @@
                             </div>
                         </div>
 
+                        <b-field label="Financial Year" label-position="on-border">
+                            <b-select v-model="search.financial_year"
+                                placeholder="Financial Year">
+                                <option 
+                                    :value="item.financial_year_id" 
+                                    v-for="(item, index) in financialYears" 
+                                    :key="`f${index}`">
+                                    {{ item.financial_year_code }} - ({{ item.financial_year_desc }})
+                                </option>
+                            </b-select>
+                        </b-field>
+                        
                         <b-table
                             :data="data"
                             :loading="loading"
@@ -76,7 +88,7 @@
                             </b-table-column>
 
                             <b-table-column field="allotment_class_amount" label="Amount" v-slot="props">
-                                {{ props.row.allotment_class_amount | numberWithCommas }}
+                                {{ props.row.allotment_class_budget | numberWithCommas }}
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
@@ -129,15 +141,28 @@
                         <div class="">
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Allotment Class" label-position="on-border"
-                                        :type="errors.financial_year_id ? 'is-danger':''"
-                                        :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
-                                        <b-select v-model="fields.financial_year_id"
-                                            placeholder="Allotment Class" required>
-                                            <option :value="item.financial_year_id" v-for="(item, index) in financialYears" :key="`f${index}`">
+                                    <b-field label="Financial Year" label-position="on-border"
+                                        :type="errors.financial_year ? 'is-danger':''"
+                                        :message="errors.financial_year ? errors.financial_year[0] : ''">
+                                        <b-select v-model="fields.financial_year"
+                                            placeholder="Financial Year" required
+                                            @input="assignBudget">
+                                            <option 
+                                                :value="{ financial_year_id: item.financial_year_id, financial_budget: item.financial_budget }" 
+                                                v-for="(item, index) in financialYears" 
+                                                :key="`f${index}`">
                                                 {{ item.financial_year_code }} - ({{ item.financial_year_desc }})
                                             </option>
                                         </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Financial Budget" label-position="on-border">
+                                        <b-input type="text" v-model="fields.financial_budget"
+                                            placeholder="Financial Budget" readonly>
+                                        </b-input>
                                     </b-field>
                                 </div>
                             </div>
@@ -155,9 +180,9 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Allotment Amount" label-position="on-border"
-                                             :type="errors.allotment_class_amount ? 'is-danger':''"
-                                             :message="errors.allotment_class_amount ? errors.allotment_class_amount[0] : ''">
-                                        <b-input v-model="fields.allotment_class_amount"
+                                             :type="errors.allotment_class_budget ? 'is-danger':''"
+                                             :message="errors.allotment_class_budget ? errors.allotment_class_budget[0] : ''">
+                                        <b-input v-model="fields.allotment_class_budget"
                                                  placeholder="Allotment Amount" required>
                                         </b-input>
                                     </b-field>
@@ -199,13 +224,21 @@ export default{
             global_id : 0,
 
             search: {
-                allotment: '',
+                financial_year: '',
             },
 
             isModalCreate: false,
 
             fields: {
-                allotment_class: '',
+                financial_year: {
+                    financial_year_id: null,
+                    financial_year_code: null,
+                    financial_budget: null
+                },
+                allotment_class_budget: null,
+                allotment_class: null,
+                allotment_class_account_budget: null,
+                financial_budget: null
             },
             errors: {},
   
@@ -227,7 +260,7 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `allotment=${this.search.allotment}`,
+                `financial=${this.search.financial_year}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
@@ -294,7 +327,6 @@ export default{
                             type: 'is-success',
                             onConfirm: () => {
                                 this.loadAsyncData();
-                                this.clearFields();
                                 this.global_id = 0;
                                 this.isModalCreate = false;
                             }
@@ -317,7 +349,6 @@ export default{
                             onConfirm: () => {
                                 this.isModalCreate = false;
                                 this.loadAsyncData();
-                                this.clearFields();
                                 this.global_id = 0;
                             }
                         })
@@ -353,34 +384,27 @@ export default{
             });
         },
 
-        clearFields(){
-            this.fields.username = '';
-            this.fields.lname = '';
-            this.fields.fname = '';
-            this.fields.mname = '';
-            this.fields.suffix = '';
-            this.fields.sex = '';
-        
-            this.fields.password = '';
-            this.fields.password_confirmation = '';
-            this.fields.role = '';
-
-            this.fields.province = ''
-            this.fields.city = ''
-            this.fields.barangay = ''
-        },
-
+      
 
         //update code here
         getData: function(data_id){
-            this.clearFields();
             this.global_id = data_id;
             this.isModalCreate = true;
 
             axios.get('/allotment-classes/'+data_id).then(res=>{
-                this.fields = res.data;
+                //this.fields = res.data;
                 //load city first
-                
+           
+                this.fields.financial_year = { 
+                    financial_year_id: res.data.financial_year.financial_year_id, 
+                    financial_budget: res.data.financial_year.financial_budget
+                }
+                //console.log(this.fields.financial_year);
+                this.fields.financial_budget = this.fields.financial_year.financial_budget
+                this.fields.allotment_class = res.data.allotment_class
+
+                this.fields.allotment_class_budget = res.data.allotment_class_budget
+
             });
         },
 
@@ -412,6 +436,13 @@ export default{
                 this.financialYears = res.data;
             })
         },
+
+
+        assignBudget(){
+            //this.fields.financial_budget = this.financial_year.financial_budget
+            console.log(this.fields.financial_year);
+            this.fields.financial_budget = this.fields.financial_year.financial_budget
+        }
 
     },
 

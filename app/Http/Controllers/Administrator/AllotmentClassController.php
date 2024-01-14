@@ -19,26 +19,30 @@ class AllotmentClassController extends Controller
         $sort = explode('.', $req->sort_by);
 
         return AllotmentClass::with(['financial_year'])
+            ->whereHas('financial_year', function($q)use($req){
+                $q->where('financial_year_id', $req->financial);
+            })
             ->where('allotment_class', 'like', '%'. $req->allotment . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }
 
     public function show($id){
-        return AllotmentClass::find($id);
+        return AllotmentClass::with('financial_year')
+            ->find($id);
     }
 
 
     public function store(Request $req){
 
         $req->validate([
-            'financial_year_id' => ['required'],
+            'financial_year' => ['required'],
             'allotment_class' => ['required', 'unique:allotment_classes'],
             'allotment_class_amount' => ['required']
         ]);
 
         AllotmentClass::create([
-            'financial_year_id' => $req->financial_year_id,
+            'financial_year_id' => $req->financial_year['financial_year_id'],
             'allotment_class' => strtoupper($req->allotment_class),
             'allotment_class_amount' => $req->allotment_class_amount
         ]);
@@ -52,19 +56,19 @@ class AllotmentClassController extends Controller
     public function update(Request $req, $id){
 
         $req->validate([
-            'financial_year_id' => ['required'],
+            'financial_year' => ['required'],
             'allotment_class' => ['required', 'unique:allotment_classes,allotment_class,' .$id. ',allotment_class_id'],
             'allotment_class_amount' => ['required']
         ]);
 
         $data = AllotmentClass::find($id);
-        $data->financial_year_id = $req->financial_year_id;
+        $data->financial_year_id = $req->financial_year['financial_year_id'];
         $data->allotment_class = strtoupper($req->allotment_class);
         $data->allotment_class_amount = $req->allotment_class_amount;
         $data->save();
 
         return response()->json([
-            'status' => 'updated'
+        'status' => 'updated'
         ], 200);
     }
 

@@ -19,7 +19,7 @@ class UpdateAllotmentAllotmentClassesTable extends Migration
                 ->default(0)
                 ->after('allotment_class_id');
 
-            $table->double('allotment_class_amount')->nullable()
+            $table->double('allotment_class_budget')->nullable()
                 ->after('allotment_class');
             
         });

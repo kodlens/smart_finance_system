@@ -15,11 +15,12 @@ class AllotmentClass extends Model
     protected $fillable = [
         'financial_year_id',
         'allotment_class',
-        'allotment_class_amount'
+        'allotment_class_budget'
     ];
 
     public function financial_year(){
-        return $this->hasOne(FinancialYear::class, 'financial_year_id', 'financial_year_id');
+        return $this->hasOne(FinancialYear::class, 'financial_year_id', 'financial_year_id')
+            ->select('financial_year_id', 'financial_year_code', 'financial_year_desc', 'financial_budget');
     }
 
 }
