@@ -26,19 +26,31 @@
 
                             <div class="level-right">
                                 <div class="level-item">
-                                    <b-field label="Search">
-                                        <b-input type="text"
-                                                 v-model="search.allotment" placeholder="Search..."
-                                                 @keyup.native.enter="loadAsyncData"/>
-                                        <p class="control">
-                                            <b-tooltip label="Search" type="is-success">
-                                                <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                            </b-tooltip>
-                                        </p>
+                                    <b-field label="Financial Year">
+                                        <b-select v-model="search.financial_year"
+                                            placeholder="Financial Year">
+                                            <option 
+                                                :value="item.financial_year_id" 
+                                                v-for="(item, index) in financialYears" 
+                                                :key="`f${index}`">
+                                                {{ item.financial_year_code }} - ({{ item.financial_year_desc }})
+                                            </option>
+                                        </b-select>
                                     </b-field>
                                 </div>
                             </div>
                         </div>
+
+                        <b-field label="Search">   
+                            <b-input type="text"
+                                        v-model="search.allotment" placeholder="Search..."
+                                        @keyup.native.enter="loadAsyncData"/>
+                            <p class="control">
+                                <b-tooltip label="Search" type="is-success">
+                                    <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                </b-tooltip>
+                            </p>
+                        </b-field>
 
                         <b-table
                             :data="data"
@@ -72,6 +84,10 @@
 
                             <b-table-column field="allotment_class_account" label="Allotment Class Account" v-slot="props">
                                 {{ props.row.allotment_class_account }}
+                            </b-table-column>
+
+                            <b-table-column field="allotment_class_account_budget" label="Budget" v-slot="props">
+                                {{ props.row.allotment_class_account_budget }}
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
@@ -129,6 +145,7 @@
                                         :type="this.errors.allotment_class_id ? 'is-danger':''"
                                         :message="this.errors.allotment_class_id ? this.errors.allotment_class_id[0] : ''">
                                         <b-select v-model="fields.allotment_class_id"
+                                            expanded
                                             placeholder="Select Allotment Class" required>
                                             <option v-for="(item, index) in allotment_classes"
                                                 :key="index" 
@@ -150,6 +167,16 @@
                                         <b-input v-model="fields.allotment_class_account"
                                             placeholder="Allotment Class Account" required>
                                         </b-input>
+                                    </b-field>
+
+                                    <b-field label="Allotment Class Account Budget" label-position="on-border"
+                                            :type="this.errors.allotment_class_account_budget ? 'is-danger':''"
+                                            :message="this.errors.allotment_class_account_budget ? this.errors.allotment_class_account_budget[0] : ''">
+                                        <b-numberinput controls-alignment="right" 
+                                            controls-position="compact"
+                                            v-model="fields.allotment_class_account_budget"
+                                            placeholder="Allotment Class Account Budget" required>
+                                        </b-numberinput>
                                     </b-field>
                                 </div>
                             </div>
@@ -195,9 +222,16 @@ export default{
             isModalCreate: false,
 
             fields: {
-                allotment_class: '',
+                allotment_class_id: null,
+                allotment_class_code: null,
+                allotment_class: null,
+                allotment_class_account: null,
+                allotment_class_account_budget: null
+
             },
             errors: {},
+
+            financialYears: [],
   
             btnClass: {
                 'is-success': true,
@@ -217,6 +251,7 @@ export default{
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
                 `allotment=${this.search.allotment}`,
+                `financial=${this.search.financial_year}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
@@ -367,12 +402,19 @@ export default{
             })
         },
 
+        loadFinancialYears: function(){
+            axios.get('/load-financial-years').then(res=>{
+                this.financialYears = res.data;
+            })
+        },
+
 
     },
 
     mounted() {
         this.loadAsyncData();
         this.loadAllotmentClasses()
+        this.loadFinancialYears()
     }
 }
 </script>

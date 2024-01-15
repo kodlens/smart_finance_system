@@ -38,13 +38,13 @@ class AllotmentClassController extends Controller
         $req->validate([
             'financial_year' => ['required'],
             'allotment_class' => ['required', 'unique:allotment_classes'],
-            'allotment_class_amount' => ['required']
+            'allotment_class_budget' => ['required']
         ]);
 
         AllotmentClass::create([
             'financial_year_id' => $req->financial_year['financial_year_id'],
             'allotment_class' => strtoupper($req->allotment_class),
-            'allotment_class_amount' => $req->allotment_class_amount
+            'allotment_class_budget' => $req->allotment_class_budget
         ]);
 
 
@@ -58,13 +58,13 @@ class AllotmentClassController extends Controller
         $req->validate([
             'financial_year' => ['required'],
             'allotment_class' => ['required', 'unique:allotment_classes,allotment_class,' .$id. ',allotment_class_id'],
-            'allotment_class_amount' => ['required']
+            'allotment_class_budget' => ['required']
         ]);
 
         $data = AllotmentClass::find($id);
         $data->financial_year_id = $req->financial_year['financial_year_id'];
         $data->allotment_class = strtoupper($req->allotment_class);
-        $data->allotment_class_amount = $req->allotment_class_amount;
+        $data->allotment_class_budget = $req->allotment_class_budget;
         $data->save();
 
         return response()->json([

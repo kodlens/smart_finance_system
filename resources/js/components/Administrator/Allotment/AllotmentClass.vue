@@ -26,31 +26,34 @@
 
                             <div class="level-right">
                                 <div class="level-item">
-                                    <b-field label="Search">
-                                        <b-input type="text"
-                                                 v-model="search.allotment" placeholder="Search Allotment"
-                                                 @keyup.native.enter="loadAsyncData"/>
-                                        <p class="control">
-                                             <b-tooltip label="Search" type="is-success">
-                                            <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                             </b-tooltip>
-                                        </p>
+
+                                    <b-field label="Financial Year">
+                                        <b-select v-model="search.financial_year"
+                                            placeholder="Financial Year">
+                                            <option 
+                                                :value="item.financial_year_id" 
+                                                v-for="(item, index) in financialYears" 
+                                                :key="`f${index}`">
+                                                {{ item.financial_year_code }} - ({{ item.financial_year_desc }})
+                                            </option>
+                                        </b-select>
                                     </b-field>
                                 </div>
                             </div>
                         </div>
 
-                        <b-field label="Financial Year" label-position="on-border">
-                            <b-select v-model="search.financial_year"
-                                placeholder="Financial Year">
-                                <option 
-                                    :value="item.financial_year_id" 
-                                    v-for="(item, index) in financialYears" 
-                                    :key="`f${index}`">
-                                    {{ item.financial_year_code }} - ({{ item.financial_year_desc }})
-                                </option>
-                            </b-select>
+
+                        <b-field label="Search">
+                            <b-input type="text"
+                                        v-model="search.allotment" placeholder="Search Allotment"
+                                        @keyup.native.enter="loadAsyncData"/>
+                            <p class="control">
+                                    <b-tooltip label="Search" type="is-success">
+                                <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                    </b-tooltip>
+                            </p>
                         </b-field>
+                      
                         
                         <b-table
                             :data="data"

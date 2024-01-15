@@ -17,13 +17,18 @@ class AllotmentClassAccount extends Model
     protected $fillable = [
         'allotment_class_id',
         'allotment_class_account_code',
-        'allotment_class_account'
+        'allotment_class_account',
+        'allotment_class_account_budget'
     ];
 
 
     public function allotment_class(){
         return $this->hasOne(AllotmentClass::class, 'allotment_class_id', 'allotment_class_id');
     }
+
+
+  
+    
 
 
 

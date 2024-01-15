@@ -16,19 +16,35 @@
 
     <!-- Styles -->
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
 
+    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Yantramanav:wght@300;400&display=swap" rel="stylesheet">
+    <style>
+        html, body{
+            font-family: 'Josefin Sans', sans-serif;
+            font-family: 'Yantramanav', sans-serif;
+        }
+    </style>
 
 </head>
 <body>
+
+<?php
+    $role = Auth::user()->role;
+?>
     <div id="app">
 
         <b-navbar type="is-primary">
             <template #brand>
                 <b-navbar-item>
                     <img
-                        src=""
+                        src="/img/logo_small.png"
                         alt=""
                     >
+                    <span>
+                        <div class="has-text-weight-bold is-size-5">SMART FINANCE</div>
+                        <div class="has-text-weight-bold is-size-6">TANGUB CITY GLOBAL COLLEGE</div>
+                    </span>
                 </b-navbar-item>
             </template>
             <template #start>
@@ -48,11 +64,10 @@
                 <b-navbar-item href="/dashboard">
                     Home
                 </b-navbar-item>
-
+                <?php if($role === 'ADMINISTRATOR'): ?>
                 <b-navbar-dropdown label="Settings">
-
-                    <b-navbar-item href="/academic-years">
-                        Academic Years
+                    <b-navbar-item href="/financial-years">
+                        Financial Years
                     </b-navbar-item>
                     <b-navbar-item href="/allotment-classes">
                         Allotment Class
@@ -75,28 +90,40 @@
                     <b-navbar-item href="/priority-programs">
                         Priority Program
                     </b-navbar-item>
-
-
                 </b-navbar-dropdown>
-
+                <?php endif; ?>
+           
                 <b-navbar-dropdown label="Services">
-
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF'])): ?>
                     <b-navbar-item href="/accounting">
                         Accounting
                     </b-navbar-item>
+                    <?php endif; ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'BUDGET OFFICER'])): ?>
                     <b-navbar-item href="/budgeting">
                         Budgeting
                     </b-navbar-item>
+                    <?php endif; ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER'])): ?>
                     <b-navbar-item href="/procurements">
                         Procurements
                     </b-navbar-item>
+                    <?php endif; ?>
+                    <?php if(in_array($role, ['PROCESSOR'])): ?>
+                    <b-navbar-item href="/documents">
+                        Documents
+                    </b-navbar-item>
+                    <?php endif; ?>
+                  
 
                 </b-navbar-dropdown>
 
-
+                <?php if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER'])): ?>
                 <b-navbar-item href="/users">
                     Users
                 </b-navbar-item>
+                <?php endif; ?>
+               
 
                 <b-navbar-item tag="div">
                     <div class="buttons">
