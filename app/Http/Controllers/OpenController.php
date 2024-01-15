@@ -29,6 +29,12 @@ class OpenController extends Controller
         return AllotmentClass::orderBy('allotment_class', 'asc')
             ->get();
     }
+    public function loadAllotmentClassesByFinancial($financial){
+        return AllotmentClass::where('financial_year_id', $financial)
+            ->orderBy('allotment_class', 'asc')
+            ->get();
+    }
+    
 
     public function loadTransactionTypes(Request $req){
         return TransactionType::orderBy('transaction_type', 'asc')

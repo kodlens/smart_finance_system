@@ -24,7 +24,7 @@
                                         :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
                                         <b-select v-model="fields.financial_year_id" expanded
                                             required
-                                            @input=""
+                                            @input="loadAllotmentClasses"
                                             placeholder="Financial Year">
                                             <option v-for="(item, indx) in financialYears"
                                                 :key="`fy${indx}`"
@@ -430,8 +430,8 @@ export default{
             })
         },
 
-        loadAllotmentClasses(){
-            axios.get('/load-allotment-classes').then(res=>{
+        async loadAllotmentClasses(){
+            await axios.get('/load-allotment-classes-by-financial/' + this.fields.financial_year_id).then(res=>{
                 this.allotmentClasses = res.data
             }).catch(err=>{
 
@@ -700,16 +700,21 @@ export default{
                     });
                 })
 
-                result.budgeting_allotment_classes.forEach(item => {
-                    this.fields.allotment_classes.push({
-                        budgeting_allotment_class_id: item.budgeting_allotment_class_id,
-                        allotment_class_id: item.allotment_class_id,
-                        allotment_class_account_id: item.allotment_class_account_id,
-                        amount: item.amount,
-                        //for viewing only
-                        allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
-                    });
+
+                //async call
+                this.loadAllotmentClasses().then(()=>{
+                    result.budgeting_allotment_classes.forEach(item => {
+                        this.fields.allotment_classes.push({
+                            budgeting_allotment_class_id: item.budgeting_allotment_class_id,
+                            allotment_class_id: item.allotment_class_id,
+                            allotment_class_account_id: item.allotment_class_account_id,
+                            amount: item.amount,
+                            //for viewing only
+                            allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+                        });
+                    })
                 })
+                
 
                 if(result.priority_program){
                     this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
@@ -738,7 +743,7 @@ export default{
 
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()
-        this.loadAllotmentClasses()
+        //this.loadAllotmentClasses()
     }
 }
 </script>

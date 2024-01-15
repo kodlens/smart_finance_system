@@ -24,7 +24,7 @@
                                         :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
                                         <b-select v-model="fields.financial_year_id" expanded
                                             required
-                                            @input=""
+                                            @input="loadAllotmentClasses"
                                             placeholder="Financial Year">
                                             <option v-for="(item, indx) in financialYears"
                                                 :key="`fy${indx}`"
@@ -76,8 +76,8 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Training Control No."
-                                             :type="errors.training_control_no ? 'is-danger':''"
-                                             :message="errors.training_control_no ? errors.training_control_no[0] : ''">
+                                            :type="errors.training_control_no ? 'is-danger':''"
+                                            :message="errors.training_control_no ? errors.training_control_no[0] : ''">
                                         <b-input type="text" placholder="Training Control No."
                                                  v-model="fields.training_control_no" required>
                                         </b-input>
@@ -445,8 +445,8 @@ export default{
             })
         },
 
-        loadAllotmentClasses(){
-            axios.get('/load-allotment-classes').then(res=>{
+        async loadAllotmentClasses(){
+            await axios.get('/load-allotment-classes-by-financial/' + this.fields.financial_year_id).then(res=>{
                 this.allotmentClasses = res.data
             }).catch(err=>{
 
@@ -687,6 +687,8 @@ export default{
                 this.fields.accounting_id = result.accounting_id
                 this.fields.financial_year_id = result.financial_year_id
                 this.fields.fund_source_id = result.fund_source_id
+
+                
   
                 this.fields.date_time = new Date(result.date_time)
                 this.fields.transaction_no = result.transaction_no
@@ -708,16 +710,21 @@ export default{
                     });
                 })
 
-                result.accounting_allotment_classes.forEach(item => {
-                    this.fields.allotment_classes.push({
-                        accounting_allotment_class_id: item.accounting_allotment_class_id,
-                        allotment_class_id: item.allotment_class_id,
-                        allotment_class_account_id: item.allotment_class_account_id,
-                        amount: item.amount,
-                        //for viewing only
-                        allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
-                    });
+
+                //async call
+                this.loadAllotmentClasses().then(()=>{
+                    result.accounting_allotment_classes.forEach(item => {
+                        this.fields.allotment_classes.push({
+                            accounting_allotment_class_id: item.accounting_allotment_class_id,
+                            allotment_class_id: item.allotment_class_id,
+                            allotment_class_account_id: item.allotment_class_account_id,
+                            amount: item.amount,
+                            //for viewing only
+                            allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+                        });
+                    })
                 })
+                
 
                 //if has priority program
                 if(result.priority_program_id){
@@ -747,7 +754,7 @@ export default{
 
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()
-        this.loadAllotmentClasses()
+        //this.loadAllotmentClasses()
     }
 }
 </script>

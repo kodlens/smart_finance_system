@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
 use App\Models\AllotmentClass;
+use Illuminate\Validation\Rule;
 
 class AllotmentClassController extends Controller
 {
@@ -37,7 +38,10 @@ class AllotmentClassController extends Controller
 
         $req->validate([
             'financial_year' => ['required'],
-            'allotment_class' => ['required', 'unique:allotment_classes'],
+            'allotment_class' =>  Rule::unique('allotment_classes')->where(function ($query) use ($req) {
+                return $query->where('financial_year_id', $req->financial_year['financial_year_id'])
+                    ->where('allotment_class', $req->allotment_class);
+            }),
             'allotment_class_budget' => ['required']
         ]);
 

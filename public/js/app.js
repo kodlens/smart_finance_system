@@ -7965,6 +7965,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -8390,9 +8398,23 @@ __webpack_require__.r(__webpack_exports__);
     loadAllotmentClasses: function loadAllotmentClasses() {
       var _this3 = this;
 
-      axios.get('/load-allotment-classes').then(function (res) {
-        _this3.allotmentClasses = res.data;
-      })["catch"](function (err) {});
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/load-allotment-classes-by-financial/' + _this3.fields.financial_year_id).then(function (res) {
+                  _this3.allotmentClasses = res.data;
+                })["catch"](function (err) {});
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     loadFinancialYears: function loadFinancialYears() {
       var _this4 = this;
@@ -8618,17 +8640,21 @@ __webpack_require__.r(__webpack_exports__);
             acctg_doc_attachment_id: item.acctg_doc_attachment_id,
             accounting_id: item.accounting_id
           });
-        });
-        result.accounting_allotment_classes.forEach(function (item) {
-          _this9.fields.allotment_classes.push({
-            accounting_allotment_class_id: item.accounting_allotment_class_id,
-            allotment_class_id: item.allotment_class_id,
-            allotment_class_account_id: item.allotment_class_account_id,
-            amount: item.amount,
-            //for viewing only
-            allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+        }); //async call
+
+        _this9.loadAllotmentClasses().then(function () {
+          result.accounting_allotment_classes.forEach(function (item) {
+            _this9.fields.allotment_classes.push({
+              accounting_allotment_class_id: item.accounting_allotment_class_id,
+              allotment_class_id: item.allotment_class_id,
+              allotment_class_account_id: item.allotment_class_account_id,
+              amount: item.amount,
+              //for viewing only
+              allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+            });
           });
         }); //if has priority program
+
 
         if (result.priority_program_id) {
           _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
@@ -8650,8 +8676,7 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     this.loadTransactionTypes();
-    this.loadDocumentaryAttachments();
-    this.loadAllotmentClasses();
+    this.loadDocumentaryAttachments(); //this.loadAllotmentClasses()
   }
 });
 
@@ -9253,6 +9278,12 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -9286,7 +9317,8 @@ __webpack_require__.r(__webpack_exports__);
         'button': true,
         'is-loading': false
       },
-      financialYears: []
+      financialYears: [],
+      modalAddNewToFinancialYear: false
     };
   },
   methods: {
@@ -9344,6 +9376,8 @@ __webpack_require__.r(__webpack_exports__);
     },
     submit: function submit() {
       var _this2 = this;
+
+      this.errors = {};
 
       if (this.global_id > 0) {
         //update
@@ -9471,6 +9505,13 @@ __webpack_require__.r(__webpack_exports__);
       //this.fields.financial_budget = this.financial_year.financial_budget
       console.log(this.fields.financial_year);
       this.fields.financial_budget = this.fields.financial_year.financial_budget;
+    },
+    addNewToFinancialYear: function addNewToFinancialYear(row) {
+      this.field = {};
+      this.errors = {};
+      this.isModalCreate = true;
+      this.fields.allotment_class = row.allotment_class;
+      this.field.allotment_class_budget = row.allotment_class_budget;
     }
   },
   mounted: function mounted() {
@@ -9493,6 +9534,58 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 //
 //
 //
@@ -9712,12 +9805,16 @@ __webpack_require__.r(__webpack_exports__);
       fields: {
         allotment_class_id: null,
         allotment_class_code: null,
-        allotment_class: null,
+        allotment_class: {
+          allotment_class_id: null,
+          allotment_class_budget: null
+        },
         allotment_class_account: null,
         allotment_class_account_budget: null
       },
       errors: {},
       financialYears: [],
+      allotmentClasses: [],
       btnClass: {
         'is-success': true,
         'button': true,
@@ -9870,22 +9967,91 @@ __webpack_require__.r(__webpack_exports__);
       this.global_id = data_id;
       this.isModalCreate = true;
       axios.get('/allotment-class-accounts/' + data_id).then(function (res) {
-        _this5.fields = res.data;
+        //this.fields = res.data;
+        _this5.fields.financial_year = res.data.allotment_class.financial_year_id;
+
+        _this5.loadAllotmentClasses(_this5.fields.financial_year).then(function () {
+          _this5.fields.allotment_class = {
+            allotment_class_id: res.data.allotment_class.allotment_class_id,
+            allotment_class_budget: res.data.allotment_class.allotment_class_budget
+          };
+          _this5.fields.allotment_class_budget = res.data.allotment_class.allotment_class_budget;
+        });
+
+        _this5.fields.allotment_class_account_code = res.data.allotment_class_account_code;
+        _this5.fields.allotment_class_account = res.data.allotment_class_account;
+        _this5.fields.allotment_class_account_budget = res.data.allotment_class_account_budget;
       });
     },
-    loadAllotmentClasses: function loadAllotmentClasses() {
-      var _this6 = this;
+    loadAllotmentClasses: function () {
+      var _loadAllotmentClasses = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee(financial) {
+        var _this6 = this;
 
-      axios.get('/load-allotment-classes').then(function (res) {
-        _this6.allotment_classes = res.data;
-      });
-    },
-    loadFinancialYears: function loadFinancialYears() {
-      var _this7 = this;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/load-allotment-classes-by-financial/' + financial).then(function (res) {
+                  _this6.allotmentClasses = res.data;
+                });
 
-      axios.get('/load-financial-years').then(function (res) {
-        _this7.financialYears = res.data;
-      });
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      function loadAllotmentClasses(_x) {
+        return _loadAllotmentClasses.apply(this, arguments);
+      }
+
+      return loadAllotmentClasses;
+    }(),
+    loadFinancialYears: function () {
+      var _loadFinancialYears = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee2() {
+        var _this7 = this;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                _context2.next = 2;
+                return axios.get('/load-financial-years').then(function (res) {
+                  _this7.financialYears = res.data;
+                });
+
+              case 2:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2);
+      }));
+
+      function loadFinancialYears() {
+        return _loadFinancialYears.apply(this, arguments);
+      }
+
+      return loadFinancialYears;
+    }(),
+    addNewToFinancialYear: function addNewToFinancialYear(row) {
+      this.field = {};
+      this.errors = {}; // if(this.search.financial_year){
+      //     this.$buefy.dialog.alert({
+      //         title: 'EMPTY!',
+      //         type: 'is-danger',
+      //         message: 'Please select financial year first.'
+      //     });
+      //     return;
+      // }
+
+      this.loadAllotmentClasses();
+      this.isModalCreate = true;
+      this.fields.allotment_class_account_code = row.allotment_class_account_code;
+      this.fields.allotment_class_account = row.allotment_class_account;
     }
   },
   mounted: function mounted() {
@@ -9908,6 +10074,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -10323,9 +10497,23 @@ __webpack_require__.r(__webpack_exports__);
     loadAllotmentClasses: function loadAllotmentClasses() {
       var _this3 = this;
 
-      axios.get('/load-allotment-classes').then(function (res) {
-        _this3.allotmentClasses = res.data;
-      })["catch"](function (err) {});
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/load-allotment-classes-by-financial/' + _this3.fields.financial_year_id).then(function (res) {
+                  _this3.allotmentClasses = res.data;
+                })["catch"](function (err) {});
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     loadFinancialYears: function loadFinancialYears() {
       var _this4 = this;
@@ -10556,15 +10744,18 @@ __webpack_require__.r(__webpack_exports__);
             budgeting_documentary_attachment_id: item.budgeting_documentary_attachment_id,
             budgeting_id: item.budgeting_id
           });
-        });
-        result.budgeting_allotment_classes.forEach(function (item) {
-          _this9.fields.allotment_classes.push({
-            budgeting_allotment_class_id: item.budgeting_allotment_class_id,
-            allotment_class_id: item.allotment_class_id,
-            allotment_class_account_id: item.allotment_class_account_id,
-            amount: item.amount,
-            //for viewing only
-            allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+        }); //async call
+
+        _this9.loadAllotmentClasses().then(function () {
+          result.budgeting_allotment_classes.forEach(function (item) {
+            _this9.fields.allotment_classes.push({
+              budgeting_allotment_class_id: item.budgeting_allotment_class_id,
+              allotment_class_id: item.allotment_class_id,
+              allotment_class_account_id: item.allotment_class_account_id,
+              amount: item.amount,
+              //for viewing only
+              allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+            });
           });
         });
 
@@ -10588,8 +10779,7 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     this.loadTransactionTypes();
-    this.loadDocumentaryAttachments();
-    this.loadAllotmentClasses();
+    this.loadDocumentaryAttachments(); //this.loadAllotmentClasses()
   }
 });
 
@@ -12376,6 +12566,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
 //
 //
 //
@@ -12802,9 +13000,23 @@ __webpack_require__.r(__webpack_exports__);
     loadAllotmentClasses: function loadAllotmentClasses() {
       var _this3 = this;
 
-      axios.get('/load-allotment-classes').then(function (res) {
-        _this3.allotmentClasses = res.data;
-      })["catch"](function (err) {});
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/load-allotment-classes-by-financial/' + _this3.fields.financial_year_id).then(function (res) {
+                  _this3.allotmentClasses = res.data;
+                })["catch"](function (err) {});
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
     },
     loadFinancialYears: function loadFinancialYears() {
       var _this4 = this;
@@ -13031,17 +13243,21 @@ __webpack_require__.r(__webpack_exports__);
             acctg_doc_attachment_id: item.acctg_doc_attachment_id,
             procurement_id: item.procurement_id
           });
-        });
-        result.procurement_allotment_classes.forEach(function (item) {
-          _this9.fields.allotment_classes.push({
-            procurement_allotment_class_id: item.procurement_allotment_class_id,
-            allotment_class_id: item.allotment_class_id,
-            allotment_class_account_id: item.allotment_class_account_id,
-            amount: item.amount,
-            //for viewing only
-            allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+        }); //async call
+
+        _this9.loadAllotmentClasses().then(function () {
+          result.procurement_allotment_classes.forEach(function (item) {
+            _this9.fields.allotment_classes.push({
+              procurement_allotment_class_id: item.procurement_allotment_class_id,
+              allotment_class_id: item.allotment_class_id,
+              allotment_class_account_id: item.allotment_class_account_id,
+              amount: item.amount,
+              //for viewing only
+              allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+            });
           });
         }); //if has priority program
+
 
         if (result.priority_program_id) {
           _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
@@ -13063,8 +13279,7 @@ __webpack_require__.r(__webpack_exports__);
     }
 
     this.loadTransactionTypes();
-    this.loadDocumentaryAttachments();
-    this.loadAllotmentClasses();
+    this.loadDocumentaryAttachments(); //this.loadAllotmentClasses()
   }
 });
 
@@ -43358,7 +43573,7 @@ var render = function () {
                                 required: "",
                                 placeholder: "Financial Year",
                               },
-                              on: { input: function ($event) {} },
+                              on: { input: _vm.loadAllotmentClasses },
                               model: {
                                 value: _vm.fields.financial_year_id,
                                 callback: function ($$v) {
@@ -45094,6 +45309,7 @@ var render = function () {
                               "b-select",
                               {
                                 attrs: { placeholder: "Financial Year" },
+                                on: { input: _vm.loadAsyncData },
                                 model: {
                                   value: _vm.search.financial_year,
                                   callback: function ($$v) {
@@ -45368,6 +45584,31 @@ var render = function () {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
                                               props.row.allotment_class_id
+                                            )
+                                          },
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-tooltip",
+                                    {
+                                      attrs: {
+                                        label: "Add New to Financial Year",
+                                        type: "is-info",
+                                      },
+                                    },
+                                    [
+                                      _c("b-button", {
+                                        staticClass:
+                                          "button is-small is-info mr-1",
+                                        attrs: { "icon-right": "arrow-right" },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.addNewToFinancialYear(
+                                              props.row
                                             )
                                           },
                                         },
@@ -45809,6 +46050,7 @@ var render = function () {
                               "b-select",
                               {
                                 attrs: { placeholder: "Financial Year" },
+                                on: { input: _vm.loadAsyncData },
                                 model: {
                                   value: _vm.search.financial_year,
                                   callback: function ($$v) {
@@ -45909,6 +46151,23 @@ var render = function () {
                 ),
                 _vm._v(" "),
                 _c(
+                  "div",
+                  { staticClass: "buttons mt-3" },
+                  [
+                    _c(
+                      "b-button",
+                      {
+                        staticClass: "is-success",
+                        attrs: { "icon-right": "account-arrow-up-outline" },
+                        on: { click: _vm.openModal },
+                      },
+                      [_vm._v("NEW")]
+                    ),
+                  ],
+                  1
+                ),
+                _vm._v(" "),
+                _c(
                   "b-table",
                   {
                     attrs: {
@@ -45944,6 +46203,35 @@ var render = function () {
                                 "\n                            " +
                                   _vm._s(props.row.allotment_class_account_id) +
                                   "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: {
+                        field: "financial_year",
+                        label: "Financial Year",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(
+                                    props.row.allotment_class.financial_year
+                                      .financial_year_code
+                                  ) +
+                                  "\n                            -\n                            " +
+                                  _vm._s(
+                                    props.row.allotment_class.financial_year
+                                      .financial_year_desc
+                                  ) +
+                                  "\n\n                        "
                               ),
                             ]
                           },
@@ -46031,7 +46319,9 @@ var render = function () {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(
-                                    props.row.allotment_class_account_budget
+                                    _vm._f("numberWithCommas")(
+                                      props.row.allotment_class_account_budget
+                                    )
                                   ) +
                                   "\n                        "
                               ),
@@ -46099,6 +46389,31 @@ var render = function () {
                                             return _vm.confirmDelete(
                                               props.row
                                                 .allotment_class_account_id
+                                            )
+                                          },
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-tooltip",
+                                    {
+                                      attrs: {
+                                        label: "Add New To Financial Year",
+                                        type: "is-info",
+                                      },
+                                    },
+                                    [
+                                      _c("b-button", {
+                                        staticClass:
+                                          "button is-small is-info mr-1",
+                                        attrs: { "icon-right": "arrow-right" },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.addNewToFinancialYear(
+                                              props.row
                                             )
                                           },
                                         },
@@ -46198,16 +46513,75 @@ var render = function () {
                         [
                           _c(
                             "b-field",
+                            { attrs: { label: "Financial Year" } },
+                            [
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: {
+                                    expanded: "",
+                                    placeholder: "Financial Year",
+                                  },
+                                  on: {
+                                    input: function ($event) {
+                                      return _vm.loadAllotmentClasses(
+                                        _vm.fields.financial_year
+                                      )
+                                    },
+                                  },
+                                  model: {
+                                    value: _vm.fields.financial_year,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.fields,
+                                        "financial_year",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "fields.financial_year",
+                                  },
+                                },
+                                _vm._l(
+                                  _vm.financialYears,
+                                  function (item, index) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: "f" + index,
+                                        domProps: {
+                                          value: item.financial_year_id,
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                            " +
+                                            _vm._s(item.financial_year_code) +
+                                            " - (" +
+                                            _vm._s(item.financial_year_desc) +
+                                            ")\n                                        "
+                                        ),
+                                      ]
+                                    )
+                                  }
+                                ),
+                                0
+                              ),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-field",
                             {
                               attrs: {
                                 label: "Select Allotment Class",
                                 "label-position": "on-border",
                                 expanded: "",
-                                type: this.errors.allotment_class_id
+                                type: _vm.errors.allotment_class
                                   ? "is-danger"
                                   : "",
-                                message: this.errors.allotment_class_id
-                                  ? this.errors.allotment_class_id[0]
+                                message: _vm.errors.allotment_class
+                                  ? _vm.errors.allotment_class[0]
                                   : "",
                               },
                             },
@@ -46220,20 +46594,28 @@ var render = function () {
                                     placeholder: "Select Allotment Class",
                                     required: "",
                                   },
+                                  on: {
+                                    input: function ($event) {
+                                      _vm.fields.allotment_class_budget =
+                                        _vm.fields.allotment_class[
+                                          "allotment_class_budget"
+                                        ]
+                                    },
+                                  },
                                   model: {
-                                    value: _vm.fields.allotment_class_id,
+                                    value: _vm.fields.allotment_class,
                                     callback: function ($$v) {
                                       _vm.$set(
                                         _vm.fields,
-                                        "allotment_class_id",
+                                        "allotment_class",
                                         $$v
                                       )
                                     },
-                                    expression: "fields.allotment_class_id",
+                                    expression: "fields.allotment_class",
                                   },
                                 },
                                 _vm._l(
-                                  _vm.allotment_classes,
+                                  _vm.allotmentClasses,
                                   function (item, index) {
                                     return _c(
                                       "option",
@@ -46262,14 +46644,49 @@ var render = function () {
                             "b-field",
                             {
                               attrs: {
-                                label: "Allotment Class Account Code",
+                                label: "Allotment Class Budget",
                                 "label-position": "on-border",
-                                type: this.errors.allotment_class_account_code
+                                type: _vm.errors.allotment_class_budget
                                   ? "is-danger"
                                   : "",
-                                message: this.errors
-                                  .allotment_class_account_code
-                                  ? this.errors.allotment_class_account_code[0]
+                                message: _vm.errors.allotment_class_budget
+                                  ? _vm.errors.allotment_class_budget[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-input", {
+                                attrs: {
+                                  readonly: "",
+                                  placeholder: "Allotment Class Budget",
+                                },
+                                model: {
+                                  value: _vm.fields.allotment_class_budget,
+                                  callback: function ($$v) {
+                                    _vm.$set(
+                                      _vm.fields,
+                                      "allotment_class_budget",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "fields.allotment_class_budget",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Allotment Class Account Code",
+                                "label-position": "on-border",
+                                type: _vm.errors.allotment_class_account_code
+                                  ? "is-danger"
+                                  : "",
+                                message: _vm.errors.allotment_class_account_code
+                                  ? _vm.errors.allotment_class_account_code[0]
                                   : "",
                               },
                             },
@@ -46303,11 +46720,11 @@ var render = function () {
                               attrs: {
                                 label: "Allotment Class Account",
                                 "label-position": "on-border",
-                                type: this.errors.allotment_class_account
+                                type: _vm.errors.allotment_class_account
                                   ? "is-danger"
                                   : "",
-                                message: this.errors.allotment_class_account
-                                  ? this.errors.allotment_class_account[0]
+                                message: _vm.errors.allotment_class_account
+                                  ? _vm.errors.allotment_class_account[0]
                                   : "",
                               },
                             },
@@ -46339,13 +46756,12 @@ var render = function () {
                               attrs: {
                                 label: "Allotment Class Account Budget",
                                 "label-position": "on-border",
-                                type: this.errors.allotment_class_account_budget
+                                type: _vm.errors.allotment_class_account_budget
                                   ? "is-danger"
                                   : "",
-                                message: this.errors
+                                message: _vm.errors
                                   .allotment_class_account_budget
-                                  ? this.errors
-                                      .allotment_class_account_budget[0]
+                                  ? _vm.errors.allotment_class_account_budget[0]
                                   : "",
                               },
                             },
@@ -46474,7 +46890,7 @@ var render = function () {
                                 required: "",
                                 placeholder: "Financial Year",
                               },
-                              on: { input: function ($event) {} },
+                              on: { input: _vm.loadAllotmentClasses },
                               model: {
                                 value: _vm.fields.financial_year_id,
                                 callback: function ($$v) {
@@ -50165,7 +50581,7 @@ var render = function () {
                                 required: "",
                                 placeholder: "Financial Year",
                               },
-                              on: { input: function ($event) {} },
+                              on: { input: _vm.loadAllotmentClasses },
                               model: {
                                 value: _vm.fields.financial_year_id,
                                 callback: function ($$v) {

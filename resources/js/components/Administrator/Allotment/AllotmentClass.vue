@@ -29,6 +29,7 @@
 
                                     <b-field label="Financial Year">
                                         <b-select v-model="search.financial_year"
+                                            @input="loadAsyncData"
                                             placeholder="Financial Year">
                                             <option 
                                                 :value="item.financial_year_id" 
@@ -45,12 +46,12 @@
 
                         <b-field label="Search">
                             <b-input type="text"
-                                        v-model="search.allotment" placeholder="Search Allotment"
-                                        @keyup.native.enter="loadAsyncData"/>
+                                v-model="search.allotment" placeholder="Search Allotment"
+                                @keyup.native.enter="loadAsyncData"/>
                             <p class="control">
-                                    <b-tooltip label="Search" type="is-success">
-                                <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                    </b-tooltip>
+                                <b-tooltip label="Search" type="is-success">
+                                    <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                </b-tooltip>
                             </p>
                         </b-field>
                       
@@ -105,6 +106,11 @@
                                         <b-button class="button is-small is-danger mr-1" 
                                             icon-right="delete" 
                                             @click="confirmDelete(props.row.allotment_class_id)"></b-button>
+                                    </b-tooltip>
+                                    <b-tooltip label="Add New to Financial Year" type="is-info">
+                                        <b-button class="button is-small is-info mr-1" 
+                                            icon-right="arrow-right" 
+                                            @click="addNewToFinancialYear(props.row)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -252,6 +258,8 @@ export default{
             },
 
             financialYears: [],
+
+            modalAddNewToFinancialYear: false,
         }
 
     },
@@ -319,7 +327,7 @@ export default{
 
 
         submit: function(){
-
+            this.errors = {}
             if(this.global_id > 0){
                 //update
                 axios.put('/allotment-classes/'+this.global_id, this.fields).then(res=>{
@@ -445,6 +453,15 @@ export default{
             //this.fields.financial_budget = this.financial_year.financial_budget
             console.log(this.fields.financial_year);
             this.fields.financial_budget = this.fields.financial_year.financial_budget
+        },
+
+
+        addNewToFinancialYear(row){
+            this.field = {}
+            this.errors = {}
+            this.isModalCreate = true
+            this.fields.allotment_class = row.allotment_class
+            this.field.allotment_class_budget = row.allotment_class_budget
         }
 
     },
