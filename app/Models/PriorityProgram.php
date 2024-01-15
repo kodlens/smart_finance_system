@@ -14,8 +14,11 @@ class PriorityProgram extends Model
 
 
     protected $fillable = [
+        'financial_year_id',
         'priority_program', 
         'priority_program_code',
+        'priority_program_budget'
+
     ];
 
 
