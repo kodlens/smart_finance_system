@@ -10078,9 +10078,731 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 /*!**************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Budgeting/BudgetingCreateEdit.vue?vue&type=script&lang=js& ***!
   \**************************************************************************************************************************************************************************************************************************************************/
-/***/ (() => {
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
 
-throw new Error("Module build failed (from ./node_modules/babel-loader/lib/index.js):\nSyntaxError: C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\resources\\js\\components\\Administrator\\Budgeting\\BudgetingCreateEdit.vue: Unexpected token (763:0)\n\n\u001b[0m \u001b[90m 761 |\u001b[39m     }\u001b[0m\n\u001b[0m \u001b[90m 762 |\u001b[39m }\u001b[0m\n\u001b[0m\u001b[31m\u001b[1m>\u001b[22m\u001b[39m\u001b[90m 763 |\u001b[39m }\u001b[0m\n\u001b[0m \u001b[90m     |\u001b[39m \u001b[31m\u001b[1m^\u001b[22m\u001b[39m\u001b[0m\n\u001b[0m \u001b[90m 764 |\u001b[39m\u001b[0m\n    at Parser._raise (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:541:17)\n    at Parser.raiseWithData (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:534:17)\n    at Parser.raise (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:495:17)\n    at Parser.unexpected (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:3560:16)\n    at Parser.parseExprAtom (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11980:22)\n    at Parser.parseExprSubscripts (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11541:23)\n    at Parser.parseUpdate (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11521:21)\n    at Parser.parseMaybeUnary (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11496:23)\n    at Parser.parseMaybeUnaryOrPrivate (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11310:61)\n    at Parser.parseExprOps (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11317:23)\n    at Parser.parseMaybeConditional (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11287:23)\n    at Parser.parseMaybeAssign (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11250:21)\n    at Parser.parseExpressionBase (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11186:23)\n    at C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11180:39\n    at Parser.allowInAnd (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:13068:16)\n    at Parser.parseExpression (C:\\Users\\etien\\OneDrive\\Desktop\\Github Proj\\smart_finance_system\\node_modules\\@babel\\parser\\lib\\index.js:11180:17)");
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    id: {
+      type: Number,
+      "default": 0
+    }
+  },
+  data: function data() {
+    return {
+      financialYears: [],
+      fundSources: [],
+      fields: {
+        budgeting_id: 0,
+        financial_year_id: null,
+        fund_source: null,
+        date_time: new Date(),
+        transaction_no: null,
+        training_control_no: null,
+        transaction_type_id: null,
+        payee_id: null,
+        payee: null,
+        particulars: null,
+        documentary_attachments: [],
+        allotment_classes: [],
+        total_amount: null,
+        priority_program_id: null,
+        priority_program: null,
+        office_id: null,
+        office: null,
+        others: null
+      },
+      errors: {},
+      transactionTypes: [],
+      global_id: 0,
+      payee: {
+        payee_id: 0,
+        bank_account_payee: ''
+      },
+      priority_program: {
+        priority_program: ''
+      },
+      office: {
+        office: ''
+      },
+      documentaryAttachments: [],
+      allotmentClasses: []
+    };
+  },
+  methods: {
+    loadTransactionTypes: function loadTransactionTypes() {
+      var _this = this;
+
+      axios.get('/load-transaction-types').then(function (res) {
+        _this.transactionTypes = res.data;
+      });
+    },
+    loadDocumentaryAttachments: function loadDocumentaryAttachments() {
+      var _this2 = this;
+
+      axios.get('/load-documentary-attachments').then(function (res) {
+        _this2.documentaryAttachments = res.data;
+      })["catch"](function (err) {});
+    },
+    loadAllotmentClasses: function loadAllotmentClasses() {
+      var _this3 = this;
+
+      return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios.get('/load-allotment-classes-by-financial/' + _this3.fields.financial_year_id).then(function (res) {
+                  _this3.allotmentClasses = res.data;
+                })["catch"](function (err) {});
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }))();
+    },
+    loadFinancialYears: function loadFinancialYears() {
+      var _this4 = this;
+
+      axios.get('/load-financial-years').then(function (res) {
+        _this4.financialYears = res.data;
+      });
+    },
+    loadFundSources: function loadFundSources() {
+      var _this5 = this;
+
+      axios.get('/load-fund-sources').then(function (res) {
+        _this5.fundSources = res.data;
+      });
+    },
+    emitPayee: function emitPayee(row) {
+      this.payee.payee_id = row.payee_id;
+      this.payee.bank_account_payee = row.bank_account_payee;
+      this.fields.payee_id = row.payee_id;
+    },
+    emitAllotmentAccount: function emitAllotmentAccount(index, row) {
+      this.fields.allotment_classes[index].allotment = '(' + row.allotment_class_account_code + ') ' + row.allotment_class_account;
+      this.fields.allotment_classes[index].allotment_class_id = row.allotment_class_id;
+      this.fields.allotment_classes[index].allotment_class_account_id = row.allotment_class_account_id;
+    },
+    emitPriorityProgram: function emitPriorityProgram(row) {
+      this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program;
+      this.fields.priority_program_id = row.priority_program_id;
+    },
+    emitBrowseOffice: function emitBrowseOffice(row) {
+      this.office.office = row.office + " (".concat(row.description, ")");
+      this.fields.office_id = row.office_id;
+      this.fields.office = row.office;
+    },
+    //attaching documents
+    newDocAttachment: function newDocAttachment() {
+      this.fields.documentary_attachments.push({
+        documentary_attachment_id: 0,
+        file_upload: null
+      });
+    },
+    removeDoctAttchment: function removeDoctAttchment(ix) {
+      var _this6 = this;
+
+      this.$buefy.dialog.confirm({
+        title: 'DELETE?',
+        message: 'Are you sure you want to remove this attachment? This cannot be undone.',
+        onConfirm: function onConfirm() {
+          var nId = _this6.fields.documentary_attachments[ix].budgeting_documentary_attachment_id;
+
+          if (nId > 0) {
+            axios.post('/budgeting-documentary-attachment-delete/' + nId).then(function (res) {
+              if (res.data.status === 'deleted') {
+                _this6.$buefy.toast.open({
+                  message: "Attachment deleted successfully.",
+                  type: 'is-primary'
+                });
+              }
+            });
+          }
+
+          _this6.fields.documentary_attachments.splice(ix, 1);
+        }
+      });
+    },
+    //attaching documents
+    newAllotmentClass: function newAllotmentClass() {
+      this.fields.allotment_classes.push({
+        accounting_allotment_class_id: 0,
+        allotment_class_id: 0,
+        allotment_class_account_id: 0,
+        amount: 0,
+        allotment: null
+      });
+    },
+    removeAllotmentClass: function removeAllotmentClass(ix) {
+      var _this7 = this;
+
+      this.$buefy.dialog.confirm({
+        title: 'DELETE?',
+        message: 'Are you sure you want to remove this attachment? This cannot be undone.',
+        onConfirm: function onConfirm() {
+          var nId = _this7.fields.accounts[ix].account_id;
+
+          if (nId > 0) {
+            axios["delete"]('//' + nId).then(function (res) {
+              if (res.data.status === 'deleted') {
+                _this7.$buefy.toast.open({
+                  message: "Account deleted successfully.",
+                  type: 'is-primary'
+                });
+              }
+            });
+          }
+
+          _this7.fields.accounts.splice(ix, 1);
+        }
+      });
+    },
+    submit: function submit() {
+      var _this8 = this;
+
+      //format the date
+      var formData = new FormData();
+      formData.append('budgeting_id', this.id);
+      formData.append('financial_year_id', this.fields.financial_year_id ? this.fields.financial_year_id : '');
+      formData.append('fund_source_id', this.fields.fund_source_id ? this.fields.fund_source_id : '');
+      formData.append('date_time', this.fields.date_time ? this.$formatDateAndTime(this.fields.date_time) : '');
+      formData.append('transaction_no', this.fields.transaction_no ? this.fields.transaction_no : '');
+      formData.append('training_control_no', this.fields.training_control_no ? this.fields.training_control_no : '');
+      formData.append('transaction_type_id', this.fields.transaction_type_id ? this.fields.transaction_type_id : '');
+      formData.append('payee_id', this.fields.payee_id ? this.fields.payee_id : '');
+      formData.append('particulars', this.fields.particulars ? this.fields.particulars : '');
+      formData.append('total_amount', this.fields.total_amount ? this.fields.total_amount : ''); //doc attachment
+
+      if (this.fields.documentary_attachments) {
+        this.fields.documentary_attachments.forEach(function (doc, index) {
+          formData.append("documentary_attachments[".concat(index, "][documentary_attachment_id]"), doc.documentary_attachment_id);
+          formData.append("documentary_attachments[".concat(index, "][file_upload]"), doc.file_upload);
+        });
+      } //will be code later
+
+
+      if (this.fields.allotment_classes) {
+        this.fields.allotment_classes.forEach(function (item, index) {
+          formData.append("allotment_classes[".concat(index, "][budgeting_allotment_class_id]"), item.accounting_allotment_class_id);
+          formData.append("allotment_classes[".concat(index, "][allotment_class_id]"), item.allotment_class_id);
+          formData.append("allotment_classes[".concat(index, "][allotment_class_account_id]"), item.allotment_class_account_id);
+          formData.append("allotment_classes[".concat(index, "][amount]"), item.amount);
+        });
+      }
+
+      formData.append('priority_program_id', this.fields.priority_program_id ? this.fields.priority_program_id : '');
+      formData.append('others', this.fields.others ? this.fields.others : '');
+      formData.append('office_id', this.fields.office_id ? this.fields.office_id : '');
+
+      if (this.id > 0) {
+        //update
+        axios.post('/budgeting-update/' + this.id, formData).then(function (res) {
+          if (res.data.status === 'updated') {
+            _this8.$buefy.dialog.alert({
+              title: 'UPDATED!',
+              message: 'Successfully updated.',
+              type: 'is-success',
+              onConfirm: function onConfirm() {
+                window.location = '/budgeting';
+              }
+            });
+          }
+        })["catch"](function (err) {
+          if (err.response.status === 422) {
+            _this8.errors = err.response.data.errors;
+          }
+        });
+      } else {
+        //INSERT HERE
+        axios.post('/budgeting', formData).then(function (res) {
+          if (res.data.status === 'saved') {
+            _this8.$buefy.dialog.alert({
+              title: 'SAVED!',
+              message: 'Successfully saved.',
+              type: 'is-success',
+              confirmText: 'OK',
+              onConfirm: function onConfirm() {
+                window.location = '/budgeting';
+              }
+            });
+          }
+        })["catch"](function (err) {
+          if (err.response.status === 422) {
+            _this8.errors = err.response.data.errors;
+
+            _this8.$buefy.dialog.alert({
+              type: 'is-danger',
+              title: 'EMPTY FIELDS.',
+              message: 'Please fill out all required fields.'
+            });
+          }
+        });
+      }
+    },
+    refreshAccountAllotment: function refreshAccountAllotment() {
+      this.allotment.allotment = null;
+      this.fields.allotment_class_account_id = null;
+      this.allotment_class_account = null;
+      this.allotment_class_account_code = null;
+    },
+    clearChargeTo: function clearChargeTo() {
+      console.log('clear');
+      this.fields.allotment_classes = [];
+    },
+    debug: function debug() {
+      this.fields.financial_year_id = 1;
+      this.fields.fund_source = 1;
+      this.fields.date_time = new Date();
+      this.fields.transaction_no = '23-01-0001';
+      this.fields.training_control_no = 'TD-1234-22-1122';
+      this.fields.transaction_type_id = 1;
+      this.fields.particulars = 'Sample particulars';
+      this.fields.total_amount = 10000; //this.fields.amount = 12000
+      // this.fields.supplemental_budget = 'sample supplemental'
+      // this.fields.capital_outlay = 'sample capital outlay'
+      // this.fields.account_payable = 'sample ap'
+      // this.fields.tes_trust_fund = 'tes trust fund'
+
+      this.fields.others = 'sample others';
+    },
+    getData: function getData() {
+      var _this9 = this;
+
+      axios.get('/budgeting/' + this.id).then(function (res) {
+        var result = res.data;
+        _this9.fields.budgeting = result.budgeting;
+        _this9.fields.financial_year_id = result.financial_year_id;
+        _this9.fields.fund_source_id = result.fund_source_id;
+        _this9.fields.date_time = new Date(result.date_time);
+        _this9.fields.transaction_no = result.transaction_no;
+        _this9.fields.training_control_no = result.training_control_no;
+        _this9.fields.transaction_type_id = result.transaction_type_id;
+        _this9.payee.bank_account_payee = result.payee.bank_account_payee;
+        _this9.fields.payee_id = result.payee_id;
+        _this9.fields.particulars = result.particulars;
+        _this9.fields.total_amount = Number(result.total_amount); //attachments
+
+        result.budgeting_documentary_attachments.forEach(function (item) {
+          _this9.fields.documentary_attachments.push({
+            documentary_attachment_id: item.documentary_attachment_id,
+            budgeting_documentary_attachment_id: item.budgeting_documentary_attachment_id,
+            budgeting_id: item.budgeting_id
+          });
+        }); //async call
+
+        _this9.loadAllotmentClasses().then(function () {
+          result.budgeting_allotment_classes.forEach(function (item) {
+            _this9.fields.allotment_classes.push({
+              budgeting_allotment_class_id: item.budgeting_allotment_class_id,
+              allotment_class_id: item.allotment_class_id,
+              allotment_class_account_id: item.allotment_class_account_id,
+              amount: item.amount,
+              //for viewing only
+              allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+            });
+          });
+        });
+
+        if (result.priority_program) {
+          _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
+          _this9.fields.priority_program_id = result.priority_program_id;
+        }
+
+        _this9.fields.office_id = result.office_id;
+        _this9.fields.office = '(' + result.office.office + ') ' + result.office.description;
+        _this9.fields.others = result.others;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.loadFinancialYears();
+    this.loadFundSources();
+
+    if (this.id > 0) {
+      this.getData();
+    }
+
+    this.loadTransactionTypes();
+    this.loadDocumentaryAttachments(); //this.loadAllotmentClasses()
+  },
+  computed: {
+    computedTotalAmount: function computedTotalAmount() {
+      var total = 0;
+      this.fields.allotment_classes.forEach(function (item, index) {
+        total += item.amount;
+      });
+      this.fields.total_amount = total;
+      return total;
+    }
+  }
+});
 
 /***/ }),
 

@@ -760,5 +760,5 @@ export default{
         }
     }
 }
-}
+
 </script>
