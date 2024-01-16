@@ -47,6 +47,17 @@
                             <div class="has-text-weight-bold">ACCOUNTING</div>
                             <div class="">USED BUDGET: {{ accountingUsedBudget | numberWithCommas }}</div>
 
+
+                            <b-field label="Allotment Class" label-position="on-border"
+                                expanded>
+                                <b-select v-model="search.allotment_class_id"
+                                    expanded>
+                                    <option v-for="(allot, ix) in allotmentClasses"
+                                        :key="`allotclass${ix}`"
+                                        :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
+                                </b-select>
+                            </b-field>
+
                         </div>
                     </div>
 
@@ -65,7 +76,7 @@
                     <div class="columns">
                         <div class="column">
                             <div class="has-text-weight-bold">PROCUREMENT</div>
-                            <div class="">USED BUDGET: {{ ProcurementUsedBudget | numberWithCommas }}</div>
+                            <div class="">USED BUDGET: {{ procurementUsedBudget | numberWithCommas }}</div>
 
                         </div>
                     </div>
@@ -108,7 +119,7 @@ export default{
             budgetingUsedBudget: 0,
             procurementUsedBudget: 0,
 
-
+            allotmentClasses: [],
         }
     },
 
@@ -124,6 +135,7 @@ export default{
             this.loadAccountingUtilizations()
             this.loadBudgetingUtilizations()
             this.loadProcurementUtilizations()
+            this.loadAllotmentClasses()
         },
 
         loadAccountingUtilizations(){
@@ -141,6 +153,15 @@ export default{
         loadProcurementUtilizations(){
             axios.get('/load-procurement-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
                 this.procurementUsedBudget = res.data
+            })
+        },
+
+
+        async loadAllotmentClasses(){
+            await axios.get('/load-allotment-classes-by-financial/' + this.search.financial_year['financial_year_id']).then(res=>{
+                this.allotmentClasses = res.data
+            }).catch(err=>{
+
             })
         },
     },

@@ -120,7 +120,7 @@ class DashboardController extends Controller
     public function loadProcurementUtilizations(Request $req, $financialId){
     
         $data = Procurement::where('financial_year_id', $financialId)
-            ->sum('total_amount');
+            ->sum('pr_amount');
 
         return $data;
 
