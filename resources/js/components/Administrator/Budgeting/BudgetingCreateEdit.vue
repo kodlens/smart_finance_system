@@ -744,6 +744,21 @@ export default{
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()
         //this.loadAllotmentClasses()
+    },
+
+
+    computed: {
+        computedTotalAmount(){
+            let total = 0;
+
+            this.fields.allotment_classes.forEach((item, index) =>{
+               total += item.amount
+            });
+
+            this.fields.total_amount = total
+            return total;
+        }
     }
+}
 }
 </script>

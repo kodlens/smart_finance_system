@@ -191,10 +191,10 @@
                                                     :type="errors.allotment_class_id ? 'is-danger':''"
                                                     :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
                                                 <b-select v-model="item.allotment_class_id"
-                                                          expanded>
+                                                        expanded>
                                                     <option v-for="(allot, ix) in allotmentClasses"
-                                                            :key="`allotclass${ix}`"
-                                                            :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
+                                                        :key="`allotclass${ix}`"
+                                                        :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
                                                 </b-select>
                                             </b-field>
                                         </div>
@@ -243,7 +243,8 @@
                                             :message="errors.total_amount ? errors.total_amount[0] : ''">
                                         <b-numberinput placholder="Total Amount"
                                             :controls="false" step="0.0001"
-                                            v-model="fields.total_amount">
+                                            disabled
+                                            :value="computedTotalAmount">
                                         </b-numberinput>
                                     </b-field>
                                 </div>
@@ -386,7 +387,7 @@ export default{
                 documentary_attachments: [],
 
                 allotment_classes: [],
-                total_amount: null,
+                total_amount: 0,
 
                 // allotment_class_id: null,
                 // allotment_class_account_id: null,
@@ -755,6 +756,19 @@ export default{
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()
         //this.loadAllotmentClasses()
+    },
+
+    computed: {
+        computedTotalAmount(){
+            let total = 0;
+
+            this.fields.allotment_classes.forEach((item, index) =>{
+               total += item.amount
+            });
+
+            this.fields.total_amount = total
+            return total;
+        }
     }
 }
 </script>

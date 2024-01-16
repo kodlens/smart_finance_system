@@ -83,8 +83,9 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/load-budgeting-utilizations/{financial}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadBudgetingUtilizations']);
     Route::get('/load-procurement-utilizations/{financial}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadProcurementUtilizations']);
 
+    Route::get('/load-allotment-accounting/{financial}/{allotmentId}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadAllotmentAccounting']);
     
-
+    
 
 });
 

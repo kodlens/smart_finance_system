@@ -13,7 +13,6 @@ use App\Models\FinancialYear;
 use Illuminate\Support\Facades\Storage;
 
 
-
 class AccountingController extends Controller
 {
     //
@@ -68,7 +67,7 @@ class AccountingController extends Controller
             'transaction_type_id' => ['required'],
             'payee_id' => ['required'],
             'particulars' => ['required'],
-            'total_amount' => ['required'],
+            //'total_amount' => ['required'],
             'office_id' => ['required']
 
         ],[
@@ -90,7 +89,7 @@ class AccountingController extends Controller
             'transaction_type_id' => $req->transaction_type_id,
             'payee_id' => $req->payee_id,
             'particulars' => $req->particulars,
-            'total_amount' => $req->total_amount,
+            'total_amount' => (float)$req->total_amount,
             //naa pai attachment
             'priority_program_id' => $req->priority_program_id,
             'others' => $req->others,
@@ -98,7 +97,7 @@ class AccountingController extends Controller
         ]);
 
         $financial = FinancialYear::find($req->financial_year_id);
-        $financial->decrement('balance', $req->total_amount);
+        $financial->decrement('balance', (float)$req->total_amount);
         $financial->save();
 
 
@@ -156,7 +155,7 @@ class AccountingController extends Controller
             'transaction_type_id' => ['required'],
             'payee_id' => ['required'],
             'particulars' => ['required'],
-            'total_amount' => ['required'],
+            //'total_amount' => ['required'],
             'office_id' => ['required']
         ],[
             'financial_year_id.required' => 'Please select financial year.',
@@ -176,7 +175,7 @@ class AccountingController extends Controller
         $data->transaction_type_id =  $req->transaction_type_id;
         $data->payee_id =  $req->payee_id;
         $data->particulars =  $req->particulars;
-        $data->total_amount =  $req->total_amount;
+        $data->total_amount =  (float)$req->total_amount;
         $data->priority_program_id =  $req->priority_program_id ? $req->priority_program_id : null;
         $data->office_id =  $req->office_id;
         $data->others =  $req->others;

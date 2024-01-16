@@ -50,13 +50,44 @@
 
                             <b-field label="Allotment Class" label-position="on-border"
                                 expanded>
-                                <b-select v-model="search.allotment_class_id"
+                                <b-select v-model="search.allotment_accounting"
+                                    @input="loadAllotmentAccounting"
                                     expanded>
                                     <option v-for="(allot, ix) in allotmentClasses"
                                         :key="`allotclass${ix}`"
                                         :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
                                 </b-select>
                             </b-field>
+
+                            <div>
+                                <table class="table">
+                                    <tr>
+                                        <th>Allotment Class</th>
+                                        <th>Allotment Account</th>
+                                        <th>Allotment Budget</th>
+                                        <th>Financial Budget</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                    <tr v-for="(item, index) in allotmentAccounting" :key="`allotment${index}`">
+                                        <td>
+                                            {{ item.allotment_class }}
+                                        </td>
+                                        <td>
+                                            {{ item.allotment_class_account }}
+                                        </td>
+                                        <td>
+                                            {{ item.allotment_class_budget | numberWithCommas }}
+                                        </td>
+                                        <td>
+                                            {{ item.financial_budget | numberWithCommas }}
+                                        </td>
+                                        <td>
+                                            {{ item.amount | numberWithCommas }}
+                                        </td>
+                                    </tr>
+                                </table>
+                               
+                            </div>
 
                         </div>
                     </div>
@@ -120,6 +151,8 @@ export default{
             procurementUsedBudget: 0,
 
             allotmentClasses: [],
+
+            allotmentAccounting: [],
         }
     },
 
@@ -164,6 +197,17 @@ export default{
 
             })
         },
+
+
+
+
+
+        ///////////
+        loadAllotmentAccounting(){
+        axios.get('/load-allotment-accounting/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_accounting).then(res=>{
+            this.allotmentAccounting = res.data
+        })
+        }
     },
 
     mounted(){

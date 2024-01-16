@@ -11,6 +11,7 @@ use App\Models\FinancialYear;
 use App\Models\Accounting;
 use App\Models\Budgeting;
 use App\Models\Procurement;
+use App\Models\AccountingAllotmentClasses;
 
 class DashboardController extends Controller
 {
@@ -124,5 +125,36 @@ class DashboardController extends Controller
 
         return $data;
 
+    }
+
+
+
+    public function loadAllotmentAccounting($financialId, $allotmentId){
+
+        $data = DB::select('
+            SELECT
+            b.transaction_no,
+            e.financial_year_id,
+            e.financial_year_code,
+            e.financial_year_desc,
+            e.financial_budget,
+            e.balance,
+            a.amount,
+            a.allotment_class_id,
+            c.allotment_class,
+            a.allotment_class_account_id,
+            d.allotment_class_account_code,
+            d.allotment_class_account,
+            c.allotment_class_budget
+            FROM
+            accounting_allotment_classes a
+            JOIN accountings b ON a.accounting_id = b.accounting_id
+            JOIN allotment_classes c ON a.allotment_class_id = c.allotment_class_id
+            JOIN allotment_class_accounts d ON a.allotment_class_account_id = d.allotment_class_account_id
+            JOIN financial_years e ON b.financial_year_id = e.financial_year_id
+            WHERE e.financial_year_id = ? AND a.allotment_class_id = ?
+            ', [$financialId, $allotmentId]);
+
+        return $data;
     }
 }
