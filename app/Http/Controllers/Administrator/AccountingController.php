@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\Accounting;
 use App\Models\AccountingDocumentaryAttachment;
 use App\Models\User;
-
+use App\Models\FinancialYear;
 use Illuminate\Support\Facades\Storage;
 
 
@@ -96,6 +96,10 @@ class AccountingController extends Controller
             'others' => $req->others,
             'office_id' => $req->office_id
         ]);
+
+        $financial = FinancialYear::find($req->financial_year_id);
+        $financial->decrement('balance', $req->total_amount);
+        $financial->save();
 
 
         if($req->has('documentary_attachments')){

@@ -28,8 +28,8 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.key" placeholder="Search..."
-                                                 @keyup.native.enter="loadAsyncData"/>
+                                            v-model="search.key" placeholder="Search..."
+                                            @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
                                             <b-button type="is-primary" icon-right="magnify" @click="loadAsyncData"/>

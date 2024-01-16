@@ -17,6 +17,7 @@ class FinancialYear extends Model
         'financial_year_code', 
         'financial_year_desc',
         'financial_budget',
+        'balance',
         'active'
     ];
 

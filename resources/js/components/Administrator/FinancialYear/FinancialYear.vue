@@ -74,6 +74,10 @@
                                 <span>{{ numberWithCommas(props.row.financial_budget) }}</span>
                             </b-table-column>
 
+                            <b-table-column field="balance" label="Balance" v-slot="props">
+                                <span>{{ numberWithCommas(props.row.balance) }}</span>
+                            </b-table-column>
+
                             <b-table-column field="active" label="Active" v-slot="props">
                                 <span v-if="props.row.active === 1">Yes</span>
                                 <span v-else>No</span>

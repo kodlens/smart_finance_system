@@ -78,6 +78,14 @@ Route::middleware(['auth'])->group(function() {
 
     Route::resource('/dashboard', App\Http\Controllers\Administrator\DashboardController::class);
     Route::get('/get-offices-for-routes', [App\Http\Controllers\Administrator\OfficeController::class, 'getOfficesForRoutes']);
+
+    Route::get('/load-accounting-utilizations/{financial}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadAccountingUtilizations']);
+    Route::get('/load-budgeting-utilizations/{financial}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadBudgetingUtilizations']);
+    Route::get('/load-procurement-utilizations/{financial}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadProcurementUtilizations']);
+
+    
+
+
 });
 
 

@@ -18,9 +18,12 @@ class PriorityProgram extends Model
         'priority_program', 
         'priority_program_code',
         'priority_program_budget'
-
     ];
 
+
+    public function financial_year(){
+        return $this->hasOne(FinancialYear::class, 'financial_year_id', 'financial_year_id');
+    }
 
 
 }

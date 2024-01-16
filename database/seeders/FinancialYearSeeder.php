@@ -20,6 +20,7 @@ class FinancialYearSeeder extends Seeder
                 'financial_year_code' => '231',
                 'financial_year_desc' => '1ST SEMESTER ACADEMIC YEAR 2023-2024',
                 'financial_budget' => '30000000',
+                'balance' => '30000000',
                 'active' => 1
             ],
             
@@ -27,6 +28,7 @@ class FinancialYearSeeder extends Seeder
                 'financial_year_code' => '232',
                 'financial_year_desc' => '2ND SEMESTER ACADEMIC YEAR 2023-2024',
                 'financial_budget' => '20000000',
+                'balance' => '20000000',
                 'active' => 0
             ],
        

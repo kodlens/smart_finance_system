@@ -8,6 +8,9 @@ use Illuminate\Support\Facades\DB;
 
 use App\Models\FinancialYear;
 
+use App\Models\Accounting;
+use App\Models\Budgeting;
+use App\Models\Procurement;
 
 class DashboardController extends Controller
 {
@@ -93,5 +96,33 @@ class DashboardController extends Controller
             ->with('budgetingFundSources', $budgetingFundSources)
             ->with('procurementCurrentFY', $procurementCurrentFY)
             ->with('procurementFundSources', $procurementFundSources);
+    }
+
+
+    public function loadAccountingUtilizations(Request $req, $financialId){
+    
+        $data = Accounting::where('financial_year_id', $financialId)
+            ->sum('total_amount');
+
+        return $data;
+
+    }
+
+    public function loadBudgetingUtilizations(Request $req, $financialId){
+    
+        $data = Budgeting::where('financial_year_id', $financialId)
+            ->sum('total_amount');
+
+        return $data;
+
+    }
+
+    public function loadProcurementUtilizations(Request $req, $financialId){
+    
+        $data = Procurement::where('financial_year_id', $financialId)
+            ->sum('total_amount');
+
+        return $data;
+
     }
 }

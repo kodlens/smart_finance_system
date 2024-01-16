@@ -11660,6 +11660,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -12367,6 +12371,48 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -12396,7 +12442,8 @@ __webpack_require__.r(__webpack_exports__);
       },
       provinces: [],
       cities: [],
-      barangays: []
+      barangays: [],
+      financialYears: []
     };
   },
   methods: {
@@ -12546,9 +12593,17 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/priority-programs/' + data_id).then(function (res) {
         _this5.fields = res.data;
       });
+    },
+    loadFinancialYears: function loadFinancialYears() {
+      var _this6 = this;
+
+      axios.get('/load-financial-years').then(function (res) {
+        _this6.financialYears = res.data;
+      });
     }
   },
   mounted: function mounted() {
+    this.loadFinancialYears();
     this.loadAsyncData();
   }
 });
@@ -14854,6 +14909,169 @@ __webpack_require__.r(__webpack_exports__);
   },
   mounted: function mounted() {
     this.loadAsyncData(); //this.loadProvince()
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dashboard.vue?vue&type=script&lang=js&":
+/*!****************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dashboard.vue?vue&type=script&lang=js& ***!
+  \****************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      search: {
+        financial_year: {
+          financial_year_id: null,
+          financial_budget: null,
+          balance: null
+        }
+      },
+      financialYears: [],
+      accountingUtilizations: [],
+      accountingUsedBudget: 0,
+      budgetingUsedBudget: 0,
+      procurementUsedBudget: 0
+    };
+  },
+  methods: {
+    loadFinancialYears: function loadFinancialYears() {
+      var _this = this;
+
+      axios.get('/load-financial-years').then(function (res) {
+        _this.financialYears = res.data;
+      });
+    },
+    loadData: function loadData() {
+      this.loadAccountingUtilizations();
+      this.loadBudgetingUtilizations();
+      this.loadProcurementUtilizations();
+    },
+    loadAccountingUtilizations: function loadAccountingUtilizations() {
+      var _this2 = this;
+
+      axios.get('/load-accounting-utilizations/' + this.search.financial_year['financial_year_id']).then(function (res) {
+        _this2.accountingUsedBudget = res.data;
+      });
+    },
+    loadBudgetingUtilizations: function loadBudgetingUtilizations() {
+      var _this3 = this;
+
+      axios.get('/load-budgeting-utilizations/' + this.search.financial_year['financial_year_id']).then(function (res) {
+        _this3.budgetingUsedBudget = res.data;
+      });
+    },
+    loadProcurementUtilizations: function loadProcurementUtilizations() {
+      var _this4 = this;
+
+      axios.get('/load-procurement-utilizations/' + this.search.financial_year['financial_year_id']).then(function (res) {
+        _this4.procurementUsedBudget = res.data;
+      });
+    }
+  },
+  mounted: function mounted() {
+    this.loadFinancialYears();
+  },
+  computed: {
+    totalUtilizations: function totalUtilizations() {
+      return this.accountingUsedBudget + this.budgetingUsedBudget + this.procurementUsedBudget;
+    }
   }
 });
 
@@ -18617,25 +18835,6 @@ __webpack_require__.r(__webpack_exports__);
     this.loadProvince();
   }
 });
-
-/***/ }),
-
-/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Welcome.vue?vue&type=script&lang=js&":
-/*!**************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Welcome.vue?vue&type=script&lang=js& ***!
-  \**************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-//
-//
-//
-//
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({});
 
 /***/ }),
 
@@ -40693,6 +40892,45 @@ component.options.__file = "resources/js/components/Administrator/User/UserPage.
 
 /***/ }),
 
+/***/ "./resources/js/components/Dashboard.vue":
+/*!***********************************************!*\
+  !*** ./resources/js/components/Dashboard.vue ***!
+  \***********************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _Dashboard_vue_vue_type_template_id_040e2ab9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Dashboard.vue?vue&type=template&id=040e2ab9& */ "./resources/js/components/Dashboard.vue?vue&type=template&id=040e2ab9&");
+/* harmony import */ var _Dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Dashboard.vue?vue&type=script&lang=js& */ "./resources/js/components/Dashboard.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _Dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _Dashboard_vue_vue_type_template_id_040e2ab9___WEBPACK_IMPORTED_MODULE_0__.render,
+  _Dashboard_vue_vue_type_template_id_040e2ab9___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Dashboard.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue":
 /*!******************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue ***!
@@ -41450,45 +41688,6 @@ component.options.__file = "resources/js/components/UserNavbar.vue"
 
 /***/ }),
 
-/***/ "./resources/js/components/Welcome.vue":
-/*!*********************************************!*\
-  !*** ./resources/js/components/Welcome.vue ***!
-  \*********************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _Welcome_vue_vue_type_template_id_51777872___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Welcome.vue?vue&type=template&id=51777872& */ "./resources/js/components/Welcome.vue?vue&type=template&id=51777872&");
-/* harmony import */ var _Welcome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Welcome.vue?vue&type=script&lang=js& */ "./resources/js/components/Welcome.vue?vue&type=script&lang=js&");
-/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
-
-
-
-
-
-/* normalize component */
-;
-var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
-  _Welcome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
-  _Welcome_vue_vue_type_template_id_51777872___WEBPACK_IMPORTED_MODULE_0__.render,
-  _Welcome_vue_vue_type_template_id_51777872___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
-  false,
-  null,
-  null,
-  null
-  
-)
-
-/* hot reload */
-if (false) { var api; }
-component.options.__file = "resources/js/components/Welcome.vue"
-/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
-
-/***/ }),
-
 /***/ "./resources/js/components/Administrator/AcademicYear/AcademicYear.vue?vue&type=script&lang=js&":
 /*!******************************************************************************************************!*\
   !*** ./resources/js/components/Administrator/AcademicYear/AcademicYear.vue?vue&type=script&lang=js& ***!
@@ -41761,6 +41960,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Dashboard.vue?vue&type=script&lang=js&":
+/*!************************************************************************!*\
+  !*** ./resources/js/components/Dashboard.vue?vue&type=script&lang=js& ***!
+  \************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dashboard.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dashboard.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Login.vue?vue&type=script&lang=js&":
 /*!********************************************************************!*\
   !*** ./resources/js/components/Login.vue?vue&type=script&lang=js& ***!
@@ -42030,22 +42245,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SignupComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./SignupComponent.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/SignupComponent.vue?vue&type=script&lang=js&");
  /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SignupComponent_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
-
-/***/ }),
-
-/***/ "./resources/js/components/Welcome.vue?vue&type=script&lang=js&":
-/*!**********************************************************************!*\
-  !*** ./resources/js/components/Welcome.vue?vue&type=script&lang=js& ***!
-  \**********************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
-/* harmony export */ });
-/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Welcome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Welcome.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Welcome.vue?vue&type=script&lang=js&");
- /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_Welcome_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
 
 /***/ }),
 
@@ -42585,6 +42784,23 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Dashboard.vue?vue&type=template&id=040e2ab9&":
+/*!******************************************************************************!*\
+  !*** ./resources/js/components/Dashboard.vue?vue&type=template&id=040e2ab9& ***!
+  \******************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_040e2ab9___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_040e2ab9___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Dashboard_vue_vue_type_template_id_040e2ab9___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Dashboard.vue?vue&type=template&id=040e2ab9& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dashboard.vue?vue&type=template&id=040e2ab9&");
+
+
+/***/ }),
+
 /***/ "./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e&":
 /*!*************************************************************************************!*\
   !*** ./resources/js/components/ExampleComponent.vue?vue&type=template&id=299e239e& ***!
@@ -42904,23 +43120,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserNavbar_vue_vue_type_template_id_a80df234___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_UserNavbar_vue_vue_type_template_id_a80df234___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./UserNavbar.vue?vue&type=template&id=a80df234& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/UserNavbar.vue?vue&type=template&id=a80df234&");
-
-
-/***/ }),
-
-/***/ "./resources/js/components/Welcome.vue?vue&type=template&id=51777872&":
-/*!****************************************************************************!*\
-  !*** ./resources/js/components/Welcome.vue?vue&type=template&id=51777872& ***!
-  \****************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Welcome_vue_vue_type_template_id_51777872___WEBPACK_IMPORTED_MODULE_0__.render),
-/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Welcome_vue_vue_type_template_id_51777872___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
-/* harmony export */ });
-/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_Welcome_vue_vue_type_template_id_51777872___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./Welcome.vue?vue&type=template&id=51777872& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Welcome.vue?vue&type=template&id=51777872&");
 
 
 /***/ }),
@@ -49163,6 +49362,26 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
+                      attrs: { field: "balance", label: "Balance" },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _c("span", [
+                                _vm._v(
+                                  _vm._s(
+                                    _vm.numberWithCommas(props.row.balance)
+                                  )
+                                ),
+                              ]),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
                       attrs: { field: "active", label: "Active" },
                       scopedSlots: _vm._u([
                         {
@@ -50210,6 +50429,33 @@ var render = function () {
                     }),
                     _vm._v(" "),
                     _c("b-table-column", {
+                      attrs: {
+                        field: "financial_year",
+                        label: "Financial Year",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(
+                                    props.row.financial_year.financial_year_code
+                                  ) +
+                                  "\n                            -\n                            " +
+                                  _vm._s(
+                                    props.row.financial_year.financial_year_desc
+                                  ) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
                       attrs: { field: "priority_program_code", label: "Code" },
                       scopedSlots: _vm._u([
                         {
@@ -50240,6 +50486,27 @@ var render = function () {
                               _vm._v(
                                 "\n                            " +
                                   _vm._s(props.row.priority_program) +
+                                  "\n                        "
+                              ),
+                            ]
+                          },
+                        },
+                      ]),
+                    }),
+                    _vm._v(" "),
+                    _c("b-table-column", {
+                      attrs: {
+                        field: "priority_program_budget",
+                        label: "Budget",
+                      },
+                      scopedSlots: _vm._u([
+                        {
+                          key: "default",
+                          fn: function (props) {
+                            return [
+                              _vm._v(
+                                "\n                            " +
+                                  _vm._s(props.row.priority_program_budget) +
                                   "\n                        "
                               ),
                             ]
@@ -50405,13 +50672,86 @@ var render = function () {
                             "b-field",
                             {
                               attrs: {
-                                label: "Priority Program Code",
-                                "label-position": "on-border",
-                                type: this.errors.priority_program_code
+                                label: "Financial Year",
+                                expanded: "",
+                                type: _vm.errors.financial_year_id
                                   ? "is-danger"
                                   : "",
-                                message: this.errors.priority_program_code
-                                  ? this.errors.priority_program_code[0]
+                                message: _vm.errors.financial_year_id
+                                  ? _vm.errors.financial_year_id[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: {
+                                    expanded: "",
+                                    required: "",
+                                    placeholder: "Financial Year",
+                                  },
+                                  model: {
+                                    value: _vm.fields.financial_year_id,
+                                    callback: function ($$v) {
+                                      _vm.$set(
+                                        _vm.fields,
+                                        "financial_year_id",
+                                        $$v
+                                      )
+                                    },
+                                    expression: "fields.financial_year_id",
+                                  },
+                                },
+                                _vm._l(
+                                  _vm.financialYears,
+                                  function (item, indx) {
+                                    return _c(
+                                      "option",
+                                      {
+                                        key: "fy" + indx,
+                                        domProps: {
+                                          value: item.financial_year_id,
+                                        },
+                                      },
+                                      [
+                                        _vm._v(
+                                          "\n                                            " +
+                                            _vm._s(item.financial_year_code) +
+                                            "\n                                            -\n                                            " +
+                                            _vm._s(item.financial_year_desc) +
+                                            "\n                                        "
+                                        ),
+                                      ]
+                                    )
+                                  }
+                                ),
+                                0
+                              ),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Priority Program Code",
+                                "label-position": "on-border",
+                                type: _vm.errors.priority_program_code
+                                  ? "is-danger"
+                                  : "",
+                                message: _vm.errors.priority_program_code
+                                  ? _vm.errors.priority_program_code[0]
                                   : "",
                               },
                             },
@@ -50452,11 +50792,11 @@ var render = function () {
                               attrs: {
                                 label: "Priority Program",
                                 "label-position": "on-border",
-                                type: this.errors.priority_program
+                                type: _vm.errors.priority_program
                                   ? "is-danger"
                                   : "",
-                                message: this.errors.priority_program
-                                  ? this.errors.priority_program[0]
+                                message: _vm.errors.priority_program
+                                  ? _vm.errors.priority_program[0]
                                   : "",
                               },
                             },
@@ -50476,6 +50816,52 @@ var render = function () {
                                     )
                                   },
                                   expression: "fields.priority_program",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Priority Program Budget",
+                                "label-position": "on-border",
+                                type: _vm.errors.priority_program_budget
+                                  ? "is-danger"
+                                  : "",
+                                message: _vm.errors.priority_program_budget
+                                  ? _vm.errors.priority_program_budget[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-numberinput", {
+                                attrs: {
+                                  "controls-alignment": "right",
+                                  placeholder: "Priority Program Budget",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.fields.priority_program_budget,
+                                  callback: function ($$v) {
+                                    _vm.$set(
+                                      _vm.fields,
+                                      "priority_program_budget",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "fields.priority_program_budget",
                                 },
                               }),
                             ],
@@ -53971,6 +54357,187 @@ var render = function () {
     ],
     1
   )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dashboard.vue?vue&type=template&id=040e2ab9&":
+/*!*********************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Dashboard.vue?vue&type=template&id=040e2ab9& ***!
+  \*********************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("div", { staticClass: "section" }, [
+      _c("div", { staticClass: "columns is-centered" }, [
+        _c("div", { staticClass: "column is-8" }, [
+          _c("div", { staticClass: "columns" }, [
+            _c(
+              "div",
+              { staticClass: "column" },
+              [
+                _c(
+                  "b-field",
+                  { attrs: { label: "Financial Year", expanded: "" } },
+                  [
+                    _c(
+                      "b-select",
+                      {
+                        attrs: { expanded: "", placeholder: "Financial Year" },
+                        on: { input: _vm.loadData },
+                        model: {
+                          value: _vm.search.financial_year,
+                          callback: function ($$v) {
+                            _vm.$set(_vm.search, "financial_year", $$v)
+                          },
+                          expression: "search.financial_year",
+                        },
+                      },
+                      _vm._l(_vm.financialYears, function (item, indx) {
+                        return _c(
+                          "option",
+                          {
+                            key: "fy" + indx,
+                            domProps: {
+                              value: {
+                                financial_year_id: item.financial_year_id,
+                                financial_budget: item.financial_budget,
+                                balance: item.balance,
+                              },
+                            },
+                          },
+                          [
+                            _vm._v(
+                              "\n                                    " +
+                                _vm._s(item.financial_year_code) +
+                                "\n                                    -\n                                    " +
+                                _vm._s(item.financial_year_desc) +
+                                "\n                                "
+                            ),
+                          ]
+                        )
+                      }),
+                      0
+                    ),
+                  ],
+                  1
+                ),
+              ],
+              1
+            ),
+          ]),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column" }, [
+              _c("div", [
+                _vm._v(
+                  "\n                            FINANCIAL YEAR BUDGET: " +
+                    _vm._s(
+                      _vm._f("numberWithCommas")(
+                        _vm.search.financial_year["financial_budget"]
+                      )
+                    ) +
+                    "\n                        "
+                ),
+              ]),
+              _vm._v(" "),
+              _c("div", [
+                _vm._v(
+                  "\n                            BALANCE: " +
+                    _vm._s(
+                      _vm._f("numberWithCommas")(
+                        _vm.search.financial_year["balance"]
+                      )
+                    ) +
+                    "\n                        "
+                ),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column" }, [
+              _c("div", { staticClass: "has-text-weight-bold" }, [
+                _vm._v("ACCOUNTING"),
+              ]),
+              _vm._v(" "),
+              _c("div", {}, [
+                _vm._v(
+                  "USED BUDGET: " +
+                    _vm._s(_vm._f("numberWithCommas")(_vm.accountingUsedBudget))
+                ),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column" }, [
+              _c("div", { staticClass: "has-text-weight-bold" }, [
+                _vm._v("BUDGETING"),
+              ]),
+              _vm._v(" "),
+              _c("div", {}, [
+                _vm._v(
+                  "USED BUDGET: " +
+                    _vm._s(_vm._f("numberWithCommas")(_vm.budgetingUsedBudget))
+                ),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column" }, [
+              _c("div", { staticClass: "has-text-weight-bold" }, [
+                _vm._v("PROCUREMENT"),
+              ]),
+              _vm._v(" "),
+              _c("div", {}, [
+                _vm._v(
+                  "USED BUDGET: " +
+                    _vm._s(
+                      _vm._f("numberWithCommas")(_vm.ProcurementUsedBudget)
+                    )
+                ),
+              ]),
+            ]),
+          ]),
+          _vm._v(" "),
+          _c("hr"),
+          _vm._v(" "),
+          _c("div", { staticClass: "columns" }, [
+            _c("div", { staticClass: "column" }, [
+              _c("div", { staticClass: "has-text-weight-bold is-size-4" }, [
+                _vm._v(
+                  "TOTAL: " +
+                    _vm._s(_vm._f("numberWithCommas")(_vm.totalUtilizations))
+                ),
+              ]),
+            ]),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -60492,31 +61059,6 @@ var render = function () {
       },
     ]),
   })
-}
-var staticRenderFns = []
-render._withStripped = true
-
-
-
-/***/ }),
-
-/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Welcome.vue?vue&type=template&id=51777872&":
-/*!*******************************************************************************************************************************************************************************************************************!*\
-  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Welcome.vue?vue&type=template&id=51777872& ***!
-  \*******************************************************************************************************************************************************************************************************************/
-/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export */ __webpack_require__.d(__webpack_exports__, {
-/* harmony export */   "render": () => (/* binding */ render),
-/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
-/* harmony export */ });
-var render = function () {
-  var _vm = this
-  var _h = _vm.$createElement
-  var _c = _vm._self._c || _h
-  return _c("div")
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -84071,6 +84613,7 @@ var map = {
 	"./components/Administrator/SupplierPayee/SupplierPayeeIndex.vue": "./resources/js/components/Administrator/SupplierPayee/SupplierPayeeIndex.vue",
 	"./components/Administrator/TransactionType/TransactionTypeIndex.vue": "./resources/js/components/Administrator/TransactionType/TransactionTypeIndex.vue",
 	"./components/Administrator/User/UserPage.vue": "./resources/js/components/Administrator/User/UserPage.vue",
+	"./components/Dashboard.vue": "./resources/js/components/Dashboard.vue",
 	"./components/ExampleComponent.vue": "./resources/js/components/ExampleComponent.vue",
 	"./components/Login.vue": "./resources/js/components/Login.vue",
 	"./components/Modals/ModalBrowseAllotmentClassAccount.vue": "./resources/js/components/Modals/ModalBrowseAllotmentClassAccount.vue",
@@ -84089,8 +84632,7 @@ var map = {
 	"./components/Processor/TableCityTreasurer.vue": "./resources/js/components/Processor/TableCityTreasurer.vue",
 	"./components/Processor/TableCollegeAccounting.vue": "./resources/js/components/Processor/TableCollegeAccounting.vue",
 	"./components/SignupComponent.vue": "./resources/js/components/SignupComponent.vue",
-	"./components/UserNavbar.vue": "./resources/js/components/UserNavbar.vue",
-	"./components/Welcome.vue": "./resources/js/components/Welcome.vue"
+	"./components/UserNavbar.vue": "./resources/js/components/UserNavbar.vue"
 };
 
 

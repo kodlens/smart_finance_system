@@ -17,6 +17,12 @@ class CreateFinancialYearsTable extends Migration
             $table->id('financial_year_id');
             $table->string('financial_year_code')->nullable();
             $table->string('financial_year_desc')->nullable();
+            $table->double('financial_budget')->nullable()
+                ->default(0);
+            $table->double('balance')->nullable()
+                ->default(0);
+
+            
             $table->tinyInteger('active')->default(0);
             $table->timestamps();
         });

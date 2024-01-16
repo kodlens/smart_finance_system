@@ -37,6 +37,7 @@ class FinancialYearController extends Controller
             'financial_year_code' => strtoupper($req->financial_year_code),
             'financial_year_desc' => strtoupper($req->financial_year_desc),
             'financial_budget' => $req->financial_budget,
+            'balance' => $req->balance,
             'active' => $req->active,
         ]);
 

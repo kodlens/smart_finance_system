@@ -20,7 +20,6 @@
                                     <b-select v-model="sortOrder" @input="loadAsyncData">
                                         <option value="asc">ASC</option>
                                         <option value="desc">DESC</option>
-
                                     </b-select>
                                 </b-field>
                             </div>
@@ -63,12 +62,22 @@
                                 {{ props.row.priority_program_id }}
                             </b-table-column>
 
+                            <b-table-column field="financial_year" label="Financial Year" v-slot="props">
+                                {{ props.row.financial_year.financial_year_code }}
+                                -
+                                {{ props.row.financial_year.financial_year_desc }}
+                            </b-table-column>
+
                             <b-table-column field="priority_program_code" label="Code" v-slot="props">
                                 {{ props.row.priority_program_code }}
                             </b-table-column>
 
                             <b-table-column field="priority_program" label="Priority Program" v-slot="props">
                                 {{ props.row.priority_program }}
+                            </b-table-column>
+
+                            <b-table-column field="priority_program_budget" label="Budget" v-slot="props">
+                                {{ props.row.priority_program_budget }}
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
@@ -122,11 +131,31 @@
 
                             <div class="columns">
                                 <div class="column">
+                                    <b-field label="Financial Year"
+                                        expanded
+                                        :type="errors.financial_year_id ? 'is-danger':''"
+                                        :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
+                                        <b-select v-model="fields.financial_year_id" expanded
+                                            required
+                                            placeholder="Financial Year">
+                                            <option v-for="(item, indx) in financialYears"
+                                                :key="`fy${indx}`"
+                                                :value="item.financial_year_id">
+                                                {{ item.financial_year_code }}
+                                                -
+                                                {{ item.financial_year_desc }}
+                                            </option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+                            <div class="columns">
+                                <div class="column">
                                     <b-field label="Priority Program Code" label-position="on-border"
-                                             :type="this.errors.priority_program_code ? 'is-danger':''"
-                                             :message="this.errors.priority_program_code ? this.errors.priority_program_code[0] : ''">
+                                        :type="errors.priority_program_code ? 'is-danger':''"
+                                        :message="errors.priority_program_code ? errors.priority_program_code[0] : ''">
                                         <b-input v-model="fields.priority_program_code"
-                                                 placeholder="Priority Program Code" required>
+                                            placeholder="Priority Program Code" required>
                                         </b-input>
                                     </b-field>
                                 </div>
@@ -136,11 +165,24 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Priority Program" label-position="on-border"
-                                             :type="this.errors.priority_program ? 'is-danger':''"
-                                             :message="this.errors.priority_program ? this.errors.priority_program[0] : ''">
+                                        :type="errors.priority_program ? 'is-danger':''"
+                                        :message="errors.priority_program ? errors.priority_program[0] : ''">
                                         <b-input v-model="fields.priority_program"
-                                                 placeholder="Priority Program" required>
+                                            placeholder="Priority Program" required>
                                         </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Priority Program Budget" label-position="on-border"
+                                        :type="errors.priority_program_budget ? 'is-danger':''"
+                                        :message="errors.priority_program_budget ? errors.priority_program_budget[0] : ''">
+                                        <b-numberinput v-model="fields.priority_program_budget"
+                                            controls-alignment="right"
+                                            placeholder="Priority Program Budget" required>
+                                        </b-numberinput>
                                     </b-field>
                                 </div>
                             </div>
@@ -204,6 +246,8 @@ export default{
             provinces: [],
             cities: [],
             barangays: [],
+
+            financialYears: [],
 
         }
 
@@ -358,13 +402,21 @@ export default{
             //nested axios for getting the address 1 by 1 or request by request
             axios.get('/priority-programs/'+data_id).then(res=>{
                 this.fields = res.data;
+                
             });
+        },
+
+        loadFinancialYears(){
+            axios.get('/load-financial-years').then(res=>{
+                this.financialYears = res.data
+            })
         },
 
 
     },
 
     mounted() {
+        this.loadFinancialYears()
         this.loadAsyncData();
     }
 }
