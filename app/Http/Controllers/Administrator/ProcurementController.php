@@ -8,6 +8,7 @@ use App\Models\ProcurementDocumentaryAttachment;
 use Illuminate\Http\Request;
 
 use App\Models\Procurement;
+use App\Models\FinancialYear;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -95,6 +96,10 @@ class ProcurementController extends Controller
             'priority_program_id' => $req->priority_program_id,
             'office_id' => $req->office_id
         ]);
+
+        $data = FinancialYear::find($req->financial_year_id);
+        $data->decrement('balance', (float)$req->pr_amount);
+        $data->save();
 
         if($req->has('documentary_attachments')){
             foreach ($req->documentary_attachments as $item) {
