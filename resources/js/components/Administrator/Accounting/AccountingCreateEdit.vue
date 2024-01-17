@@ -213,11 +213,13 @@
                                     <div class="columns">
                                         <div class="column">
                                             <b-field label="Amount" label-position="on-border"
-                                                     :type="errors.amount ? 'is-danger':''"
-                                                     :message="errors.amount ? errors.amount[0] : ''">
+                                                :type="errors.amount ? 'is-danger':''"
+                                               
+                                                :message="errors.amount ? errors.amount[0] : ''">
                                                 <b-numberinput
                                                     v-model="item.amount"
                                                     :controls="false"
+                                                    @blur="computeTotalAmount"
                                                     step="0.0001">
                                                 </b-numberinput>
                                             </b-field>
@@ -227,8 +229,8 @@
                                 </div><!-- ccount loop-->
                                 <div class="buttons mt-2">
                                     <b-button @click="newAllotmentClass"
-                                              icon-left="plus"
-                                              class="button is-small is-outlined is-primary">
+                                        icon-left="plus"
+                                        class="button is-small is-outlined is-primary">
                                         NEW ALLOTMENT CLASS
                                     </b-button>
                                 </div>
@@ -239,12 +241,11 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Total Amount"
-                                            :type="errors.total_amount ? 'is-danger':''"
-                                            :message="errors.total_amount ? errors.total_amount[0] : ''">
+                                        :type="errors.total_amount ? 'is-danger':''"
+                                        :message="errors.total_amount ? errors.total_amount[0] : ''">
                                         <b-numberinput placholder="Total Amount"
                                             :controls="false" step="0.0001"
-                                            disabled
-                                            :value="computedTotalAmount">
+                                            v-model="fields.total_amount">
                                         </b-numberinput>
                                     </b-field>
                                 </div>
@@ -652,7 +653,6 @@ export default{
 
 
         clearChargeTo(){
-            console.log('clear');
             this.fields.allotment_classes = []
         },
 
@@ -667,7 +667,7 @@ export default{
             this.fields.transaction_type_id = 1
 
             this.fields.particulars = 'Sample particulars'
-            this.fields.total_amount = 10000
+            //this.fields.total_amount = 10000
 
             //this.fields.amount = 12000
             // this.fields.supplemental_budget = 'sample supplemental'
@@ -741,6 +741,16 @@ export default{
             })
         },
 
+        computeTotalAmount(){
+            let total = 0;
+
+            this.fields.allotment_classes.forEach((item, index) =>{
+               total += item.amount
+            });
+
+            this.fields.total_amount = total
+        }
+
 
 
     },
@@ -759,16 +769,7 @@ export default{
     },
 
     computed: {
-        computedTotalAmount(){
-            let total = 0;
-
-            this.fields.allotment_classes.forEach((item, index) =>{
-               total += item.amount
-            });
-
-            this.fields.total_amount = total
-            return total;
-        }
+        
     }
 }
 </script>

@@ -242,7 +242,8 @@
                                             :message="errors.total_amount ? errors.total_amount[0] : ''">
                                         <b-numberinput placholder="Total Amount"
                                             :controls="false" step="0.0001"
-                                            v-model="fields.total_amount">
+                                            readonly
+                                            :value="computedTotalAmount">
                                         </b-numberinput>
                                     </b-field>
                                 </div>
@@ -381,7 +382,7 @@ export default{
                 particulars: null,
                 documentary_attachments: [],
                 allotment_classes: [],
-                total_amount: null,
+                total_amount: 0,
                 priority_program_id: null,
                 priority_program: null,
 
@@ -658,8 +659,7 @@ export default{
             this.fields.transaction_type_id = 1
 
             this.fields.particulars = 'Sample particulars'
-            this.fields.total_amount = 10000
-
+        
             //this.fields.amount = 12000
             // this.fields.supplemental_budget = 'sample supplemental'
             // this.fields.capital_outlay = 'sample capital outlay'
@@ -714,7 +714,7 @@ export default{
                         });
                     })
                 })
-                
+
 
                 if(result.priority_program){
                     this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program

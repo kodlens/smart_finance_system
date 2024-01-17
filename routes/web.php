@@ -65,7 +65,6 @@ Route::get('/load-allotment-classes-by-financial/{financial}', [App\Http\Control
 
 Route::get('/load-fund-sources', [App\Http\Controllers\OpenController::class, 'loadFundSources']);
 
-
 Route::get('/get-modal-offices', [App\Http\Controllers\OpenModalResourcesController::class, 'getModalOffices']);
 
 
@@ -84,8 +83,9 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/load-procurement-utilizations/{financial}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadProcurementUtilizations']);
 
     Route::get('/load-allotment-accounting/{financial}/{allotmentId}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadAllotmentAccounting']);
-    
-    
+
+    Route::get('/load-allotment-budgeting/{financial}/{allotmentId}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadAllotmentBudgeting']);
+
 
 });
 

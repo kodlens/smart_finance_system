@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\BudgetingAllotmentClass;
 use Illuminate\Http\Request;
 use App\Models\Budgeting;
+use App\Models\FinancialYear;
 use App\Models\BudgetingDocumentaryAttachment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -97,13 +98,15 @@ class BudgetingController extends Controller
              'payee_id' => $req->payee_id,
              'particulars' => $req->particulars,
              'total_amount' => $req->total_amount,
-             //naa pai attachment
              'priority_program_id' => $req->priority_program_id,
              'others' => $req->others,
              'office_id' => $req->office_id
 
          ]);
 
+         $data = FinancialYear::find($req->financial_year_id);
+         $data->decrement('balance', (float)$req->total_amount);
+         $data->save();
 
          if($req->has('documentary_attachments')){
              foreach ($req->documentary_attachments as $item) {
@@ -121,6 +124,7 @@ class BudgetingController extends Controller
                  ]);
              }
          }
+
 
          if($req->has('allotment_classes')){
              $allotmentClasses = [];
