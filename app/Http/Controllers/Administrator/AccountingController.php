@@ -11,7 +11,8 @@ use App\Models\AccountingDocumentaryAttachment;
 use App\Models\User;
 use App\Models\FinancialYear;
 use Illuminate\Support\Facades\Storage;
-
+use App\Models\AllotmentClassAccount;
+use App\Models\PriorityProgram;
 
 class AccountingController extends Controller
 {
@@ -100,6 +101,10 @@ class AccountingController extends Controller
         $financial->decrement('balance', (float)$req->total_amount);
         $financial->save();
 
+        $pp = PriorityProgram::find($req->priority_program_id);
+        $pp->decrement('priority_program_balance', (float)$req->total_amount);
+        $pp->save();
+
 
         if($req->has('documentary_attachments')){
             foreach ($req->documentary_attachments as $item) {
@@ -127,6 +132,10 @@ class AccountingController extends Controller
                     'allotment_class_account_id' => $item['allotment_class_account_id'],
                     'amount' => $item['amount'],
                 ];
+            
+                $data = AllotmentClassAccount::find($item['allotment_class_account_id']);
+                $data->decrement('allotment_class_account_balance', $item['amount']);
+                $data->save();
             }
             AccountingAllotmentClasses::insert($allotmentClasses);
         }

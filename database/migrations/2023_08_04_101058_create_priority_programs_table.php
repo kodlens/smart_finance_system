@@ -21,6 +21,8 @@ class CreatePriorityProgramsTable extends Migration
             $table->string('priority_program_code')->nullable();
             $table->double('priority_program_budget')->nullable()
                 ->default(0);
+            $table->double('priority_program_balance')->nullable()
+                ->default(0);
 
             $table->timestamps();
         });
