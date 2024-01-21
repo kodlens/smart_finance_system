@@ -18,7 +18,8 @@ class AllotmentClassAccount extends Model
         'allotment_class_id',
         'allotment_class_account_code',
         'allotment_class_account',
-        'allotment_class_account_budget'
+        'allotment_class_account_budget',
+        'allotment_class_account_balance'
     ];
 
 

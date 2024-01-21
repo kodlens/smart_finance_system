@@ -13,11 +13,13 @@ use App\Models\FinancialYear;
 use Illuminate\Support\Facades\Storage;
 use App\Models\AllotmentClassAccount;
 use App\Models\PriorityProgram;
+use App\Models\AllotmentClass;
+
+
 
 class AccountingController extends Controller
 {
     //
-
 
     public function index(){
         return view('administrator.accounting.accounting-index');
@@ -69,7 +71,8 @@ class AccountingController extends Controller
             'payee_id' => ['required'],
             'particulars' => ['required'],
             //'total_amount' => ['required'],
-            'office_id' => ['required']
+            'office_id' => ['required'],
+            'priority_program_id' => ['required']
 
         ],[
             'financial_year_id.required' => 'Please select financial year.',
@@ -78,7 +81,7 @@ class AccountingController extends Controller
             'allotment_class_id.required' => 'Please allotment class.',
             'allotment_class_account_id.required' => 'Please allotment class account.',
             'office.required' => 'Please select office.',
-
+            'priority_program_id.required' => 'Please select priority program.'
         ]);
 
         $data = Accounting::create([
@@ -136,13 +139,21 @@ class AccountingController extends Controller
                 $data = AllotmentClassAccount::find($item['allotment_class_account_id']);
                 $data->decrement('allotment_class_account_balance', $item['amount']);
                 $data->save();
+
+                $data = AllotmentClass::find($item['allotment_class_id']);
+                $data->decrement('allotment_class_balance', $item['amount']);
+                $data->save();
             }
+
             AccountingAllotmentClasses::insert($allotmentClasses);
         }
+
 
         return response()->json([
             'status' => 'saved'
         ], 200);
+        //return $req;
+      
 
     }
 

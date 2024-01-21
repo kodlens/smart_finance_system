@@ -18,6 +18,10 @@ class UpdateAddcolamountAllotmentClassAccountsTable extends Migration
             $table->double('allotment_class_account_budget')->nullable()
                 ->default(0)
                 ->after('allotment_class_account');
+
+            $table->double('allotment_class_account_balance')->nullable()
+                ->default(0)
+                ->after('allotment_class_account_budget');
         });
     }
 
