@@ -64,7 +64,8 @@
                                     <tr>
                                         <th>Allotment Class</th>
                                         <th>Allotment Account</th>
-                                        <th>Allotment Budget</th>
+                                        <th>Allotment Account Budget</th>
+                                        <th>Allotment Account Balance</th>
                                         <th>Financial Budget</th>
                                         <th>Amount</th>
                                     </tr>
@@ -76,7 +77,10 @@
                                             {{ item.allotment_class_account }}
                                         </td>
                                         <td>
-                                            {{ item.allotment_class_budget | numberWithCommas }}
+                                            {{ item.allotment_class_account_budget | numberWithCommas }}
+                                        </td>
+                                        <td>
+                                            {{ item.allotment_class_account_balance | numberWithCommas }}
                                         </td>
                                         <td>
                                             {{ item.financial_budget | numberWithCommas }}

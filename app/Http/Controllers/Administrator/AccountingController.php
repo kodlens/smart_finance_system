@@ -125,12 +125,12 @@ class AccountingController extends Controller
                 ]);
             }
         }
-
+        $accountingId = $data->accounting_id;
         if($req->has('allotment_classes')){
             $allotmentClasses = [];
             foreach ($req->allotment_classes as $item) {
                 $allotmentClasses[] = [
-                    'accounting_id' => $data->accounting_id,
+                    'accounting_id' => $accountingId,
                     'allotment_class_id' => $item['allotment_class_id'],
                     'allotment_class_account_id' => $item['allotment_class_account_id'],
                     'amount' => $item['amount'],

@@ -139,13 +139,17 @@ class DashboardController extends Controller
             e.financial_year_desc,
             e.financial_budget,
             e.balance,
+
             a.amount,
             a.allotment_class_id,
             c.allotment_class,
             a.allotment_class_account_id,
             d.allotment_class_account_code,
             d.allotment_class_account,
-            c.allotment_class_budget
+            c.allotment_class_budget,
+            c.allotment_class_balance,
+            d.allotment_class_account_budget,
+            d.allotment_class_account_balance
             FROM
             accounting_allotment_classes a
             JOIN accountings b ON a.accounting_id = b.accounting_id

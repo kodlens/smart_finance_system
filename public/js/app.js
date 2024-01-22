@@ -15173,6 +15173,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -54764,7 +54768,19 @@ var render = function () {
                               "\n                                        " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
-                                    item.allotment_class_budget
+                                    item.allotment_class_account_budget
+                                  )
+                                ) +
+                                "\n                                    "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(
+                                  _vm._f("numberWithCommas")(
+                                    item.allotment_class_account_balance
                                   )
                                 ) +
                                 "\n                                    "
@@ -55106,7 +55122,9 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Allotment Account")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Allotment Budget")]),
+      _c("th", [_vm._v("Allotment Account Budget")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Allotment Account Balance")]),
       _vm._v(" "),
       _c("th", [_vm._v("Financial Budget")]),
       _vm._v(" "),
