@@ -55122,13 +55122,13 @@ var staticRenderFns = [
       _vm._v(" "),
       _c("th", [_vm._v("Allotment Account")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Allotment Account Budget")]),
+      _c("th", [_vm._v("Allotment Allocated Budget")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Allotment Account Balance")]),
+      _c("th", [_vm._v("Running Balance")]),
       _vm._v(" "),
       _c("th", [_vm._v("Financial Budget")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Amount")]),
+      _c("th", [_vm._v("Utilized Budget")]),
     ])
   },
   function () {

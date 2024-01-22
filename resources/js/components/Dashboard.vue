@@ -64,10 +64,10 @@
                                     <tr>
                                         <th>Allotment Class</th>
                                         <th>Allotment Account</th>
-                                        <th>Allotment Account Budget</th>
-                                        <th>Allotment Account Balance</th>
+                                        <th>Allotment Allocated Budget</th>
+                                        <th>Running Balance</th>
                                         <th>Financial Budget</th>
-                                        <th>Amount</th>
+                                        <th>Utilized Budget</th>
                                     </tr>
                                     <tr v-for="(item, index) in allotmentAccounting" :key="`allotment${index}`">
                                         <td>
