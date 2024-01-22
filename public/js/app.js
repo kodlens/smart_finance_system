@@ -54692,7 +54692,7 @@ var render = function () {
                 _vm._v(" "),
                 _c("div", {}, [
                   _vm._v(
-                    "USED BUDGET: " +
+                    "UTILIZED BUDGET: " +
                       _vm._s(
                         _vm._f("numberWithCommas")(_vm.accountingUsedBudget)
                       )

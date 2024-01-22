@@ -45,7 +45,7 @@
                     <div class="columns">
                         <div class="column">
                             <div class="has-text-weight-bold">ACCOUNTING</div>
-                            <div class="">USED BUDGET: {{ accountingUsedBudget | numberWithCommas }}</div>
+                            <div class="">UTILIZED BUDGET: {{ accountingUsedBudget | numberWithCommas }}</div>
 
 
                             <b-field label="Allotment Class" label-position="on-border"
