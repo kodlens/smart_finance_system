@@ -90,7 +90,30 @@
                                         </td>
                                     </tr>
                                 </table>
-                               
+                                <div>PRIORITY PROGRAM DETAILS</div>
+                                <table class="table">
+                                    <tr>
+                                        <th>Priority Program</th>
+                                        <th>Priority Program Code</th>
+                                        <th>Priority Program Budget</th>
+                                        <th>Priority Program Balance</th>
+                                    </tr>
+                                    <tr v-for="(item, index) in allotmentAccounting" :key="`allotment${index}`">
+                                        <td>
+                                            {{ item.priority_program }}
+                                        </td>
+                                        <td>
+                                            {{ item.priority_program_code }}
+                                        </td>
+                                        <td>
+                                            {{ item.priority_program_budget | numberWithCommas }}
+                                        </td>
+                                        <td>
+                                            {{ item.priority_program_balance | numberWithCommas }}
+                                        </td>
+                                    </tr>
+                                </table>
+
                             </div>
 
                         </div>

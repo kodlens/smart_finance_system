@@ -15177,6 +15177,29 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -54813,6 +54836,61 @@ var render = function () {
                     ],
                     2
                   ),
+                  _vm._v(" "),
+                  _c("div", [_vm._v("PRIORITY PROGRAM DETAILS")]),
+                  _vm._v(" "),
+                  _c(
+                    "table",
+                    { staticClass: "table" },
+                    [
+                      _vm._m(1),
+                      _vm._v(" "),
+                      _vm._l(_vm.allotmentAccounting, function (item, index) {
+                        return _c("tr", { key: "allotment" + index }, [
+                          _c("td", [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(item.priority_program) +
+                                "\n                                    "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(item.priority_program_code) +
+                                "\n                                    "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(
+                                  _vm._f("numberWithCommas")(
+                                    item.priority_program_budget
+                                  )
+                                ) +
+                                "\n                                    "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(
+                                  _vm._f("numberWithCommas")(
+                                    item.priority_program_balance
+                                  )
+                                ) +
+                                "\n                                    "
+                            ),
+                          ]),
+                        ])
+                      }),
+                    ],
+                    2
+                  ),
                 ]),
               ],
               1
@@ -54883,7 +54961,7 @@ var render = function () {
                     "table",
                     { staticClass: "table" },
                     [
-                      _vm._m(1),
+                      _vm._m(2),
                       _vm._v(" "),
                       _vm._l(_vm.allotmentBudgeting, function (item, index) {
                         return _c("tr", { key: "budgeting" + index }, [
@@ -55021,7 +55099,7 @@ var render = function () {
                     "table",
                     { staticClass: "table" },
                     [
-                      _vm._m(2),
+                      _vm._m(3),
                       _vm._v(" "),
                       _vm._l(_vm.allotmentBudgeting, function (item, index) {
                         return _c("tr", { key: "budgeting" + index }, [
@@ -55129,6 +55207,20 @@ var staticRenderFns = [
       _c("th", [_vm._v("Financial Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Utilized Budget")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Priority Program")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Priority Program Code")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Priority Program Budget")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Priority Program Balance")]),
     ])
   },
   function () {
