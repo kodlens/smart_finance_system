@@ -24,6 +24,10 @@ class CreateAllotmentClassAccountsTable extends Migration
             $table->string('allotment_class_account_code')->nullable();
             $table->string('allotment_class_account')->nullable();
 
+            $table->double('allotment_class_account_budget')->nullable()
+                ->default(0);
+            $table->double('allotment_class_account_balance')->nullable()
+                ->default(0);
             $table->timestamps();
         });
     }

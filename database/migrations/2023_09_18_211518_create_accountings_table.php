@@ -18,6 +18,7 @@ class CreateAccountingsTable extends Migration
 
 
             $table->dateTime('date_time')->nullable();
+            $table->string('doc_type', 30)->nullable();
 
             $table->unsignedBigInteger('financial_year_id')->default(0)
                 ->nullable();
@@ -25,8 +26,11 @@ class CreateAccountingsTable extends Migration
             $table->unsignedBigInteger('fund_source_id')->default(0)
                 ->nullable();
 
-            $table->string('transaction_no')->nullable();
-            $table->string('training_control_no')->nullable();
+            $table->string('transaction_no', 30)->nullable();
+            $table->string('training_control_no', 30)->nullable();
+            
+            //for procurement
+            $table->string('pr_no')->nullable();
 
             $table->unsignedBigInteger('transaction_type_id')->default(0);
             $table->string('transaction_type')->nullable();
@@ -45,12 +49,10 @@ class CreateAccountingsTable extends Migration
             $table->unsignedBigInteger('priority_program_id')->default(0)
                 ->nullable();
    
-            $table->string('supplemental_budget')->nullable();
-            $table->string('capital_outlay')->nullable();
-            $table->string('account_payable')->nullable();
-            $table->string('tes_trust_fund')->nullable();
+            //for procurement
+            $table->string('pr_status')->nullable();
             $table->string('others')->nullable();
-
+         
             $table->unsignedBigInteger('office_id')->default(0);
 
             $table->timestamps();

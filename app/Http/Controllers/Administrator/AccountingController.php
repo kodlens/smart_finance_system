@@ -30,11 +30,14 @@ class AccountingController extends Controller
 
         $sort = explode('.', $req->sort_by);
 
-        $data = Accounting::with(['fund_source', 'payee', 'acctg_documentary_attachments.documentary_attachment',
+        $data = Accounting::with(['fund_source', 'payee', 'accounting_documentary_attachments.documentary_attachment',
             'accounting_allotment_classes', 'processor'])
-            ->where('particulars', 'like', $req->key . '%')
-            ->orWhere('transaction_no', 'like', $req->key . '%')
-            ->orWhere('training_control_no', 'like', $req->key . '%')
+            ->where(function($q) use ($req){
+                $q->where('particulars', 'like', $req->key . '%')
+                    ->orWhere('transaction_no', 'like', $req->key . '%')
+                    ->orWhere('training_control_no', 'like', $req->key . '%');
+            })
+            ->where('doc_type', 'ACCOUNTING')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
 
@@ -42,7 +45,7 @@ class AccountingController extends Controller
     }
 
     public function show($id){
-        $data = Accounting::with(['payee', 'acctg_documentary_attachments.documentary_attachment',
+        $data = Accounting::with(['payee', 'accounting_documentary_attachments.documentary_attachment',
             'accounting_allotment_classes.allotment_class', 'accounting_allotment_classes.allotment_class_account',
             'priority_program', 'office'
         ])
@@ -86,6 +89,7 @@ class AccountingController extends Controller
 
         $data = Accounting::create([
             'financial_year_id' => $req->financial_year_id,
+            'doc_type' => 'ACCOUNTING',
             'fund_source_id' => $req->fund_source_id,
             'date_time' => $req->date_time,
             'transaction_no' => $req->transaction_no,

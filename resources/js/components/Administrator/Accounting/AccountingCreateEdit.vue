@@ -16,6 +16,8 @@
                                     label="Debug">
                                 </b-button>
 
+
+                            
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Financial Year"
@@ -62,6 +64,7 @@
                                         <b-datetimepicker v-model="fields.date_time" required></b-datetimepicker>
                                     </b-field>
                                 </div>
+
                                 <div class="column">
                                     <b-field label="Transaction No."
                                              :type="errors.transaction_no ? 'is-danger':''"
@@ -750,7 +753,6 @@ export default{
 
             this.fields.total_amount = total
         }
-
 
 
     },

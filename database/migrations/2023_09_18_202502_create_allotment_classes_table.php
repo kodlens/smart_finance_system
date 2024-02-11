@@ -14,9 +14,15 @@ class CreateAllotmentClassesTable extends Migration
     public function up()
     {
         Schema::create('allotment_classes', function (Blueprint $table) {
-            $table->id('allotment_class_id');
-            $table->string('allotment_class');
 
+            $table->id('allotment_class_id');
+
+            $table->unsignedBigInteger('financial_year_id')->nullable()
+                ->default(0);
+                
+            $table->string('allotment_class');
+            $table->double('allotment_class_budget')->nullable();
+            $table->double('allotment_class_balance')->nullable();
             $table->timestamps();
         });
     }

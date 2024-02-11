@@ -10,8 +10,8 @@ class AccountingDocumentaryAttachment extends Model
     use HasFactory;
 
 
-    protected $table = 'acctg_documentary_attachments';
-    protected $primaryKey = 'acctg_doc_attachment_id';
+    protected $table = 'accounting_documentary_attachments';
+    protected $primaryKey = 'accounting_doc_attachment_id';
 
 
     protected $fillable = [
@@ -27,7 +27,7 @@ class AccountingDocumentaryAttachment extends Model
     }
 
     
-    public function acctg_documentary_attachments(){
+    public function accounting_documentary_attachments(){
         return $this->belongsTo(Accounting::class, 'accounting_id', 'accounting_id');
     }
 

@@ -17,18 +17,24 @@ class Accounting extends Model
     protected $fillable = [
         'financial_year_id',
         'fund_source_id',
+        'doc_type',
         'date_time',
         'transaction_no',
         'training_control_no',
+        
+        'pr_no',
+
         'transaction_type_id',
         'payee_id',
         'particulars',
         'total_amount',
         'priority_program_id',
         'office_id',
+        'pr_status',
         'others',
-        'processor_id',
 
+
+        'processor_id',
         'processor_datetime_received',
 
         'bids_award_datetime_forwarded',
@@ -72,7 +78,7 @@ class Accounting extends Model
     }
 
 
-    public function acctg_documentary_attachments(){
+    public function accounting_documentary_attachments(){
         return $this->hasMany(AccountingDocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }
 

@@ -3,14 +3,17 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
-use App\Models\ProcurementAllotmentClass;
-use App\Models\ProcurementDocumentaryAttachment;
+use App\Models\AccountingAllotmentClasses;
+use App\Models\AccountingDocumentaryAttachment;
 use Illuminate\Http\Request;
 
-use App\Models\Procurement;
+use App\Models\Accounting;
 use App\Models\FinancialYear;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\AllotmentClassAccount;
+use App\Models\PriorityProgram;
+use App\Models\AllotmentClass;
 
 class ProcurementController extends Controller
 {
@@ -37,15 +40,17 @@ class ProcurementController extends Controller
     }
 
     public function getData(Request $req){
+
         $sort = explode('.', $req->sort_by);
 
-        $data = Procurement::with([
-            'fund_source',
-            'payee',
-            'procurement_documentary_attachments.documentary_attachment',
-            'procurement_allotment_classes'])
-            ->where('particulars', 'like', $req->key . '%')
-            ->orWhere('training_control_no', 'like', $req->key . '%')
+        $data = Accounting::with(['fund_source', 'payee', 'accounting_documentary_attachments.documentary_attachment',
+            'accounting_allotment_classes', 'processor'])
+            ->where(function($q) use ($req){
+                $q->where('particulars', 'like', $req->key . '%')
+                    ->orWhere('transaction_no', 'like', $req->key . '%')
+                    ->orWhere('training_control_no', 'like', $req->key . '%');
+            })
+            ->where('doc_type', 'PROCUREMENT')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
 
@@ -82,8 +87,9 @@ class ProcurementController extends Controller
             'office_id.required' => 'Please select office.'
         ]);
 
-        $data = Procurement::create([
+        $data = Accounting::create([
             'financial_year_id' => $req->financial_year_id,
+            'doc_type' => 'PROCUREMENT',
             'fund_source_id' => $req->fund_source_id,
             'date_time' => $req->date_time,
             'training_control_no' => $req->training_control_no,
@@ -97,38 +103,51 @@ class ProcurementController extends Controller
             'office_id' => $req->office_id
         ]);
 
-        $data = FinancialYear::find($req->financial_year_id);
-        $data->decrement('balance', (float)$req->pr_amount);
-        $data->save();
+        $financial = FinancialYear::find($req->financial_year_id);
+        $financial->decrement('balance', (float)$req->total_amount);
+        $financial->save();
+
+        $pp = PriorityProgram::find($req->priority_program_id);
+        $pp->decrement('priority_program_balance', (float)$req->total_amount);
+        $pp->save();
 
         if($req->has('documentary_attachments')){
             foreach ($req->documentary_attachments as $item) {
                 $n = [];
                 if($item['file_upload']){
-                    $pathFile = $item['file_upload']->store('public/procurement_attachments'); //get path of the file
+                    $pathFile = $item['file_upload']->store('public/doc_attachments'); //get path of the file
                     $n = explode('/', $pathFile); //split into array using /
                 }
 
                 //insert into database after upload 1 image
-                ProcurementDocumentaryAttachment::create([
-                    'procurement_id' => $data->procurement_id,
+                AccountingDocumentaryAttachment::create([
+                    'accounting_id' => $data->accounting_id,
                     'documentary_attachment_id' => $item['documentary_attachment_id'],
                     'doc_attachment' => $n[2]
                 ]);
             }
         }
-
+        $accountingId = $data->accounting_id;
         if($req->has('allotment_classes')){
             $allotmentClasses = [];
             foreach ($req->allotment_classes as $item) {
                 $allotmentClasses[] = [
-                    'procurement_id' => $data->procurement_id,
+                    'accounting_id' => $accountingId,
                     'allotment_class_id' => $item['allotment_class_id'],
                     'allotment_class_account_id' => $item['allotment_class_account_id'],
                     'amount' => $item['amount'],
                 ];
+            
+                $allotClassAccount = AllotmentClassAccount::find($item['allotment_class_account_id']);
+                $allotClassAccount->decrement('allotment_class_account_balance', $item['amount']);
+                $allotClassAccount->save();
+
+                $allotClass = AllotmentClass::find($item['allotment_class_id']);
+                $allotClass->decrement('allotment_class_balance', $item['amount']);
+                $allotClass->save();
             }
-            ProcurementAllotmentClass::insert($allotmentClasses);
+
+            AccountingAllotmentClasses::insert($allotmentClasses);
         }
 
        return response()->json([

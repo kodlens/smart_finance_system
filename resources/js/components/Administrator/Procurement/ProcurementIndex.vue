@@ -142,12 +142,11 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'procurement_id',
+            sortField: 'accounting_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,
             defaultSortDirection: 'asc',
-
 
             global_id : 0,
 

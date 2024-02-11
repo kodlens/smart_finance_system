@@ -167,7 +167,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'budgeting_id',
+            sortField: 'accounting_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,

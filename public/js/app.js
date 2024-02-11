@@ -8325,6 +8325,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     id: {
@@ -10990,7 +10993,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       data: [],
       total: 0,
       loading: false,
-      sortField: 'budgeting_id',
+      sortField: 'accounting_id',
       sortOrder: 'desc',
       page: 1,
       perPage: 20,
@@ -13520,7 +13523,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       data: [],
       total: 0,
       loading: false,
-      sortField: 'procurement_id',
+      sortField: 'accounting_id',
       sortOrder: 'desc',
       page: 1,
       perPage: 20,

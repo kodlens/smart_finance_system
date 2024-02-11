@@ -3,13 +3,16 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
-use App\Models\BudgetingAllotmentClass;
+use App\Models\AccountingAllotmentClasses;
 use Illuminate\Http\Request;
-use App\Models\Budgeting;
+use App\Models\Accounting;
 use App\Models\FinancialYear;
-use App\Models\BudgetingDocumentaryAttachment;
+use App\Models\AccountingDocumentaryAttachment;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use App\Models\PriorityProgram;
+use App\Models\AllotmentClass;
+use App\Models\AllotmentClassAccount;
 
 class BudgetingController extends Controller
 {
@@ -22,7 +25,7 @@ class BudgetingController extends Controller
 
 
     public function show($id){
-        $data = Budgeting::with(['payee', 'budgeting_documentary_attachments.documentary_attachment',
+        $data = Accounting::with(['payee', 'budgeting_documentary_attachments.documentary_attachment',
             'budgeting_allotment_classes.allotment_class', 'budgeting_allotment_classes.allotment_class_account',
             'priority_program', 'office'
         ])
@@ -36,13 +39,16 @@ class BudgetingController extends Controller
 
         $sort = explode('.', $req->sort_by);
 
-        $data = Budgeting::with(['fund_source', 'payee', 'budgeting_documentary_attachments.documentary_attachment',
-            'budgeting_allotment_classes'])
-            ->where('particulars', 'like', $req->key . '%')
-            ->orWhere('transaction_no', 'like', $req->key . '%')
-            ->orWhere('training_control_no', 'like', $req->key . '%')
-            ->orderBy($sort[0], $sort[1])
-            ->paginate($req->perpage);
+        $data = Accounting::with(['fund_source', 'payee', 'accounting_documentary_attachments.documentary_attachment',
+            'accounting_allotment_classes', 'processor'])
+        ->where(function($q) use ($req){
+            $q->where('particulars', 'like', $req->key . '%')
+                ->orWhere('transaction_no', 'like', $req->key . '%')
+                ->orWhere('training_control_no', 'like', $req->key . '%');
+        })
+        ->where('doc_type', 'BUDGETING')
+        ->orderBy($sort[0], $sort[1])
+        ->paginate($req->perpage);
 
         return $data;
     }
@@ -64,8 +70,7 @@ class BudgetingController extends Controller
 
     public function store(Request $req){
         //return $req->allotment_classes;
-         //return $req;
-
+        //return $req;
         $req->validate([
             'financial_year_id' => ['required'],
             'fund_source_id' => ['required'],
@@ -88,62 +93,78 @@ class BudgetingController extends Controller
 
         ]);
 
-         $data = Budgeting::create([
-             'financial_year_id' => $req->financial_year_id,
-             'fund_source_id' => $req->fund_source_id,
-             'date_time' => $req->date_time,
-             'transaction_no' => $req->transaction_no,
-             'training_control_no' => $req->training_control_no,
-             'transaction_type_id' => $req->transaction_type_id,
-             'payee_id' => $req->payee_id,
-             'particulars' => $req->particulars,
-             'total_amount' => $req->total_amount,
-             'priority_program_id' => $req->priority_program_id,
-             'others' => $req->others,
-             'office_id' => $req->office_id
+        $data = Accounting::create([
+            'financial_year_id' => $req->financial_year_id,
+            'doc_type' => 'BUDGETING',
+            'fund_source_id' => $req->fund_source_id,
+            'date_time' => $req->date_time,
+            'transaction_no' => $req->transaction_no,
+            'training_control_no' => $req->training_control_no,
+            'transaction_type_id' => $req->transaction_type_id,
+            'payee_id' => $req->payee_id,
+            'particulars' => $req->particulars,
+            'total_amount' => (float)$req->total_amount,
+            'priority_program_id' => $req->priority_program_id,
+            'others' => $req->others,
+            'office_id' => $req->office_id
 
-         ]);
-
-         $data = FinancialYear::find($req->financial_year_id);
-         $data->decrement('balance', (float)$req->total_amount);
-         $data->save();
-
-         if($req->has('documentary_attachments')){
-             foreach ($req->documentary_attachments as $item) {
-                 $n = [];
-                 if($item['file_upload']){
-                     $pathFile = $item['file_upload']->store('public/budgeting_doc_attachments'); //get path of the file
-                     $n = explode('/', $pathFile); //split into array using /
-                 }
-
-                 //insert into database after upload 1 image
-                 BudgetingDocumentaryAttachment::create([
-                     'budgeting_id' => $data->budgeting_id,
-                     'documentary_attachment_id' => $item['documentary_attachment_id'],
-                     'doc_attachment' => $n[2]
-                 ]);
-             }
-         }
+        ]);
 
 
-         if($req->has('allotment_classes')){
-             $allotmentClasses = [];
-             foreach ($req->allotment_classes as $item) {
-                 $allotmentClasses[] = [
-                     'budgeting_id' => $data->budgeting_id,
-                     'allotment_class_id' => $item['allotment_class_id'],
-                     'allotment_class_account_id' => $item['allotment_class_account_id'],
-                     'amount' => $item['amount'],
-                 ];
-             }
-             BudgetingAllotmentClass::insert($allotmentClasses);
-         }
+        $finance = FinancialYear::find($req->financial_year_id);
+        $finance->decrement('balance', (float)$req->total_amount);
+        $finance->save();
+
+        $pp = PriorityProgram::find($req->priority_program_id);
+        $pp->decrement('priority_program_balance', (float)$req->total_amount);
+        $pp->save();
+
+        
+        if($req->has('documentary_attachments')){
+            foreach ($req->documentary_attachments as $item) {
+                $n = [];
+                if($item['file_upload']){
+                    $pathFile = $item['file_upload']->store('public/doc_attachments'); //get path of the file
+                    $n = explode('/', $pathFile); //split into array using /
+                }
+
+                //insert into database after upload 1 image
+                AccountingDocumentaryAttachment::create([
+                    'accounting_id' => $data->accounting_id,
+                    'documentary_attachment_id' => $item['documentary_attachment_id'],
+                    'doc_attachment' => $n[2]
+                ]);
+            }
+        }
+
+        $accountingId = $data->accounting_id;
+        if($req->has('allotment_classes')){
+            $allotmentClasses = [];
+            foreach ($req->allotment_classes as $item) {
+                $allotmentClasses[] = [
+                    'accounting_id' => $accountingId,
+                    'allotment_class_id' => $item['allotment_class_id'],
+                    'allotment_class_account_id' => $item['allotment_class_account_id'],
+                    'amount' => $item['amount'],
+                ];
+            
+                $data = AllotmentClassAccount::find($item['allotment_class_account_id']);
+                $data->decrement('allotment_class_account_balance', $item['amount']);
+                $data->save();
+
+                $data = AllotmentClass::find($item['allotment_class_id']);
+                $data->decrement('allotment_class_balance', $item['amount']);
+                $data->save();
+            }
+
+            AccountingAllotmentClasses::insert($allotmentClasses);
+        }
 
          return response()->json([
              'status' => 'saved'
          ], 200);
 
-     }
+    }
 
 
     public function updateBudgeting(Request $req, $id){
@@ -167,7 +188,7 @@ class BudgetingController extends Controller
             'office_id.required' => 'Please select office.'
         ]);
 
-        $data = Budgeting::find($id);
+        $data = Accounting::find($id);
 
         $data->financial_year_id = $req->financial_year_id;
         $data->fund_source_id =  $req->fund_source_id;
@@ -189,27 +210,30 @@ class BudgetingController extends Controller
                 $path = null;
                 if($item['file_upload'] && is_file($item['file_upload'])){
 
-                    $pathFile = $item['file_upload']->store('public/budgeting_doc_attachments'); //get path of the file
+                    $pathFile = $item['file_upload']->store('public/doc_attachments'); //get path of the file
                     $n = explode('/', $pathFile); //split into array using /
                     $path = $n[2];
-                    BudgetingDocumentaryAttachment::create(
-                        [
-                            'budgeting_id' => $data->budgeting_id,
-                            'documentary_attachment_id' => $item['documentary_attachment_id'],
-                            'doc_attachment' => is_file($item['file_upload']) ? $path : $data->doc_attachment
-                        ]);
+                    AccountingDocumentaryAttachment::create(
+                    [
+                        'accounting_id' => $data->accounting_id,
+                        'documentary_attachment_id' => $item['documentary_attachment_id'],
+                        'doc_attachment' => is_file($item['file_upload']) ? $path : $data->doc_attachment
+                    ]);
+
                 }
+
                 //insert into database after upload 1 image
+
             }
         }
 
 
         if($req->has('allotment_classes')){
             foreach ($req->allotment_classes as $item) {
-                BudgetingAllotmentClass::updateOrCreate([
-                    'budgeting_allotment_class_id' => $item['budgeting_allotment_class_id']
+                AccountingAllotmentClasses::updateOrCreate([
+                    'accounting_allotment_class_id' => $item['accounting_allotment_class_id']
                 ],[
-                    'budgeting_id' => $id,
+                    'accounting_id' => $id,
                     'allotment_class_id' => $item['allotment_class_id'],
                     'allotment_class_account_id' => $item['allotment_class_account_id'],
                     'amount' => $item['amount'],
@@ -225,17 +249,17 @@ class BudgetingController extends Controller
 
 
 
-    public function deleteDocAttachment($id){
+    public function deleteAcctgDocAttachment($id){
 
-        $data = BudgetingDocumentaryAttachment::find($id);
+        $data = AccountingDocumentaryAttachment::find($id);
 
         // $attchments = AccountingDocumentaryAttachment::where('accounting_id', $data->accounting_id)
         //         ->get();
-        if(Storage::exists('public/budgeting_doc_attachments/' . $data->doc_attachment)) {
-            Storage::delete('public/budgeting_doc_attachments/' . $data->doc_attachment);
+        if(Storage::exists('public/doc_attachments/' . $data->doc_attachment)) {
+            Storage::delete('public/doc_attachments/' . $data->doc_attachment);
         }
 
-        BudgetingDocumentaryAttachment::destroy($id);
+        AccountingDocumentaryAttachment::destroy($id);
 
         return response()->json([
             'status' => 'deleted'
@@ -246,10 +270,12 @@ class BudgetingController extends Controller
 
 
     //for excel
-    public function fetchBudgetings(){
+    //for excel
+    public function fetchAccountings(){
+
         return DB::select('
         SELECT
-            a.`budgeting_id`,
+            a.`accounting_id`,
             b.`financial_year_code`,
             b.`financial_year_desc`,
             c.`fund_source`,
@@ -266,22 +292,22 @@ class BudgetingController extends Controller
             h.`priority_program`,
             f.`office`
 
-            FROM budgetings a
+            FROM accountings a
             JOIN `financial_years` b ON a.`financial_year_id` = b.`financial_year_id`
-            LEFT JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
-            LEFT JOIN `transaction_types` d ON a.`transaction_type_id` = d.`transaction_type_id`
-            LEFT JOIN payee AS e ON a.`payee_id` = e.`payee_id`
-            LEFT JOIN offices f ON a.`office_id` = f.`office_id`
-            LEFT JOIN `budgeting_allotment_classes` g ON a.`budgeting_id` = g.`budgeting_id`
+            JOIN fund_sources c ON a.`fund_source_id` = c.`fund_source_id`
+            JOIN `transaction_types` d ON a.`transaction_type_id` = d.`transaction_type_id`
+            JOIN payee AS e ON a.`payee_id` = e.`payee_id`
+            JOIN offices f ON a.`office_id` = f.`office_id`
+            LEFT JOIN `accounting_allotment_classes` g ON a.`accounting_id` = g.`accounting_id`
             LEFT JOIN `allotment_classes` gg ON g.`allotment_class_id` = gg.`allotment_class_id`
-            LEFT JOIN `allotment_class_accounts` hh ON g.`budgeting_allotment_class_id` = hh.`allotment_class_account_id`
+            LEFT JOIN `allotment_class_accounts` hh ON g.`accounting_allotment_class_id` = hh.`allotment_class_account_id`
             LEFT JOIN priority_programs h ON a.`priority_program_id` = h.`priority_program_id`
         ');
     }
 
 
     public function destroy($id){
-        Budgeting::destroy($id);
+        Accounting::destroy($id);
 
         return response()->json([
             'status' => 'deleted'
