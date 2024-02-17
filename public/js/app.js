@@ -15093,6 +15093,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     this.loadFinancialYears();
@@ -15194,7 +15195,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     totalUtilizations: function totalUtilizations() {
-      return this.accountingUsedBudget + this.budgetingUsedBudget + this.procurementUsedBudget;
+      return this.accountingUsedBudget;
     }
   }
 });
@@ -54603,6 +54604,14 @@ var render = function () {
                       "\n                        "
                   ),
                 ]),
+                _vm._v(" "),
+                _c("div", [
+                  _c("strong", [_vm._v("TOTAL BUDGET UTILIZE: ")]),
+                  _vm._v(
+                    " " +
+                      _vm._s(_vm._f("numberWithCommas")(_vm.totalUtilizations))
+                  ),
+                ]),
               ]),
             ]),
             _vm._v(" "),
@@ -54791,18 +54800,7 @@ var render = function () {
               ),
             ]),
             _vm._v(" "),
-            _c("hr"),
-            _vm._v(" "),
-            _c("div", { staticClass: "columns" }, [
-              _c("div", { staticClass: "column" }, [
-                _c("div", { staticClass: "has-text-weight-bold is-size-4" }, [
-                  _vm._v(
-                    "TOTAL: " +
-                      _vm._s(_vm._f("numberWithCommas")(_vm.totalUtilizations))
-                  ),
-                ]),
-              ]),
-            ]),
+            _vm._m(1),
           ]
         ),
       ]),
@@ -54836,6 +54834,14 @@ var staticRenderFns = [
       _c("th", [_vm._v("Priority Program Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Priority Program Balance")]),
+    ])
+  },
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("div", { staticClass: "columns" }, [
+      _c("div", { staticClass: "column" }),
     ])
   },
 ]

@@ -37,6 +37,9 @@
                             <div>
                                 <strong>BALANCE:</strong> {{ search.financial_year['balance'] | numberWithCommas}}
                             </div>
+                            <div>
+                                <strong>TOTAL BUDGET UTILIZE: </strong> {{ totalUtilizations | numberWithCommas }}</div>
+
                         </div>
                     </div>
 
@@ -114,11 +117,9 @@
 
                         </div>
                     </div>
-                    <hr>
 
                     <div class="columns">
                         <div class="column">
-                            <div class="has-text-weight-bold is-size-4">TOTAL: {{ totalUtilizations | numberWithCommas }}</div>
                     
                         </div>
                     </div>
@@ -231,7 +232,7 @@ export default{
   
     computed: {
         totalUtilizations(){
-            return this.accountingUsedBudget + this.budgetingUsedBudget + this.procurementUsedBudget
+            return this.accountingUsedBudget
         }
     }
 

@@ -100,14 +100,7 @@ class DashboardController extends Controller
     }
 
 
-    public function loadAccountingUtilizations(Request $req, $financialId){
-
-        $data = Accounting::where('financial_year_id', $financialId)
-            ->sum('total_amount');
-
-        return $data;
-
-    }
+   
 
     public function loadBudgetingUtilizations(Request $req, $financialId){
 
@@ -168,6 +161,17 @@ class DashboardController extends Controller
 
         return $data;
     }
+    //compute utilize budget of accounting
+    public function loadAccountingUtilizations(Request $req, $financialId){
+
+        $data = Accounting::where('financial_year_id', $financialId)
+            ->sum('total_amount');
+
+        return $data;
+
+    }
+
+
 
     public function loadAllotmentBudgeting($financialId, $allotmentId){
         $data = DB::select('
