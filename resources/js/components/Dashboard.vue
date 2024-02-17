@@ -4,7 +4,7 @@
         <div class="section">
 
             <div class="columns is-centered">
-                <div class="column is-8">
+                <div class="column is-8-widescreen is-11-desktop is-11-tablet">
 
                     <div class="columns">
                         <div class="column">
@@ -32,10 +32,10 @@
                     <div class="columns">
                         <div class="column">
                             <div>
-                                FINANCIAL YEAR BUDGET: {{ search.financial_year['financial_budget'] | numberWithCommas }}
+                                <strong>FINANCIAL YEAR BUDGET:</strong> {{ search.financial_year['financial_budget'] | numberWithCommas }}
                             </div>
                             <div>
-                                BALANCE: {{ search.financial_year['balance'] | numberWithCommas}}
+                                <strong>BALANCE:</strong> {{ search.financial_year['balance'] | numberWithCommas}}
                             </div>
                         </div>
                     </div>
@@ -45,7 +45,7 @@
                     <div class="columns">
                         <div class="column">
                             
-                            <div class="">UTILIZED BUDGET: {{ accountingUsedBudget | numberWithCommas }}</div>
+                            <div class="mb-2"><strong>UTILIZED BUDGET:</strong> {{ accountingUsedBudget | numberWithCommas }}</div>
 
 
                             <b-field label="Allotment Class" label-position="on-border"
@@ -59,8 +59,8 @@
                                 </b-select>
                             </b-field>
 
-                            <div>
-                                <table class="table">
+                            <div class="table-container">
+                                <table class="table is-narrow is-fullwidth">
                                     <tr>
                                         <th>Document</th>
                                         <th>Allotment Class</th>
@@ -69,6 +69,10 @@
                                         <th>Running Balance</th>
                                         <th>Financial Budget</th>
                                         <th>Utilized Budget</th>
+                                        <th>Priority Program</th>
+                                        <th>Priority Program Code</th>
+                                        <th>Priority Program Budget</th>
+                                        <th>Priority Program Balance</th>
                                     </tr>
                                     <tr v-for="(item, index) in allotmentAccounting" :key="`allotment${index}`">
                                         <td>
@@ -92,17 +96,6 @@
                                         <td>
                                             {{ item.amount | numberWithCommas }}
                                         </td>
-                                    </tr>
-                                </table>
-                                <div>PRIORITY PROGRAM DETAILS</div>
-                                <table class="table">
-                                    <tr>
-                                        <th>Priority Program</th>
-                                        <th>Priority Program Code</th>
-                                        <th>Priority Program Budget</th>
-                                        <th>Priority Program Balance</th>
-                                    </tr>
-                                    <tr v-for="(item, index) in allotmentAccounting" :key="`allotment${index}`">
                                         <td>
                                             {{ item.priority_program }}
                                         </td>
@@ -117,7 +110,6 @@
                                         </td>
                                     </tr>
                                 </table>
-
                             </div>
 
                         </div>
@@ -184,8 +176,8 @@ export default{
 
         loadData(){
             this.loadAccountingUtilizations()
-            this.loadBudgetingUtilizations()
-            this.loadProcurementUtilizations()
+            //this.loadBudgetingUtilizations()
+            //this.loadProcurementUtilizations()
             this.loadAllotmentClasses()
         },
 
@@ -195,17 +187,17 @@ export default{
             })
         },
 
-        loadBudgetingUtilizations(){
-            axios.get('/load-budgeting-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
-                this.budgetingUsedBudget = res.data
-            })
-        },
+        // loadBudgetingUtilizations(){
+        //     axios.get('/load-budgeting-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
+        //         this.budgetingUsedBudget = res.data
+        //     })
+        // },
 
-        loadProcurementUtilizations(){
-            axios.get('/load-procurement-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
-                this.procurementUsedBudget = res.data
-            })
-        },
+        // loadProcurementUtilizations(){
+        //     axios.get('/load-procurement-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
+        //         this.procurementUsedBudget = res.data
+        //     })
+        // },
 
 
         async loadAllotmentClasses(){

@@ -15093,14 +15093,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     this.loadFinancialYears();
@@ -15134,9 +15126,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     loadData: function loadData() {
-      this.loadAccountingUtilizations();
-      this.loadBudgetingUtilizations();
-      this.loadProcurementUtilizations();
+      this.loadAccountingUtilizations(); //this.loadBudgetingUtilizations()
+      //this.loadProcurementUtilizations()
+
       this.loadAllotmentClasses();
     },
     loadAccountingUtilizations: function loadAccountingUtilizations() {
@@ -15146,22 +15138,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this2.accountingUsedBudget = res.data;
       });
     },
-    loadBudgetingUtilizations: function loadBudgetingUtilizations() {
-      var _this3 = this;
-
-      axios.get('/load-budgeting-utilizations/' + this.search.financial_year['financial_year_id']).then(function (res) {
-        _this3.budgetingUsedBudget = res.data;
-      });
-    },
-    loadProcurementUtilizations: function loadProcurementUtilizations() {
-      var _this4 = this;
-
-      axios.get('/load-procurement-utilizations/' + this.search.financial_year['financial_year_id']).then(function (res) {
-        _this4.procurementUsedBudget = res.data;
-      });
-    },
+    // loadBudgetingUtilizations(){
+    //     axios.get('/load-budgeting-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
+    //         this.budgetingUsedBudget = res.data
+    //     })
+    // },
+    // loadProcurementUtilizations(){
+    //     axios.get('/load-procurement-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
+    //         this.procurementUsedBudget = res.data
+    //     })
+    // },
     loadAllotmentClasses: function loadAllotmentClasses() {
-      var _this5 = this;
+      var _this3 = this;
 
       return _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().mark(function _callee() {
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default().wrap(function _callee$(_context) {
@@ -15169,8 +15157,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
             switch (_context.prev = _context.next) {
               case 0:
                 _context.next = 2;
-                return axios.get('/load-allotment-classes-by-financial/' + _this5.search.financial_year['financial_year_id']).then(function (res) {
-                  _this5.allotmentClasses = res.data;
+                return axios.get('/load-allotment-classes-by-financial/' + _this3.search.financial_year['financial_year_id']).then(function (res) {
+                  _this3.allotmentClasses = res.data;
                 })["catch"](function (err) {});
 
               case 2:
@@ -15183,24 +15171,24 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     },
     ///////////
     loadAllotmentAccounting: function loadAllotmentAccounting() {
-      var _this6 = this;
+      var _this4 = this;
 
       axios.get('/load-allotment-accounting/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_accounting).then(function (res) {
-        _this6.allotmentAccounting = res.data;
+        _this4.allotmentAccounting = res.data;
       });
     },
     loadAllotmentBudgeting: function loadAllotmentBudgeting() {
-      var _this7 = this;
+      var _this5 = this;
 
       axios.get('/load-allotment-budgeting/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_budgeting).then(function (res) {
-        _this7.allotmentBudgeting = res.data;
+        _this5.allotmentBudgeting = res.data;
       });
     },
     loadAllotmentProcurement: function loadAllotmentProcurement() {
-      var _this8 = this;
+      var _this6 = this;
 
       axios.get('/load-allotment-procurement/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_procurement).then(function (res) {
-        _this8.allotmentBudgeting = res.data;
+        _this6.allotmentBudgeting = res.data;
       });
     }
   },
@@ -54525,303 +54513,298 @@ var render = function () {
   return _c("div", [
     _c("div", { staticClass: "section" }, [
       _c("div", { staticClass: "columns is-centered" }, [
-        _c("div", { staticClass: "column is-8" }, [
-          _c("div", { staticClass: "columns" }, [
-            _c(
-              "div",
-              { staticClass: "column" },
-              [
-                _c(
-                  "b-field",
-                  { attrs: { label: "Financial Year", expanded: "" } },
-                  [
-                    _c(
-                      "b-select",
-                      {
-                        attrs: { expanded: "", placeholder: "Financial Year" },
-                        on: { input: _vm.loadData },
-                        model: {
-                          value: _vm.search.financial_year,
-                          callback: function ($$v) {
-                            _vm.$set(_vm.search, "financial_year", $$v)
+        _c(
+          "div",
+          { staticClass: "column is-8-widescreen is-11-desktop is-11-tablet" },
+          [
+            _c("div", { staticClass: "columns" }, [
+              _c(
+                "div",
+                { staticClass: "column" },
+                [
+                  _c(
+                    "b-field",
+                    { attrs: { label: "Financial Year", expanded: "" } },
+                    [
+                      _c(
+                        "b-select",
+                        {
+                          attrs: {
+                            expanded: "",
+                            placeholder: "Financial Year",
                           },
-                          expression: "search.financial_year",
+                          on: { input: _vm.loadData },
+                          model: {
+                            value: _vm.search.financial_year,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.search, "financial_year", $$v)
+                            },
+                            expression: "search.financial_year",
+                          },
                         },
-                      },
-                      _vm._l(_vm.financialYears, function (item, indx) {
-                        return _c(
-                          "option",
-                          {
-                            key: "fy" + indx,
-                            domProps: {
-                              value: {
-                                financial_year_id: item.financial_year_id,
-                                financial_budget: item.financial_budget,
-                                balance: item.balance,
+                        _vm._l(_vm.financialYears, function (item, indx) {
+                          return _c(
+                            "option",
+                            {
+                              key: "fy" + indx,
+                              domProps: {
+                                value: {
+                                  financial_year_id: item.financial_year_id,
+                                  financial_budget: item.financial_budget,
+                                  balance: item.balance,
+                                },
                               },
                             },
-                          },
-                          [
-                            _vm._v(
-                              "\n                                    " +
-                                _vm._s(item.financial_year_code) +
-                                "\n                                    -\n                                    " +
-                                _vm._s(item.financial_year_desc) +
-                                "\n                                "
-                            ),
-                          ]
-                        )
-                      }),
-                      0
-                    ),
-                  ],
-                  1
-                ),
-              ],
-              1
-            ),
-          ]),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column" }, [
-              _c("div", [
-                _vm._v(
-                  "\n                            FINANCIAL YEAR BUDGET: " +
-                    _vm._s(
-                      _vm._f("numberWithCommas")(
-                        _vm.search.financial_year["financial_budget"]
-                      )
-                    ) +
-                    "\n                        "
-                ),
-              ]),
-              _vm._v(" "),
-              _c("div", [
-                _vm._v(
-                  "\n                            BALANCE: " +
-                    _vm._s(
-                      _vm._f("numberWithCommas")(
-                        _vm.search.financial_year["balance"]
-                      )
-                    ) +
-                    "\n                        "
-                ),
-              ]),
+                            [
+                              _vm._v(
+                                "\n                                    " +
+                                  _vm._s(item.financial_year_code) +
+                                  "\n                                    -\n                                    " +
+                                  _vm._s(item.financial_year_desc) +
+                                  "\n                                "
+                              ),
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
             ]),
-          ]),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c(
-              "div",
-              { staticClass: "column" },
-              [
-                _c("div", {}, [
+            _vm._v(" "),
+            _c("div", { staticClass: "columns" }, [
+              _c("div", { staticClass: "column" }, [
+                _c("div", [
+                  _c("strong", [_vm._v("FINANCIAL YEAR BUDGET:")]),
                   _vm._v(
-                    "UTILIZED BUDGET: " +
+                    " " +
                       _vm._s(
-                        _vm._f("numberWithCommas")(_vm.accountingUsedBudget)
-                      )
+                        _vm._f("numberWithCommas")(
+                          _vm.search.financial_year["financial_budget"]
+                        )
+                      ) +
+                      "\n                        "
                   ),
                 ]),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Allotment Class",
-                      "label-position": "on-border",
-                      expanded: "",
-                    },
-                  },
-                  [
-                    _c(
-                      "b-select",
-                      {
-                        attrs: { expanded: "" },
-                        on: { input: _vm.loadAllotmentAccounting },
-                        model: {
-                          value: _vm.search.allotment_accounting,
-                          callback: function ($$v) {
-                            _vm.$set(_vm.search, "allotment_accounting", $$v)
-                          },
-                          expression: "search.allotment_accounting",
-                        },
-                      },
-                      _vm._l(_vm.allotmentClasses, function (allot, ix) {
-                        return _c(
-                          "option",
-                          {
-                            key: "allotclass" + ix,
-                            domProps: { value: allot.allotment_class_id },
-                          },
-                          [_vm._v(_vm._s(allot.allotment_class))]
-                        )
-                      }),
-                      0
-                    ),
-                  ],
-                  1
-                ),
                 _vm._v(" "),
                 _c("div", [
-                  _c(
-                    "table",
-                    { staticClass: "table" },
-                    [
-                      _vm._m(0),
-                      _vm._v(" "),
-                      _vm._l(_vm.allotmentAccounting, function (item, index) {
-                        return _c("tr", { key: "allotment" + index }, [
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.doc_type) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.allotment_class) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.allotment_class_account) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.allotment_class_account_budget
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.allotment_class_account_balance
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.financial_budget
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(item.amount)
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                        ])
-                      }),
-                    ],
-                    2
-                  ),
-                  _vm._v(" "),
-                  _c("div", [_vm._v("PRIORITY PROGRAM DETAILS")]),
-                  _vm._v(" "),
-                  _c(
-                    "table",
-                    { staticClass: "table" },
-                    [
-                      _vm._m(1),
-                      _vm._v(" "),
-                      _vm._l(_vm.allotmentAccounting, function (item, index) {
-                        return _c("tr", { key: "allotment" + index }, [
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.priority_program) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.priority_program_code) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.priority_program_budget
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.priority_program_balance
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                        ])
-                      }),
-                    ],
-                    2
+                  _c("strong", [_vm._v("BALANCE:")]),
+                  _vm._v(
+                    " " +
+                      _vm._s(
+                        _vm._f("numberWithCommas")(
+                          _vm.search.financial_year["balance"]
+                        )
+                      ) +
+                      "\n                        "
                   ),
                 ]),
-              ],
-              1
-            ),
-          ]),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c("div", { staticClass: "column" }, [
-              _c("div", { staticClass: "has-text-weight-bold is-size-4" }, [
-                _vm._v(
-                  "TOTAL: " +
-                    _vm._s(_vm._f("numberWithCommas")(_vm.totalUtilizations))
-                ),
               ]),
             ]),
-          ]),
-        ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "columns" }, [
+              _c(
+                "div",
+                { staticClass: "column" },
+                [
+                  _c("div", { staticClass: "mb-2" }, [
+                    _c("strong", [_vm._v("UTILIZED BUDGET:")]),
+                    _vm._v(
+                      " " +
+                        _vm._s(
+                          _vm._f("numberWithCommas")(_vm.accountingUsedBudget)
+                        )
+                    ),
+                  ]),
+                  _vm._v(" "),
+                  _c(
+                    "b-field",
+                    {
+                      attrs: {
+                        label: "Allotment Class",
+                        "label-position": "on-border",
+                        expanded: "",
+                      },
+                    },
+                    [
+                      _c(
+                        "b-select",
+                        {
+                          attrs: { expanded: "" },
+                          on: { input: _vm.loadAllotmentAccounting },
+                          model: {
+                            value: _vm.search.allotment_accounting,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.search, "allotment_accounting", $$v)
+                            },
+                            expression: "search.allotment_accounting",
+                          },
+                        },
+                        _vm._l(_vm.allotmentClasses, function (allot, ix) {
+                          return _c(
+                            "option",
+                            {
+                              key: "allotclass" + ix,
+                              domProps: { value: allot.allotment_class_id },
+                            },
+                            [_vm._v(_vm._s(allot.allotment_class))]
+                          )
+                        }),
+                        0
+                      ),
+                    ],
+                    1
+                  ),
+                  _vm._v(" "),
+                  _c("div", { staticClass: "table-container" }, [
+                    _c(
+                      "table",
+                      { staticClass: "table is-narrow is-fullwidth" },
+                      [
+                        _vm._m(0),
+                        _vm._v(" "),
+                        _vm._l(_vm.allotmentAccounting, function (item, index) {
+                          return _c("tr", { key: "allotment" + index }, [
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(item.doc_type) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(item.allotment_class) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(item.allotment_class_account) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      item.allotment_class_account_budget
+                                    )
+                                  ) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      item.allotment_class_account_balance
+                                    )
+                                  ) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      item.financial_budget
+                                    )
+                                  ) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(item.amount)
+                                  ) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(item.priority_program) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(item.priority_program_code) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      item.priority_program_budget
+                                    )
+                                  ) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                            _vm._v(" "),
+                            _c("td", [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      item.priority_program_balance
+                                    )
+                                  ) +
+                                  "\n                                    "
+                              ),
+                            ]),
+                          ])
+                        }),
+                      ],
+                      2
+                    ),
+                  ]),
+                ],
+                1
+              ),
+            ]),
+            _vm._v(" "),
+            _c("hr"),
+            _vm._v(" "),
+            _c("div", { staticClass: "columns" }, [
+              _c("div", { staticClass: "column" }, [
+                _c("div", { staticClass: "has-text-weight-bold is-size-4" }, [
+                  _vm._v(
+                    "TOTAL: " +
+                      _vm._s(_vm._f("numberWithCommas")(_vm.totalUtilizations))
+                  ),
+                ]),
+              ]),
+            ]),
+          ]
+        ),
       ]),
     ]),
   ])
@@ -54845,13 +54828,7 @@ var staticRenderFns = [
       _c("th", [_vm._v("Financial Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Utilized Budget")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
+      _vm._v(" "),
       _c("th", [_vm._v("Priority Program")]),
       _vm._v(" "),
       _c("th", [_vm._v("Priority Program Code")]),
