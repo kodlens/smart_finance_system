@@ -44,7 +44,7 @@
 
                     <div class="columns">
                         <div class="column">
-                            <div class="has-text-weight-bold">ACCOUNTING</div>
+                            
                             <div class="">UTILIZED BUDGET: {{ accountingUsedBudget | numberWithCommas }}</div>
 
 
@@ -62,6 +62,7 @@
                             <div>
                                 <table class="table">
                                     <tr>
+                                        <th>Document</th>
                                         <th>Allotment Class</th>
                                         <th>Allotment Account</th>
                                         <th>Allotment Allocated Budget</th>
@@ -70,6 +71,9 @@
                                         <th>Utilized Budget</th>
                                     </tr>
                                     <tr v-for="(item, index) in allotmentAccounting" :key="`allotment${index}`">
+                                        <td>
+                                            {{ item.doc_type }}
+                                        </td>
                                         <td>
                                             {{ item.allotment_class }}
                                         </td>
@@ -118,118 +122,6 @@
 
                         </div>
                     </div>
-
-                    <hr>
-
-                    <div class="columns">
-                        <div class="column">
-                            <div class="has-text-weight-bold">BUDGETING</div>
-                            <div class="">USED BUDGET: {{ budgetingUsedBudget | numberWithCommas }}</div>
-
-
-                            <b-field label="Allotment Class" label-position="on-border"
-                                expanded>
-                                <b-select v-model="search.allotment_budgeting"
-                                    @input="loadAllotmentBudgeting"
-                                    expanded>
-                                    <option v-for="(allot, ix) in allotmentClasses"
-                                        :key="`allotclass${ix}`"
-                                        :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
-                                </b-select>
-                            </b-field>
-
-                            <div>
-                                <table class="table">
-                                    <tr>
-                                        <th>Allotment Class</th>
-                                        <th>Allotment Account</th>
-                                        <th>Allotment Budget</th>
-                                        <th>Financial Budget</th>
-                                        <th>Balance</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                    <tr v-for="(item, index) in allotmentBudgeting" :key="`budgeting${index}`">
-                                        <td>
-                                            {{ item.allotment_class }}
-                                        </td>
-                                        <td>
-                                            {{ item.allotment_class_account }}
-                                        </td>
-                                        <td>
-                                            {{ item.allotment_class_budget | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.financial_budget | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.balance | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.amount | numberWithCommas }}
-                                        </td>
-                                    </tr>
-                                </table>
-                               
-                            </div>
-
-                        </div>
-                    </div>
-
-                    <hr>
-
-                    <div class="columns">
-                        <div class="column">
-                            <div class="has-text-weight-bold">PROCUREMENT</div>
-                            <div class="">USED BUDGET: {{ procurementUsedBudget | numberWithCommas }}</div>
-
-
-                            <b-field label="Allotment Class" label-position="on-border"
-                                expanded>
-                                <b-select v-model="search.allotment_procurement"
-                                    @input="loadAllotmentProcurement"
-                                    expanded>
-                                    <option v-for="(allot, ix) in allotmentProcurement"
-                                        :key="`allotclass${ix}`"
-                                        :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
-                                </b-select>
-                            </b-field>
-
-                            <div>
-                                <table class="table">
-                                    <tr>
-                                        <th>Allotment Class</th>
-                                        <th>Allotment Account</th>
-                                        <th>Allotment Budget</th>
-                                        <th>Financial Budget</th>
-                                        <th>Balance</th>
-                                        <th>Amount</th>
-                                    </tr>
-                                    <tr v-for="(item, index) in allotmentBudgeting" :key="`budgeting${index}`">
-                                        <td>
-                                            {{ item.allotment_class }}
-                                        </td>
-                                        <td>
-                                            {{ item.allotment_class_account }}
-                                        </td>
-                                        <td>
-                                            {{ item.allotment_class_budget | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.financial_budget | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.balance | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.amount | numberWithCommas }}
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-
                     <hr>
 
                     <div class="columns">
@@ -248,6 +140,11 @@
 
 <script>
 export default{
+
+    mounted(){
+        this.loadFinancialYears()
+    },
+
 
     data(){
         return{
@@ -339,10 +236,7 @@ export default{
         }
     },
 
-    mounted(){
-        this.loadFinancialYears()
-    },
-
+  
     computed: {
         totalUtilizations(){
             return this.accountingUsedBudget + this.budgetingUsedBudget + this.procurementUsedBudget

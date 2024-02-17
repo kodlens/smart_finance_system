@@ -95,7 +95,7 @@ class ProcurementController extends Controller
             'training_control_no' => $req->training_control_no,
             'pr_no' => strtoupper($req->pr_no),
             'particulars' => $req->particulars,
-            'pr_amount' => $req->pr_amount,
+            'total_amount' => (float)$req->pr_amount, //PR AMOUNT (total amount)
             'payee_id' => $req->payee_id,
             'pr_status' => $req->pr_status,
             'others' => $req->others,
@@ -239,13 +239,13 @@ class ProcurementController extends Controller
 
     //delete attachment and image from storage
     public function deleteProcurementDocAttachment($id){
-        $data = ProcurementDocumentaryAttachment::find($id);
-        // $attchments = ProcurementDocumentaryAttachment::where('accounting_id', $data->accounting_id)
+        $data = AccountingDocumentaryAttachment::find($id);
+        // $attchments = AccountingDocumentaryAttachment::where('accounting_id', $data->accounting_id)
         //         ->get();
-        if(Storage::exists('public/procurement_attachments/' . $data->doc_attachment)) {
-            Storage::delete('public/procurement_attachments/' . $data->doc_attachment);
+        if(Storage::exists('public/accounting_attachments/' . $data->doc_attachment)) {
+            Storage::delete('public/accounting_attachments/' . $data->doc_attachment);
         }
-        ProcurementDocumentaryAttachment::destroy($id);
+        AccountingDocumentaryAttachment::destroy($id);
         return response()->json([
             'status' => 'deleted'
         ],200);
@@ -291,8 +291,7 @@ class ProcurementController extends Controller
 
 
     public function destroy($id){
-        Procurement::destroy($id);
-
+        Accounting::destroy($id);
         return response()->json([
             'status' => 'deleted'
         ], 200);

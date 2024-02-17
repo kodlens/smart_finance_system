@@ -689,13 +689,13 @@ export default{
                 this.fields.payee_id = result.payee_id
 
                 this.fields.particulars = result.particulars
-                this.fields.total_amount = Number(result.total_amount)
+                this.fields.total_amount = result.total_amount
 
                 //attachments
                 result.budgeting_documentary_attachments.forEach(item => {
                     this.fields.documentary_attachments.push({
                         documentary_attachment_id: item.documentary_attachment_id,
-                        budgeting_documentary_attachment_id: item.budgeting_documentary_attachment_id,
+                        budgeting_documentary_attachment_id: item.accounting_documentary_attachment_id,
                         budgeting_id: item.budgeting_id,
                     });
                 })
@@ -703,9 +703,9 @@ export default{
 
                 //async call
                 this.loadAllotmentClasses().then(()=>{
-                    result.budgeting_allotment_classes.forEach(item => {
+                    result.accounting_allotment_classes.forEach(item => {
                         this.fields.allotment_classes.push({
-                            budgeting_allotment_class_id: item.budgeting_allotment_class_id,
+                            budgeting_allotment_class_id: item.accounting_allotment_class_id,
                             allotment_class_id: item.allotment_class_id,
                             allotment_class_account_id: item.allotment_class_account_id,
                             amount: item.amount,

@@ -47,56 +47,56 @@ class DashboardController extends Controller
 
 
 
-        $budgetingCurrentFY = DB::select('
-            SELECT
-            c.`allotment_class`,
-            SUM(b.`amount`) as amount
-            FROM budgetings a
-            JOIN `budgeting_allotment_classes` b ON a.`budgeting_id`= b.`budgeting_id`
-            JOIN `allotment_classes` c ON b.`allotment_class_id` = c.`allotment_class_id`
-            WHERE a.`financial_year_id` = ?
-            GROUP BY b.`allotment_class_id`', [$fy->financial_year_id]);
+        // $budgetingCurrentFY = DB::select('
+        //     SELECT
+        //     c.`allotment_class`,
+        //     SUM(b.`amount`) as amount
+        //     FROM budgetings a
+        //     JOIN `budgeting_allotment_classes` b ON a.`budgeting_id`= b.`budgeting_id`
+        //     JOIN `allotment_classes` c ON b.`allotment_class_id` = c.`allotment_class_id`
+        //     WHERE a.`financial_year_id` = ?
+        //     GROUP BY b.`allotment_class_id`', [$fy->financial_year_id]);
 
-        $budgetingFundSources = DB::select('
-            SELECT
-            a.`fund_source_id`,
-            b.`fund_source`,
-            SUM(a.`total_amount`) AS total_amount
-            FROM budgetings a
-            JOIN `fund_sources` b ON a.`fund_source_id` = b.`fund_source_id`
-            WHERE a.`financial_year_id` = ?
-            GROUP BY a.fund_source_id
-            ', [$fy->financial_year_id]);
+        // $budgetingFundSources = DB::select('
+        //     SELECT
+        //     a.`fund_source_id`,
+        //     b.`fund_source`,
+        //     SUM(a.`total_amount`) AS total_amount
+        //     FROM budgetings a
+        //     JOIN `fund_sources` b ON a.`fund_source_id` = b.`fund_source_id`
+        //     WHERE a.`financial_year_id` = ?
+        //     GROUP BY a.fund_source_id
+        //     ', [$fy->financial_year_id]);
 
 
-        $procurementCurrentFY = DB::select('
-            SELECT
-            c.`allotment_class`,
-            SUM(b.`amount`) as amount
-            FROM procurements a
-            JOIN `procurement_allotment_classes` b ON a.`procurement_id`= b.`procurement_id`
-            JOIN `allotment_classes` c ON b.`allotment_class_id` = c.`allotment_class_id`
-            WHERE a.`financial_year_id` = ?
-            GROUP BY b.`allotment_class_id`', [$fy->financial_year_id]);
+        // $procurementCurrentFY = DB::select('
+        //     SELECT
+        //     c.`allotment_class`,
+        //     SUM(b.`amount`) as amount
+        //     FROM procurements a
+        //     JOIN `procurement_allotment_classes` b ON a.`procurement_id`= b.`procurement_id`
+        //     JOIN `allotment_classes` c ON b.`allotment_class_id` = c.`allotment_class_id`
+        //     WHERE a.`financial_year_id` = ?
+        //     GROUP BY b.`allotment_class_id`', [$fy->financial_year_id]);
 
-        $procurementFundSources = DB::select('
-            SELECT
-            a.`fund_source_id`,
-            b.`fund_source`,
-            SUM(a.`pr_amount`) AS total_amount
-            FROM procurements a
-            JOIN `fund_sources` b ON a.`fund_source_id` = b.`fund_source_id`
-            WHERE a.`financial_year_id` = ?
-            GROUP BY a.fund_source_id
-            ', [$fy->financial_year_id]);
+        // $procurementFundSources = DB::select('
+        //     SELECT
+        //     a.`fund_source_id`,
+        //     b.`fund_source`,
+        //     SUM(a.`pr_amount`) AS total_amount
+        //     FROM procurements a
+        //     JOIN `fund_sources` b ON a.`fund_source_id` = b.`fund_source_id`
+        //     WHERE a.`financial_year_id` = ?
+        //     GROUP BY a.fund_source_id
+        //     ', [$fy->financial_year_id]);
 
         return view('administrator.dashboard')
             ->with('cfy', $cfy)
-            ->with('fundSources', $fundSources)
-            ->with('budgetingCurrentFY', $budgetingCurrentFY)
-            ->with('budgetingFundSources', $budgetingFundSources)
-            ->with('procurementCurrentFY', $procurementCurrentFY)
-            ->with('procurementFundSources', $procurementFundSources);
+            ->with('fundSources', $fundSources);
+            // ->with('budgetingCurrentFY', $budgetingCurrentFY)
+            // ->with('budgetingFundSources', $budgetingFundSources)
+            // ->with('procurementCurrentFY', $procurementCurrentFY)
+            // ->with('procurementFundSources', $procurementFundSources);
     }
 
 
@@ -133,6 +133,7 @@ class DashboardController extends Controller
 
         $data = DB::select('
             SELECT
+            b.doc_type,
             b.transaction_no,
             e.financial_year_id,
             e.financial_year_code,

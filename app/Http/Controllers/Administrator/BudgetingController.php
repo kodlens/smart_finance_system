@@ -25,8 +25,8 @@ class BudgetingController extends Controller
 
 
     public function show($id){
-        $data = Accounting::with(['payee', 'budgeting_documentary_attachments.documentary_attachment',
-            'budgeting_allotment_classes.allotment_class', 'budgeting_allotment_classes.allotment_class_account',
+        $data = Accounting::with(['payee', 'accounting_documentary_attachments.documentary_attachment',
+            'accounting_allotment_classes.allotment_class', 'accounting_allotment_classes.allotment_class_account',
             'priority_program', 'office'
         ])
             ->find($id);

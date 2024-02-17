@@ -217,7 +217,6 @@
                                         <div class="column">
                                             <b-field label="Amount" label-position="on-border"
                                                 :type="errors.amount ? 'is-danger':''"
-                                               
                                                 :message="errors.amount ? errors.amount[0] : ''">
                                                 <b-numberinput
                                                     v-model="item.amount"
@@ -752,6 +751,7 @@ export default{
             });
 
             this.fields.total_amount = total
+            
         }
 
 

@@ -8327,7 +8327,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     id: {
@@ -10748,20 +10747,20 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this9.payee.bank_account_payee = result.payee.bank_account_payee;
         _this9.fields.payee_id = result.payee_id;
         _this9.fields.particulars = result.particulars;
-        _this9.fields.total_amount = Number(result.total_amount); //attachments
+        _this9.fields.total_amount = result.total_amount; //attachments
 
         result.budgeting_documentary_attachments.forEach(function (item) {
           _this9.fields.documentary_attachments.push({
             documentary_attachment_id: item.documentary_attachment_id,
-            budgeting_documentary_attachment_id: item.budgeting_documentary_attachment_id,
+            budgeting_documentary_attachment_id: item.accounting_documentary_attachment_id,
             budgeting_id: item.budgeting_id
           });
         }); //async call
 
         _this9.loadAllotmentClasses().then(function () {
-          result.budgeting_allotment_classes.forEach(function (item) {
+          result.accounting_allotment_classes.forEach(function (item) {
             _this9.fields.allotment_classes.push({
-              budgeting_allotment_class_id: item.budgeting_allotment_class_id,
+              budgeting_allotment_class_id: item.accounting_allotment_class_id,
               allotment_class_id: item.allotment_class_id,
               allotment_class_account_id: item.allotment_class_account_id,
               amount: item.amount,
@@ -13002,6 +13001,8 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     id: {
@@ -13120,7 +13121,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.fields.allotment_classes[index].allotment_class_account_id = row.allotment_class_account_id;
     },
     emitPriorityProgram: function emitPriorityProgram(row) {
-      console.log(row);
       this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program;
       this.fields.priority_program_id = row.priority_program_id;
     },
@@ -13277,7 +13277,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     clearChargeTo: function clearChargeTo() {
-      console.log('clear');
       this.fields.allotment_classes = [];
     },
     debug: function debug() {
@@ -13288,7 +13287,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.fields.training_control_no = 'TD-1234-22-1122';
       this.fields.transaction_type_id = 1;
       this.fields.particulars = 'Sample particulars';
-      this.fields.pr_amount = 10000;
+      this.fields.pr_amount = 0;
       this.fields.pr_no = 'PR112233';
       this.fields.pr_status = 'Status sample of PR'; //this.fields.amount = 12000
       // this.fields.supplemental_budget = 'sample supplemental'
@@ -13345,6 +13344,13 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this9.fields.office = '(' + result.office.office + ') ' + result.office.description;
         _this9.fields.others = result.others;
       });
+    },
+    computeTotalAmount: function computeTotalAmount() {
+      var total = 0;
+      this.fields.allotment_classes.forEach(function (item, index) {
+        total += item.amount;
+      });
+      this.fields.pr_amount = total;
     }
   },
   mounted: function mounted() {
@@ -15095,115 +15101,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  mounted: function mounted() {
+    this.loadFinancialYears();
+  },
   data: function data() {
     return {
       search: {
@@ -15302,9 +15203,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this8.allotmentBudgeting = res.data;
       });
     }
-  },
-  mounted: function mounted() {
-    this.loadFinancialYears();
   },
   computed: {
     totalUtilizations: function totalUtilizations() {
@@ -48606,7 +48504,7 @@ var render = function () {
                   },
                   [
                     _c("b-table-column", {
-                      attrs: { field: "budgeting_id", label: "ID" },
+                      attrs: { field: "accounting_id", label: "ID" },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
@@ -48614,7 +48512,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.budgeting_id) +
+                                  _vm._s(props.row.accounting_id) +
                                   "\n                        "
                               ),
                             ]
@@ -48731,7 +48629,7 @@ var render = function () {
                                           "icon-right": "pencil",
                                           href:
                                             "/budgeting/" +
-                                            props.row.budgeting_id +
+                                            props.row.accounting_id +
                                             "/edit",
                                         },
                                       }),
@@ -48755,7 +48653,7 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
-                                              props.row.budgeting_id
+                                              props.row.accounting_id
                                             )
                                           },
                                         },
@@ -51158,7 +51056,7 @@ var render = function () {
         _c("div", { staticClass: "column is-8-desktop is-10-tablet" }, [
           _c("div", { staticClass: "box" }, [
             _c("div", { staticClass: "has-text-weight-bold" }, [
-              _vm._v("ADD/EDIT RECORD"),
+              _vm._v("ADD/EDIT RECORD ()DEBUG"),
             ]),
             _vm._v(" "),
             _c(
@@ -51931,6 +51829,9 @@ var render = function () {
                                               controls: false,
                                               step: "0.0001",
                                             },
+                                            on: {
+                                              blur: _vm.computeTotalAmount,
+                                            },
                                             model: {
                                               value: item.amount,
                                               callback: function ($$v) {
@@ -52344,7 +52245,7 @@ var render = function () {
                   },
                   [
                     _c("b-table-column", {
-                      attrs: { field: "procurement_id", label: "ID" },
+                      attrs: { field: "Id", label: "ID" },
                       scopedSlots: _vm._u([
                         {
                           key: "default",
@@ -52352,7 +52253,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.procurement_id) +
+                                  _vm._s(props.row.accounting_id) +
                                   "\n                        "
                               ),
                             ]
@@ -52409,7 +52310,7 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.pr_number) +
+                                  _vm._s(props.row.pr_no) +
                                   "\n                        "
                               ),
                             ]
@@ -52450,7 +52351,11 @@ var render = function () {
                             return [
                               _vm._v(
                                 "\n                            " +
-                                  _vm._s(props.row.pr_amount) +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      props.row.total_amount
+                                    )
+                                  ) +
                                   "\n                        "
                               ),
                             ]
@@ -52505,7 +52410,7 @@ var render = function () {
                                           "icon-right": "pencil",
                                           href:
                                             "/procurements/" +
-                                            props.row.procurement_id +
+                                            props.row.accounting_id +
                                             "/edit",
                                         },
                                       }),
@@ -52529,7 +52434,7 @@ var render = function () {
                                         on: {
                                           click: function ($event) {
                                             return _vm.confirmDelete(
-                                              props.row.procurement_id
+                                              props.row.accounting_id
                                             )
                                           },
                                         },
@@ -54712,10 +54617,6 @@ var render = function () {
               "div",
               { staticClass: "column" },
               [
-                _c("div", { staticClass: "has-text-weight-bold" }, [
-                  _vm._v("ACCOUNTING"),
-                ]),
-                _vm._v(" "),
                 _c("div", {}, [
                   _vm._v(
                     "UTILIZED BUDGET: " +
@@ -54773,6 +54674,14 @@ var render = function () {
                       _vm._v(" "),
                       _vm._l(_vm.allotmentAccounting, function (item, index) {
                         return _c("tr", { key: "allotment" + index }, [
+                          _c("td", [
+                            _vm._v(
+                              "\n                                        " +
+                                _vm._s(item.doc_type) +
+                                "\n                                    "
+                            ),
+                          ]),
+                          _vm._v(" "),
                           _c("td", [
                             _vm._v(
                               "\n                                        " +
@@ -54903,282 +54812,6 @@ var render = function () {
           _c("hr"),
           _vm._v(" "),
           _c("div", { staticClass: "columns" }, [
-            _c(
-              "div",
-              { staticClass: "column" },
-              [
-                _c("div", { staticClass: "has-text-weight-bold" }, [
-                  _vm._v("BUDGETING"),
-                ]),
-                _vm._v(" "),
-                _c("div", {}, [
-                  _vm._v(
-                    "USED BUDGET: " +
-                      _vm._s(
-                        _vm._f("numberWithCommas")(_vm.budgetingUsedBudget)
-                      )
-                  ),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Allotment Class",
-                      "label-position": "on-border",
-                      expanded: "",
-                    },
-                  },
-                  [
-                    _c(
-                      "b-select",
-                      {
-                        attrs: { expanded: "" },
-                        on: { input: _vm.loadAllotmentBudgeting },
-                        model: {
-                          value: _vm.search.allotment_budgeting,
-                          callback: function ($$v) {
-                            _vm.$set(_vm.search, "allotment_budgeting", $$v)
-                          },
-                          expression: "search.allotment_budgeting",
-                        },
-                      },
-                      _vm._l(_vm.allotmentClasses, function (allot, ix) {
-                        return _c(
-                          "option",
-                          {
-                            key: "allotclass" + ix,
-                            domProps: { value: allot.allotment_class_id },
-                          },
-                          [_vm._v(_vm._s(allot.allotment_class))]
-                        )
-                      }),
-                      0
-                    ),
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("div", [
-                  _c(
-                    "table",
-                    { staticClass: "table" },
-                    [
-                      _vm._m(2),
-                      _vm._v(" "),
-                      _vm._l(_vm.allotmentBudgeting, function (item, index) {
-                        return _c("tr", { key: "budgeting" + index }, [
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.allotment_class) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.allotment_class_account) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.allotment_class_budget
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.financial_budget
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(item.balance)
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(item.amount)
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                        ])
-                      }),
-                    ],
-                    2
-                  ),
-                ]),
-              ],
-              1
-            ),
-          ]),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
-            _c(
-              "div",
-              { staticClass: "column" },
-              [
-                _c("div", { staticClass: "has-text-weight-bold" }, [
-                  _vm._v("PROCUREMENT"),
-                ]),
-                _vm._v(" "),
-                _c("div", {}, [
-                  _vm._v(
-                    "USED BUDGET: " +
-                      _vm._s(
-                        _vm._f("numberWithCommas")(_vm.procurementUsedBudget)
-                      )
-                  ),
-                ]),
-                _vm._v(" "),
-                _c(
-                  "b-field",
-                  {
-                    attrs: {
-                      label: "Allotment Class",
-                      "label-position": "on-border",
-                      expanded: "",
-                    },
-                  },
-                  [
-                    _c(
-                      "b-select",
-                      {
-                        attrs: { expanded: "" },
-                        on: { input: _vm.loadAllotmentProcurement },
-                        model: {
-                          value: _vm.search.allotment_procurement,
-                          callback: function ($$v) {
-                            _vm.$set(_vm.search, "allotment_procurement", $$v)
-                          },
-                          expression: "search.allotment_procurement",
-                        },
-                      },
-                      _vm._l(_vm.allotmentProcurement, function (allot, ix) {
-                        return _c(
-                          "option",
-                          {
-                            key: "allotclass" + ix,
-                            domProps: { value: allot.allotment_class_id },
-                          },
-                          [_vm._v(_vm._s(allot.allotment_class))]
-                        )
-                      }),
-                      0
-                    ),
-                  ],
-                  1
-                ),
-                _vm._v(" "),
-                _c("div", [
-                  _c(
-                    "table",
-                    { staticClass: "table" },
-                    [
-                      _vm._m(3),
-                      _vm._v(" "),
-                      _vm._l(_vm.allotmentBudgeting, function (item, index) {
-                        return _c("tr", { key: "budgeting" + index }, [
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.allotment_class) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(item.allotment_class_account) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.allotment_class_budget
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.financial_budget
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(item.balance)
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(item.amount)
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                        ])
-                      }),
-                    ],
-                    2
-                  ),
-                ]),
-              ],
-              1
-            ),
-          ]),
-          _vm._v(" "),
-          _c("hr"),
-          _vm._v(" "),
-          _c("div", { staticClass: "columns" }, [
             _c("div", { staticClass: "column" }, [
               _c("div", { staticClass: "has-text-weight-bold is-size-4" }, [
                 _vm._v(
@@ -55199,6 +54832,8 @@ var staticRenderFns = [
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
     return _c("tr", [
+      _c("th", [_vm._v("Document")]),
+      _vm._v(" "),
       _c("th", [_vm._v("Allotment Class")]),
       _vm._v(" "),
       _c("th", [_vm._v("Allotment Account")]),
@@ -55224,42 +54859,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Priority Program Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Priority Program Balance")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Allotment Class")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Allotment Account")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Allotment Budget")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Financial Budget")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Balance")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Amount")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("tr", [
-      _c("th", [_vm._v("Allotment Class")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Allotment Account")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Allotment Budget")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Financial Budget")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Balance")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Amount")]),
     ])
   },
 ]

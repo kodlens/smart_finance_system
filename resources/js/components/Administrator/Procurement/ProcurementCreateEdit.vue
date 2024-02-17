@@ -4,7 +4,7 @@
             <div class="columns is-centered">
                 <div class="column is-8-desktop is-10-tablet">
                     <div class="box">
-                        <div class="has-text-weight-bold">ADD/EDIT RECORD</div>
+                        <div class="has-text-weight-bold">ADD/EDIT RECORD ()DEBUG</div>
 
                         <div class="mt-2">
 
@@ -99,10 +99,11 @@
                             <div class="columns">
                                 <div class="column">
                                     <b-field label="Total Amount"
-                                            :type="errors.pr_amount ? 'is-danger':''"
-                                            :message="errors.pr_amount ? errors.pr_amount[0] : ''">
+                                        :type="errors.pr_amount ? 'is-danger':''"
+                                        :message="errors.pr_amount ? errors.pr_amount[0] : ''">
                                         <b-numberinput placholder="Total Amount"
-                                            :controls="false" step="0.0001"
+                                            :controls="false" 
+                                            step="0.0001"
                                             v-model="fields.pr_amount">
                                         </b-numberinput>
                                     </b-field>
@@ -190,25 +191,25 @@
                                     <div class="columns">
                                         <div class="column">
                                             <b-field label="Allotment Class" label-position="on-border"
-                                                    expanded
-                                                    :type="errors.allotment_class_id ? 'is-danger':''"
-                                                    :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
+                                                expanded
+                                                :type="errors.allotment_class_id ? 'is-danger':''"
+                                                :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
                                                 <b-select v-model="item.allotment_class_id"
-                                                          expanded>
+                                                    expanded>
                                                     <option v-for="(allot, ix) in allotmentClasses"
-                                                            :key="`allotclass${ix}`"
-                                                            :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
+                                                        :key="`allotclass${ix}`"
+                                                        :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
                                                 </b-select>
                                             </b-field>
                                         </div>
                                         <div class="column">
                                             <b-field label="Account" label-position="on-border"
-                                                     :type="errors.allotment_class_account_id ? 'is-danger':''"
-                                                     :message="errors.allotment_class_account_id ? errors.allotment_class_account_id[0] : ''">
-                                                <modal-browse-allotment-class-account
-                                                    :prop-class-id="item.allotment_class_id"
-                                                    :prop-allotment-account="item.allotment"
-                                                    @browseAllotmentAccount="emitAllotmentAccount(index, $event)"></modal-browse-allotment-class-account>
+                                                :type="errors.allotment_class_account_id ? 'is-danger':''"
+                                                :message="errors.allotment_class_account_id ? errors.allotment_class_account_id[0] : ''">
+                                            <modal-browse-allotment-class-account
+                                                :prop-class-id="item.allotment_class_id"
+                                                :prop-allotment-account="item.allotment"
+                                                @browseAllotmentAccount="emitAllotmentAccount(index, $event)"></modal-browse-allotment-class-account>
                                             </b-field>
                                         </div>
                                     </div>
@@ -216,10 +217,11 @@
                                     <div class="columns">
                                         <div class="column">
                                             <b-field label="Amount" label-position="on-border"
-                                                     :type="errors.amount ? 'is-danger':''"
-                                                     :message="errors.amount ? errors.amount[0] : ''">
+                                                :type="errors.amount ? 'is-danger':''"
+                                                :message="errors.amount ? errors.amount[0] : ''">
                                                 <b-numberinput
                                                     v-model="item.amount"
+                                                    @blur="computeTotalAmount"
                                                     :controls="false"
                                                     step="0.0001">
                                                 </b-numberinput>
@@ -480,8 +482,6 @@ export default{
         },
 
         emitPriorityProgram(row){
-            console.log(row);
-
             this.fields.priority_program = "(" + row.priority_program_code + ") " + row.priority_program
             this.fields.priority_program_id = row.priority_program_id
         },
@@ -652,7 +652,6 @@ export default{
 
 
         clearChargeTo(){
-            console.log('clear');
             this.fields.allotment_classes = []
         },
 
@@ -667,7 +666,7 @@ export default{
             this.fields.transaction_type_id = 1
 
             this.fields.particulars = 'Sample particulars'
-            this.fields.pr_amount = 10000
+            this.fields.pr_amount = 0
             this.fields.pr_no = 'PR112233'
             this.fields.pr_status = 'Status sample of PR'
 
@@ -740,6 +739,15 @@ export default{
         },
 
 
+        computeTotalAmount(){
+
+            let total = 0;
+
+            this.fields.allotment_classes.forEach((item, index) =>{
+               total += item.amount
+            });
+            this.fields.pr_amount = total
+        }
 
     },
 
@@ -749,7 +757,6 @@ export default{
         if(this.id > 0){
             this.getData()
         }
-
 
         this.loadTransactionTypes()
         this.loadDocumentaryAttachments()

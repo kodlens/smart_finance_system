@@ -65,8 +65,8 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="procurement_id" label="ID" v-slot="props">
-                                {{ props.row.procurement_id }}
+                            <b-table-column field="Id" label="ID" v-slot="props">
+                                {{ props.row.accounting_id }}
                             </b-table-column>
 
                             <b-table-column field="date_time" label="Date & Time" v-slot="props">
@@ -78,7 +78,7 @@
                             </b-table-column>
 
                             <b-table-column field="pr_number" label="PR No" v-slot="props">
-                                {{ props.row.pr_number }}
+                                {{ props.row.pr_no }}
                             </b-table-column>
 
                             <b-table-column field="payee" label="Payee" v-slot="props">
@@ -86,7 +86,7 @@
                             </b-table-column>
                             
                             <b-table-column field="pr_amount" label="PR Amount" v-slot="props">
-                                {{ props.row.pr_amount }}
+                                {{ props.row.total_amount | numberWithCommas }}
                             </b-table-column>
 
                             <b-table-column field="particulars" label="Particulars" v-slot="props">
@@ -100,12 +100,12 @@
                                         <b-button class="button is-small is-warning mr-1 is-outlined" 
                                             tag="a" 
                                             icon-right="pencil" 
-                                            :href="`/procurements/${props.row.procurement_id}/edit`"></b-button>
+                                            :href="`/procurements/${props.row.accounting_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
                                         <b-button class="button is-small is-danger mr-1 is-outlined" 
                                             icon-right="delete"
-                                            @click="confirmDelete(props.row.procurement_id)"></b-button>
+                                            @click="confirmDelete(props.row.accounting_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>

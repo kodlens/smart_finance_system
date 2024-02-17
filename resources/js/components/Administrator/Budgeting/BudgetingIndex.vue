@@ -19,7 +19,6 @@
                                     <b-select v-model="sortOrder" @input="loadAsyncData">
                                         <option value="asc">ASC</option>
                                         <option value="desc">DESC</option>
-
                                     </b-select>
                                 </b-field>
                             </div>
@@ -66,8 +65,8 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="budgeting_id" label="ID" v-slot="props">
-                                {{ props.row.budgeting_id }}
+                            <b-table-column field="accounting_id" label="ID" v-slot="props">
+                                {{ props.row.accounting_id }}
                             </b-table-column>
 
                             <b-table-column field="date_time" label="Date & Time" v-slot="props">
@@ -93,10 +92,11 @@
                                         <b-button class="button is-small is-warning mr-1"
                                             tag="a"
                                             icon-right="pencil"
-                                            :href="`/budgeting/${props.row.budgeting_id}/edit`"></b-button>
+                                            :href="`/budgeting/${props.row.accounting_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.budgeting_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1" icon-right="delete" 
+                                            @click="confirmDelete(props.row.accounting_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
