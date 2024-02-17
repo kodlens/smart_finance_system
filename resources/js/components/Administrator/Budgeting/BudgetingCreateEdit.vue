@@ -692,11 +692,11 @@ export default{
                 this.fields.total_amount = result.total_amount
 
                 //attachments
-                result.budgeting_documentary_attachments.forEach(item => {
+                result.accounting_documentary_attachments.forEach(item => {
                     this.fields.documentary_attachments.push({
                         documentary_attachment_id: item.documentary_attachment_id,
-                        budgeting_documentary_attachment_id: item.accounting_documentary_attachment_id,
-                        budgeting_id: item.budgeting_id,
+                        accounting_documentary_attachment_id: item.accounting_documentary_attachment_id,
+                        accounting_id: item.accounting_id,
                     });
                 })
 
@@ -705,7 +705,7 @@ export default{
                 this.loadAllotmentClasses().then(()=>{
                     result.accounting_allotment_classes.forEach(item => {
                         this.fields.allotment_classes.push({
-                            budgeting_allotment_class_id: item.accounting_allotment_class_id,
+                            accounting_allotment_class_id: item.accounting_allotment_class_id,
                             allotment_class_id: item.allotment_class_id,
                             allotment_class_account_id: item.allotment_class_account_id,
                             amount: item.amount,

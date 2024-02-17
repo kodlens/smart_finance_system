@@ -10749,18 +10749,18 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this9.fields.particulars = result.particulars;
         _this9.fields.total_amount = result.total_amount; //attachments
 
-        result.budgeting_documentary_attachments.forEach(function (item) {
+        result.accounting_documentary_attachments.forEach(function (item) {
           _this9.fields.documentary_attachments.push({
             documentary_attachment_id: item.documentary_attachment_id,
-            budgeting_documentary_attachment_id: item.accounting_documentary_attachment_id,
-            budgeting_id: item.budgeting_id
+            accounting_documentary_attachment_id: item.accounting_documentary_attachment_id,
+            accounting_id: item.accounting_id
           });
         }); //async call
 
         _this9.loadAllotmentClasses().then(function () {
           result.accounting_allotment_classes.forEach(function (item) {
             _this9.fields.allotment_classes.push({
-              budgeting_allotment_class_id: item.accounting_allotment_class_id,
+              accounting_allotment_class_id: item.accounting_allotment_class_id,
               allotment_class_id: item.allotment_class_id,
               allotment_class_account_id: item.allotment_class_account_id,
               amount: item.amount,
