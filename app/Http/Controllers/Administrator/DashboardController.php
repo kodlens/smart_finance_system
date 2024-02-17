@@ -200,4 +200,41 @@ class DashboardController extends Controller
 
         return $data;
     }
+
+
+    // /validate-qr/{qrcode}
+    // domain.com/validate-qr/{qrcode}
+    // public function validateQRCode($qrcode){
+
+    //     //check qrcode validation
+
+    //     $data = ParkReservation::with(['user','park'])->where('qr_ref', $qrcode);
+       
+
+    //     $checkQR = $data->exists(); //return 1,0
+    //     $userData = $data->first(); //return data
+    //     $ip = $userData->park->device_ip; //pagkuha sa IP sa device
+
+
+    //     //return 1,0
+    //     //middleware application
+    //     if($checkQR){
+    //         //true logic
+    //         // /middleware-device/on
+    //          $ip . '/on';
+            
+
+    //     }else{
+    //         //false logic
+    //     }
+    // }
+
+
+
+    // //php script apache htdocs
+    // $ip = $_GET['ip'];
+    // $status = $_GET['status'];
+
+
+    // $ip . '/' . $status;
 }
