@@ -66,6 +66,8 @@
                                 <table class="table is-narrow is-fullwidth">
                                     <tr>
                                         <th>Document</th>
+                                        <th>Service Budget</th>
+                                        <th>Service Balance</th>
                                         <th>Allotment Class</th>
                                         <th>Allotment Account</th>
                                         <th>Allotment Allocated Budget</th>
@@ -80,6 +82,12 @@
                                     <tr v-for="(item, index) in allotmentAccounting" :key="`allotment${index}`">
                                         <td>
                                             {{ item.doc_type }}
+                                        </td>
+                                        <td>
+                                            {{ item.service_budget }}
+                                        </td>
+                                        <td>
+                                            {{ item.service_balance }}
                                         </td>
                                         <td>
                                             {{ item.allotment_class }}

@@ -69,6 +69,9 @@
                     <b-navbar-item href="/financial-years">
                         Financial Years
                     </b-navbar-item>
+                    <b-navbar-item href="/services">
+                        Services
+                    </b-navbar-item>
                     <b-navbar-item href="/allotment-classes">
                         Allotment Class
                     </b-navbar-item>

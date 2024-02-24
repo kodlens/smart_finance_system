@@ -23,7 +23,9 @@ class CreateServicesTable extends Migration
             $table->double('budget')->nullable()
                 ->default(0);
 
-
+            $table->double('balance')->nullable()
+                ->default(0);
+                
             $table->timestamps();
         });
     }

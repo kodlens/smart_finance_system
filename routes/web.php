@@ -110,6 +110,9 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/priority-programs', App\Http\Controllers\Administrator\PriorityProgramController::class);
     Route::get('/get-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getData']);
 
+    Route::resource('/services', App\Http\Controllers\Administrator\ServiceController::class);
+    Route::get('/get-services', [App\Http\Controllers\Administrator\ServiceController::class, 'getData']);
+
 
 
     Route::resource('/supplier-payee', App\Http\Controllers\Administrator\PayeeController::class);

@@ -126,6 +126,9 @@ class DashboardController extends Controller
 
         $data = DB::select('
             SELECT
+            g.service,
+            g.budget as service_budget,
+            g.balance as service_balance,
             b.doc_type,
             b.transaction_no,
             e.financial_year_id,
@@ -156,6 +159,7 @@ class DashboardController extends Controller
             JOIN allotment_class_accounts d ON a.allotment_class_account_id = d.allotment_class_account_id
             JOIN financial_years e ON b.financial_year_id = e.financial_year_id
             JOIN priority_programs f ON b.priority_program_id = f.priority_program_id
+            LEFT JOIN services g ON b.doc_type = g.service
             WHERE e.financial_year_id = ? AND a.allotment_class_id = ?
             ', [$financialId, $allotmentId]);
 
@@ -164,7 +168,8 @@ class DashboardController extends Controller
     //compute utilize budget of accounting
     public function loadAccountingUtilizations(Request $req, $financialId){
 
-        $data = Accounting::where('financial_year_id', $financialId)
+        $data = Accounting::with(['service'])
+            ->where('financial_year_id', $financialId)
             ->sum('total_amount');
 
         return $data;

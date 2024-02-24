@@ -67,7 +67,12 @@ class Accounting extends Model
     public function financial_year(){
         return $this->hasMany(FinancialYear::class, 'financial_year_id', 'financial_year_id');
     }
+    
+    public function service(){
+        return $this->hasMany(Service::class, 'service', 'doc_type');
+    }
 
+    
     public function fund_source(){
         return $this->hasOne(FundSource::class, 'fund_source_id', 'fund_source_id');
     }
