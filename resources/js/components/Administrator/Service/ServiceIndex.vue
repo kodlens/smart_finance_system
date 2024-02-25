@@ -136,7 +136,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">Financial Year</p>
+                        <p class="modal-card-title">Service Budget</p>
                         <button
                             type="button"
                             class="delete"
@@ -165,36 +165,39 @@
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Financial Year Code" label-position="on-border"
-                                             :type="errors.service ? 'is-danger':''"
-                                             :message="errors.service ? errors.service[0] : ''">
-                                        <b-input v-model="fields.service"
-                                            placeholder="Financial Year Code" required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Service Budget" label-position="on-border"
+                                    <b-field label="Financial Budget" label-position="on-border"
                                         :type="errors.budget ? 'is-danger':''"
                                         :message="errors.budget ? errors.budget[0] : ''">
-                                        <b-input v-model="fields.budget"
+                                        <b-input v-model="fields.budget" readonly
                                             placeholder="Financial Budget" required>
                                         </b-input>
                                     </b-field>
                                 </div>
                             </div>
 
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Financial Balance" label-position="on-border"
+                                        :type="errors.balance ? 'is-danger':''"
+                                        :message="errors.balance ? errors.balance[0] : ''">
+                                        <b-input v-model="fields.balance"
+                                            placeholder="Financial Balance" required>
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Active">
-                                        <b-checkbox v-model="fields.active"
-                                            :true-value="1"
-                                            :false-value="0">
-                                        </b-checkbox>
+                                    <b-field label="Service" label-position="on-border"
+                                        :type="errors.service ? 'is-danger':''"
+                                        :message="errors.service ? errors.service[0] : ''">
+                                        <b-select v-model="fields.service"
+                                            placeholder="Service" required>
+                                            <option value="ACCOUNTING">ACCOUNTING</option>
+                                            <option value="BUDGETING">BUDGETING</option>
+                                            <option value="PROCUREMENT">PROCUREMENT</option>
+                                        </b-select>
                                     </b-field>
                                 </div>
                             </div>
@@ -244,8 +247,11 @@ export default{
             isModalCreate: false,
 
             fields: {
+                financial_year: {
+                    financial_year_id: null,
+                    financial_budget: null,
+                },
                 service: null,
-                financial_year_id: null,
                 budget : null,
                 balance: null
             },
@@ -331,9 +337,22 @@ export default{
 
         submit: function(){
 
+            let obj = {
+                service: this.fields.service,
+                financial_year_id: this.fields.financial_year.financial_year_id,
+                budget: this.fields.budget,
+            }
+
             if(this.global_id > 0){
                 //update
-                axios.put('/services/'+this.global_id, this.fields).then(res=>{
+                let obj = {
+                    service: this.fields.service,
+                    financial_year_id: this.fields.financial_year.financial_year_id,
+                    budget: this.fields.budget,
+                    balance: this.fields.balance,
+
+                }
+                axios.put('/services/'+this.global_id, obj).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -354,7 +373,13 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/services', this.fields).then(res=>{
+                let obj = {
+                    service: this.fields.service,
+                    financial_year_id: this.fields.financial_year.financial_year_id,
+                    budget: this.fields.budget,
+                }
+               
+                axios.post('/services', obj).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -402,9 +427,13 @@ export default{
 
         clearFields(){
             this.global_id = 0;
-            this.fields.financial_year_code = '';
-            this.fields.financial_year_desc = '';
-            this.fields.active = 0;
+            this.fields.financial_year.financial_year_id = null;
+            this.fields.financial_year.financial_budget = null;
+
+            this.fields.service = null;
+            this.fields.balance = null;
+            this.fields.budget = null;
+
         },
 
 
@@ -414,8 +443,16 @@ export default{
             this.global_id = data_id;
             this.isModalCreate = true;
 
-            axios.get('/services/'+data_id).then(res=>{
-                this.fields = res.data;
+            axios.get('/services/'+ data_id).then(res=>{
+                //this.fields = res.data;
+
+                console.log(res.data);
+                this.fields.financial_year.financial_year_id = res.data.financial_year.financial_year_id
+                this.fields.financial_year.financial_budget = res.data.financial_year.financial_budget;
+
+                this.fields.budget = res.data.budget
+                this.fields.balance = res.data.balance
+                this.fields.service = res.data.service
                 
             });
         },
@@ -429,6 +466,11 @@ export default{
                 this.financialYears = res.data;
             })
         },
+
+        assignBudget(){
+            //console.log(thiis.field);
+            this.fields.budget = this.fields.financial_year.financial_budget;
+        }
 
 
 

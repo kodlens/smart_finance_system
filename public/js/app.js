@@ -13888,6 +13888,9 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -13906,8 +13909,11 @@ __webpack_require__.r(__webpack_exports__);
       },
       isModalCreate: false,
       fields: {
+        financial_year: {
+          financial_year_id: null,
+          financial_budget: null
+        },
         service: null,
-        financial_year_id: null,
         budget: null,
         balance: null
       },
@@ -13975,9 +13981,21 @@ __webpack_require__.r(__webpack_exports__);
     submit: function submit() {
       var _this2 = this;
 
+      var obj = {
+        service: this.fields.service,
+        financial_year_id: this.fields.financial_year.financial_year_id,
+        budget: this.fields.budget
+      };
+
       if (this.global_id > 0) {
         //update
-        axios.put('/services/' + this.global_id, this.fields).then(function (res) {
+        var _obj = {
+          service: this.fields.service,
+          financial_year_id: this.fields.financial_year.financial_year_id,
+          budget: this.fields.budget,
+          balance: this.fields.balance
+        };
+        axios.put('/services/' + this.global_id, _obj).then(function (res) {
           if (res.data.status === 'updated') {
             _this2.$buefy.dialog.alert({
               title: 'UPDATED!',
@@ -14000,7 +14018,12 @@ __webpack_require__.r(__webpack_exports__);
         });
       } else {
         //INSERT HERE
-        axios.post('/services', this.fields).then(function (res) {
+        var _obj2 = {
+          service: this.fields.service,
+          financial_year_id: this.fields.financial_year.financial_year_id,
+          budget: this.fields.budget
+        };
+        axios.post('/services', _obj2).then(function (res) {
           if (res.data.status === 'saved') {
             _this2.$buefy.dialog.alert({
               title: 'SAVED!',
@@ -14054,9 +14077,11 @@ __webpack_require__.r(__webpack_exports__);
     },
     clearFields: function clearFields() {
       this.global_id = 0;
-      this.fields.financial_year_code = '';
-      this.fields.financial_year_desc = '';
-      this.fields.active = 0;
+      this.fields.financial_year.financial_year_id = null;
+      this.fields.financial_year.financial_budget = null;
+      this.fields.service = null;
+      this.fields.balance = null;
+      this.fields.budget = null;
     },
     //update code here
     getData: function getData(data_id) {
@@ -14066,7 +14091,13 @@ __webpack_require__.r(__webpack_exports__);
       this.global_id = data_id;
       this.isModalCreate = true;
       axios.get('/services/' + data_id).then(function (res) {
-        _this5.fields = res.data;
+        //this.fields = res.data;
+        console.log(res.data);
+        _this5.fields.financial_year.financial_year_id = res.data.financial_year.financial_year_id;
+        _this5.fields.financial_year.financial_budget = res.data.financial_year.financial_budget;
+        _this5.fields.budget = res.data.budget;
+        _this5.fields.balance = res.data.balance;
+        _this5.fields.service = res.data.service;
       });
     },
     numberWithCommas: function numberWithCommas(x) {
@@ -14078,6 +14109,10 @@ __webpack_require__.r(__webpack_exports__);
       axios.get('/load-financial-years').then(function (res) {
         _this6.financialYears = res.data;
       });
+    },
+    assignBudget: function assignBudget() {
+      //console.log(thiis.field);
+      this.fields.budget = this.fields.financial_year.financial_budget;
     }
   },
   mounted: function mounted() {
@@ -53497,7 +53532,7 @@ var render = function () {
               _c("div", { staticClass: "modal-card" }, [
                 _c("header", { staticClass: "modal-card-head" }, [
                   _c("p", { staticClass: "modal-card-title" }, [
-                    _vm._v("Financial Year"),
+                    _vm._v("Service Budget"),
                   ]),
                   _vm._v(" "),
                   _c("button", {
@@ -53600,46 +53635,7 @@ var render = function () {
                             "b-field",
                             {
                               attrs: {
-                                label: "Financial Year Code",
-                                "label-position": "on-border",
-                                type: _vm.errors.service ? "is-danger" : "",
-                                message: _vm.errors.service
-                                  ? _vm.errors.service[0]
-                                  : "",
-                              },
-                            },
-                            [
-                              _c("b-input", {
-                                attrs: {
-                                  placeholder: "Financial Year Code",
-                                  required: "",
-                                },
-                                model: {
-                                  value: _vm.fields.service,
-                                  callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "service", $$v)
-                                  },
-                                  expression: "fields.service",
-                                },
-                              }),
-                            ],
-                            1
-                          ),
-                        ],
-                        1
-                      ),
-                    ]),
-                    _vm._v(" "),
-                    _c("div", { staticClass: "columns" }, [
-                      _c(
-                        "div",
-                        { staticClass: "column" },
-                        [
-                          _c(
-                            "b-field",
-                            {
-                              attrs: {
-                                label: "Service Budget",
+                                label: "Financial Budget",
                                 "label-position": "on-border",
                                 type: _vm.errors.budget ? "is-danger" : "",
                                 message: _vm.errors.budget
@@ -53650,6 +53646,7 @@ var render = function () {
                             [
                               _c("b-input", {
                                 attrs: {
+                                  readonly: "",
                                   placeholder: "Financial Budget",
                                   required: "",
                                 },
@@ -53676,18 +53673,91 @@ var render = function () {
                         [
                           _c(
                             "b-field",
-                            { attrs: { label: "Active" } },
+                            {
+                              attrs: {
+                                label: "Financial Balance",
+                                "label-position": "on-border",
+                                type: _vm.errors.balance ? "is-danger" : "",
+                                message: _vm.errors.balance
+                                  ? _vm.errors.balance[0]
+                                  : "",
+                              },
+                            },
                             [
-                              _c("b-checkbox", {
-                                attrs: { "true-value": 1, "false-value": 0 },
+                              _c("b-input", {
+                                attrs: {
+                                  placeholder: "Financial Balance",
+                                  required: "",
+                                },
                                 model: {
-                                  value: _vm.fields.active,
+                                  value: _vm.fields.balance,
                                   callback: function ($$v) {
-                                    _vm.$set(_vm.fields, "active", $$v)
+                                    _vm.$set(_vm.fields, "balance", $$v)
                                   },
-                                  expression: "fields.active",
+                                  expression: "fields.balance",
                                 },
                               }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Service",
+                                "label-position": "on-border",
+                                type: _vm.errors.service ? "is-danger" : "",
+                                message: _vm.errors.service
+                                  ? _vm.errors.service[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c(
+                                "b-select",
+                                {
+                                  attrs: {
+                                    placeholder: "Service",
+                                    required: "",
+                                  },
+                                  model: {
+                                    value: _vm.fields.service,
+                                    callback: function ($$v) {
+                                      _vm.$set(_vm.fields, "service", $$v)
+                                    },
+                                    expression: "fields.service",
+                                  },
+                                },
+                                [
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "ACCOUNTING" } },
+                                    [_vm._v("ACCOUNTING")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "BUDGETING" } },
+                                    [_vm._v("BUDGETING")]
+                                  ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "option",
+                                    { attrs: { value: "PROCUREMENT" } },
+                                    [_vm._v("PROCUREMENT")]
+                                  ),
+                                ]
+                              ),
                             ],
                             1
                           ),
