@@ -686,6 +686,7 @@ export default{
 
             axios.get('/accounting/' + this.id).then(res=>{
                 const result = res.data
+                console.log(result.accounting_allotment_classes);
 
                 this.fields.accounting_id = result.accounting_id
                 this.fields.financial_year_id = result.financial_year_id
@@ -705,13 +706,16 @@ export default{
                 this.fields.total_amount = Number(result.total_amount)
 
                 //attachments
-                result.acctg_documentary_attachments.forEach(item => {
-                    this.fields.documentary_attachments.push({
-                        documentary_attachment_id: item.documentary_attachment_id,
-                        acctg_doc_attachment_id: item.acctg_doc_attachment_id,
-                        accounting_id: item.accounting_id,
-                    });
-                })
+                if(result.accounting_documentary_attachments.length > 0){
+                    result.acctg_documentary_attachments.forEach(item => {
+                        this.fields.documentary_attachments.push({
+                            documentary_attachment_id: item.documentary_attachment_id,
+                            acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+                            accounting_id: item.accounting_id,
+                        });
+                    })
+                }
+               
 
 
                 //async call

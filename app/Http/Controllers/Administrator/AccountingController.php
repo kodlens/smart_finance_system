@@ -203,11 +203,27 @@ class AccountingController extends Controller
         $data->transaction_type_id =  $req->transaction_type_id;
         $data->payee_id =  $req->payee_id;
         $data->particulars =  $req->particulars;
+        //if e modify ang account, ebalik ang budget
+        $balik = (float)$data->total_amount -  (float)$req->total_amount;
+
         $data->total_amount =  (float)$req->total_amount;
+
         $data->priority_program_id =  $req->priority_program_id ? $req->priority_program_id : null;
         $data->office_id =  $req->office_id;
         $data->others =  $req->others;
         $data->save();
+
+        //return $data->total_amount;
+
+
+        $financial = FinancialYear::find($req->financial_year_id);
+        $financial->decrement('balance', $balik);
+        $financial->save();
+
+        $service = Service::where('service', 'ACCOUNTING')->first();
+        $service->decrement('balance', $balik);
+        $service->save();
+
 
 
         if($req->has('documentary_attachments')){

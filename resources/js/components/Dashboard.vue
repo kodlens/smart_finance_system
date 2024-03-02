@@ -84,10 +84,10 @@
                                             {{ item.doc_type }}
                                         </td>
                                         <td>
-                                            {{ item.service_budget }}
+                                            {{ item.service_budget | numberWithCommas }}
                                         </td>
                                         <td>
-                                            {{ item.service_balance }}
+                                            {{ item.service_balance | numberWithCommas }}
                                         </td>
                                         <td>
                                             {{ item.allotment_class }}

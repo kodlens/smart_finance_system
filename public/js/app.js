@@ -8625,6 +8625,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
       axios.get('/accounting/' + this.id).then(function (res) {
         var result = res.data;
+        console.log(result.accounting_allotment_classes);
         _this9.fields.accounting_id = result.accounting_id;
         _this9.fields.financial_year_id = result.financial_year_id;
         _this9.fields.fund_source_id = result.fund_source_id;
@@ -8637,13 +8638,16 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this9.fields.particulars = result.particulars;
         _this9.fields.total_amount = Number(result.total_amount); //attachments
 
-        result.acctg_documentary_attachments.forEach(function (item) {
-          _this9.fields.documentary_attachments.push({
-            documentary_attachment_id: item.documentary_attachment_id,
-            acctg_doc_attachment_id: item.acctg_doc_attachment_id,
-            accounting_id: item.accounting_id
+        if (result.accounting_documentary_attachments.length > 0) {
+          result.acctg_documentary_attachments.forEach(function (item) {
+            _this9.fields.documentary_attachments.push({
+              documentary_attachment_id: item.documentary_attachment_id,
+              acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+              accounting_id: item.accounting_id
+            });
           });
-        }); //async call
+        } //async call
+
 
         _this9.loadAllotmentClasses().then(function () {
           result.accounting_allotment_classes.forEach(function (item) {
@@ -56016,7 +56020,11 @@ var render = function () {
                             _c("td", [
                               _vm._v(
                                 "\n                                        " +
-                                  _vm._s(item.service_budget) +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      item.service_budget
+                                    )
+                                  ) +
                                   "\n                                    "
                               ),
                             ]),
@@ -56024,7 +56032,11 @@ var render = function () {
                             _c("td", [
                               _vm._v(
                                 "\n                                        " +
-                                  _vm._s(item.service_balance) +
+                                  _vm._s(
+                                    _vm._f("numberWithCommas")(
+                                      item.service_balance
+                                    )
+                                  ) +
                                   "\n                                    "
                               ),
                             ]),

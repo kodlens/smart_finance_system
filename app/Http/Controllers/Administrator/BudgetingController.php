@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Storage;
 use App\Models\PriorityProgram;
 use App\Models\AllotmentClass;
 use App\Models\AllotmentClassAccount;
+use App\Models\Service;
 
 class BudgetingController extends Controller
 {
@@ -114,6 +115,10 @@ class BudgetingController extends Controller
         $finance = FinancialYear::find($req->financial_year_id);
         $finance->decrement('balance', (float)$req->total_amount);
         $finance->save();
+
+        $service = Service::where('service', 'BUDGETING')->first();
+        $service->decrement('balance', (float)$req->total_amount);
+        $service->save();
 
         $pp = PriorityProgram::find($req->priority_program_id);
         $pp->decrement('priority_program_balance', (float)$req->total_amount);
