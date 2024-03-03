@@ -40,11 +40,11 @@ class CreateAccountingsTable extends Migration
             $table->string('particulars')->nullable();
             $table->string('total_amount')->nullable();
 
-            $table->unsignedBigInteger('allotment_class_id')->default(0)
-                ->nullable();
-            $table->unsignedBigInteger('allotment_class_account_id')->default(0)
-                ->nullable();
-            $table->string('amount')->nullable();
+            // $table->unsignedBigInteger('allotment_class_id')->default(0)
+            //     ->nullable();
+            // $table->unsignedBigInteger('allotment_class_account_id')->default(0)
+            //     ->nullable();
+            //$table->string('amount')->nullable();
 
             $table->unsignedBigInteger('priority_program_id')->default(0)
                 ->nullable();

@@ -12654,6 +12654,8 @@ function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try
 
 function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -13015,10 +13017,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     }
   },
   data: function data() {
+    var _fields;
+
     return {
       financialYears: [],
       fundSources: [],
-      fields: {
+      fields: (_fields = {
         accounting_id: 0,
         financial_year_id: null,
         fund_source_id: null,
@@ -13032,21 +13036,9 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         documentary_attachments: [],
         allotment_classes: [],
         pr_amount: null,
-        // allotment_class_id: null,
-        // allotment_class_account_id: null,
-        // allotment_class_account: null,
-        // allotment_class_account_code: null,
-        // amount: null,
         priority_program_id: null,
-        priority_program: null,
-        // supplemental_budget: null,
-        // capital_outlay: null,
-        // account_payable: null,
-        // tes_trust_fund: null,
-        office_id: null,
-        office: null,
-        others: null
-      },
+        priority_program: null
+      }, _defineProperty(_fields, "allotment_classes", []), _defineProperty(_fields, "office_id", null), _defineProperty(_fields, "office", null), _defineProperty(_fields, "others", null), _fields),
       errors: {},
       transactionTypes: [],
       global_id: 0,
@@ -13293,12 +13285,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       this.fields.particulars = 'Sample particulars';
       this.fields.pr_amount = 0;
       this.fields.pr_no = 'PR112233';
-      this.fields.pr_status = 'Status sample of PR'; //this.fields.amount = 12000
-      // this.fields.supplemental_budget = 'sample supplemental'
-      // this.fields.capital_outlay = 'sample capital outlay'
-      // this.fields.account_payable = 'sample ap'
-      // this.fields.tes_trust_fund = 'tes trust fund'
-
+      this.fields.pr_status = 'Status sample of PR';
       this.fields.others = 'sample others';
     },
     getData: function getData() {
@@ -13316,37 +13303,36 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         _this9.fields.payee_id = result.payee_id;
         _this9.fields.particulars = result.particulars;
         _this9.fields.pr_amount = Number(result.pr_amount); //attachments
-
-        result.procurement_documentary_attachments.forEach(function (item) {
-          _this9.fields.documentary_attachments.push({
-            documentary_attachment_id: item.documentary_attachment_id,
-            acctg_doc_attachment_id: item.acctg_doc_attachment_id,
-            procurement_id: item.procurement_id
-          });
-        }); //async call
-
-        _this9.loadAllotmentClasses().then(function () {
-          result.procurement_allotment_classes.forEach(function (item) {
-            _this9.fields.allotment_classes.push({
-              procurement_allotment_class_id: item.procurement_allotment_class_id,
-              allotment_class_id: item.allotment_class_id,
-              allotment_class_account_id: item.allotment_class_account_id,
-              amount: item.amount,
-              //for viewing only
-              allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
-            });
-          });
-        }); //if has priority program
-
-
-        if (result.priority_program_id) {
-          _this9.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program;
-          _this9.fields.priority_program_id = result.priority_program_id;
-        }
-
-        _this9.fields.office_id = result.office.office_id;
-        _this9.fields.office = '(' + result.office.office + ') ' + result.office.description;
-        _this9.fields.others = result.others;
+        // if(result.procurement_documentary_attachments.length > 0){
+        //     result.procurement_documentary_attachments.forEach(item => {
+        //         this.fields.documentary_attachments.push({
+        //             documentary_attachment_id: item.documentary_attachment_id,
+        //             acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+        //             procurement_id: item.procurement_id,
+        //         });
+        //     })
+        // }
+        // //async call
+        // this.loadAllotmentClasses().then(()=>{
+        //     result.procurement_allotment_classes.forEach(item => {
+        //         this.fields.allotment_classes.push({
+        //             procurement_allotment_class_id: item.procurement_allotment_class_id,
+        //             allotment_class_id: item.allotment_class_id,
+        //             allotment_class_account_id: item.allotment_class_account_id,
+        //             amount: item.amount,
+        //             //for viewing only
+        //             allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+        //         });
+        //     })
+        // })
+        // //if has priority program
+        // if(result.priority_program_id){
+        //     this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
+        //     this.fields.priority_program_id = result.priority_program_id
+        // }
+        // this.fields.office_id = result.office.office_id
+        // this.fields.office = '(' + result.office.office + ') ' + result.office.description
+        // this.fields.others = result.others
       });
     },
     computeTotalAmount: function computeTotalAmount() {
@@ -51893,7 +51879,7 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "Total Amount",
+                            label: "Total Amount (PR Amount)",
                             type: _vm.errors.pr_amount ? "is-danger" : "",
                             message: _vm.errors.pr_amount
                               ? _vm.errors.pr_amount[0]

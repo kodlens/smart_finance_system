@@ -98,7 +98,7 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Total Amount"
+                                    <b-field label="Total Amount (PR Amount)"
                                         :type="errors.pr_amount ? 'is-danger':''"
                                         :message="errors.pr_amount ? errors.pr_amount[0] : ''">
                                         <b-numberinput placholder="Total Amount"
@@ -391,17 +391,9 @@ export default{
                 allotment_classes: [],
                 pr_amount: null,
 
-                // allotment_class_id: null,
-                // allotment_class_account_id: null,
-                // allotment_class_account: null,
-                // allotment_class_account_code: null,
-                // amount: null,
                 priority_program_id: null,
                 priority_program: null,
-                // supplemental_budget: null,
-                // capital_outlay: null,
-                // account_payable: null,
-                // tes_trust_fund: null,
+                allotment_classes: [],
 
                 office_id: null,
                 office: null,
@@ -670,11 +662,6 @@ export default{
             this.fields.pr_no = 'PR112233'
             this.fields.pr_status = 'Status sample of PR'
 
-            //this.fields.amount = 12000
-            // this.fields.supplemental_budget = 'sample supplemental'
-            // this.fields.capital_outlay = 'sample capital outlay'
-            // this.fields.account_payable = 'sample ap'
-            // this.fields.tes_trust_fund = 'tes trust fund'
             this.fields.others = 'sample others'
         },
 
@@ -702,38 +689,42 @@ export default{
                 this.fields.pr_amount = Number(result.pr_amount)
 
                 //attachments
-                result.procurement_documentary_attachments.forEach(item => {
-                    this.fields.documentary_attachments.push({
-                        documentary_attachment_id: item.documentary_attachment_id,
-                        acctg_doc_attachment_id: item.acctg_doc_attachment_id,
-                        procurement_id: item.procurement_id,
-                    });
-                })
 
-
-                //async call
-                this.loadAllotmentClasses().then(()=>{
-                    result.procurement_allotment_classes.forEach(item => {
-                        this.fields.allotment_classes.push({
-                            procurement_allotment_class_id: item.procurement_allotment_class_id,
-                            allotment_class_id: item.allotment_class_id,
-                            allotment_class_account_id: item.allotment_class_account_id,
-                            amount: item.amount,
-                            //for viewing only
-                            allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
-                        });
-                    })
-                })
+                // if(result.procurement_documentary_attachments.length > 0){
+                //     result.procurement_documentary_attachments.forEach(item => {
+                //         this.fields.documentary_attachments.push({
+                //             documentary_attachment_id: item.documentary_attachment_id,
+                //             acctg_doc_attachment_id: item.acctg_doc_attachment_id,
+                //             procurement_id: item.procurement_id,
+                //         });
+                //     })
+                // }
                 
-                //if has priority program
-                if(result.priority_program_id){
-                    this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
-                    this.fields.priority_program_id = result.priority_program_id
-                }
 
-                this.fields.office_id = result.office.office_id
-                this.fields.office = '(' + result.office.office + ') ' + result.office.description
-                this.fields.others = result.others
+
+                // //async call
+                // this.loadAllotmentClasses().then(()=>{
+                //     result.procurement_allotment_classes.forEach(item => {
+                //         this.fields.allotment_classes.push({
+                //             procurement_allotment_class_id: item.procurement_allotment_class_id,
+                //             allotment_class_id: item.allotment_class_id,
+                //             allotment_class_account_id: item.allotment_class_account_id,
+                //             amount: item.amount,
+                //             //for viewing only
+                //             allotment: '(' + item.allotment_class_account.allotment_class_account_code + ') ' + item.allotment_class_account.allotment_class_account
+                //         });
+                //     })
+                // })
+                
+                // //if has priority program
+                // if(result.priority_program_id){
+                //     this.fields.priority_program = "(" + result.priority_program.priority_program_code + ") " + result.priority_program.priority_program
+                //     this.fields.priority_program_id = result.priority_program_id
+                // }
+
+                // this.fields.office_id = result.office.office_id
+                // this.fields.office = '(' + result.office.office + ') ' + result.office.description
+                // this.fields.others = result.others
 
             })
         },

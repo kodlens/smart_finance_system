@@ -8,6 +8,8 @@ use App\Models\AccountingDocumentaryAttachment;
 use Illuminate\Http\Request;
 
 use App\Models\Accounting;
+
+
 use App\Models\FinancialYear;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -27,11 +29,17 @@ class ProcurementController extends Controller
 
 
     public function show($id){
-        $data = Procurement::with([
-            'payee',
-            'procurement_documentary_attachments.documentary_attachment',
-            'procurement_allotment_classes.allotment_class',
-            'procurement_allotment_classes.allotment_class_account',
+        // $data = Accounting::with([
+        //     'payee',
+        //     'procurement_documentary_attachments.documentary_attachment',
+        //     'procurement_allotment_classes.allotment_class',
+        //     'procurement_allotment_classes.allotment_class_account',
+        //     'priority_program', 'office'
+        // ])
+        //     ->find($id);
+        
+        $data = Accounting::with(['payee', 'accounting_documentary_attachments.documentary_attachment',
+            'accounting_allotment_classes.allotment_class', 'accounting_allotment_classes.allotment_class_account',
             'priority_program', 'office'
         ])
             ->find($id);
