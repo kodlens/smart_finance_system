@@ -111,13 +111,13 @@ class ProcurementController extends Controller
             'office_id' => $req->office_id
         ]);
 
-        $financial = FinancialYear::find($req->financial_year_id);
-        $financial->decrement('balance', (float)$req->total_amount);
-        $financial->save();
+        // $financial = FinancialYear::find($req->financial_year_id);
+        // $financial->decrement('balance', (float)$req->total_amount);
+        // $financial->save();
 
-        $pp = PriorityProgram::find($req->priority_program_id);
-        $pp->decrement('priority_program_balance', (float)$req->total_amount);
-        $pp->save();
+        // $pp = PriorityProgram::find($req->priority_program_id);
+        // $pp->decrement('priority_program_balance', (float)$req->total_amount);
+        // $pp->save();
 
         if($req->has('documentary_attachments')){
             foreach ($req->documentary_attachments as $item) {
