@@ -220,6 +220,7 @@
                                             <option value="PROCESSOR">PROCESSOR</option>
                                             <option value="BUDGET OFFICER">BUDGET OFFICER</option>
                                             <option value="PROCUREMENT OFFICER">PROCUREMENT OFFICER</option>
+                                            <option value="STAFF">STAFF</option>
                                         </b-select>
                                     </b-field>
                                 </div>

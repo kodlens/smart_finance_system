@@ -101,7 +101,7 @@
                                 </span>
                             </b-table-column>
 
-                            <b-table-column label="Action" v-slot="props">
+                            <b-table-column label="Action" v-slot="props" v-if="propUser.role !== 'STAFF'">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
                                         <b-button class="button is-small is-warning mr-1"
@@ -206,6 +206,15 @@
 <script>
 
 export default{
+
+    props: {
+        propUser: {
+            type: Object,
+            return: function(){
+                return {}
+            }
+        }
+    },
 
     data() {
         return{

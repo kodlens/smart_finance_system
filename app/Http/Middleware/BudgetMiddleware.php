@@ -19,7 +19,7 @@ class BudgetMiddleware
     {
         $role = Auth::user()->role;
        
-        if(in_array($role, ['BUDGET OFFICER', 'ADMINISTRATOR'])){
+        if(in_array($role, ['BUDGET OFFICER', 'ADMINISTRATOR', 'STAFF'])){
 
             $response = $next($request);
             $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');

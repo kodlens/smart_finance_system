@@ -19,7 +19,7 @@ class AccountingStaffMiddleware
     {
         $role = Auth::user()->role;
        
-        if($role === 'ACCOUNTING STAFF' || $role === 'ADMINISTRATOR'){
+        if($role === 'ACCOUNTING STAFF' || $role === 'ADMINISTRATOR' || $role === 'STAFF'){
 
             $response = $next($request);
             $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');

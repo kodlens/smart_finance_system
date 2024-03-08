@@ -8922,6 +8922,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    propUser: {
+      type: Object,
+      "return": function _return() {
+        return {};
+      }
+    }
+  },
   data: function data() {
     return {
       data: [],
@@ -14998,6 +15006,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
+//
 //
 //
 //
@@ -46164,99 +46173,109 @@ var render = function () {
                       ]),
                     }),
                     _vm._v(" "),
-                    _c("b-table-column", {
-                      attrs: { label: "Action" },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "default",
-                          fn: function (props) {
-                            return [
-                              _c(
-                                "div",
-                                { staticClass: "is-flex" },
-                                [
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Edit",
-                                        type: "is-warning",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-warning mr-1",
-                                        attrs: {
-                                          tag: "a",
-                                          "icon-right": "pencil",
-                                          href:
-                                            "/accounting/" +
-                                            props.row.accounting_id +
-                                            "/edit",
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Delete",
-                                        type: "is-danger",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-danger mr-1",
-                                        attrs: { "icon-right": "delete" },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.confirmDelete(
-                                              props.row.accounting_id
-                                            )
-                                          },
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  !props.row.processor_id > 0
-                                    ? _c(
-                                        "b-tooltip",
-                                        {
-                                          attrs: {
-                                            label: "Assign Processor",
-                                            type: "is-info",
-                                          },
-                                        },
-                                        [
-                                          _c("modal-button-browse-processor", {
+                    _vm.propUser.role !== "STAFF"
+                      ? _c("b-table-column", {
+                          attrs: { label: "Action" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "default",
+                                fn: function (props) {
+                                  return [
+                                    _c(
+                                      "div",
+                                      { staticClass: "is-flex" },
+                                      [
+                                        _c(
+                                          "b-tooltip",
+                                          {
                                             attrs: {
-                                              "props-accounting-id":
-                                                props.row.accounting_id,
+                                              label: "Edit",
+                                              type: "is-warning",
                                             },
-                                            on: {
-                                              browseProcessor:
-                                                _vm.emitBrowserProcessor,
+                                          },
+                                          [
+                                            _c("b-button", {
+                                              staticClass:
+                                                "button is-small is-warning mr-1",
+                                              attrs: {
+                                                tag: "a",
+                                                "icon-right": "pencil",
+                                                href:
+                                                  "/accounting/" +
+                                                  props.row.accounting_id +
+                                                  "/edit",
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-tooltip",
+                                          {
+                                            attrs: {
+                                              label: "Delete",
+                                              type: "is-danger",
                                             },
-                                          }),
-                                        ],
-                                        1
-                                      )
-                                    : _vm._e(),
-                                ],
-                                1
-                              ),
-                            ]
-                          },
-                        },
-                      ]),
-                    }),
+                                          },
+                                          [
+                                            _c("b-button", {
+                                              staticClass:
+                                                "button is-small is-danger mr-1",
+                                              attrs: { "icon-right": "delete" },
+                                              on: {
+                                                click: function ($event) {
+                                                  return _vm.confirmDelete(
+                                                    props.row.accounting_id
+                                                  )
+                                                },
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        !props.row.processor_id > 0
+                                          ? _c(
+                                              "b-tooltip",
+                                              {
+                                                attrs: {
+                                                  label: "Assign Processor",
+                                                  type: "is-info",
+                                                },
+                                              },
+                                              [
+                                                _c(
+                                                  "modal-button-browse-processor",
+                                                  {
+                                                    attrs: {
+                                                      "props-accounting-id":
+                                                        props.row.accounting_id,
+                                                    },
+                                                    on: {
+                                                      browseProcessor:
+                                                        _vm.emitBrowserProcessor,
+                                                    },
+                                                  }
+                                                ),
+                                              ],
+                                              1
+                                            )
+                                          : _vm._e(),
+                                      ],
+                                      1
+                                    ),
+                                  ]
+                                },
+                              },
+                            ],
+                            null,
+                            false,
+                            3382663682
+                          ),
+                        })
+                      : _vm._e(),
                   ],
                   1
                 ),
@@ -56206,6 +56225,10 @@ var render = function () {
                                     { attrs: { value: "PROCUREMENT OFFICER" } },
                                     [_vm._v("PROCUREMENT OFFICER")]
                                   ),
+                                  _vm._v(" "),
+                                  _c("option", { attrs: { value: "STAFF" } }, [
+                                    _vm._v("STAFF"),
+                                  ]),
                                 ]
                               ),
                             ],

@@ -1,6 +1,8 @@
 @extends('layouts.admin-layout')
 
 @section('content')
-    <accounting-index></accounting-index>
+    @auth
+        <accounting-index :prop-user="{{ Auth::user() }}"></accounting-index>
+    @endauth
 @endsection
 

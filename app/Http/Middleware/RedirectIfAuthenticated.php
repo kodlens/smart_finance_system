@@ -27,23 +27,7 @@ class RedirectIfAuthenticated
 
                 $role = Auth::user()->role;
 
-                if($role == 'ADMINISTRATOR'){
-                    return redirect('/dashboard');
-                }
-
-                if($role == 'BUDGET OFFICER'){
-                    return redirect('/dashboard');
-                }
-
-                if($role == 'PROCUREMENT OFFICER'){
-                    return redirect('/dashboard');
-                }
-
-                if($role == 'ACCOUNTING STAFF'){
-                    return redirect('/dashboard');
-                }
-
-                if($role == 'PROCESSOR'){
+                if(in_array($role, ['ADMINISTRATOR', 'STAFF', 'BUDGET OFFICER', 'PROCUREMENT OFFICER', 'ACCOUNTING STAFF'])){
                     return redirect('/dashboard');
                 }
             }

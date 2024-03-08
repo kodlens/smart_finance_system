@@ -19,7 +19,7 @@ class AdminMiddleware
     {
         $role = Auth::user()->role;
         
-        if($role === 'ADMINISTRATOR'){
+        if($role === 'ADMINISTRATOR' || $role === 'STAFF'){
 
             $response = $next($request);
             $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');

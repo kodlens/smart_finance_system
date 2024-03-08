@@ -18,7 +18,7 @@ class ProcessorMiddleware
     public function handle(Request $request, Closure $next)
     {
         $role = Auth::user()->role;
-        if($role === 'PROCESSOR'){
+        if($role === 'PROCESSOR' || $role === 'STAFF'){
             return $next($request);
         }
 
