@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <div class="buttons mt-3 is-right">
+                        <div class="buttons mt-3 is-right" v-if="propUser.role !== 'STAFF'">
                             <b-button tag="a"
                                 href="/procurements/create"
                                 icon-right="mower"
@@ -94,7 +94,7 @@
                             </b-table-column>
 
 
-                            <b-table-column label="Action" v-slot="props">
+                            <b-table-column label="Action" v-slot="props" v-if="propUser.role !== 'STAFF'">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
                                         <b-button class="button is-small is-warning mr-1 is-outlined" 
@@ -137,6 +137,16 @@
 <script>
 
 export default{
+
+    props: {
+        propUser: {
+            type: Object,
+            return: function(){
+                return {}
+            }
+        }
+    },
+
     data() {
         return{
             data: [],

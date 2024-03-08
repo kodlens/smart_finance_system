@@ -1,6 +1,10 @@
 @extends('layouts.admin-layout')
 
 @section('content')
-    <budgeting-index></budgeting-index>
+@auth
+        <budgeting-index :prop-user="{{ Auth::user() }}"></budgeting-index>
+    @endauth
+
+    <></>
 @endsection
 

@@ -97,17 +97,17 @@
                 @endif
            
                 <b-navbar-dropdown label="Services">
-                    @if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF']))
+                    @if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF', 'STAFF']))
                     <b-navbar-item href="/accounting">
                         Accounting
                     </b-navbar-item>
                     @endif
-                    @if(in_array($role, ['ADMINISTRATOR', 'BUDGET OFFICER']))
+                    @if(in_array($role, ['ADMINISTRATOR', 'BUDGET OFFICER', 'STAFF']))
                     <b-navbar-item href="/budgeting">
                         Budgeting
                     </b-navbar-item>
                     @endif
-                    @if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER']))
+                    @if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER', 'STAFF']))
                     <b-navbar-item href="/procurements">
                         Procurement
                     </b-navbar-item>

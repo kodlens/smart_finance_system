@@ -1,6 +1,8 @@
 @extends('layouts.admin-layout')
 
 @section('content')
-    <procurement-index></procurement-index>
+    @auth
+        <procurement-index :prop-user="{{ Auth::user() }}"></procurement-index>
+    @endauth
 @endsection
 

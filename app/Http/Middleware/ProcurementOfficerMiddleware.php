@@ -19,7 +19,7 @@ class ProcurementOfficerMiddleware
     {
         $role = Auth::user()->role;
         
-        if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER'])){
+        if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER', 'STAFF'])){
 
             $response = $next($request);
             $response->headers->set('Cache-Control', 'no-cache, no-store, must-revalidate');

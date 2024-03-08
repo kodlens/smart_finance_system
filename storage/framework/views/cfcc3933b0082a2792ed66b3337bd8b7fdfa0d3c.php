@@ -97,17 +97,17 @@
                 <?php endif; ?>
            
                 <b-navbar-dropdown label="Services">
-                    <?php if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF'])): ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF', 'STAFF'])): ?>
                     <b-navbar-item href="/accounting">
                         Accounting
                     </b-navbar-item>
                     <?php endif; ?>
-                    <?php if(in_array($role, ['ADMINISTRATOR', 'BUDGET OFFICER'])): ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'BUDGET OFFICER', 'STAFF'])): ?>
                     <b-navbar-item href="/budgeting">
                         Budgeting
                     </b-navbar-item>
                     <?php endif; ?>
-                    <?php if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER'])): ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER', 'STAFF'])): ?>
                     <b-navbar-item href="/procurements">
                         Procurement
                     </b-navbar-item>

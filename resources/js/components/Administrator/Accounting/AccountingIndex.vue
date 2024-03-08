@@ -40,7 +40,7 @@
                             </div>
                         </div>
 
-                        <div class="buttons mt-3 is-right">
+                        <div class="buttons mt-3 is-right" v-if="propUser.role !== 'STAFF'">
                             <b-button tag="a"
                                 href="/accounting/create"
                                 icon-right="bank-outline"

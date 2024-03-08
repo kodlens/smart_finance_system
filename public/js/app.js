@@ -10999,6 +10999,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    propUser: {
+      type: Object,
+      "return": function _return() {
+        return {};
+      }
+    }
+  },
   data: function data() {
     return {
       data: [],
@@ -13522,6 +13530,14 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  props: {
+    propUser: {
+      type: Object,
+      "return": function _return() {
+        return {};
+      }
+    }
+  },
   data: function data() {
     return {
       data: [],
@@ -45826,25 +45842,27 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "buttons mt-3 is-right" },
-                  [
-                    _c(
-                      "b-button",
-                      {
-                        staticClass: "is-primary",
-                        attrs: {
-                          tag: "a",
-                          href: "/accounting/create",
-                          "icon-right": "bank-outline",
-                        },
-                      },
-                      [_vm._v("ADD RECORD")]
-                    ),
-                  ],
-                  1
-                ),
+                _vm.propUser.role !== "STAFF"
+                  ? _c(
+                      "div",
+                      { staticClass: "buttons mt-3 is-right" },
+                      [
+                        _c(
+                          "b-button",
+                          {
+                            staticClass: "is-primary",
+                            attrs: {
+                              tag: "a",
+                              href: "/accounting/create",
+                              "icon-right": "bank-outline",
+                            },
+                          },
+                          [_vm._v("ADD RECORD")]
+                        ),
+                      ],
+                      1
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "b-table",
@@ -49148,25 +49166,27 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "buttons mt-3 is-right" },
-                  [
-                    _c(
-                      "b-button",
-                      {
-                        staticClass: "is-primary",
-                        attrs: {
-                          tag: "a",
-                          href: "/budgeting/create",
-                          "icon-right": "bank-outline",
-                        },
-                      },
-                      [_vm._v("ADD RECORD")]
-                    ),
-                  ],
-                  1
-                ),
+                _vm.propUser.role !== "STAFF"
+                  ? _c(
+                      "div",
+                      { staticClass: "buttons mt-3 is-right" },
+                      [
+                        _c(
+                          "b-button",
+                          {
+                            staticClass: "is-primary",
+                            attrs: {
+                              tag: "a",
+                              href: "/budgeting/create",
+                              "icon-right": "bank-outline",
+                            },
+                          },
+                          [_vm._v("ADD RECORD")]
+                        ),
+                      ],
+                      1
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "b-table",
@@ -49391,74 +49411,81 @@ var render = function () {
                       ]),
                     }),
                     _vm._v(" "),
-                    _c("b-table-column", {
-                      attrs: { label: "Action" },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "default",
-                          fn: function (props) {
-                            return [
-                              _c(
-                                "div",
-                                { staticClass: "is-flex" },
-                                [
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Edit",
-                                        type: "is-warning",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-warning mr-1",
-                                        attrs: {
-                                          tag: "a",
-                                          "icon-right": "pencil",
-                                          href:
-                                            "/budgeting/" +
-                                            props.row.accounting_id +
-                                            "/edit",
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Delete",
-                                        type: "is-danger",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-danger mr-1",
-                                        attrs: { "icon-right": "delete" },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.confirmDelete(
-                                              props.row.accounting_id
-                                            )
+                    _vm.propUser.role !== "STAFF"
+                      ? _c("b-table-column", {
+                          attrs: { label: "Action" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "default",
+                                fn: function (props) {
+                                  return [
+                                    _c(
+                                      "div",
+                                      { staticClass: "is-flex" },
+                                      [
+                                        _c(
+                                          "b-tooltip",
+                                          {
+                                            attrs: {
+                                              label: "Edit",
+                                              type: "is-warning",
+                                            },
                                           },
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                ],
-                                1
-                              ),
-                            ]
-                          },
-                        },
-                      ]),
-                    }),
+                                          [
+                                            _c("b-button", {
+                                              staticClass:
+                                                "button is-small is-warning mr-1",
+                                              attrs: {
+                                                tag: "a",
+                                                "icon-right": "pencil",
+                                                href:
+                                                  "/budgeting/" +
+                                                  props.row.accounting_id +
+                                                  "/edit",
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-tooltip",
+                                          {
+                                            attrs: {
+                                              label: "Delete",
+                                              type: "is-danger",
+                                            },
+                                          },
+                                          [
+                                            _c("b-button", {
+                                              staticClass:
+                                                "button is-small is-danger mr-1",
+                                              attrs: { "icon-right": "delete" },
+                                              on: {
+                                                click: function ($event) {
+                                                  return _vm.confirmDelete(
+                                                    props.row.accounting_id
+                                                  )
+                                                },
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                  ]
+                                },
+                              },
+                            ],
+                            null,
+                            false,
+                            914732212
+                          ),
+                        })
+                      : _vm._e(),
                   ],
                   1
                 ),
@@ -52992,25 +53019,27 @@ var render = function () {
                   ]),
                 ]),
                 _vm._v(" "),
-                _c(
-                  "div",
-                  { staticClass: "buttons mt-3 is-right" },
-                  [
-                    _c(
-                      "b-button",
-                      {
-                        staticClass: "is-primary",
-                        attrs: {
-                          tag: "a",
-                          href: "/procurements/create",
-                          "icon-right": "mower",
-                        },
-                      },
-                      [_vm._v("ADD RECORD")]
-                    ),
-                  ],
-                  1
-                ),
+                _vm.propUser.role !== "STAFF"
+                  ? _c(
+                      "div",
+                      { staticClass: "buttons mt-3 is-right" },
+                      [
+                        _c(
+                          "b-button",
+                          {
+                            staticClass: "is-primary",
+                            attrs: {
+                              tag: "a",
+                              href: "/procurements/create",
+                              "icon-right": "mower",
+                            },
+                          },
+                          [_vm._v("ADD RECORD")]
+                        ),
+                      ],
+                      1
+                    )
+                  : _vm._e(),
                 _vm._v(" "),
                 _c(
                   "b-table",
@@ -53172,74 +53201,81 @@ var render = function () {
                       ]),
                     }),
                     _vm._v(" "),
-                    _c("b-table-column", {
-                      attrs: { label: "Action" },
-                      scopedSlots: _vm._u([
-                        {
-                          key: "default",
-                          fn: function (props) {
-                            return [
-                              _c(
-                                "div",
-                                { staticClass: "is-flex" },
-                                [
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Edit",
-                                        type: "is-warning",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-warning mr-1 is-outlined",
-                                        attrs: {
-                                          tag: "a",
-                                          "icon-right": "pencil",
-                                          href:
-                                            "/procurements/" +
-                                            props.row.accounting_id +
-                                            "/edit",
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
-                                        label: "Delete",
-                                        type: "is-danger",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-danger mr-1 is-outlined",
-                                        attrs: { "icon-right": "delete" },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.confirmDelete(
-                                              props.row.accounting_id
-                                            )
+                    _vm.propUser.role !== "STAFF"
+                      ? _c("b-table-column", {
+                          attrs: { label: "Action" },
+                          scopedSlots: _vm._u(
+                            [
+                              {
+                                key: "default",
+                                fn: function (props) {
+                                  return [
+                                    _c(
+                                      "div",
+                                      { staticClass: "is-flex" },
+                                      [
+                                        _c(
+                                          "b-tooltip",
+                                          {
+                                            attrs: {
+                                              label: "Edit",
+                                              type: "is-warning",
+                                            },
                                           },
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                ],
-                                1
-                              ),
-                            ]
-                          },
-                        },
-                      ]),
-                    }),
+                                          [
+                                            _c("b-button", {
+                                              staticClass:
+                                                "button is-small is-warning mr-1 is-outlined",
+                                              attrs: {
+                                                tag: "a",
+                                                "icon-right": "pencil",
+                                                href:
+                                                  "/procurements/" +
+                                                  props.row.accounting_id +
+                                                  "/edit",
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                        _vm._v(" "),
+                                        _c(
+                                          "b-tooltip",
+                                          {
+                                            attrs: {
+                                              label: "Delete",
+                                              type: "is-danger",
+                                            },
+                                          },
+                                          [
+                                            _c("b-button", {
+                                              staticClass:
+                                                "button is-small is-danger mr-1 is-outlined",
+                                              attrs: { "icon-right": "delete" },
+                                              on: {
+                                                click: function ($event) {
+                                                  return _vm.confirmDelete(
+                                                    props.row.accounting_id
+                                                  )
+                                                },
+                                              },
+                                            }),
+                                          ],
+                                          1
+                                        ),
+                                      ],
+                                      1
+                                    ),
+                                  ]
+                                },
+                              },
+                            ],
+                            null,
+                            false,
+                            3385367324
+                          ),
+                        })
+                      : _vm._e(),
                   ],
                   1
                 ),
