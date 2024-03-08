@@ -86,7 +86,7 @@
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Particulars"
+                                    <b-field label="Particulars/Activity Title"
                                         :type="errors.particulars ? 'is-danger':''"
                                         :message="errors.particulars ? errors.particulars[0] : ''">
                                         <b-input type="text" placholder="Particulars"

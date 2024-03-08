@@ -128,7 +128,7 @@
 
                 <b-navbar-dropdown label="Reports">
                     <b-navbar-item href="/report-transaction-by-office">
-                        Transcation by Office
+                        Transaction by Office
                     </b-navbar-item>
                     
                 </b-navbar-dropdown>

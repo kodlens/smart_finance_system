@@ -44942,7 +44942,7 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "Particulars",
+                            label: "Particulars/Activity Title",
                             type: _vm.errors.particulars ? "is-danger" : "",
                             message: _vm.errors.particulars
                               ? _vm.errors.particulars[0]
@@ -48262,7 +48262,7 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "Particulars",
+                            label: "Particulars/Activity Title",
                             type: _vm.errors.particulars ? "is-danger" : "",
                             message: _vm.errors.particulars
                               ? _vm.errors.particulars[0]
@@ -52042,7 +52042,7 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "Particulars",
+                            label: "Particulars/Activity Title",
                             type: _vm.errors.particulars ? "is-danger" : "",
                             message: _vm.errors.particulars
                               ? _vm.errors.particulars[0]
