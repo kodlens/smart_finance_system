@@ -74,7 +74,7 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Training Control No."
+                                    <b-field label="TAD Control No."
                                              :type="errors.training_control_no ? 'is-danger':''"
                                              :message="errors.training_control_no ? errors.training_control_no[0] : ''">
                                         <b-input type="text" placholder="Training Control No."
@@ -97,7 +97,7 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Bank Account/Payee"
+                                    <b-field label="Supplier/Payee"
                                         :type="errors.payee_id ? 'is-danger':''"
                                         :message="errors.payee_id ? errors.payee_id[0] : ''">
                                         <modal-browse-payee

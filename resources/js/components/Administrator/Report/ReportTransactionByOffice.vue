@@ -46,6 +46,7 @@
                         <table class="table">
                             <tr>
                                 <th>Document</th>
+                                <th>Allotment Class</th>
                                 <th>Fund Source</th>
                                 <th>Running Balance</th>
                                 <th>Financial Budget</th>
@@ -54,6 +55,7 @@
 
                             <tr v-for="(item, index) in reportData" :key="index">
                                 <td>{{ item.doc_type }}</td>
+                                <td>{{ item.allotment_class }}</td>
                                 <td>{{ item.fund_source }}</td>
                                 <td>{{ item.allotment_class_account_balance | numberWithCommas }}</td>
                                 <td>{{ item.financial_budget | numberWithCommas }}</td>

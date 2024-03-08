@@ -109,7 +109,7 @@
                     @endif
                     @if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER']))
                     <b-navbar-item href="/procurements">
-                        Procurements
+                        Procurement
                     </b-navbar-item>
                     @endif
                     @if(in_array($role, ['PROCESSOR']))

@@ -13727,6 +13727,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -48126,7 +48128,7 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "Training Control No.",
+                            label: "TAD Control No.",
                             type: _vm.errors.training_control_no
                               ? "is-danger"
                               : "",
@@ -48229,7 +48231,7 @@ var render = function () {
                         "b-field",
                         {
                           attrs: {
-                            label: "Bank Account/Payee",
+                            label: "Supplier/Payee",
                             type: _vm.errors.payee_id ? "is-danger" : "",
                             message: _vm.errors.payee_id
                               ? _vm.errors.payee_id[0]
@@ -53343,6 +53345,8 @@ var render = function () {
                   return _c("tr", { key: index }, [
                     _c("td", [_vm._v(_vm._s(item.doc_type))]),
                     _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.allotment_class))]),
+                    _vm._v(" "),
                     _c("td", [_vm._v(_vm._s(item.fund_source))]),
                     _vm._v(" "),
                     _c("td", [
@@ -53384,6 +53388,8 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("tr", [
       _c("th", [_vm._v("Document")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Allotment Class")]),
       _vm._v(" "),
       _c("th", [_vm._v("Fund Source")]),
       _vm._v(" "),

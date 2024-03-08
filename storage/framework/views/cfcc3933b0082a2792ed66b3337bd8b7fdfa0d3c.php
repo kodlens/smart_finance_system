@@ -109,7 +109,7 @@
                     <?php endif; ?>
                     <?php if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER'])): ?>
                     <b-navbar-item href="/procurements">
-                        Procurements
+                        Procurement
                     </b-navbar-item>
                     <?php endif; ?>
                     <?php if(in_array($role, ['PROCESSOR'])): ?>
