@@ -111,7 +111,6 @@ class BudgetingController extends Controller
 
         ]);
 
-
         $finance = FinancialYear::find($req->financial_year_id);
         $finance->decrement('balance', (float)$req->total_amount);
         $finance->save();

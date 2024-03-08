@@ -13646,6 +13646,138 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=script&lang=js&":
+/*!*****************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=script&lang=js& ***!
+  \*****************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  data: function data() {
+    return {
+      financialYears: [],
+      office: {
+        office: '',
+        financial_year_id: null
+      },
+      fields: {
+        office: ''
+      },
+      errors: {},
+      reportData: []
+    };
+  },
+  methods: {
+    loadFinancialYears: function loadFinancialYears() {
+      var _this = this;
+
+      axios.get('/load-financial-years').then(function (res) {
+        _this.financialYears = res.data;
+      });
+    },
+    emitBrowseOffice: function emitBrowseOffice(row) {
+      this.office.office = row.office + " (".concat(row.description, ")");
+      this.fields.office_id = row.office_id;
+      this.fields.office = row.office;
+    },
+    loadReport: function loadReport() {
+      var _this2 = this;
+
+      axios.get('/load-report-transaction-by-office?fy=' + this.fields.financial_year_id + '&office=' + this.fields.office_id).then(function (res) {
+        _this2.reportData = res.data;
+      })["catch"](function (err) {});
+    }
+  },
+  mounted: function mounted() {
+    this.loadFinancialYears();
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Service/ServiceIndex.vue?vue&type=script&lang=js&":
 /*!*****************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Service/ServiceIndex.vue?vue&type=script&lang=js& ***!
@@ -41359,6 +41491,45 @@ component.options.__file = "resources/js/components/Administrator/Procurement/Pr
 
 /***/ }),
 
+/***/ "./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue":
+/*!************************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue ***!
+  \************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _ReportTransactionByOffice_vue_vue_type_template_id_d937bfa2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./ReportTransactionByOffice.vue?vue&type=template&id=d937bfa2& */ "./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=template&id=d937bfa2&");
+/* harmony import */ var _ReportTransactionByOffice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ReportTransactionByOffice.vue?vue&type=script&lang=js& */ "./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=script&lang=js&");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../../../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _ReportTransactionByOffice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _ReportTransactionByOffice_vue_vue_type_template_id_d937bfa2___WEBPACK_IMPORTED_MODULE_0__.render,
+  _ReportTransactionByOffice_vue_vue_type_template_id_d937bfa2___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "resources/js/components/Administrator/Report/ReportTransactionByOffice.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
 /***/ "./resources/js/components/Administrator/Service/ServiceIndex.vue":
 /*!************************************************************************!*\
   !*** ./resources/js/components/Administrator/Service/ServiceIndex.vue ***!
@@ -42541,6 +42712,22 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=script&lang=js&":
+/*!*************************************************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=script&lang=js& ***!
+  \*************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportTransactionByOffice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportTransactionByOffice.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5[0].rules[0].use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=script&lang=js&");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_0_rules_0_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportTransactionByOffice_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
 /***/ "./resources/js/components/Administrator/Service/ServiceIndex.vue?vue&type=script&lang=js&":
 /*!*************************************************************************************************!*\
   !*** ./resources/js/components/Administrator/Service/ServiceIndex.vue?vue&type=script&lang=js& ***!
@@ -43374,6 +43561,23 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProcurementIndex_vue_vue_type_template_id_36939e24___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
 /* harmony export */ });
 /* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ProcurementIndex_vue_vue_type_template_id_36939e24___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ProcurementIndex.vue?vue&type=template&id=36939e24& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Procurement/ProcurementIndex.vue?vue&type=template&id=36939e24&");
+
+
+/***/ }),
+
+/***/ "./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=template&id=d937bfa2&":
+/*!*******************************************************************************************************************!*\
+  !*** ./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=template&id=d937bfa2& ***!
+  \*******************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportTransactionByOffice_vue_vue_type_template_id_d937bfa2___WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   "staticRenderFns": () => (/* reexport safe */ _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportTransactionByOffice_vue_vue_type_template_id_d937bfa2___WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_ReportTransactionByOffice_vue_vue_type_template_id_d937bfa2___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../../../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../../../../node_modules/vue-loader/lib/index.js??vue-loader-options!./ReportTransactionByOffice.vue?vue&type=template&id=d937bfa2& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=template&id=d937bfa2&");
 
 
 /***/ }),
@@ -53014,6 +53218,199 @@ var render = function () {
   ])
 }
 var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=template&id=d937bfa2&":
+/*!**********************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib/index.js??vue-loader-options!./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue?vue&type=template&id=d937bfa2& ***!
+  \**********************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "render": () => (/* binding */ render),
+/* harmony export */   "staticRenderFns": () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+var render = function () {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", [
+    _c("section", { staticClass: "section" }, [
+      _c("div", { staticClass: "columns is-centered" }, [
+        _c("div", { staticClass: "column is-8-desktop" }, [
+          _c("div", { staticClass: "box" }, [
+            _c("span", { staticClass: "has-text-weight-bold" }, [
+              _vm._v("FILTER"),
+            ]),
+            _vm._v(" "),
+            _c("div", { staticClass: "columns" }, [
+              _c(
+                "div",
+                { staticClass: "column" },
+                [
+                  _c(
+                    "b-field",
+                    {
+                      attrs: {
+                        label: "Financial Year",
+                        expanded: "",
+                        type: _vm.errors.financial_year_id ? "is-danger" : "",
+                        message: _vm.errors.financial_year_id
+                          ? _vm.errors.financial_year_id[0]
+                          : "",
+                      },
+                    },
+                    [
+                      _c(
+                        "b-select",
+                        {
+                          attrs: {
+                            expanded: "",
+                            placeholder: "Financial Year",
+                          },
+                          model: {
+                            value: _vm.fields.financial_year_id,
+                            callback: function ($$v) {
+                              _vm.$set(_vm.fields, "financial_year_id", $$v)
+                            },
+                            expression: "fields.financial_year_id",
+                          },
+                        },
+                        _vm._l(_vm.financialYears, function (item, indx) {
+                          return _c(
+                            "option",
+                            {
+                              key: "fy" + indx,
+                              domProps: { value: item.financial_year_id },
+                            },
+                            [
+                              _vm._v(
+                                "\n                                        " +
+                                  _vm._s(item.financial_year_code) +
+                                  "\n                                        -\n                                        " +
+                                  _vm._s(item.financial_year_desc) +
+                                  "\n                                    "
+                              ),
+                            ]
+                          )
+                        }),
+                        0
+                      ),
+                    ],
+                    1
+                  ),
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "column" },
+                [
+                  _c("modal-browse-office", {
+                    attrs: {
+                      label: "Office",
+                      "status-type": _vm.errors.office_id ? "is-danger" : "",
+                      message: _vm.errors.office_id
+                        ? _vm.errors.office_id[0]
+                        : "",
+                      "prop-name": _vm.fields.office,
+                    },
+                    on: { browseOffice: _vm.emitBrowseOffice },
+                  }),
+                ],
+                1
+              ),
+            ]),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "buttons" },
+              [
+                _c("b-button", {
+                  attrs: { label: "Search", "icon-left": "magnify" },
+                  on: { click: _vm.loadReport },
+                }),
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "table",
+              { staticClass: "table" },
+              [
+                _vm._m(0),
+                _vm._v(" "),
+                _vm._l(_vm.reportData, function (item, index) {
+                  return _c("tr", { key: index }, [
+                    _c("td", [_vm._v(_vm._s(item.doc_type))]),
+                    _vm._v(" "),
+                    _c("td", [_vm._v(_vm._s(item.fund_source))]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(
+                            _vm._f("numberWithCommas")(
+                              item.allotment_class_account_balance
+                            )
+                          ) +
+                          "\n                            "
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(
+                            _vm._f("numberWithCommas")(item.financial_budget)
+                          ) +
+                          "\n                            "
+                      ),
+                    ]),
+                    _vm._v(" "),
+                    _c("td", [
+                      _vm._v(
+                        "\n                                " +
+                          _vm._s(_vm._f("numberWithCommas")(item.amount)) +
+                          "\n                            "
+                      ),
+                    ]),
+                  ])
+                }),
+              ],
+              2
+            ),
+          ]),
+        ]),
+      ]),
+    ]),
+  ])
+}
+var staticRenderFns = [
+  function () {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("tr", [
+      _c("th", [_vm._v("Document")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Fund Source")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Running Balance")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Financial Budget")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Utilized Budget")]),
+    ])
+  },
+]
 render._withStripped = true
 
 
@@ -86258,6 +86655,7 @@ var map = {
 	"./components/Administrator/PriorityProgram/PriorityProgram.vue": "./resources/js/components/Administrator/PriorityProgram/PriorityProgram.vue",
 	"./components/Administrator/Procurement/ProcurementCreateEdit.vue": "./resources/js/components/Administrator/Procurement/ProcurementCreateEdit.vue",
 	"./components/Administrator/Procurement/ProcurementIndex.vue": "./resources/js/components/Administrator/Procurement/ProcurementIndex.vue",
+	"./components/Administrator/Report/ReportTransactionByOffice.vue": "./resources/js/components/Administrator/Report/ReportTransactionByOffice.vue",
 	"./components/Administrator/Service/ServiceIndex.vue": "./resources/js/components/Administrator/Service/ServiceIndex.vue",
 	"./components/Administrator/SupplierPayee/SupplierPayeeIndex.vue": "./resources/js/components/Administrator/SupplierPayee/SupplierPayeeIndex.vue",
 	"./components/Administrator/TransactionType/TransactionTypeIndex.vue": "./resources/js/components/Administrator/TransactionType/TransactionTypeIndex.vue",
