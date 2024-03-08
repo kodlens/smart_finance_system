@@ -82,9 +82,10 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/load-budgeting-utilizations/{financial}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadBudgetingUtilizations']);
     Route::get('/load-procurement-utilizations/{financial}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadProcurementUtilizations']);
 
-    Route::get('/load-allotment-accounting/{financial}/{allotmentId}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadAllotmentAccounting']);
+    //dashboard report fetch data
+    Route::get('/load-report-dashboard-accounting', [App\Http\Controllers\Administrator\DashboardController::class, 'loadReportDashboardAccounting']);
 
-    Route::get('/load-allotment-budgeting/{financial}/{allotmentId}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadAllotmentBudgeting']);
+    //Route::get('/load-allotment-budgeting/{financial}/{allotmentId}', [App\Http\Controllers\Administrator\DashboardController::class, 'loadAllotmentBudgeting']);
 
     Route::get('/report-transaction-by-office', [App\Http\Controllers\Report\ReportTransactionByOfficeController::class, 'index']);
     Route::get('/load-report-transaction-by-office', [App\Http\Controllers\Report\ReportTransactionByOfficeController::class, 'loadReportTransacationByOffice']);

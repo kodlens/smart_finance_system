@@ -8,7 +8,7 @@
 
                     <div class="columns">
                         <div class="column">
-                            <b-field label="Financial Year"
+                            <b-field label="Financial Year" label-position="on-border"
                                 expanded>
                                 <b-select v-model="search.financial_year" expanded
                                     @input="loadData"
@@ -26,6 +26,53 @@
                                     </option>
                                 </b-select>
                             </b-field>
+                        </div>
+                        <div class="column">
+                            <b-field label="Fund Source" label-position="on-border"
+                                expanded>
+                                <b-select v-model="search.fund_source" expanded
+                                    placeholder="Fund Source">
+                                    <option value="">ALL</option>
+                                    <option v-for="(item,index) in fundSources"
+                                        :key="`fund${index}`" :value="item.fund_source">
+                                        {{ item.fund_source }}</option>
+
+                                </b-select>
+                            </b-field>
+                        </div>
+                    </div>
+
+                    <div class="columns">
+                        <div class="column">
+                            <b-field label="Document Type" label-position="on-border"
+                                expanded>
+                                <b-select v-model="search.doc"
+                                    expanded>
+                                    <option value="">ALL</option>
+                                    <option value="ACCOUNTING">ACCOUNTING</option>
+                                    <option value="BUDGETING">BUDGETING</option>
+                                    <option value="PROCUREMENT">PROCUREMENT</option>
+                                </b-select>
+                            </b-field>
+                        </div>
+                        <div class="column">
+                            <b-field label="Allotment Class" label-position="on-border"
+                                expanded>
+                                <b-select v-model="search.allotment_class"
+                                    expanded>
+                                    <option value="">ALL</option>
+                                    <option v-for="(allot, ix) in allotmentClasses"
+                                        :key="`allotclass${ix}`"
+                                        :value="allot.allotment_class">{{ allot.allotment_class }}</option>
+                                </b-select>
+                            </b-field>
+                        </div>
+
+                        <div class="column">
+                            <div class="buttons is-right">
+                                <b-button type="is-primary" icon-right="magnify"
+                                    @click="loadReportDashboardAccounting" label="Search"></b-button>
+                            </div>
                         </div>
                     </div>
 
@@ -51,16 +98,7 @@
                             <div class="mb-2"><strong>UTILIZED BUDGET:</strong> {{ accountingUsedBudget | numberWithCommas }}</div>
 
 
-                            <b-field label="Allotment Class" label-position="on-border"
-                                expanded>
-                                <b-select v-model="search.allotment_accounting"
-                                    @input="loadAllotmentAccounting"
-                                    expanded>
-                                    <option v-for="(allot, ix) in allotmentClasses"
-                                        :key="`allotclass${ix}`"
-                                        :value="allot.allotment_class_id">{{ allot.allotment_class }}</option>
-                                </b-select>
-                            </b-field>
+                            
 
                             <div class="table-container">
                                 <table class="table is-narrow is-fullwidth">
@@ -144,6 +182,8 @@ export default{
 
     mounted(){
         this.loadFinancialYears()
+        this.loadFundSources()
+
     },
 
 
@@ -154,10 +194,14 @@ export default{
                     financial_year_id: null,
                     financial_budget: null,
                     balance: null
-               }
+               },
+               allotment_class: '',
+               fund_source: '',
+               doc: ''
             },
 
             financialYears: [],
+            fundSources: [],
 
             accountingUtilizations: [],
 
@@ -176,6 +220,24 @@ export default{
     },
 
     methods: {
+
+                ///////////
+        loadReportDashboardAccounting(){
+            const params = [
+               
+                `fy=${this.search.financial_year['financial_year_id']}`,
+                `allotment=${this.search.allotment_class}`,
+                `fundsource=${this.search.fund_source}`,
+                `doc=${this.search.doc}`
+
+            
+            ].join('&')
+
+            axios.get(`/load-report-dashboard-accounting?${params}`).then(res=>{
+                this.allotmentAccounting = res.data
+            })
+        },
+
 
         loadFinancialYears(){
             axios.get('/load-financial-years').then(res=>{
@@ -212,32 +274,30 @@ export default{
         async loadAllotmentClasses(){
             await axios.get('/load-allotment-classes-by-financial/' + this.search.financial_year['financial_year_id']).then(res=>{
                 this.allotmentClasses = res.data
-            }).catch(err=>{
-
             })
         },
 
 
 
-        ///////////
-        loadAllotmentAccounting(){
-            axios.get('/load-allotment-accounting/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_accounting).then(res=>{
-                this.allotmentAccounting = res.data
+
+        // loadAllotmentBudgeting(){
+        //     axios.get('/load-allotment-budgeting/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_budgeting).then(res=>{
+        //         this.allotmentBudgeting = res.data
+        //     })
+        // },
+        // loadAllotmentProcurement(){
+        //     axios.get('/load-allotment-procurement/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_procurement).then(res=>{
+        //         this.allotmentBudgeting = res.data
+        //     })
+        // },
+        loadFundSources(){
+            axios.get('/load-fund-sources').then(res=>{
+                this.fundSources = res.data
             })
         },
-        loadAllotmentBudgeting(){
-            axios.get('/load-allotment-budgeting/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_budgeting).then(res=>{
-                this.allotmentBudgeting = res.data
-            })
-        },
-        loadAllotmentProcurement(){
-            axios.get('/load-allotment-procurement/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_procurement).then(res=>{
-                this.allotmentBudgeting = res.data
-            })
-        }
     },
 
-  
+
     computed: {
         totalUtilizations(){
             return this.accountingUsedBudget

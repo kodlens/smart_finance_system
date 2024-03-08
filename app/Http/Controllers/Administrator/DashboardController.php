@@ -102,30 +102,36 @@ class DashboardController extends Controller
 
    
 
-    public function loadBudgetingUtilizations(Request $req, $financialId){
+    // public function loadBudgetingUtilizations(Request $req, $financialId){
 
-        $data = Budgeting::where('financial_year_id', $financialId)
-            ->sum('total_amount');
+    //     $data = Budgeting::where('financial_year_id', $financialId)
+    //         ->sum('total_amount');
 
-        return $data;
+    //     return $data;
 
-    }
+    // }
 
-    public function loadProcurementUtilizations(Request $req, $financialId){
+    // public function loadProcurementUtilizations(Request $req, $financialId){
 
-        $data = Procurement::where('financial_year_id', $financialId)
-            ->sum('pr_amount');
+    //     $data = Procurement::where('financial_year_id', $financialId)
+    //         ->sum('pr_amount');
 
-        return $data;
+    //     return $data;
 
-    }
+    // }
 
 
-
-    public function loadAllotmentAccounting($financialId, $allotmentId){
-
+    //this will fetch all data for report in dashboard
+    public function loadReportDashboardAccounting(Request $req){
+        $financialId = $req->fy;
+        $allotmenClass = $req->allotment;
+        $fundSource = $req->fundsource;
+        $doc = $req->doc;
+        
         $data = DB::select('
             SELECT
+            h.fund_source_id,
+            h.fund_source,
             g.service,
             g.budget as service_budget,
             g.balance as service_balance,
@@ -160,8 +166,10 @@ class DashboardController extends Controller
             JOIN financial_years e ON b.financial_year_id = e.financial_year_id
             JOIN priority_programs f ON b.priority_program_id = f.priority_program_id
             LEFT JOIN services g ON b.doc_type = g.service
-            WHERE e.financial_year_id = ? AND a.allotment_class_id = ?
-            ', [$financialId, $allotmentId]);
+            LEFT JOIN fund_sources h ON h.fund_source_id = b.fund_source_id
+            WHERE h.fund_source LIKE ? AND e.financial_year_id = ? AND c.allotment_class LIKE ?
+            AND b.doc_type LIKE ?
+            ', [$fundSource . '%', $financialId, $allotmenClass . '%', $doc . '%']);
 
         return $data;
     }
@@ -173,38 +181,9 @@ class DashboardController extends Controller
             ->sum('total_amount');
 
         return $data;
-
     }
 
 
-
-    public function loadAllotmentBudgeting($financialId, $allotmentId){
-        $data = DB::select('
-            SELECT
-            b.transaction_no,
-            e.financial_year_id,
-            e.financial_year_code,
-            e.financial_year_desc,
-            e.financial_budget,
-            e.balance,
-            a.amount,
-            a.allotment_class_id,
-            c.allotment_class,
-            a.allotment_class_account_id,
-            d.allotment_class_account_code,
-            d.allotment_class_account,
-            c.allotment_class_budget
-            FROM
-            budgeting_allotment_classes a
-            JOIN budgetings b ON a.budgeting_id = b.budgeting_id
-            JOIN allotment_classes c ON a.allotment_class_id = c.allotment_class_id
-            JOIN allotment_class_accounts d ON a.allotment_class_account_id = d.allotment_class_account_id
-            JOIN financial_years e ON b.financial_year_id = e.financial_year_id
-            WHERE e.financial_year_id = ? AND a.allotment_class_id = ?
-            ', [$financialId, $allotmentId]);
-
-        return $data;
-    }
 
 
     // /validate-qr/{qrcode}
