@@ -128,7 +128,7 @@
                                         <th>Documentary Attachment</th>
                                         <th>File</th>
                                     </tr>
-                                    <tr v-for="(i, ix) in props.row.acctg_documentary_attachments" :key="ix">
+                                    <tr v-for="(i, ix) in props.row.accounting_documentary_attachments" :key="ix">
                                         <td>{{ i.documentary_attachment.documentary_attachment }}</td>
                                         <td>
                                             <a :href="`/storage/doc_attachments/${i.doc_attachment}`"

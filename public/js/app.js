@@ -45824,7 +45824,7 @@ var render = function () {
                                 ]),
                                 _vm._v(" "),
                                 _vm._l(
-                                  props.row.acctg_documentary_attachments,
+                                  props.row.accounting_documentary_attachments,
                                   function (i, ix) {
                                     return _c("tr", { key: ix }, [
                                       _c("td", [
