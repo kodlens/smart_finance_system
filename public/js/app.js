@@ -13727,14 +13727,6 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -53355,32 +53347,24 @@ var render = function () {
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\n                                " +
-                          _vm._s(
-                            _vm._f("numberWithCommas")(
-                              item.allotment_class_account_balance
-                            )
-                          ) +
-                          "\n                            "
+                        _vm._s(
+                          _vm._f("numberWithCommas")(
+                            item.allotment_class_account_balance
+                          )
+                        )
                       ),
                     ]),
                     _vm._v(" "),
                     _c("td", [
                       _vm._v(
-                        "\n                                " +
-                          _vm._s(
-                            _vm._f("numberWithCommas")(item.financial_budget)
-                          ) +
-                          "\n                            "
+                        _vm._s(
+                          _vm._f("numberWithCommas")(item.financial_budget)
+                        )
                       ),
                     ]),
                     _vm._v(" "),
                     _c("td", [
-                      _vm._v(
-                        "\n                                " +
-                          _vm._s(_vm._f("numberWithCommas")(item.amount)) +
-                          "\n                            "
-                      ),
+                      _vm._v(_vm._s(_vm._f("numberWithCommas")(item.amount))),
                     ]),
                   ])
                 }),

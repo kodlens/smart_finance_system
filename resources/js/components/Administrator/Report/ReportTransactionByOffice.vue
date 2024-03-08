@@ -55,19 +55,11 @@
                             <tr v-for="(item, index) in reportData" :key="index">
                                 <td>{{ item.doc_type }}</td>
                                 <td>{{ item.fund_source }}</td>
-                                <td>
-                                    {{ item.allotment_class_account_balance | numberWithCommas }}
-                                </td>
-                                <td>
-                                    {{ item.financial_budget | numberWithCommas }}
-                                </td>
-                                <td>
-                                    {{ item.amount | numberWithCommas }}
-                                </td>
+                                <td>{{ item.allotment_class_account_balance | numberWithCommas }}</td>
+                                <td>{{ item.financial_budget | numberWithCommas }}</td>
+                                <td>{{ item.amount | numberWithCommas }}</td>
                             </tr>
                         </table>
-
-
 
                     </div> <!--box-->
                 </div>
