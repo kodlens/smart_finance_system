@@ -16,9 +16,9 @@
 
     <!-- Styles -->
     <link href="<?php echo e(asset('css/app.css')); ?>" rel="stylesheet">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <!-- <link rel="preconnect" href="https://fonts.googleapis.com"> -->
 
-    <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Yantramanav:wght@300;400&display=swap" rel="stylesheet">
+    <!-- <link href="https://fonts.googleapis.com/css2?family=Josefin+Sans&family=Yantramanav:wght@300;400&display=swap" rel="stylesheet"> -->
     <style>
         html, body{
             font-family: 'Josefin Sans', sans-serif;
@@ -69,6 +69,9 @@
                     <b-navbar-item href="/financial-years">
                         Financial Years
                     </b-navbar-item>
+                    <b-navbar-item href="/services">
+                        Services
+                    </b-navbar-item>
                     <b-navbar-item href="/allotment-classes">
                         Allotment Class
                     </b-navbar-item>
@@ -94,19 +97,19 @@
                 <?php endif; ?>
            
                 <b-navbar-dropdown label="Services">
-                    <?php if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF'])): ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'ACCOUNTING STAFF', 'STAFF'])): ?>
                     <b-navbar-item href="/accounting">
                         Accounting
                     </b-navbar-item>
                     <?php endif; ?>
-                    <?php if(in_array($role, ['ADMINISTRATOR', 'BUDGET OFFICER'])): ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'BUDGET OFFICER', 'STAFF'])): ?>
                     <b-navbar-item href="/budgeting">
                         Budgeting
                     </b-navbar-item>
                     <?php endif; ?>
-                    <?php if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER'])): ?>
+                    <?php if(in_array($role, ['ADMINISTRATOR', 'PROCUREMENT OFFICER', 'STAFF'])): ?>
                     <b-navbar-item href="/procurements">
-                        Procurements
+                        Procurement
                     </b-navbar-item>
                     <?php endif; ?>
                     <?php if(in_array($role, ['PROCESSOR'])): ?>
@@ -122,6 +125,13 @@
                 <b-navbar-item href="/users">
                     Users
                 </b-navbar-item>
+
+                <b-navbar-dropdown label="Reports">
+                    <b-navbar-item href="/report-transaction-by-office">
+                        Transaction by Office
+                    </b-navbar-item>
+                    
+                </b-navbar-dropdown>
                 <?php endif; ?>
                
 
