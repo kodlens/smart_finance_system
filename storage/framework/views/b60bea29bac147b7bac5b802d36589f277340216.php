@@ -1,7 +1,9 @@
 
 
 <?php $__env->startSection('content'); ?>
-    <accounting-index></accounting-index>
+    <?php if(auth()->guard()->check()): ?>
+        <accounting-index :prop-user="<?php echo e(Auth::user()); ?>"></accounting-index>
+    <?php endif; ?>
 <?php $__env->stopSection(); ?>
 
 
