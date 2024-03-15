@@ -104,13 +104,14 @@
                                 <table class="table is-narrow is-fullwidth">
                                     <tr>
                                         <th>Document</th>
-                                        <th>Service Budget</th>
+                                        <th>Financial Budget</th>
                                         <th>Service Balance</th>
                                         <th>Allotment Class</th>
+                                        <th>Allotment Class Budget</th>
                                         <th>Allotment Account</th>
                                         <th>Allotment Allocated Budget</th>
                                         <th>Running Balance</th>
-                                        <th>Financial Budget</th>
+                                        <!-- <th>Financial Budget</th> -->
                                         <th>Utilized Budget</th>
                                         <th>Priority Program</th>
                                         <th>Priority Program Code</th>
@@ -131,6 +132,9 @@
                                             {{ item.allotment_class }}
                                         </td>
                                         <td>
+                                            {{ item.allotment_class_budget | numberWithCommas }}
+                                        </td>
+                                        <td>
                                             {{ item.allotment_class_account }}
                                         </td>
                                         <td>
@@ -139,9 +143,9 @@
                                         <td>
                                             {{ item.allotment_class_account_balance | numberWithCommas }}
                                         </td>
-                                        <td>
+                                        <!-- <td>
                                             {{ item.financial_budget | numberWithCommas }}
-                                        </td>
+                                        </td> -->
                                         <td>
                                             {{ item.amount | numberWithCommas }}
                                         </td>

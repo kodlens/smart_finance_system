@@ -15748,6 +15748,10 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     this.loadFinancialYears();
@@ -56673,6 +56677,18 @@ var render = function () {
                           _c("td", [
                             _vm._v(
                               "\n                                        " +
+                                _vm._s(
+                                  _vm._f("numberWithCommas")(
+                                    item.allotment_class_budget
+                                  )
+                                ) +
+                                "\n                                    "
+                            ),
+                          ]),
+                          _vm._v(" "),
+                          _c("td", [
+                            _vm._v(
+                              "\n                                        " +
                                 _vm._s(item.allotment_class_account) +
                                 "\n                                    "
                             ),
@@ -56696,18 +56712,6 @@ var render = function () {
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
                                     item.allotment_class_account_balance
-                                  )
-                                ) +
-                                "\n                                    "
-                            ),
-                          ]),
-                          _vm._v(" "),
-                          _c("td", [
-                            _vm._v(
-                              "\n                                        " +
-                                _vm._s(
-                                  _vm._f("numberWithCommas")(
-                                    item.financial_budget
                                   )
                                 ) +
                                 "\n                                    "
@@ -56787,19 +56791,19 @@ var staticRenderFns = [
     return _c("tr", [
       _c("th", [_vm._v("Document")]),
       _vm._v(" "),
-      _c("th", [_vm._v("Service Budget")]),
+      _c("th", [_vm._v("Financial Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Service Balance")]),
       _vm._v(" "),
       _c("th", [_vm._v("Allotment Class")]),
+      _vm._v(" "),
+      _c("th", [_vm._v("Allotment Class Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Allotment Account")]),
       _vm._v(" "),
       _c("th", [_vm._v("Allotment Allocated Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Running Balance")]),
-      _vm._v(" "),
-      _c("th", [_vm._v("Financial Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Utilized Budget")]),
       _vm._v(" "),
