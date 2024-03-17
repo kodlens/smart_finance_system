@@ -8900,27 +8900,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   props: {
     propUser: {
@@ -9057,7 +9036,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
     emitBrowserProcessor: function emitBrowserProcessor(row) {
       var _this4 = this;
 
-      console.log(row);
+      //another code
       axios.post('/accounting-assign-processor', row).then(function (res) {
         if (res.data.status === 'assigned') {
           _this4.$buefy.dialog.alert({
@@ -9951,7 +9930,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       }
     },
     //alert box ask for deletion
-    confirmDelete: function confirmDelete(delete_id) {
+    confirmDelete: function confirmDelete(row) {
       var _this3 = this;
 
       this.$buefy.dialog.confirm({
@@ -9961,15 +9940,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         cancelText: 'Cancel',
         confirmText: 'Delete',
         onConfirm: function onConfirm() {
-          return _this3.deleteSubmit(delete_id);
+          return _this3.deleteSubmit(row);
         }
       });
     },
     //execute delete after confirming
-    deleteSubmit: function deleteSubmit(delete_id) {
+    deleteSubmit: function deleteSubmit(row) {
       var _this4 = this;
 
-      axios["delete"]('/allotment-class-accounts/' + delete_id).then(function (res) {
+      axios["delete"]('/allotment-class-accounts/' + row.allotment_class_account_id, row).then(function (res) {
         _this4.loadAsyncData();
       })["catch"](function (err) {
         if (err.response.status === 422) {
@@ -45699,7 +45678,7 @@ var render = function () {
                     staticClass: "is-flex is-justify-content-center mb-2",
                     staticStyle: { "font-size": "20px", "font-weight": "bold" },
                   },
-                  [_vm._v("ACCOUNTING RECORDS")]
+                  [_vm._v("\n                        ACCOUNTING RECORDS")]
                 ),
                 _vm._v(" "),
                 _c("div", { staticClass: "level" }, [
@@ -45861,7 +45840,7 @@ var render = function () {
                               "icon-right": "bank-outline",
                             },
                           },
-                          [_vm._v("ADD RECORD")]
+                          [_vm._v("ADD\n                            RECORD")]
                         ),
                       ],
                       1
@@ -47496,35 +47475,6 @@ var render = function () {
                                     "b-tooltip",
                                     {
                                       attrs: {
-                                        label: "Edit",
-                                        type: "is-warning",
-                                      },
-                                    },
-                                    [
-                                      _c("b-button", {
-                                        staticClass:
-                                          "button is-small is-warning mr-1",
-                                        attrs: {
-                                          tag: "a",
-                                          "icon-right": "pencil",
-                                        },
-                                        on: {
-                                          click: function ($event) {
-                                            return _vm.getData(
-                                              props.row
-                                                .allotment_class_account_id
-                                            )
-                                          },
-                                        },
-                                      }),
-                                    ],
-                                    1
-                                  ),
-                                  _vm._v(" "),
-                                  _c(
-                                    "b-tooltip",
-                                    {
-                                      attrs: {
                                         label: "Delete",
                                         type: "is-danger",
                                       },
@@ -47536,10 +47486,7 @@ var render = function () {
                                         attrs: { "icon-right": "delete" },
                                         on: {
                                           click: function ($event) {
-                                            return _vm.confirmDelete(
-                                              props.row
-                                                .allotment_class_account_id
-                                            )
+                                            return _vm.confirmDelete(props.row)
                                           },
                                         },
                                       }),

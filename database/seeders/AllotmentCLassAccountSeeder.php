@@ -206,29 +206,29 @@ class AllotmentCLassAccountSeeder extends Seeder
                 'allotment_class_id' => 3,
                 'allotment_class_account_code' => '1-07-07-010',
                 'allotment_class_account' => 'FURNITURE AND FIXTURES',
-                'allotment_class_account_budget' => 10000000,
-                'allotment_class_account_balance' => 10000000
+                'allotment_class_account_budget' => 1000,
+                'allotment_class_account_balance' => 1000
             ],
             [
                 'allotment_class_id' => 3,
                 'allotment_class_account_code' => '1-07-05-020',
                 'allotment_class_account' => 'OFFICE EQUIPMENT',
-                'allotment_class_account_budget' => 10000000,
-                'allotment_class_account_balance' => 10000000
+                'allotment_class_account_budget' => 1000,
+                'allotment_class_account_balance' => 1000
             ],
             [
                 'allotment_class_id' => 3,
                 'allotment_class_account_code' => '1-07-05-990',
                 'allotment_class_account' => 'MACHINERY EQUIPMENT',
-                'allotment_class_account_budget' => 10000000,
-                'allotment_class_account_balance' => 10000000
+                'allotment_class_account_budget' => 1000,
+                'allotment_class_account_balance' => 1000
             ],
             [
                 'allotment_class_id' => 3,
                 'allotment_class_account_code' => '1-07-06-010',
                 'allotment_class_account' => 'MOTOR VEHICLES / TRANSPORTATION EQUIPMENT',
-                'allotment_class_account_budget' => 10000000,
-                'allotment_class_account_balance' => 10000000
+                'allotment_class_account_budget' => 1000,
+                'allotment_class_account_balance' => 1000
             ],
 
 

@@ -105,15 +105,15 @@
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
-                                    <b-tooltip label="Edit" type="is-warning">
+                                    <!-- <b-tooltip label="Edit" type="is-warning">
                                         <b-button class="button is-small is-warning mr-1" 
                                             tag="a" 
                                             icon-right="pencil" @click="getData(props.row.allotment_class_account_id)"></b-button>
-                                    </b-tooltip>
+                                    </b-tooltip> -->
                                     <b-tooltip label="Delete" type="is-danger">
                                         <b-button class="button is-small is-danger mr-1" 
                                             icon-right="delete" 
-                                            @click="confirmDelete(props.row.allotment_class_account_id)"></b-button>
+                                            @click="confirmDelete(props.row)"></b-button>
                                     </b-tooltip>
 
                                     <b-tooltip label="Add New To Financial Year" type="is-info">
@@ -403,19 +403,20 @@ export default{
 
 
         //alert box ask for deletion
-        confirmDelete(delete_id) {
+        confirmDelete(row) {
             this.$buefy.dialog.confirm({
                 title: 'DELETE!',
                 type: 'is-danger',
                 message: 'Are you sure you want to delete this data?',
                 cancelText: 'Cancel',
                 confirmText: 'Delete',
-                onConfirm: () => this.deleteSubmit(delete_id)
+                onConfirm: () => this.deleteSubmit(row)
             });
         },
         //execute delete after confirming
-        deleteSubmit(delete_id) {
-            axios.delete('/allotment-class-accounts/' + delete_id).then(res => {
+        deleteSubmit(row) {
+
+            axios.delete('/allotment-class-accounts/' + row.allotment_class_account_id, row).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {

@@ -5,7 +5,8 @@
                 <div class="column is-10-widescreen is-12-desktop is-12-tablet">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">ACCOUNTING RECORDS</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">
+                            ACCOUNTING RECORDS</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -27,13 +28,13 @@
                             <div class="level-right">
                                 <div class="level-item">
                                     <b-field label="Search">
-                                        <b-input type="text"
-                                            v-model="search.key" placeholder="Search..."
-                                            @keyup.native.enter="loadAsyncData"/>
+                                        <b-input type="text" v-model="search.key" placeholder="Search..."
+                                            @keyup.native.enter="loadAsyncData" />
                                         <p class="control">
-                                             <b-tooltip label="Search" type="is-success">
-                                            <b-button type="is-primary" icon-right="magnify" @click="loadAsyncData"/>
-                                             </b-tooltip>
+                                            <b-tooltip label="Search" type="is-success">
+                                                <b-button type="is-primary" icon-right="magnify"
+                                                    @click="loadAsyncData" />
+                                            </b-tooltip>
                                         </p>
                                     </b-field>
                                 </div>
@@ -41,30 +42,17 @@
                         </div>
 
                         <div class="buttons mt-3 is-right" v-if="propUser.role !== 'STAFF'">
-                            <b-button tag="a"
-                                href="/accounting/create"
-                                icon-right="bank-outline"
-                                class="is-primary">ADD RECORD</b-button>
+                            <b-button tag="a" href="/accounting/create" icon-right="bank-outline" class="is-primary">ADD
+                                RECORD</b-button>
                         </div>
 
-                        <b-table
-                            :data="data"
-                            :loading="loading"
-                            detailed
-                            paginated
-                            backend-pagination
-                            :total="total"
-                            :bordered="true"
-                            :hoverable="true"
-                            :per-page="perPage"
-                            @page-change="onPageChange"
-                            aria-next-label="Next page"
-                            aria-previous-label="Previous page"
-                            aria-page-label="Page"
-                            aria-current-label="Current page"
-                            backend-sorting
-                            :default-sort-direction="defaultSortDirection"
-                            @sort="onSort">
+                        <b-table :data="data" :loading="loading" detailed paginated backend-pagination :total="total"
+                            :bordered="true" 
+                            :hoverable="true" 
+                            :per-page="perPage" @page-change="onPageChange"
+                            aria-next-label="Next page" aria-previous-label="Previous page" aria-page-label="Page"
+                            aria-current-label="Current page" backend-sorting
+                            :default-sort-direction="defaultSortDirection" @sort="onSort">
 
                             <b-table-column field="accounting_id" label="ID" v-slot="props">
                                 {{ props.row.accounting_id }}
@@ -97,26 +85,24 @@
 
                             <b-table-column field="processor" label="Assigned Processor" v-slot="props">
                                 <span v-if="props.row.processor_id > 0">
-                                    {{ props.row.processor.lname }}, {{ props.row.processor.fname }} {{ props.row.processor.mname }}
+                                    {{ props.row.processor.lname }}, {{ props.row.processor.fname }} {{
+                                        props.row.processor.mname }}
                                 </span>
                             </b-table-column>
 
                             <b-table-column label="Action" v-slot="props" v-if="propUser.role !== 'STAFF'">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1"
-                                            tag="a"
-                                            icon-right="pencil"
+                                        <b-button class="button is-small is-warning mr-1" tag="a" icon-right="pencil"
                                             :href="`/accounting/${props.row.accounting_id}/edit`"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1"
-                                            icon-right="delete"
+                                        <b-button class="button is-small is-danger mr-1" icon-right="delete"
                                             @click="confirmDelete(props.row.accounting_id)"></b-button>
                                     </b-tooltip>
-                                    <b-tooltip label="Assign Processor" type="is-info" v-if="!props.row.processor_id > 0">
-                                        <modal-button-browse-processor
-                                            :props-accounting-id="props.row.accounting_id"
+                                    <b-tooltip label="Assign Processor" type="is-info"
+                                        v-if="!props.row.processor_id > 0">
+                                        <modal-button-browse-processor :props-accounting-id="props.row.accounting_id"
                                             @browseProcessor="emitBrowserProcessor"></modal-button-browse-processor>
                                     </b-tooltip>
                                 </div>
@@ -131,8 +117,7 @@
                                     <tr v-for="(i, ix) in props.row.accounting_documentary_attachments" :key="ix">
                                         <td>{{ i.documentary_attachment.documentary_attachment }}</td>
                                         <td>
-                                            <a :href="`/storage/doc_attachments/${i.doc_attachment}`"
-                                                target="_blank">
+                                            <a :href="`/storage/doc_attachments/${i.doc_attachment}`" target="_blank">
                                                 Go to
                                             </a>
                                         </td>
@@ -147,7 +132,8 @@
                                     </tr>
                                     <tr v-for="(i, ix) in props.row.accounting_allotment_classes" :key="ix">
                                         <td>{{ i.allotment_class.allotment_class }}</td>
-                                        <td>({{ i.allotment_class_account.allotment_class_account_code  }}) {{ i.allotment_class_account.allotment_class_account }}</td>
+                                        <td>({{ i.allotment_class_account.allotment_class_account_code }}) {{
+                                        i.allotment_class_account.allotment_class_account }}</td>
                                         <td>{{ i.amount }}</td>
 
                                     </tr>
@@ -157,9 +143,7 @@
                                     Processor: {{ props.row.processor_id }}
                                 </div> -->
 
-
-                                <table-bid-award :propRow="props.row"
-                                    @emitRefresh="loadAsyncData"></table-bid-award>
+                                <table-bid-award :propRow="props.row" @emitRefresh="loadAsyncData"></table-bid-award>
                                 <br>
                                 <table-city-budget :propRow="props.row"
                                     @emitRefresh="loadAsyncData"></table-city-budget>
@@ -179,13 +163,8 @@
                         </b-table>
 
                         <div class="buttons">
-                            <download-excel
-                                class="button is-primary"
-                                size="is-small"
-                                :fetch="fetchData"
-                                type="csv"
-                                name="filename.xls"
-                            >
+                            <download-excel class="button is-primary" size="is-small" :fetch="fetchData" type="csv"
+                                name="filename.xls">
                                 Download to Excel
                             </download-excel>
                         </div>
@@ -205,19 +184,19 @@
 
 <script>
 
-export default{
+export default {
 
     props: {
         propUser: {
             type: Object,
-            return: function(){
+            return: function () {
                 return {}
             }
         }
     },
 
     data() {
-        return{
+        return {
             data: [],
             total: 0,
             loading: false,
@@ -228,7 +207,7 @@ export default{
             defaultSortDirection: 'asc',
 
 
-            global_id : 0,
+            global_id: 0,
 
             search: {
                 key: '',
@@ -241,7 +220,7 @@ export default{
             btnClass: {
                 'is-success': true,
                 'button': true,
-                'is-loading':false,
+                'is-loading': false,
             },
 
         }
@@ -262,7 +241,7 @@ export default{
 
             this.loading = true
             axios.get(`/get-accounting-records?${params}`)
-                .then(({data}) => {
+                .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
                     if (data.total / this.perPage > 1000) {
@@ -332,16 +311,16 @@ export default{
 
 
 
-        async fetchData(){
+        async fetchData() {
             const res = await axios.get('/fetch-accountings')
             return res.data
         },
 
-        emitBrowserProcessor(row){
-            console.log(row)
+        emitBrowserProcessor(row) {
+            //another code
 
-            axios.post('/accounting-assign-processor', row).then(res=>{
-                if(res.data.status === 'assigned'){
+            axios.post('/accounting-assign-processor', row).then(res => {
+                if (res.data.status === 'assigned') {
                     this.$buefy.dialog.alert({
                         title: 'ASSIGNED!',
                         message: 'Successfully assigned.',
@@ -365,7 +344,4 @@ export default{
 </script>
 
 
-<style>
-
-
-</style>
+<style></style>
