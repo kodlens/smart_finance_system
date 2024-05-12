@@ -27,7 +27,7 @@ class RedirectIfAuthenticated
 
                 $role = Auth::user()->role;
 
-                if(in_array($role, ['ADMINISTRATOR', 'STAFF', 'BUDGET OFFICER', 'PROCUREMENT OFFICER', 'ACCOUNTING STAFF'])){
+                if(in_array($role, ['ADMINISTRATOR', 'STAFF', 'BUDGET OFFICER', 'PROCUREMENT OFFICER', 'ACCOUNTING STAFF', 'PROCESSOR'])){
                     return redirect('/dashboard');
                 }
             }
