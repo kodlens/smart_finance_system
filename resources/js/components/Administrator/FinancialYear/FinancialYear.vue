@@ -71,11 +71,11 @@
                             </b-table-column>
 
                             <b-table-column field="financial_budget" label="Financial Budget" v-slot="props">
-                                <span>{{ numberWithCommas(props.row.financial_budget) }}</span>
+                                <span v-if="props.row.financial_budget">{{ numberWithCommas(props.row.financial_budget) }}</span>
                             </b-table-column>
 
                             <b-table-column field="balance" label="Balance" v-slot="props">
-                                <span>{{ numberWithCommas(props.row.balance) }}</span>
+                                <span v-if="props.row.balance">{{ numberWithCommas(props.row.balance) }}</span>
                             </b-table-column>
 
                             <b-table-column field="active" label="Active" v-slot="props">

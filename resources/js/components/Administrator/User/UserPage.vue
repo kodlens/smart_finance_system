@@ -86,6 +86,9 @@
                                     <b-tooltip label="Delete" type="is-danger">
                                         <b-button class="button is-small is-danger mr-1" icon-right="delete" @click="confirmDelete(props.row.user_id)"></b-button>
                                     </b-tooltip>
+                                    <b-tooltip label="Reset Password" type="is-link">
+                                        <b-button class="button is-small is-info mr-1" icon-right="lock" @click="openModalResetPassword(props.row)"></b-button>
+                                    </b-tooltip>
                                 </div>
                             </b-table-column>
                         </b-table>
@@ -229,8 +232,8 @@
                             <!-- <div class="columns">
                                 <div class="column">
                                     <b-field label="Province" label-position="on-border" expanded
-                                             :type="this.errors.province ? 'is-danger':''"
-                                             :message="this.errors.province ? this.errors.province[0] : ''">
+                                        :type="this.errors.province ? 'is-danger':''"
+                                        :message="this.errors.province ? this.errors.province[0] : ''">
                                         <b-select v-model="fields.province" @input="loadCity" expanded>
                                             <option v-for="(item, index) in provinces" :key="index" :value="item.provCode">{{ item.provDesc }}</option>
                                         </b-select>
@@ -239,8 +242,8 @@
 
                                 <div class="column">
                                     <b-field label="City" label-position="on-border" expanded
-                                             :type="this.errors.city ? 'is-danger':''"
-                                             :message="this.errors.city ? this.errors.city[0] : ''">
+                                        :type="this.errors.city ? 'is-danger':''"
+                                        :message="this.errors.city ? this.errors.city[0] : ''">
                                         <b-select v-model="fields.city" @input="loadBarangay" expanded>
                                             <option v-for="(item, index) in cities" :key="index" :value="item.citymunCode">{{ item.citymunDesc }}</option>
                                         </b-select>
@@ -282,6 +285,64 @@
         <!--close modal-->
 
 
+
+
+        <!--modal reset password-->
+        <b-modal v-model="modalResetPassword" has-modal-card
+                 trap-focus
+                 :width="640"
+                 aria-role="dialog"
+                 aria-label="Modal"
+                 aria-modal>
+
+            <form @submit.prevent="resetPassword">
+                <div class="modal-card">
+                    <header class="modal-card-head">
+                        <p class="modal-card-title">Change Password</p>
+                        <button
+                            type="button"
+                            class="delete"
+                            @click="modalResetPassword = false"/>
+                    </header>
+
+                    <section class="modal-card-body">
+                        <div class="">
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Password" label-position="on-border"
+                                        :type="errors.password ? 'is-danger':''"
+                                            :message="errors.password ? errors.password[0] : ''">
+                                        <b-input type="password" v-model="user.password" password-reveal
+                                            placeholder="Password" required>
+                                        </b-input>
+                                    </b-field>
+                                    <b-field label="Confirm Password" label-position="on-border"
+                                        :type="errors.password_confirmation ? 'is-danger':''"
+                                        :message="errors.password_confirmation ? errors.password_confirmation[0] : ''">
+                                        <b-input type="password" v-model="user.password_confirmation"
+                                            password-reveal
+                                            placeholder="Confirm Password" required>
+                                        </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                    <footer class="modal-card-foot">
+                        <b-button
+                            label="Close"
+                            @click="modalResetPassword=false"/>
+                        <button
+                            :class="btnClass"
+                            label="Save"
+                            type="is-success">SAVE</button>
+                    </footer>
+                </div>
+            </form><!--close form-->
+        </b-modal>
+        <!--close modal-->
+
+
     </div>
 </template>
 
@@ -309,12 +370,18 @@ export default{
             isModalCreate: false,
 
             fields: {
+                user_id: 0,
                 username: '',
                 lname: '', fname: '', mname: '', suffix: '',
                 password: '', password_confirmation : '',
                 sex : '', role: '',
                 // province: '', city: '', barangay: '', street: '',
             },
+
+            user: {},
+            modalResetPassword: false,
+
+
             errors: {},
             offices: [],
 
@@ -465,6 +532,7 @@ export default{
         },
 
         clearFields(){
+            this.fields.user_id = 0;
             this.fields.username = '';
             this.fields.lname = '';
             this.fields.fname = '';
@@ -476,6 +544,8 @@ export default{
             this.fields.password_confirmation = '';
             this.fields.role = '';
 
+            this.user = {}
+            
             // this.fields.province = ''
             // this.fields.city = ''
             // this.fields.barangay = ''
@@ -519,6 +589,36 @@ export default{
                 //     });
                 // });
             });
+        },
+
+
+        openModalResetPassword(row){
+            this.clearFields();
+            this.user.user_id = row.user_id;
+            this.modalResetPassword = true
+        },
+
+        resetPassword(){
+            axios.post('/reset-password/' + this.user.user_id, this.user).then(res=>{
+
+                if(res.data.status === 'changed'){
+                    this.$buefy.dialog.alert({
+                        title: 'PASSWORD CHANGED',
+                        type: 'is-success',
+                        message: 'Password changed successfully.',
+                        confirmText: 'OK',
+                        onConfirm: () => {
+                            this.modalResetPassword = false;
+                            this.errors = {}
+                            this.clearFields()
+                            this.loadAsyncData()
+                        }
+                    });
+                }
+
+            }).catch(err=>{
+                this.errors = err.response.data.errors;
+            })
         },
 
 

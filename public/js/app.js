@@ -15288,6 +15288,67 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   data: function data() {
     return {
@@ -15305,6 +15366,7 @@ __webpack_require__.r(__webpack_exports__);
       },
       isModalCreate: false,
       fields: {
+        user_id: 0,
         username: '',
         lname: '',
         fname: '',
@@ -15316,6 +15378,8 @@ __webpack_require__.r(__webpack_exports__);
         role: '' // province: '', city: '', barangay: '', street: '',
 
       },
+      user: {},
+      modalResetPassword: false,
       errors: {},
       offices: [],
       btnClass: {
@@ -15461,6 +15525,7 @@ __webpack_require__.r(__webpack_exports__);
       });
     },
     clearFields: function clearFields() {
+      this.fields.user_id = 0;
       this.fields.username = '';
       this.fields.lname = '';
       this.fields.fname = '';
@@ -15469,7 +15534,8 @@ __webpack_require__.r(__webpack_exports__);
       this.fields.sex = '';
       this.fields.password = '';
       this.fields.password_confirmation = '';
-      this.fields.role = ''; // this.fields.province = ''
+      this.fields.role = '';
+      this.user = {}; // this.fields.province = ''
       // this.fields.city = ''
       // this.fields.barangay = ''
     },
@@ -15503,6 +15569,35 @@ __webpack_require__.r(__webpack_exports__);
         //         // this.fields.street = tempData.street
         //     });
         // });
+      });
+    },
+    openModalResetPassword: function openModalResetPassword(row) {
+      this.clearFields();
+      this.user.user_id = row.user_id;
+      this.modalResetPassword = true;
+    },
+    resetPassword: function resetPassword() {
+      var _this6 = this;
+
+      axios.post('/reset-password/' + this.user.user_id, this.user).then(function (res) {
+        if (res.data.status === 'changed') {
+          _this6.$buefy.dialog.alert({
+            title: 'PASSWORD CHANGED',
+            type: 'is-success',
+            message: 'Password changed successfully.',
+            confirmText: 'OK',
+            onConfirm: function onConfirm() {
+              _this6.modalResetPassword = false;
+              _this6.errors = {};
+
+              _this6.clearFields();
+
+              _this6.loadAsyncData();
+            }
+          });
+        }
+      })["catch"](function (err) {
+        _this6.errors = err.response.data.errors;
       });
     } // //addresses
     // loadProvince: function(){
@@ -50223,15 +50318,17 @@ var render = function () {
                           key: "default",
                           fn: function (props) {
                             return [
-                              _c("span", [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm.numberWithCommas(
-                                      props.row.financial_budget
-                                    )
-                                  )
-                                ),
-                              ]),
+                              props.row.financial_budget
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.numberWithCommas(
+                                          props.row.financial_budget
+                                        )
+                                      )
+                                    ),
+                                  ])
+                                : _vm._e(),
                             ]
                           },
                         },
@@ -50245,13 +50342,15 @@ var render = function () {
                           key: "default",
                           fn: function (props) {
                             return [
-                              _c("span", [
-                                _vm._v(
-                                  _vm._s(
-                                    _vm.numberWithCommas(props.row.balance)
-                                  )
-                                ),
-                              ]),
+                              props.row.balance
+                                ? _c("span", [
+                                    _vm._v(
+                                      _vm._s(
+                                        _vm.numberWithCommas(props.row.balance)
+                                      )
+                                    ),
+                                  ])
+                                : _vm._e(),
                             ]
                           },
                         },
@@ -55744,6 +55843,31 @@ var render = function () {
                                     ],
                                     1
                                   ),
+                                  _vm._v(" "),
+                                  _c(
+                                    "b-tooltip",
+                                    {
+                                      attrs: {
+                                        label: "Reset Password",
+                                        type: "is-link",
+                                      },
+                                    },
+                                    [
+                                      _c("b-button", {
+                                        staticClass:
+                                          "button is-small is-info mr-1",
+                                        attrs: { "icon-right": "lock" },
+                                        on: {
+                                          click: function ($event) {
+                                            return _vm.openModalResetPassword(
+                                              props.row
+                                            )
+                                          },
+                                        },
+                                      }),
+                                    ],
+                                    1
+                                  ),
                                 ],
                                 1
                               ),
@@ -56238,6 +56362,167 @@ var render = function () {
                     [_vm._v("SAVE")]
                   ),
                 ]),
+              ]),
+            ]
+          ),
+        ]
+      ),
+      _vm._v(" "),
+      _c(
+        "b-modal",
+        {
+          attrs: {
+            "has-modal-card": "",
+            "trap-focus": "",
+            width: 640,
+            "aria-role": "dialog",
+            "aria-label": "Modal",
+            "aria-modal": "",
+          },
+          model: {
+            value: _vm.modalResetPassword,
+            callback: function ($$v) {
+              _vm.modalResetPassword = $$v
+            },
+            expression: "modalResetPassword",
+          },
+        },
+        [
+          _c(
+            "form",
+            {
+              on: {
+                submit: function ($event) {
+                  $event.preventDefault()
+                  return _vm.resetPassword.apply(null, arguments)
+                },
+              },
+            },
+            [
+              _c("div", { staticClass: "modal-card" }, [
+                _c("header", { staticClass: "modal-card-head" }, [
+                  _c("p", { staticClass: "modal-card-title" }, [
+                    _vm._v("Change Password"),
+                  ]),
+                  _vm._v(" "),
+                  _c("button", {
+                    staticClass: "delete",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function ($event) {
+                        _vm.modalResetPassword = false
+                      },
+                    },
+                  }),
+                ]),
+                _vm._v(" "),
+                _c("section", { staticClass: "modal-card-body" }, [
+                  _c("div", {}, [
+                    _c("div", { staticClass: "columns" }, [
+                      _c(
+                        "div",
+                        { staticClass: "column" },
+                        [
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Password",
+                                "label-position": "on-border",
+                                type: _vm.errors.password ? "is-danger" : "",
+                                message: _vm.errors.password
+                                  ? _vm.errors.password[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-input", {
+                                attrs: {
+                                  type: "password",
+                                  "password-reveal": "",
+                                  placeholder: "Password",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.user.password,
+                                  callback: function ($$v) {
+                                    _vm.$set(_vm.user, "password", $$v)
+                                  },
+                                  expression: "user.password",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                          _vm._v(" "),
+                          _c(
+                            "b-field",
+                            {
+                              attrs: {
+                                label: "Confirm Password",
+                                "label-position": "on-border",
+                                type: _vm.errors.password_confirmation
+                                  ? "is-danger"
+                                  : "",
+                                message: _vm.errors.password_confirmation
+                                  ? _vm.errors.password_confirmation[0]
+                                  : "",
+                              },
+                            },
+                            [
+                              _c("b-input", {
+                                attrs: {
+                                  type: "password",
+                                  "password-reveal": "",
+                                  placeholder: "Confirm Password",
+                                  required: "",
+                                },
+                                model: {
+                                  value: _vm.user.password_confirmation,
+                                  callback: function ($$v) {
+                                    _vm.$set(
+                                      _vm.user,
+                                      "password_confirmation",
+                                      $$v
+                                    )
+                                  },
+                                  expression: "user.password_confirmation",
+                                },
+                              }),
+                            ],
+                            1
+                          ),
+                        ],
+                        1
+                      ),
+                    ]),
+                  ]),
+                ]),
+                _vm._v(" "),
+                _c(
+                  "footer",
+                  { staticClass: "modal-card-foot" },
+                  [
+                    _c("b-button", {
+                      attrs: { label: "Close" },
+                      on: {
+                        click: function ($event) {
+                          _vm.modalResetPassword = false
+                        },
+                      },
+                    }),
+                    _vm._v(" "),
+                    _c(
+                      "button",
+                      {
+                        class: _vm.btnClass,
+                        attrs: { label: "Save", type: "is-success" },
+                      },
+                      [_vm._v("SAVE")]
+                    ),
+                  ],
+                  1
+                ),
               ]),
             ]
           ),
