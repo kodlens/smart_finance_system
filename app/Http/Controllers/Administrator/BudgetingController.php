@@ -115,7 +115,8 @@ class BudgetingController extends Controller
         $finance->decrement('balance', (float)$req->total_amount);
         $finance->save();
 
-        $service = Service::where('service', 'BUDGETING')->first();
+        $service = Service::where('financial_year_id', $req->financial_year_id)
+            ->where('service', 'BUDGETING')->first();
         $service->decrement('balance', (float)$req->total_amount);
         $service->save();
 

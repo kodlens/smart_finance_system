@@ -167,7 +167,7 @@ class DashboardController extends Controller
             LEFT JOIN allotment_class_accounts d ON a.allotment_class_account_id = d.allotment_class_account_id
             LEFT JOIN financial_years e ON b.financial_year_id = e.financial_year_id
             LEFT JOIN priority_programs f ON b.priority_program_id = f.priority_program_id
-            LEFT JOIN services g ON b.doc_type = g.service
+            LEFT JOIN services g ON b.doc_type = g.service AND b.financial_year_id = g.financial_year_id
             LEFT JOIN fund_sources h ON h.fund_source_id = b.fund_source_id
             WHERE h.fund_source LIKE ? AND e.financial_year_id = ? AND c.allotment_class LIKE ?
             AND b.doc_type LIKE ?
@@ -210,7 +210,7 @@ class DashboardController extends Controller
             LEFT JOIN allotment_class_accounts d ON a.allotment_class_account_id = d.allotment_class_account_id
             LEFT JOIN financial_years e ON b.financial_year_id = e.financial_year_id
             LEFT JOIN priority_programs f ON b.priority_program_id = f.priority_program_id
-            LEFT JOIN services g ON b.doc_type = g.service
+            LEFT JOIN services g ON b.doc_type = g.service AND b.financial_year_id = g.financial_year_id
             LEFT JOIN fund_sources h ON h.fund_source_id = b.fund_source_id
             WHERE h.fund_source LIKE ? AND e.financial_year_id = ?
             AND b.doc_type LIKE ?
