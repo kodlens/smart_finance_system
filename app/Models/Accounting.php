@@ -15,21 +15,24 @@ class Accounting extends Model
 
 
     protected $fillable = [
+        
         'financial_year_id',
-        'fund_source_id',
+        'date_transaction',
         'doc_type',
-        'date_time',
+        'transaction_type_id',
+
         'transaction_no',
         'training_control_no',
         
         'pr_no',
 
-        'transaction_type_id',
         'payee_id',
         'particulars',
+
         'total_amount',
-        'priority_program_id',
+
         'office_id',
+
         'pr_status',
         'others',
 
