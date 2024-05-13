@@ -20,9 +20,9 @@ class DocumentController extends Controller
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
         $user = Auth::user();
+        
 
-
-        $data = Accounting::with(['fund_source', 'payee', 'acctg_documentary_attachments.documentary_attachment',
+        $data = Accounting::with(['fund_source', 'payee', 'accounting_documentary_attachments.documentary_attachment',
             'accounting_allotment_classes', 'processor'])
             ->where(function($q) use ($req){
                 $q->where('particulars', 'like', $req->key . '%')

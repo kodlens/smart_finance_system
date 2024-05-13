@@ -40,12 +40,12 @@
                             </div>
                         </div>
 
-                        <div class="buttons mt-3 is-right">
+                        <!-- <div class="buttons mt-3 is-right">
                             <b-button tag="a"
                                 href="/accounting/create"
                                 icon-right="bank-outline"
                                 class="is-primary">ADD RECORD</b-button>
-                        </div>
+                        </div> -->
 
                         <b-table
                             :data="data"
