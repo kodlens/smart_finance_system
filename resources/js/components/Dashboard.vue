@@ -4,7 +4,7 @@
         <div class="section">
 
             <div class="columns is-centered">
-                <div class="column is-8-widescreen is-11-desktop is-11-tablet">
+                <div class="column is-10-widescreen is-11-desktop is-11-tablet">
 
                     <div class="columns">
                         <div class="column">
@@ -48,7 +48,7 @@
                                 expanded>
                                 <b-select v-model="search.doc"
                                     expanded>
-                                    <option value="">ALL</option>
+                                    <option value="ALL">ALL</option>
                                     <option value="ACCOUNTING">ACCOUNTING</option>
                                     <option value="BUDGETING">BUDGETING</option>
                                     <option value="PROCUREMENT">PROCUREMENT</option>
@@ -95,8 +95,8 @@
                     <div class="columns">
                         <div class="column">
                             
-                            <div class="mb-2"><strong>UTILIZED BUDGET:</strong> {{ accountingUsedBudget | numberWithCommas }}</div>
-
+                            <!-- <div class="mb-2"><strong>UTILIZED BUDGET:</strong> {{ budgetUtilize | numberWithCommas }}</div>
+ -->
 
                             
 
@@ -168,12 +168,6 @@
                         </div>
                     </div>
 
-                    <div class="columns">
-                        <div class="column">
-                    
-                        </div>
-                    </div>
-
 
                 </div> <!--col-->
             </div><!--cols-->
@@ -201,7 +195,7 @@ export default{
                },
                allotment_class: '',
                fund_source: '',
-               doc: ''
+               doc: 'ALL'
             },
 
             financialYears: [],
@@ -209,7 +203,8 @@ export default{
 
             accountingUtilizations: [],
 
-
+            budgetUtilize: 0,
+            
             accountingUsedBudget: 0,
             budgetingUsedBudget: 0,
             procurementUsedBudget: 0,
@@ -240,6 +235,8 @@ export default{
             axios.get(`/load-report-dashboard-accounting?${params}`).then(res=>{
                 this.allotmentAccounting = res.data
             })
+
+            this.loadAccountingUtilizations()
         },
 
 
@@ -250,14 +247,14 @@ export default{
         },
 
         loadData(){
-            this.loadAccountingUtilizations()
+            //this.loadAccountingUtilizations()
             //this.loadBudgetingUtilizations()
             //this.loadProcurementUtilizations()
             this.loadAllotmentClasses()
         },
 
         loadAccountingUtilizations(){
-            axios.get('/load-accounting-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
+            axios.get('/load-accounting-utilizations/' + this.search.financial_year['financial_year_id'] + '/?doc=' + this.search.doc).then(res=>{
                 this.accountingUsedBudget = res.data
             })
         },
@@ -305,6 +302,9 @@ export default{
     computed: {
         totalUtilizations(){
             return this.accountingUsedBudget
+
+           
+            //
         }
     }
 

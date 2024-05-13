@@ -223,12 +223,27 @@ class DashboardController extends Controller
     //compute utilize budget of accounting
     public function loadAccountingUtilizations(Request $req, $financialId){
 
-        $data = Accounting::with(['service'])
-            ->where('financial_year_id', $financialId)
-            ->sum('total_amount');
+        $doc = $req->doc;
+
+   
+        $data = [];
+
+        if($doc === 'ALL'){
+            $data = Accounting::with(['service'])
+                ->where('financial_year_id', $financialId)
+                ->sum('total_amount');
+        }else{
+            $data = Accounting::with(['service'])
+                ->where('doc_type', $doc)
+                ->where('financial_year_id', $financialId)
+                ->sum('total_amount');
+        }
+        
 
         return $data;
     }
+
+   
 
 
 

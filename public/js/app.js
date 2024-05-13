@@ -15820,12 +15820,6 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
 //
 //
 //
-//
-//
-//
-//
-//
-//
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   mounted: function mounted() {
     this.loadFinancialYears();
@@ -15841,11 +15835,12 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
         },
         allotment_class: '',
         fund_source: '',
-        doc: ''
+        doc: 'ALL'
       },
       financialYears: [],
       fundSources: [],
       accountingUtilizations: [],
+      budgetUtilize: 0,
       accountingUsedBudget: 0,
       budgetingUsedBudget: 0,
       procurementUsedBudget: 0,
@@ -15864,6 +15859,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       axios.get("/load-report-dashboard-accounting?".concat(params)).then(function (res) {
         _this.allotmentAccounting = res.data;
       });
+      this.loadAccountingUtilizations();
     },
     loadFinancialYears: function loadFinancialYears() {
       var _this2 = this;
@@ -15873,15 +15869,15 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
       });
     },
     loadData: function loadData() {
-      this.loadAccountingUtilizations(); //this.loadBudgetingUtilizations()
+      //this.loadAccountingUtilizations()
+      //this.loadBudgetingUtilizations()
       //this.loadProcurementUtilizations()
-
       this.loadAllotmentClasses();
     },
     loadAccountingUtilizations: function loadAccountingUtilizations() {
       var _this3 = this;
 
-      axios.get('/load-accounting-utilizations/' + this.search.financial_year['financial_year_id']).then(function (res) {
+      axios.get('/load-accounting-utilizations/' + this.search.financial_year['financial_year_id'] + '/?doc=' + this.search.doc).then(function (res) {
         _this3.accountingUsedBudget = res.data;
       });
     },
@@ -15936,7 +15932,7 @@ function _asyncToGenerator(fn) { return function () { var self = this, args = ar
   },
   computed: {
     totalUtilizations: function totalUtilizations() {
-      return this.accountingUsedBudget;
+      return this.accountingUsedBudget; //
     }
   }
 });
@@ -56463,7 +56459,7 @@ var render = function () {
       _c("div", { staticClass: "columns is-centered" }, [
         _c(
           "div",
-          { staticClass: "column is-8-widescreen is-11-desktop is-11-tablet" },
+          { staticClass: "column is-10-widescreen is-11-desktop is-11-tablet" },
           [
             _c("div", { staticClass: "columns" }, [
               _c(
@@ -56511,11 +56507,11 @@ var render = function () {
                             },
                             [
                               _vm._v(
-                                "\n                                    " +
+                                "\n                                       " +
                                   _vm._s(item.financial_year_code) +
-                                  "\n                                    -\n                                    " +
+                                  "\n                                       -\n                                       " +
                                   _vm._s(item.financial_year_desc) +
-                                  "\n                                "
+                                  "\n                                   "
                               ),
                             ]
                           )
@@ -56569,7 +56565,7 @@ var render = function () {
                               },
                               [
                                 _vm._v(
-                                  "\n                                    " +
+                                  "\n                                       " +
                                     _vm._s(item.fund_source)
                                 ),
                               ]
@@ -56614,7 +56610,7 @@ var render = function () {
                           },
                         },
                         [
-                          _c("option", { attrs: { value: "" } }, [
+                          _c("option", { attrs: { value: "ALL" } }, [
                             _vm._v("ALL"),
                           ]),
                           _vm._v(" "),
@@ -56719,7 +56715,7 @@ var render = function () {
                           _vm.search.financial_year["financial_budget"]
                         )
                       ) +
-                      "\n                        "
+                      "\n                           "
                   ),
                 ]),
                 _vm._v(" "),
@@ -56732,7 +56728,7 @@ var render = function () {
                           _vm.search.financial_year["balance"]
                         )
                       ) +
-                      "\n                        "
+                      "\n                           "
                   ),
                 ]),
                 _vm._v(" "),
@@ -56750,16 +56746,6 @@ var render = function () {
             _vm._v(" "),
             _c("div", { staticClass: "columns" }, [
               _c("div", { staticClass: "column" }, [
-                _c("div", { staticClass: "mb-2" }, [
-                  _c("strong", [_vm._v("UTILIZED BUDGET:")]),
-                  _vm._v(
-                    " " +
-                      _vm._s(
-                        _vm._f("numberWithCommas")(_vm.accountingUsedBudget)
-                      )
-                  ),
-                ]),
-                _vm._v(" "),
                 _c("div", { staticClass: "table-container" }, [
                   _c(
                     "table",
@@ -56771,135 +56757,135 @@ var render = function () {
                         return _c("tr", { key: "allotment" + index }, [
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(item.doc_type) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
                                     item.service_budget
                                   )
                                 ) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
                                     item.service_balance
                                   )
                                 ) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(item.allotment_class) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
                                     item.allotment_class_budget
                                   )
                                 ) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(item.allotment_class_account) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
                                     item.allotment_class_account_budget
                                   )
                                 ) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
                                     item.allotment_class_account_balance
                                   )
                                 ) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(item.amount)
                                 ) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(item.priority_program) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(item.priority_program_code) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
                                     item.priority_program_budget
                                   )
                                 ) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                           _vm._v(" "),
                           _c("td", [
                             _vm._v(
-                              "\n                                        " +
+                              "\n                                           " +
                                 _vm._s(
                                   _vm._f("numberWithCommas")(
                                     item.priority_program_balance
                                   )
                                 ) +
-                                "\n                                    "
+                                "\n                                       "
                             ),
                           ]),
                         ])
@@ -56910,8 +56896,6 @@ var render = function () {
                 ]),
               ]),
             ]),
-            _vm._v(" "),
-            _vm._m(1),
           ]
         ),
       ]),
@@ -56949,14 +56933,6 @@ var staticRenderFns = [
       _c("th", [_vm._v("Priority Program Budget")]),
       _vm._v(" "),
       _c("th", [_vm._v("Priority Program Balance")]),
-    ])
-  },
-  function () {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "columns" }, [
-      _c("div", { staticClass: "column" }),
     ])
   },
 ]

@@ -110,6 +110,7 @@ class AccountingController extends Controller
 
         $service = Service::where('financial_year_id', $req->financial_year_id)
             ->where('service', 'ACCOUNTING')->first();
+            
         $service->decrement('balance', (float)$req->total_amount);
         $service->save();
 
