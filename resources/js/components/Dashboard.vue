@@ -11,32 +11,23 @@
                             <b-field label="Financial Year" label-position="on-border"
                                 expanded>
                                 <b-select v-model="search.financial_year" expanded
-                                    @input="loadData"
+                                    @change="loadReportDashboard"
                                     placeholder="Financial Year">
-                                    <option v-for="(item, indx) in financialYears"
-                                        :key="`fy${indx}`"
-                                        :value="{ 
+                                    <option v-for="(item, index) in financialYears"
+                                        :key="`fy${index}`"
+                                        :value="{
                                             financial_year_id: item.financial_year_id,
-                                            financial_budget: item.financial_budget,
-                                            balance: item.balance
+                                            financial_year_code: item.financial_year_code,
+                                            financial_year_desc: item.financial_year_desc,
+                                            approved_budget: item.approved_budget,
+                                            beginning_budget: item.beginning_budget,
+                                            utilize_budget: item.utilize_budget,
+
                                         }">
                                         {{ item.financial_year_code }}
                                         -
                                         {{ item.financial_year_desc }}
                                     </option>
-                                </b-select>
-                            </b-field>
-                        </div>
-                        <div class="column">
-                            <b-field label="Fund Source" label-position="on-border"
-                                expanded>
-                                <b-select v-model="search.fund_source" expanded
-                                    placeholder="Fund Source">
-                                    <option value="">ALL</option>
-                                    <option v-for="(item,index) in fundSources"
-                                        :key="`fund${index}`" :value="item.fund_source">
-                                        {{ item.fund_source }}</option>
-
                                 </b-select>
                             </b-field>
                         </div>
@@ -71,7 +62,7 @@
                         <div class="column">
                             <div class="buttons is-right">
                                 <b-button type="is-primary" icon-right="magnify"
-                                    @click="loadReportDashboardAccounting" label="Search"></b-button>
+                                    @click="loadReportDashboard" label="Search"></b-button>
                             </div>
                         </div>
                     </div>
@@ -79,14 +70,13 @@
                     <div class="columns">
                         <div class="column">
                             <div>
-                                <strong>FINANCIAL YEAR BUDGET:</strong> {{ search.financial_year['financial_budget'] | numberWithCommas }}
+                                <strong>APPROVED BUDGET:</strong> {{ search.financial_year['approved_budget'] | numberWithCommas }}
                             </div>
                             <div>
-                                <strong>BALANCE:</strong> {{ search.financial_year['balance'] | numberWithCommas}}
+                                <strong>END BUDGET:</strong> {{ computedEndBudget | numberWithCommas }} 
                             </div>
                             <div>
-                                <strong>TOTAL BUDGET UTILIZE: </strong> {{ totalUtilizations | numberWithCommas }}</div>
-
+                                <strong>BUDGET UTILIZE: </strong> {{ search.financial_year['utilize_budget'] | numberWithCommas }}</div>
                         </div>
                     </div>
 
@@ -103,63 +93,40 @@
                             <div class="table-container">
                                 <table class="table is-narrow is-fullwidth">
                                     <tr>
-                                        <th>Document</th>
-                                        <th>Financial Budget</th>
-                                        <th>Service Balance</th>
-                                        <th>Allotment Class</th>
-                                        <th>Allotment Class Budget</th>
-                                        <th>Allotment Account</th>
-                                        <th>Allotment Allocated Budget</th>
-                                        <th>Running Balance</th>
-                                        <!-- <th>Financial Budget</th> -->
-                                        <th>Utilized Budget</th>
-                                        <th>Priority Program</th>
-                                        <th>Priority Program Code</th>
-                                        <th>Priority Program Budget</th>
-                                        <th>Priority Program Balance</th>
+                                        <th>Date Transaction</th>
+                                        <th>Voucher/Payroll No.</th>
+                                        <th>Payee</th>
+                                        <th>Description</th>
+                                        <th>Amount</th>
+                                        <th>Charge To</th>
+                                        
                                     </tr>
-                                    <tr v-for="(item, index) in allotmentAccounting" :key="`allotment${index}`">
+                                    <tr v-for="(item, index) in data" :key="`allotment${index}`">
                                         <td>
                                             {{ item.doc_type }}
                                         </td>
                                         <td>
-                                            {{ item.service_budget | numberWithCommas }}
+                                            <span>{{ item.transaction_no }}</span> 
+                                            <span v-if="training_control_no">
+                                                /
+                                                {{ item.training_control_no }}</span>
                                         </td>
                                         <td>
-                                            {{ item.service_balance | numberWithCommas }}
+                                            <span v-if="item.payee">{{ item.payee.bank_account_payee }}</span> 
+
                                         </td>
                                         <td>
-                                            {{ item.allotment_class }}
+                                            <span v-if="item.particulars">{{ item.particulars }}</span>
                                         </td>
                                         <td>
-                                            {{ item.allotment_class_budget | numberWithCommas }}
+                                            {{ item.total_amount | numberWithCommas }}
                                         </td>
                                         <td>
-                                            {{ item.allotment_class_account }}
-                                        </td>
-                                        <td>
-                                            {{ item.allotment_class_account_budget | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.allotment_class_account_balance | numberWithCommas }}
-                                        </td>
-                                        <!-- <td>
-                                            {{ item.financial_budget | numberWithCommas }}
-                                        </td> -->
-                                        <td>
-                                            {{ item.amount | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.priority_program }}
-                                        </td>
-                                        <td>
-                                            {{ item.priority_program_code }}
-                                        </td>
-                                        <td>
-                                            {{ item.priority_program_budget | numberWithCommas }}
-                                        </td>
-                                        <td>
-                                            {{ item.priority_program_balance | numberWithCommas }}
+                                            <span v-for="(i,ix) in item.accounting_expenditures" :key="`obj${ix}`">
+                                                <span>{{i.allotment_class_code}}</span>
+                                                <span v-if="ix < item.accounting_expenditures.length - 1">, </span>
+                                            </span>
+                                        
                                         </td>
                                     </tr>
                                 </table>
@@ -188,56 +155,43 @@ export default{
     data(){
         return{
             search: {
-               financial_year: {
-                    financial_year_id: null,
-                    financial_budget: null,
-                    balance: null
-               },
-               allotment_class: '',
-               fund_source: '',
-               doc: 'ALL'
+                financial_year: {
+                    financial_year_id: 0,
+                    financial_year_code: '',
+                    financial_year_desc: '',
+                    approved_budget: 0,
+                    beginning_budget: 0,
+                    utilize_budget: 0,
+                },
+                allotment_class: '',
+                doc: 'ALL'
             },
 
+            data: [],
+
             financialYears: [],
-            fundSources: [],
-
-            accountingUtilizations: [],
-
-            budgetUtilize: 0,
-            
-            accountingUsedBudget: 0,
-            budgetingUsedBudget: 0,
-            procurementUsedBudget: 0,
-
-            allotmentClasses: [],
-
-            allotmentAccounting: [],
-            allotmentBudgeting: [],
-            allotmentProcurement: [],
+           
 
         }
     },
 
     methods: {
 
-                ///////////
-        loadReportDashboardAccounting(){
+        loadReportDashboard(){
             const params = [
                
-                `fy=${this.search.financial_year['financial_year_id']}`,
-                `allotment=${this.search.allotment_class}`,
-                `fundsource=${this.search.fund_source}`,
-                `doc=${this.search.doc}`
+               `fy=${this.search.financial_year['financial_year_id']}`,
+               `allotment=${this.search.allotment_class}`,
+               `doc=${this.search.doc}`
+           ].join('&')
 
-            
-            ].join('&')
 
-            axios.get(`/load-report-dashboard-accounting?${params}`).then(res=>{
-                this.allotmentAccounting = res.data
+           axios.get(`/load-report-dashboard?${params}`).then(res=>{
+                this.data = res.data
             })
 
-            //this.loadAccountingUtilizations()
         },
+
 
 
         loadFinancialYears(){
@@ -254,12 +208,6 @@ export default{
 
    
 
-
-        loadFundSources(){
-            axios.get('/load-fund-sources').then(res=>{
-                this.fundSources = res.data
-            })
-        },
     },
 
 
@@ -270,6 +218,11 @@ export default{
 
            
             //
+        },
+
+        computedEndBudget(){
+
+            return (this.search.financial_year['beginning_budget'] - this.search.financial_year['utilize_budget'])
         }
     }
 

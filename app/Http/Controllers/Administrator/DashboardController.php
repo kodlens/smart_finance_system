@@ -118,6 +118,14 @@ class DashboardController extends Controller
 
     // }
 
+    public function loadReportDashboard(){
+        
+        $data = Accounting::with(['accounting_expenditures', 'payee'])
+            ->get();
+
+        return $data;
+
+    }
 
     //this will fetch all data for report in dashboard
     // public function loadReportDashboardAccounting(Request $req){
