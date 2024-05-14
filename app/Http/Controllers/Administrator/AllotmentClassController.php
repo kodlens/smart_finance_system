@@ -19,11 +19,7 @@ class AllotmentClassController extends Controller
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        return AllotmentClass::with(['financial_year'])
-            ->whereHas('financial_year', function($q)use($req){
-                $q->where('financial_year_id', $req->financial);
-            })
-            ->where('allotment_class', 'like', '%'. $req->allotment . '%')
+        return AllotmentClass::where('allotment_class', 'like', '%'. $req->allotment . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }

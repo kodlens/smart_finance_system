@@ -15,7 +15,7 @@ class CreateObjectExpendituresTable extends Migration
     {
         Schema::create('object_expenditures', function (Blueprint $table) {
             $table->id('object_expenditure_id');
-
+            $table->unsignedBigInteger('financial_year_id');
             $table->foreign('financial_year_id')
                 ->references('financial_year_id')
                 ->on('financial_years')

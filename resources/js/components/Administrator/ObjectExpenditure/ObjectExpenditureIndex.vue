@@ -2,10 +2,11 @@
     <div>
         <div class="section">
             <div class="columns is-centered">
-                <div class="column is-8-desktop">
+                <div class="column is-8">
                     <div class="box">
 
-                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">LIST OF ALLOTMENT CLASS</div>
+                        <div class="is-flex is-justify-content-center mb-2" style="font-size: 20px; font-weight: bold;">
+                            LIST OF OBJECT OF EXPENDITURE</div>
 
                         <div class="level">
                             <div class="level-left">
@@ -19,32 +20,26 @@
                                     <b-select v-model="sortOrder" @input="loadAsyncData">
                                         <option value="asc">ASC</option>
                                         <option value="desc">DESC</option>
-
                                     </b-select>
                                 </b-field>
                             </div>
 
                             <div class="level-right">
                                 <div class="level-item">
-
-                                    
+                                    <b-field label="Search">
+                                        <b-input type="text"
+                                                 v-model="search.program" placeholder="Search..."
+                                                 @keyup.native.enter="loadAsyncData"/>
+                                        <p class="control">
+                                             <b-tooltip label="Search" type="is-success">
+                                            <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
+                                             </b-tooltip>
+                                        </p>
+                                    </b-field>
                                 </div>
                             </div>
                         </div>
 
-
-                        <b-field label="Search">
-                            <b-input type="text"
-                                v-model="search.allotment" placeholder="Search Allotment"
-                                @keyup.native.enter="loadAsyncData"/>
-                            <p class="control">
-                                <b-tooltip label="Search" type="is-success">
-                                    <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
-                                </b-tooltip>
-                            </p>
-                        </b-field>
-                      
-                        
                         <b-table
                             :data="data"
                             :loading="loading"
@@ -63,25 +58,38 @@
                             :default-sort-direction="defaultSortDirection"
                             @sort="onSort">
 
-                            <b-table-column field="allotment_class_id" label="ID" v-slot="props">
-                                {{ props.row.allotment_class_id }}
+                            <b-table-column field="object_expenditure_id" label="ID" v-slot="props">
+                                {{ props.row.object_expenditure_id }}
                             </b-table-column>
 
-                            <b-table-column field="allotmant_class" label="Allotment Class" v-slot="props">
+                            <b-table-column field="financial_year" label="Financial Year" v-slot="props">
+                                {{ props.row.financial_year.financial_year_code }}
+                                -
+                                {{ props.row.financial_year.financial_year_desc }}
+                            </b-table-column>
+
+                            <b-table-column field="allotment_class_code" label="Code" v-slot="props">
+                                {{ props.row.allotment_class_code }}
+                            </b-table-column>
+
+                            <b-table-column field="allotment_class" label="Allotment Class" v-slot="props">
                                 {{ props.row.allotment_class }}
                             </b-table-column>
+
+                          
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
                                     <b-tooltip label="Edit" type="is-warning">
-                                        <b-button class="button is-small is-warning mr-1" 
-                                            tag="a" 
-                                            icon-right="pencil" @click="getData(props.row.allotment_class_id)"></b-button>
+                                        <b-button class="button is-small is-warning mr-1"
+                                            tag="a"
+                                            icon-right="pencil"
+                                            @click="getData(props.row.priority_program_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
-                                        <b-button class="button is-small is-danger mr-1" 
-                                            icon-right="delete" 
-                                            @click="confirmDelete(props.row.allotment_class_id)"></b-button>
+                                        <b-button class="button is-small is-danger mr-1"
+                                            icon-right="delete"
+                                            @click="confirmDelete(props.row.priority_program_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -109,7 +117,7 @@
             <form @submit.prevent="submit">
                 <div class="modal-card">
                     <header class="modal-card-head">
-                        <p class="modal-card-title">ALLOTMENT CLASS</p>
+                        <p class="modal-card-title">OBJECT OF EXPENDITURE</p>
                         <button
                             type="button"
                             class="delete"
@@ -117,34 +125,65 @@
                     </header>
 
                     <section class="modal-card-body">
-
                         <div class="">
+
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Allotment Class Code" label-position="on-border"
-                                        :type="errors.allotment_class_code ? 'is-danger':''"
-                                        :message="errors.allotment_class_code ? errors.allotment_class_code[0] : ''">
-                                        <b-input v-model="fields.allotment_class_code"
-                                            placeholder="Allotment Class Code" required>
-                                        </b-input>
+                                    <b-field label="Financial Year"
+                                        expanded
+                                        :type="errors.financial_year_id ? 'is-danger':''"
+                                        :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
+                                        <b-select v-model="fields.financial_year_id" expanded
+                                            required
+                                            placeholder="Financial Year">
+                                            <option v-for="(item, indx) in financialYears"
+                                                :key="`fy${indx}`"
+                                                :value="item.financial_year_id">
+                                                {{ item.financial_year_code }}
+                                                -
+                                                {{ item.financial_year_desc }}
+                                            </option>
+                                        </b-select>
                                     </b-field>
                                 </div>
                             </div>
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Allotment Class" label-position="on-border"
-                                        :type="errors.allotment_class ? 'is-danger':''"
-                                        :message="errors.allotment_class ? errors.allotment_class[0] : ''">
-                                        <b-input v-model="fields.allotment_class"
-                                            placeholder="Allotment Class" required>
+                                    <b-field label="Object of Expenditure" label-position="on-border"
+                                        :type="errors.object_expenditure ? 'is-danger':''"
+                                        :message="errors.object_expenditure ? errors.object_expenditure[0] : ''">
+                                        <b-input v-model="fields.object_expenditure"
+                                            placeholder="Object of Expenditure" required>
                                         </b-input>
                                     </b-field>
                                 </div>
                             </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Allotment Class"
+                                        expanded
+                                        :type="errors.allotment_class_id ? 'is-danger':''"
+                                        :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
+                                        <b-select v-model="fields.allotment_class_id" expanded
+                                            required
+                                            placeholder="Allotment Class">
+                                            <option v-for="(item, indx) in allotmentClasses"
+                                                :key="`fy${indx}`"
+                                                :value="item.allotment_class_id">
+                                                {{ item.allotment_class_code }}
+                                                -
+                                                {{ item.allotment_class }}
+                                            </option>
+                                        </b-select>
+                                    </b-field>
+                                </div>
+                            </div>
+
                         </div>
                     </section>
-
                     <footer class="modal-card-foot">
+
                         <button
                             :class="btnClass"
                             label="Save"
@@ -167,7 +206,7 @@ export default{
             data: [],
             total: 0,
             loading: false,
-            sortField: 'allotment_class_id',
+            sortField: 'object_expenditure_id',
             sortOrder: 'desc',
             page: 1,
             perPage: 20,
@@ -177,23 +216,30 @@ export default{
             global_id : 0,
 
             search: {
-                financial_year: '',
+                code: '',
+                objectexp: ''
             },
 
             isModalCreate: false,
 
             fields: {
+                financial_year_id: null,
+                object_expenditure: null,
                 allotment_class_code: null,
-                allotment_class: null,
-  
+                allotment_class: null
             },
             errors: {},
-  
+
+
             btnClass: {
                 'is-success': true,
                 'button': true,
                 'is-loading':false,
             },
+
+            provinces: [],
+            financialYears: [],
+            allotmentClasses: [],
 
         }
 
@@ -206,12 +252,13 @@ export default{
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
+                `objectexp=${this.search.objectexp}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-allotment-classes?${params}`)
+            axios.get(`/get-object-expenditures?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total
@@ -252,7 +299,6 @@ export default{
         },
 
         openModal(){
-            this.global_id = 0
             this.isModalCreate=true;
             this.fields = {};
             this.errors = {};
@@ -261,10 +307,10 @@ export default{
 
 
         submit: function(){
-            this.errors = {}
+
             if(this.global_id > 0){
                 //update
-                axios.put('/allotment-classes/'+this.global_id, this.fields).then(res=>{
+                axios.put('/priority-programs/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -272,6 +318,7 @@ export default{
                             type: 'is-success',
                             onConfirm: () => {
                                 this.loadAsyncData();
+                                this.clearFields();
                                 this.global_id = 0;
                                 this.isModalCreate = false;
                             }
@@ -284,7 +331,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/allotment-classes', this.fields).then(res=>{
+                axios.post('/priority-programs', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -294,6 +341,7 @@ export default{
                             onConfirm: () => {
                                 this.isModalCreate = false;
                                 this.loadAsyncData();
+                                this.clearFields();
                                 this.global_id = 0;
                             }
                         })
@@ -320,7 +368,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/allotment-classes/' + delete_id).then(res => {
+            axios.delete('/priority-programs/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -329,34 +377,44 @@ export default{
             });
         },
 
-      
+        clearFields(){
+            this.fields.priority_program = '';
+            this.fields.priority_program_code = '';
+
+        },
+
 
         //update code here
         getData: function(data_id){
+            this.clearFields();
             this.global_id = data_id;
             this.isModalCreate = true;
 
-            axios.get('/allotment-classes/'+data_id).then(res=>{
-                this.fields = res.data
+
+            //nested axios for getting the address 1 by 1 or request by request
+            axios.get('/priority-programs/'+data_id).then(res=>{
+                this.fields = res.data;
+                
             });
         },
 
-
-
-        //financial year
-        loadFinancialYears: function(){
+        loadFinancialYears(){
             axios.get('/load-financial-years').then(res=>{
-                this.financialYears = res.data;
+                this.financialYears = res.data
+            })
+        },
+        loadFinancialYears(){
+            axios.get('/load-allotment-classes').then(res=>{
+                this.allotmentClasses = res.data
             })
         },
 
-
-      
 
     },
 
     mounted() {
         this.loadFinancialYears()
+        this.loadAllotmentClasses();
         this.loadAsyncData();
     }
 }

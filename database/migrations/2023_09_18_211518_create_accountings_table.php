@@ -17,7 +17,7 @@ class CreateAccountingsTable extends Migration
             $table->id('accounting_id');
 
 
-           
+            $table->unsignedBigInteger('financial_year_id');
             $table->foreign('financial_year_id')
                 ->references('financial_year_id')
                 ->on('financial_years')
@@ -27,6 +27,7 @@ class CreateAccountingsTable extends Migration
             $table->date('date_transaction')->nullable();
             $table->string('doc_type', 30)->nullable();
 
+            $table->unsignedBigInteger('transaction_type_id');
             $table->foreign('transaction_type_id')
                 ->references('transaction_type_id')
                 ->on('transaction_types')

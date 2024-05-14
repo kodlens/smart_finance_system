@@ -16,7 +16,7 @@ class CreateLiaisonsTable extends Migration
     public function up()
     {
         Schema::create('liaisons', function (Blueprint $table) {
-            $table->id('liason_id');
+            $table->id('liaison_id');
             $table->string('lname')->nullable();
             $table->string('fname')->nullable();
             $table->string('mname')->nullable();

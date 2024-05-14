@@ -109,8 +109,11 @@ Route::middleware(['auth', 'admin'])->group(function() {
     Route::resource('/allotment-classes', App\Http\Controllers\Administrator\AllotmentClassController::class);
     Route::get('/get-allotment-classes', [App\Http\Controllers\Administrator\AllotmentClassController::class, 'getData']);
 
-    Route::resource('/allotment-class-accounts', App\Http\Controllers\Administrator\AllotmentClassAccountController::class);
-    Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
+    Route::resource('/object-expenditures', App\Http\Controllers\Administrator\ObjectExpenditureController::class);
+    Route::get('/get-object-expenditures', [App\Http\Controllers\Administrator\ObjectExpenditureController::class, 'getData']);
+
+    // Route::resource('/allotment-class-accounts', App\Http\Controllers\Administrator\AllotmentClassAccountController::class);
+    // Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
 
 
     Route::resource('/priority-programs', App\Http\Controllers\Administrator\PriorityProgramController::class);
@@ -155,7 +158,7 @@ Route::middleware(['auth', 'astaff'])->group(function() {
 
 
 Route::middleware(['auth'])->group(function() {
-    Route::get('/get-modal-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getModalPriorityPrograms']);
+    Route::get('/get-modal-object-expenditures', [App\Http\Controllers\Administrator\ObjectExpenditureController::class, 'getModalObjectExpenditures']);
     Route::get('/get-modal-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getModalAllotmentClassAccounts']);
     Route::get('/get-modal-payee', [App\Http\Controllers\Administrator\PayeeController::class, 'getModalPayee']);
 

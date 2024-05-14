@@ -69,15 +69,15 @@
                     <b-navbar-item href="/financial-years">
                         Financial Years
                     </b-navbar-item>
-                    <b-navbar-item href="/services">
-                        Services
-                    </b-navbar-item>
+                   
                     <b-navbar-item href="/allotment-classes">
                         Allotment Class
+                    </b-navbar-item><b-navbar-item href="/object-expenditures">
+                        Object Expenditures
                     </b-navbar-item>
-                    <b-navbar-item href="/allotment-class-accounts">
+                    {{-- <b-navbar-item href="/allotment-class-accounts">
                         Allotment Class Accounts
-                    </b-navbar-item>
+                    </b-navbar-item> --}}
                     <b-navbar-item href="/supplier-payee">
                         Supplier/Payee
                     </b-navbar-item>
@@ -90,9 +90,10 @@
                     <b-navbar-item href="/offices">
                         Office/Institutes
                     </b-navbar-item>
-                    <b-navbar-item href="/priority-programs">
+                    
+                    {{-- <b-navbar-item href="/priority-programs">
                         Priority Program
-                    </b-navbar-item>
+                    </b-navbar-item> --}}
                 </b-navbar-dropdown>
                 @endif
            

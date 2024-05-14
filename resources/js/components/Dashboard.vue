@@ -180,7 +180,7 @@ export default{
 
     mounted(){
         this.loadFinancialYears()
-        this.loadFundSources()
+        //this.loadFundSources()
 
     },
 
@@ -236,7 +236,7 @@ export default{
                 this.allotmentAccounting = res.data
             })
 
-            this.loadAccountingUtilizations()
+            //this.loadAccountingUtilizations()
         },
 
 
@@ -246,51 +246,15 @@ export default{
             })
         },
 
-        loadData(){
-            //this.loadAccountingUtilizations()
-            //this.loadBudgetingUtilizations()
-            //this.loadProcurementUtilizations()
-            this.loadAllotmentClasses()
-        },
-
         loadAccountingUtilizations(){
             axios.get('/load-accounting-utilizations/' + this.search.financial_year['financial_year_id'] + '/?doc=' + this.search.doc).then(res=>{
                 this.accountingUsedBudget = res.data
             })
         },
 
-        // loadBudgetingUtilizations(){
-        //     axios.get('/load-budgeting-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
-        //         this.budgetingUsedBudget = res.data
-        //     })
-        // },
-
-        // loadProcurementUtilizations(){
-        //     axios.get('/load-procurement-utilizations/' + this.search.financial_year['financial_year_id']).then(res=>{
-        //         this.procurementUsedBudget = res.data
-        //     })
-        // },
+   
 
 
-        async loadAllotmentClasses(){
-            await axios.get('/load-allotment-classes-by-financial/' + this.search.financial_year['financial_year_id']).then(res=>{
-                this.allotmentClasses = res.data
-            })
-        },
-
-
-
-
-        // loadAllotmentBudgeting(){
-        //     axios.get('/load-allotment-budgeting/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_budgeting).then(res=>{
-        //         this.allotmentBudgeting = res.data
-        //     })
-        // },
-        // loadAllotmentProcurement(){
-        //     axios.get('/load-allotment-procurement/' + this.search.financial_year['financial_year_id'] + '/' + this.search.allotment_procurement).then(res=>{
-        //         this.allotmentBudgeting = res.data
-        //     })
-        // },
         loadFundSources(){
             axios.get('/load-fund-sources').then(res=>{
                 this.fundSources = res.data
@@ -301,6 +265,7 @@ export default{
 
     computed: {
         totalUtilizations(){
+            return 0
             return this.accountingUsedBudget
 
            

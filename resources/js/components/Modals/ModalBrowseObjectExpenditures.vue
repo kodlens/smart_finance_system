@@ -144,7 +144,7 @@ export default {
             ].join('&')
 
             this.loading = true
-            axios.get(`/get-modal-priority-programs?${params}`)
+            axios.get(`/get-modal-object-expenditures?${params}`)
                 .then(({ data }) => {
                     this.data = [];
                     let currentTotal = data.total

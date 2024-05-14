@@ -26,7 +26,7 @@
                                         :message="errors.financial_year_id ? errors.financial_year_id[0] : ''">
                                         <b-select v-model="fields.financial_year_id" expanded
                                             required
-                                            @input="loadAllotmentClasses"
+                                            @input="loadObjectExpenditures"
                                             placeholder="Financial Year">
                                             <option v-for="(item, indx) in financialYears"
                                                 :key="`fy${indx}`"
@@ -39,18 +39,13 @@
                                     </b-field>
                                 </div>
                                 <div class="column">
-                                    <b-field label="Fund Source"
-                                        expanded
-                                        :type="errors.fund_source_id ? 'is-danger':''"
-                                        :message="errors.fund_source_id ? errors.fund_source_id[0] : ''">
-                                        <b-select v-model="fields.fund_source_id" expanded
-                                            @input="clearChargeTo"
-                                            required
-                                            placeholder="Fund Source">
-                                            <option v-for="(item,index) in fundSources"
-                                                :key="`fund${index}`" :value="item.fund_source_id">
-                                                {{ item.fund_source }}</option>
-
+                                    <b-field label="Transaction Type" expanded
+                                             :type="errors.transaction_type_id ? 'is-danger':''"
+                                             :message="errors.transaction_type_id ? errors.transaction_type_id[0] : ''">
+                                        <b-select placholder="Transaction Type" expanded
+                                                  v-model="fields.transaction_type_id">
+                                            <option :value="item.transaction_type_id" v-for="(item, index) in transactionTypes"
+                                                    :key="index">{{ item.transaction_type }}</option>
                                         </b-select>
                                     </b-field>
                                 </div>
@@ -61,7 +56,7 @@
                                     <b-field label="Date Time"
                                         :type="errors.date_time ? 'is-danger':''"
                                         :message="errors.date_time ? errors.date_time[0] : ''">
-                                        <b-datetimepicker v-model="fields.date_time" required></b-datetimepicker>
+                                        <b-datepicker v-model="fields.date_time" required></b-datepicker>
                                     </b-field>
                                 </div>
 
@@ -86,17 +81,7 @@
                                         </b-input>
                                     </b-field>
                                 </div>
-                                <div class="column">
-                                    <b-field label="Transaction Type" expanded
-                                             :type="errors.transaction_type_id ? 'is-danger':''"
-                                             :message="errors.transaction_type_id ? errors.transaction_type_id[0] : ''">
-                                        <b-select placholder="Transaction Type" expanded
-                                                  v-model="fields.transaction_type_id">
-                                            <option :value="item.transaction_type_id" v-for="(item, index) in transactionTypes"
-                                                    :key="index">{{ item.transaction_type }}</option>
-                                        </b-select>
-                                    </b-field>
-                                </div>
+                                
                             </div>
 
                             <div class="columns">
@@ -124,64 +109,7 @@
                             </div>
 
 
-                            <div class="columns">
-                                <div class="column">
-
-                                    <b-field label="Documentary Attachments">
-                                        <div class="m-2">
-                                            <div class="my-2" v-for="(item, ixdoc) in fields.documentary_attachments" :key="`doc${ixdoc}`">
-                                                <div class="columns">
-                                                    <div class="column">
-                                                        <b-field label="Attachment" label-position="on-border" expanded
-                                                            :type="id > 0 ? 'is-primary' : ''"
-                                                            :message="id > 0 ? 'To update file, delete first the old one and upload a newer version.' : ''">
-                                                            <b-select v-model="item.documentary_attachment_id" expanded required>
-                                                                <option v-for="(doc, ix) in documentaryAttachments"
-                                                                    :key="`idoc${ix}`"
-                                                                    :value="doc.documentary_attachment_id">
-                                                                        {{ doc.documentary_attachment }}
-                                                                </option>
-                                                            </b-select>
-                                                        </b-field>
-                                                    </div>
-                                                    <div class="column" v-if="!item.acctg_doc_attachment_id">
-                                                        <b-field class="file is-primary" :class="{'has-name': !!item.file_upload}">
-                                                            <b-upload v-model="item.file_upload" class="file-label">
-                                                            <span class="file-cta">
-                                                                <b-icon class="file-icon" icon="upload"></b-icon>
-                                                                <span class="file-label">Click to upload</span>
-                                                            </span>
-                                                                <span class="file-name" v-if="item.file_upload">
-                                                                {{ item.file_upload.name }}
-                                                            </span>
-                                                            </b-upload>
-                                                        </b-field>
-
-                                                    </div>
-
-
-                                                    <div class="column is-1">
-                                                        <b-button icon-left="delete-outline"
-                                                            @click="removeDoctAttchment(ixdoc)"
-                                                            class="is-danger">
-                                                        </b-button>
-                                                    </div>
-                                                </div>
-
-
-                                            </div>
-
-                                            <div class="buttons mt-2">
-                                                <b-button @click="newDocAttachment"
-                                                    icon-left="plus"
-                                                    class="button is-small is-outlined is-primary">
-                                                    NEW ATTACHMENT
-                                                </b-button>
-                                            </div>
-                                        </div>
-                                    </b-field>
-                                </div>
-                            </div>
+                            
 
 
                             <div v-if="fields.fund_source_id === 1">
@@ -256,61 +184,17 @@
 
                             <div class="columns">
                                 <div class="column">
-                                    <b-field label="Priority Program"
+                                    <b-field label="Object of Expenditures"
                                         :type="errors.priority_program_id ? 'is-danger':''"
                                         :message="errors.priority_program_id ? errors.priority_program_id[0] : ''">
-                                        <modal-browse-priority-program
+                                        <modal-browse-object-expenditures
                                             :prop-priority-program="fields.priority_program"
-                                            @browsePriorityProgram="emitPriorityProgram"></modal-browse-priority-program>
+                                            @browsePriorityProgram="emitPriorityProgram"></modal-browse-object-expenditures>
                                     </b-field>
                                 </div>
                             </div>
 
-                            <!-- <div class="columns">
-                                <div class="column">
-                                    <b-field label="Supplemental Budget"
-                                        :type="errors.supplemental_budget ? 'is-danger':''"
-                                        :message="errors.supplemental_budget ? errors.supplemental_budget[0] : ''">
-                                        <b-input type="text" v-model="fields.supplemental_budget"
-                                                 placeholder="Supplemental Budget"
-                                                 required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="Capital Outlay"
-                                        :type="errors.capital_outlay ? 'is-danger':''"
-                                        :message="errors.capital_outlay ? errors.capital_outlay[0] : ''">
-                                        <b-input type="text" v-model="fields.capital_outlay"
-                                                 placeholder="Capital Outlay"
-                                                 required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>
-
-                            <div class="columns">
-                                <div class="column">
-                                    <b-field label="Accounts Payable"
-                                        :type="errors.account_payable ? 'is-danger':''"
-                                        :message="errors.account_payable ? errors.account_payable[0] : ''">
-                                        <b-input type="text" v-model="fields.account_payable"
-                                            placeholder="Accounts Payable"
-                                            required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                                <div class="column">
-                                    <b-field label="TES Trust Fund"
-                                        :type="errors.tes_trust_fund ? 'is-danger':''"
-                                        :message="errors.tes_trust_fund ? errors.tes_trust_fund[0] : ''">
-                                        <b-input type="text" v-model="fields.tes_trust_fund"
-                                            placeholder="TES Trust Fund"
-                                            required>
-                                        </b-input>
-                                    </b-field>
-                                </div>
-                            </div>-->
+                            
 
                             <div class="columns">
                                 <div class="column">
@@ -330,6 +214,66 @@
                                         <b-input type="text" v-model="fields.others"
                                             placeholder="Others">
                                         </b-input>
+                                    </b-field>
+                                </div>
+                            </div>
+
+
+                            <div class="columns">
+                                <div class="column">
+
+                                    <b-field label="Documentary Attachments">
+                                        <div class="m-2">
+                                            <div class="my-2" v-for="(item, ixdoc) in fields.documentary_attachments" :key="`doc${ixdoc}`">
+                                                <div class="columns">
+                                                    <div class="column">
+                                                        <b-field label="Attachment" label-position="on-border" expanded
+                                                            :type="id > 0 ? 'is-primary' : ''"
+                                                            :message="id > 0 ? 'To update file, delete first the old one and upload a newer version.' : ''">
+                                                            <b-select v-model="item.documentary_attachment_id" expanded required>
+                                                                <option v-for="(doc, ix) in documentaryAttachments"
+                                                                    :key="`idoc${ix}`"
+                                                                    :value="doc.documentary_attachment_id">
+                                                                        {{ doc.documentary_attachment }}
+                                                                </option>
+                                                            </b-select>
+                                                        </b-field>
+                                                    </div>
+                                                    <div class="column" v-if="!item.acctg_doc_attachment_id">
+                                                        <b-field class="file is-primary" :class="{'has-name': !!item.file_upload}">
+                                                            <b-upload v-model="item.file_upload" class="file-label">
+                                                            <span class="file-cta">
+                                                                <b-icon class="file-icon" icon="upload"></b-icon>
+                                                                <span class="file-label">Click to upload</span>
+                                                            </span>
+                                                                <span class="file-name" v-if="item.file_upload">
+                                                                {{ item.file_upload.name }}
+                                                            </span>
+                                                            </b-upload>
+                                                        </b-field>
+
+                                                    </div>
+
+
+                                                    <div class="column is-1">
+                                                        <b-button icon-left="delete-outline"
+                                                            @click="removeDoctAttchment(ixdoc)"
+                                                            class="is-danger">
+                                                        </b-button>
+                                                    </div>
+                                                </div>
+
+
+                                            </div>
+
+                                            <div class="buttons mt-2">
+                                                <b-button @click="newDocAttachment"
+                                                    icon-left="plus"
+                                                    class="button is-small is-outlined is-primary">
+                                                    NEW ATTACHMENT
+                                                </b-button>
+                                            </div>
+                                        </div>
                                     </b-field>
                                 </div>
                             </div>
@@ -428,6 +372,7 @@ export default{
             },
 
             documentaryAttachments: [],
+            objectExpenditures: [],
             allotmentClasses: [],
 
         }
@@ -449,8 +394,16 @@ export default{
             })
         },
 
+        async loadObjectExpenditures(){
+            await axios.get('/load-object-expenditures/' + this.fields.financial_year_id).then(res=>{
+                this.objectExpenditures = res.data
+            }).catch(err=>{
+
+            })
+        },
+
         async loadAllotmentClasses(){
-            await axios.get('/load-allotment-classes-by-financial/' + this.fields.financial_year_id).then(res=>{
+            await axios.get('/load-allotment-classes').then(res=>{
                 this.allotmentClasses = res.data
             }).catch(err=>{
 

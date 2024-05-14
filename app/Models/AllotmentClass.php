@@ -9,18 +9,15 @@ class AllotmentClass extends Model
 {
     use HasFactory;
 
-    protected $primaryKey = 'allotment_class_id';
     protected $table = 'allotment_classes';
+    protected $primaryKey = 'allotment_class_id';
+
 
     protected $fillable = [
-        'financial_year_id',
-        'allotment_class',
-        'allotment_class_budget'
+        'allotment_class_code',
+        'allotment_class', 
+        'active'
     ];
 
-    public function financial_year(){
-        return $this->hasOne(FinancialYear::class, 'financial_year_id', 'financial_year_id')
-            ->select('financial_year_id', 'financial_year_code', 'financial_year_desc', 'financial_budget');
-    }
 
 }
