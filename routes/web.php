@@ -58,8 +58,6 @@ Route::get('/load-offices', [App\Http\Controllers\OpenController::class, 'loadOf
 Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::class, 'loadAllotmentClasses']);
 Route::get('/load-transaction-types', [App\Http\Controllers\OpenController::class, 'loadTransactionTypes']);
 Route::get('/load-documentary-attachments', [App\Http\Controllers\OpenController::class, 'loadDocumentaryAttachments']);
-Route::get('/load-allotment-classes', [App\Http\Controllers\OpenController::class, 'loadAllotmentClasses']);
-Route::get('/load-allotment-classes-by-financial/{financial}', [App\Http\Controllers\OpenController::class, 'loadAllotmentClassesByFinancial']);
 
 
 
@@ -116,8 +114,8 @@ Route::middleware(['auth', 'admin'])->group(function() {
     // Route::get('/get-allotment-class-accounts', [App\Http\Controllers\Administrator\AllotmentClassAccountController::class, 'getData']);
 
 
-    Route::resource('/priority-programs', App\Http\Controllers\Administrator\PriorityProgramController::class);
-    Route::get('/get-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getData']);
+    //Route::resource('/priority-programs', App\Http\Controllers\Administrator\PriorityProgramController::class);
+    //Route::get('/get-priority-programs', [App\Http\Controllers\Administrator\PriorityProgramController::class, 'getData']);
 
     Route::resource('/services', App\Http\Controllers\Administrator\ServiceController::class);
     Route::get('/get-services', [App\Http\Controllers\Administrator\ServiceController::class, 'getData']);

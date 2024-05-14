@@ -28,8 +28,8 @@
                                 <div class="level-item">
                                     <b-field label="Search">
                                         <b-input type="text"
-                                                 v-model="search.program" placeholder="Search..."
-                                                 @keyup.native.enter="loadAsyncData"/>
+                                            v-model="search.program" placeholder="Search..."
+                                            @keyup.native.enter="loadAsyncData"/>
                                         <p class="control">
                                              <b-tooltip label="Search" type="is-success">
                                             <b-button type="is-primary" icon-right="account-filter" @click="loadAsyncData"/>
@@ -68,6 +68,10 @@
                                 {{ props.row.financial_year.financial_year_desc }}
                             </b-table-column>
 
+                            <b-table-column field="object_expenditure" label="Object Expenditure" v-slot="props">
+                                {{ props.row.object_expenditure }}
+                            </b-table-column>
+
                             <b-table-column field="allotment_class_code" label="Code" v-slot="props">
                                 {{ props.row.allotment_class_code }}
                             </b-table-column>
@@ -84,12 +88,12 @@
                                         <b-button class="button is-small is-warning mr-1"
                                             tag="a"
                                             icon-right="pencil"
-                                            @click="getData(props.row.priority_program_id)"></b-button>
+                                            @click="getData(props.row.object_expenditure_id)"></b-button>
                                     </b-tooltip>
                                     <b-tooltip label="Delete" type="is-danger">
                                         <b-button class="button is-small is-danger mr-1"
                                             icon-right="delete"
-                                            @click="confirmDelete(props.row.priority_program_id)"></b-button>
+                                            @click="confirmDelete(props.row.object_expenditure_id)"></b-button>
                                     </b-tooltip>
                                 </div>
                             </b-table-column>
@@ -163,14 +167,14 @@
                                 <div class="column">
                                     <b-field label="Allotment Class"
                                         expanded
-                                        :type="errors.allotment_class_id ? 'is-danger':''"
-                                        :message="errors.allotment_class_id ? errors.allotment_class_id[0] : ''">
-                                        <b-select v-model="fields.allotment_class_id" expanded
+                                        :type="errors.allotment_class ? 'is-danger':''"
+                                        :message="errors.allotment_class ? errors.allotment_class[0] : ''">
+                                        <b-select v-model="fields.allotment_class" expanded
                                             required
                                             placeholder="Allotment Class">
                                             <option v-for="(item, indx) in allotmentClasses"
                                                 :key="`fy${indx}`"
-                                                :value="item.allotment_class_id">
+                                                :value="item">
                                                 {{ item.allotment_class_code }}
                                                 -
                                                 {{ item.allotment_class }}
@@ -310,7 +314,7 @@ export default{
 
             if(this.global_id > 0){
                 //update
-                axios.put('/priority-programs/'+this.global_id, this.fields).then(res=>{
+                axios.put('/object-expenditures/'+this.global_id, this.fields).then(res=>{
                     if(res.data.status === 'updated'){
                         this.$buefy.dialog.alert({
                             title: 'UPDATED!',
@@ -331,7 +335,7 @@ export default{
                 })
             }else{
                 //INSERT HERE
-                axios.post('/priority-programs', this.fields).then(res=>{
+                axios.post('/object-expenditures', this.fields).then(res=>{
                     if(res.data.status === 'saved'){
                         this.$buefy.dialog.alert({
                             title: 'SAVED!',
@@ -368,7 +372,7 @@ export default{
         },
         //execute delete after confirming
         deleteSubmit(delete_id) {
-            axios.delete('/priority-programs/' + delete_id).then(res => {
+            axios.delete('/object-expenditures/' + delete_id).then(res => {
                 this.loadAsyncData();
             }).catch(err => {
                 if (err.response.status === 422) {
@@ -389,10 +393,9 @@ export default{
             this.clearFields();
             this.global_id = data_id;
             this.isModalCreate = true;
-
-
+            
             //nested axios for getting the address 1 by 1 or request by request
-            axios.get('/priority-programs/'+data_id).then(res=>{
+            axios.get('/object-expenditures/'+data_id).then(res=>{
                 this.fields = res.data;
                 
             });
@@ -403,7 +406,7 @@ export default{
                 this.financialYears = res.data
             })
         },
-        loadFinancialYears(){
+        loadAllotmentClasses(){
             axios.get('/load-allotment-classes').then(res=>{
                 this.allotmentClasses = res.data
             })

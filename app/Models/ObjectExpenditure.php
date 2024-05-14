@@ -13,6 +13,7 @@ class ObjectExpenditure extends Model
     protected $table = 'object_expenditures';
 
     protected $fillable = [
+        'financial_year_id',
         'object_expenditure',
         'allotment_class',
         'allotment_class_code',

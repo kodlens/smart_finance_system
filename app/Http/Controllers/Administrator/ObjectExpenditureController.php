@@ -18,7 +18,8 @@ class ObjectExpenditureController extends Controller
     public function getData(Request $req){
         $sort = explode('.', $req->sort_by);
 
-        return ObjectExpenditure::where('allotment_class', 'like', '%'. $req->allotment . '%')
+        return ObjectExpenditure::with(['financial_year'])
+            ->where('allotment_class', 'like', '%'. $req->allotment . '%')
             ->orderBy($sort[0], $sort[1])
             ->paginate($req->perpage);
     }
@@ -30,29 +31,47 @@ class ObjectExpenditureController extends Controller
 
 
 
-    public function getModalObjectExpenditures(){
+    public function getModalObjectExpenditures(Request $req){
+        $sort = explode('.', $req->sort_by);
+
         $data = ObjectExpenditure::where('financial_year_id', $req->financial)
-            ->get();
+            ->orderBy($sort[0], $sort[1])
+            ->paginate($req->perpage);
 
         return $data;
     }
 
 
     public function store(Request $req){
-        
+        //return $req;
+
         $req->validate([
             'financial_year_id' => ['required'],
             'object_expenditure' => ['required'],
-            'allotment_class' => ['required'],
-            'allotment_class_code' => ['required'],
+            'allotment_class' => ['required']
         ]);
+
+        $exists = ObjectExpenditure::where('object_expenditure', strtoupper($req->object_expenditure))
+            ->where('financial_year_id', $req->financial_year_id)
+            ->where('allotment_class', strtoupper($req->allotment_class['allotment_class']))
+            ->exists();
+
+        if($exists){
+            return response()->json([
+                
+                'errors' => [
+                    'object_expenditure' => ['Object of expenditures existed.'],
+                    'message' => 'Data cannot accepted.'
+                ],
+                
+            ], 422);
+        }
 
         ObjectExpenditure::create([
             'financial_year_id' => $req->financial_year_id,
             'object_expenditure' => strtoupper($req->object_expenditure),
-            'allotment_class' => strtoupper($req->allotment_class),
-            'allotment_class_code' => strtoupper($req->allotment_class_code),
-            
+            'allotment_class' => strtoupper($req->allotment_class['allotment_class']),
+            'allotment_class_code' => strtoupper($req->allotment_class['allotment_class_code']),
         ]);
 
         return response()->json([

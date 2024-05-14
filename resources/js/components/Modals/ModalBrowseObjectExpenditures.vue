@@ -17,7 +17,7 @@
                  trap-focus scroll="keep" aria-role="dialog" aria-modal>
             <div class="modal-card card-width">
                 <header class="modal-card-head">
-                    <p class="modal-card-title has-text-weight-bold is-size-4">SELECT PRIORITY PROGRAM</p>
+                    <p class="modal-card-title has-text-weight-bold is-size-4">SELECT OBJECT OF EXPENDITURE</p>
                     <button type="button" class="delete"
                             @click="isModalActive = false" />
 
@@ -32,11 +32,7 @@
                                 @keyup.native.enter="loadAsyncData"
                                 expanded auto-focus></b-input>
 
-                            <b-input type="text"
-                                 v-model="search.code"
-                                 placeholder="Search Priority Program Code..."
-                                 @keyup.native.enter="loadAsyncData"
-                                 expanded auto-focus></b-input>
+                          
                             <p class="control">
                                 <b-button class="is-primary" icon-left="magnify" @click="loadAsyncData"></b-button>
                             </p>
@@ -61,16 +57,20 @@
                                 default-sort-direction="defualtSortDirection"
                                 @sort="onSort">
 
-                                <b-table-column field="priority_program_id" label="ID" v-slot="props">
-                                    {{props.row.priority_program_id}}
+                                <b-table-column field="object_expenditure_id" label="ID" v-slot="props">
+                                    {{props.row.object_expenditure_id}}
                                 </b-table-column>
 
-                                <b-table-column field="priority_program" label="Priority Program" v-slot="props">
-                                    {{ props.row.priority_program }}
+                                <b-table-column field="object_expenditure" label="Object Of Expenditure" v-slot="props">
+                                    {{ props.row.object_expenditure }}
                                 </b-table-column>
 
-                                <b-table-column field="allotment_class_account_code" label="Priority Program Code" v-slot="props">
-                                    {{ props.row.priority_program_code }}
+                                <b-table-column field="allotment_class_code" label="Code" v-slot="props">
+                                    {{ props.row.allotment_class_code }}
+                                </b-table-column>
+
+                                <b-table-column field="allotment_class" label="Allotment Class" v-slot="props">
+                                    {{ props.row.allotment_class }}
                                 </b-table-column>
 
 
@@ -102,7 +102,12 @@
 <script>
 export default {
     props: {
-        propPriorityProgram: {
+
+        propFinancialYearId: {
+            type: Number,
+            default: 0
+        },
+        propObjectExpenditure: {
             type: String,
             default: '',
         },
@@ -117,7 +122,7 @@ export default {
             data: [],
             total: 0,
             loading: false,
-            sortField: 'priority_program_id',
+            sortField: 'object_expenditure_id',
             sortOrder:'desc',
             page: 1,
             perPage: 5,
@@ -126,6 +131,7 @@ export default {
             isModalActive: false,
             errors:{},
 
+            financialYears: [],
 
             search: {
                 pp: '',
@@ -137,7 +143,7 @@ export default {
         loadAsyncData() {
             const params = [
                 `sort_by=${this.sortField}.${this.sortOrder}`,
-                `pp=${this.search.pp}`,
+                `financial=${this.propFinancialYearId}`,
                 `code=${this.search.code}`,
                 `perpage=${this.perPage}`,
                 `page=${this.page}`
@@ -189,18 +195,21 @@ export default {
 
         selectData(dataRow){
             this.isModalActive = false;
-            this.$emit('browsePriorityProgram', dataRow);
-        }
-
-    },
-
-    computed: {
-        valueName(){
-            return this.propPriorityProgram;
+            this.$emit('browseObjectExpenditure', dataRow);
         },
 
 
 
+    },
+
+    mounted(){
+        this.loadFinancialYears()
+    },
+
+    computed: {
+        valueName(){
+            return this.propObjectExpenditure;
+        },
 
     },
 
