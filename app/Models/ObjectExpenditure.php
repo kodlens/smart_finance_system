@@ -18,12 +18,14 @@ class ObjectExpenditure extends Model
         'allotment_class',
         'allotment_class_code',
         'approved_budget',
-        'beginning_budget'
+        'beginning_budget',
+        'end_budget',
+        'utilize_budget'
     ];
 
     public function financial_year(){
         return $this->hasOne(FinancialYear::class, 'financial_year_id', 'financial_year_id')
-            ->select('financial_year_id', 'financial_year_code', 'financial_year_desc', 'financial_budget');
+            ->select('financial_year_id', 'financial_year_code', 'financial_year_desc', 'approved_budget');
     }
 
 }

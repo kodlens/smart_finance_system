@@ -63,48 +63,29 @@ class Accounting extends Model
         'college_accounting_datetime_updated',
         'final_status',
         'final_remarks'
-
     ];
 
 
     public function financial_year(){
         return $this->hasMany(FinancialYear::class, 'financial_year_id', 'financial_year_id');
     }
-    
-    public function service(){
-        return $this->hasMany(Service::class, 'service', 'doc_type');
-    }
-
-    
-    public function fund_source(){
-        return $this->hasOne(FundSource::class, 'fund_source_id', 'fund_source_id');
-    }
 
 
     public function documentary_attachments(){
         return $this->hasMany(DocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }
-
-
     public function accounting_documentary_attachments(){
         return $this->hasMany(AccountingDocumentaryAttachment::class, 'accounting_id', 'accounting_id');
     }
 
-    public function accounting_allotment_classes(){
-        return $this->hasMany(AccountingAllotmentClasses::class, 'accounting_id', 'accounting_id')
-            ->with(['allotment_class', 'allotment_class_account']);
+    public function accounting_expenditures(){
+        return $this->hasMany(AccountingExpenditure::class, 'accounting_id', 'accounting_id')
+            ->with(['object_expenditure']);
     }
-
-
 
 
     public function payee(){
         return $this->hasOne(Payee::class, 'payee_id', 'payee_id');
-    }
-
-
-    public function priority_program(){
-        return $this->hasOne(PriorityProgram::class, 'priority_program_id', 'priority_program_id');
     }
 
     public function office(){

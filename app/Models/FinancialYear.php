@@ -16,8 +16,10 @@ class FinancialYear extends Model
     protected $fillable = [
         'financial_year_code', 
         'financial_year_desc',
-        'financial_budget',
-        'balance',
+        'approved_budget',
+        'beginning_budget',
+        'end_budget',
+        'utilize_budget',
         'active'
     ];
 

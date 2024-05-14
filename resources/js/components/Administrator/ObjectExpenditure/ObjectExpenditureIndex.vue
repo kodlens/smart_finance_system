@@ -80,7 +80,13 @@
                                 {{ props.row.allotment_class }}
                             </b-table-column>
 
-                          
+                            <b-table-column field="approved_budget" label="Approved Budget" v-slot="props">
+                                {{ props.row.approved_budget }}
+                            </b-table-column>
+
+                            <b-table-column field="beginning_budget" label="Beginning Budget" v-slot="props">
+                                {{ props.row.beginning_budget }}
+                            </b-table-column>
 
                             <b-table-column label="Action" v-slot="props">
                                 <div class="is-flex">
@@ -184,6 +190,27 @@
                                 </div>
                             </div>
 
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Approved Budget"
+                                        expanded
+                                        :type="errors.approved_budget ? 'is-danger':''"
+                                        :message="errors.approved_budget ? errors.approved_budget[0] : ''">
+                                        <b-numberinput v-model="fields.approved_budget" :controls="false" expanded />
+                                    </b-field>
+                                </div>
+                            </div>
+
+                            <div class="columns">
+                                <div class="column">
+                                    <b-field label="Beginning Budget"
+                                        expanded
+                                        :type="errors.beginning_budget ? 'is-danger':''"
+                                        :message="errors.beginning_budget ? errors.beginning_budget[0] : ''">
+                                        <b-numberinput v-model="fields.beginning_budget" :controls="false" expanded />
+                                    </b-field>
+                                </div>
+                            </div>
                         </div>
                     </section>
                     <footer class="modal-card-foot">
@@ -230,7 +257,9 @@ export default{
                 financial_year_id: null,
                 object_expenditure: null,
                 allotment_class_code: null,
-                allotment_class: null
+                allotment_class: null,
+                approved_budget: 0,
+                beginning_budget: 0
             },
             errors: {},
 
@@ -382,9 +411,12 @@ export default{
         },
 
         clearFields(){
-            this.fields.priority_program = '';
-            this.fields.priority_program_code = '';
-
+            this.fields.financial_year_id = 0;
+            this.fields.object_expenditure = null;
+            this.fields.allotment_class_code = null;
+            this.fields.allotment_class = null;
+            this.fields.approved_budget = 0;
+            this.fields.beginning_budget = 0;
         },
 
 

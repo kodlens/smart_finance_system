@@ -27,8 +27,8 @@
                     <div>
                         <b-field label="Search..." label-position="on-border" >
                             <b-input type="text"
-                                v-model="search.pp"
-                                placeholder="Search Priority Program..."
+                                v-model="search.OOE"
+                                placeholder="Search Object of Expenditure..."
                                 @keyup.native.enter="loadAsyncData"
                                 expanded auto-focus></b-input>
 
@@ -203,7 +203,8 @@ export default {
     },
 
     mounted(){
-        this.loadFinancialYears()
+        //this.loadFinancialYears()
+        this.loadAsyncData()
     },
 
     computed: {

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Administrator;
 
 use App\Http\Controllers\Controller;
-use App\Models\AccountingAllotmentClasses;
+
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\Accounting;
@@ -11,10 +11,9 @@ use App\Models\AccountingDocumentaryAttachment;
 use App\Models\User;
 use App\Models\FinancialYear;
 use Illuminate\Support\Facades\Storage;
-use App\Models\AllotmentClassAccount;
-use App\Models\PriorityProgram;
-use App\Models\AllotmentClass;
-use App\Models\Service;
+use App\Models\ObjectExpenditure;
+use App\Models\AccountingExpenditure;
+
 
 
 class AccountingController extends Controller
@@ -30,8 +29,8 @@ class AccountingController extends Controller
 
         $sort = explode('.', $req->sort_by);
 
-        $data = Accounting::with(['fund_source', 'payee', 'accounting_documentary_attachments.documentary_attachment',
-            'accounting_allotment_classes', 'processor'])
+        $data = Accounting::with(['payee', 'accounting_documentary_attachments.documentary_attachment',
+            'accounting_expenditures.object_expenditure', 'processor'])
             ->where(function($q) use ($req){
                 $q->where('particulars', 'like', $req->key . '%')
                     ->orWhere('transaction_no', 'like', $req->key . '%')
@@ -46,8 +45,7 @@ class AccountingController extends Controller
 
     public function show($id){
         $data = Accounting::with(['payee', 'accounting_documentary_attachments.documentary_attachment',
-            'accounting_allotment_classes.allotment_class', 'accounting_allotment_classes.allotment_class_account',
-            'priority_program', 'office'
+            'accounting_expenditures.object_expenditure', 'office'
         ])
             ->find($id);
 
@@ -66,8 +64,8 @@ class AccountingController extends Controller
 
         $req->validate([
             'financial_year_id' => ['required'],
-            'fund_source_id' => ['required'],
-            'date_time' => ['required'],
+            
+            'date_transaction' => ['required'],
             'transaction_no' => ['required'],
             'training_control_no' => ['required'],
             'transaction_type_id' => ['required'],
@@ -75,48 +73,35 @@ class AccountingController extends Controller
             'particulars' => ['required'],
             //'total_amount' => ['required'],
             'office_id' => ['required'],
-            'priority_program_id' => ['required']
+           
 
         ],[
             'financial_year_id.required' => 'Please select financial year.',
             'transaction_type_id.required' => 'Please select transaction.',
             'payee_id.required' => 'Please select bank account/payee.',
-            'allotment_class_id.required' => 'Please allotment class.',
-            'allotment_class_account_id.required' => 'Please allotment class account.',
             'office.required' => 'Please select office.',
-            'priority_program_id.required' => 'Please select priority program.'
         ]);
 
         $data = Accounting::create([
             'financial_year_id' => $req->financial_year_id,
             'doc_type' => 'ACCOUNTING',
-            'fund_source_id' => $req->fund_source_id,
-            'date_time' => $req->date_time,
+           // 'fund_source_id' => $req->fund_source_id,
+            'date_transaction' => $req->date_transaction,
+            'transaction_type_id' => $req->transaction_type_id,
             'transaction_no' => $req->transaction_no,
             'training_control_no' => $req->training_control_no,
-            'transaction_type_id' => $req->transaction_type_id,
+           
             'payee_id' => $req->payee_id,
             'particulars' => $req->particulars,
             'total_amount' => (float)$req->total_amount,
             //naa pai attachment
-            'priority_program_id' => $req->priority_program_id,
             'others' => $req->others,
             'office_id' => $req->office_id
         ]);
 
         $financial = FinancialYear::find($req->financial_year_id);
-        $financial->decrement('balance', (float)$req->total_amount);
+        $financial->increment('utilize_budget', (float)$req->total_amount);
         $financial->save();
-
-        $service = Service::where('financial_year_id', $req->financial_year_id)
-            ->where('service', 'ACCOUNTING')->first();
-            
-        $service->decrement('balance', (float)$req->total_amount);
-        $service->save();
-
-        $pp = PriorityProgram::find($req->priority_program_id);
-        $pp->decrement('priority_program_balance', (float)$req->total_amount);
-        $pp->save();
 
 
         if($req->has('documentary_attachments')){
@@ -135,36 +120,37 @@ class AccountingController extends Controller
                 ]);
             }
         }
+
         $accountingId = $data->accounting_id;
-        if($req->has('allotment_classes')){
-            $allotmentClasses = [];
-            foreach ($req->allotment_classes as $item) {
-                $allotmentClasses[] = [
+        $financialYearId = $req->financial_year_id;
+
+        if($req->has('object_expenditures')){
+            $object_expenditures = [];
+            foreach ($req->object_expenditures as $item) {
+                $object_expenditures[] = [
                     'accounting_id' => $accountingId,
-                    'allotment_class_id' => $item['allotment_class_id'],
-                    'allotment_class_account_id' => $item['allotment_class_account_id'],
+                    'allotment_class' => $item['allotment_class'],
+                    'financial_year_id' => $financialYearId,
+                    'allotment_class_code' => $item['allotment_class_code'],
+                    'object_expenditure_id' => $item['object_expenditure_id'],
                     'amount' => $item['amount'],
                 ];
-            
-                $data = AllotmentClassAccount::find($item['allotment_class_account_id']);
-                $data->decrement('allotment_class_account_balance', $item['amount']);
-                $data->save();
 
-                $data = AllotmentClass::find($item['allotment_class_id']);
-                $data->decrement('allotment_class_balance', $item['amount']);
-                $data->save();
+                $objEx = ObjectExpenditure::find($item['object_expenditure_id']);
+                $objEx->increment('utilize_budget', $item['amount']);
+                $objEx->save();
             }
 
-            AccountingAllotmentClasses::insert($allotmentClasses);
+
+            AccountingExpenditure::insert($object_expenditures);
         }
 
-
+        //return $req;
         return response()->json([
             'status' => 'saved'
         ], 200);
-        //return $req;
-      
-
+        
+    
     }
 
 

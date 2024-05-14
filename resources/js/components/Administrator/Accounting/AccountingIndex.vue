@@ -58,14 +58,8 @@
                                 {{ props.row.accounting_id }}
                             </b-table-column>
 
-                            <b-table-column field="date_time" label="Date & Time" v-slot="props">
-                                {{ props.row.date_time }}
-                            </b-table-column>
-
-                            <b-table-column field="fund_source" label="Fund/Source" v-slot="props">
-                                <span v-if="props.row.fund_source">
-                                    {{ props.row.fund_source.fund_source }}
-                                </span>
+                            <b-table-column field="date_transaction" label="Date & Time" v-slot="props">
+                                {{ props.row.date_transaction }}
                             </b-table-column>
 
                             <b-table-column field="transaction_no" label="Transaction No" v-slot="props">
@@ -130,10 +124,9 @@
                                         <th>Allotment Class Account</th>
                                         <th>Amount</th>
                                     </tr>
-                                    <tr v-for="(i, ix) in props.row.accounting_allotment_classes" :key="ix">
-                                        <td>{{ i.allotment_class.allotment_class }}</td>
-                                        <td>({{ i.allotment_class_account.allotment_class_account_code }}) {{
-                                        i.allotment_class_account.allotment_class_account }}</td>
+                                    <tr v-for="(i, ix) in props.row.accounting_expenditures" :key="ix">
+                                        <td>{{ i.object_expenditure.allotment_class }}</td>
+                                        <td>({{ i.object_expenditure.allotment_class_code }})</td>
                                         <td>{{ i.amount }}</td>
 
                                     </tr>
@@ -142,7 +135,7 @@
                                 <!-- <div v-if="props.row.processor_id">
                                     Processor: {{ props.row.processor_id }}
                                 </div> -->
-
+                                <div class="my-1"></div>
                                 <table-bid-award :propRow="props.row" @emitRefresh="loadAsyncData"></table-bid-award>
                                 <br>
                                 <table-city-budget :propRow="props.row"

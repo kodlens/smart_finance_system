@@ -25,7 +25,7 @@ class ObjectExpenditureController extends Controller
     }
 
     public function show($id){
-        return AllotmentClass::with('financial_year')
+        return ObjectExpenditure::with('financial_year')
             ->find($id);
     }
 
@@ -72,12 +72,53 @@ class ObjectExpenditureController extends Controller
             'object_expenditure' => strtoupper($req->object_expenditure),
             'allotment_class' => strtoupper($req->allotment_class['allotment_class']),
             'allotment_class_code' => strtoupper($req->allotment_class['allotment_class_code']),
+            'approved_budget' => $req->approved_budget,
+            'beginning_budget' => $req->beginning_budget,
         ]);
 
         return response()->json([
             'status' => 'saved'
         ], 200);
 
+    }
+
+    public function update(Request $req, $id){
+
+        $req->validate([
+            'financial_year_id' => ['required'],
+            'object_expenditure' => ['required'],
+            'allotment_class' => ['required']
+        ]);
+
+        $exists = ObjectExpenditure::where('object_expenditure', strtoupper($req->object_expenditure))
+            ->where('financial_year_id', $req->financial_year_id)
+            ->where('allotment_class', strtoupper($req->allotment_class['allotment_class']))
+            ->where('object_expenditure_id', '!=', $id)
+            ->exists();
+
+        if($exists){
+            return response()->json([
+                
+                'errors' => [
+                    'object_expenditure' => ['Object of expenditures existed.'],
+                    'message' => 'Data cannot accepted.'
+                ],
+                
+            ], 422);
+        }
+
+        ObjectExpenditure::where('object_expenditure_id', $id)
+            ->update([
+                'financial_year_id' => $req->financial_year_id,
+                'object_expenditure' => strtoupper($req->object_expenditure),
+                'allotment_class' => strtoupper($req->allotment_class['allotment_class']),
+                'allotment_class_code' => strtoupper($req->allotment_class['allotment_class_code']),
+                'approved_budget' => $req->approved_budget,
+                'beginning_budget' => $req->beginning_budget,
+            ]);
+        return response()->json([
+            'status' => 'updated'
+        ], 200);
     }
 
 

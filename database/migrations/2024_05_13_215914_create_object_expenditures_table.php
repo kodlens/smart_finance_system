@@ -29,7 +29,8 @@ class CreateObjectExpendituresTable extends Migration
 
             $table->double('approved_budget')->default(0);
             $table->double('beginning_budget')->default(0);
-
+            $table->double('end_budget')->nullable()->default(0);
+            $table->double('utilize_budget')->nullable()->default(0);
 
             $table->timestamps();
         });

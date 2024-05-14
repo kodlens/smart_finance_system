@@ -70,12 +70,16 @@
                                 {{ props.row.financial_year_desc }}
                             </b-table-column>
 
-                            <b-table-column field="financial_budget" label="Financial Budget" v-slot="props">
-                                <span v-if="props.row.financial_budget">{{ numberWithCommas(props.row.financial_budget) }}</span>
+                            <b-table-column field="approved_budget" label="Approved Budget" v-slot="props">
+                                <span v-if="props.row.approved_budget">{{ numberWithCommas(props.row.approved_budget) }}</span>
                             </b-table-column>
 
-                            <b-table-column field="balance" label="Balance" v-slot="props">
-                                <span v-if="props.row.balance">{{ numberWithCommas(props.row.balance) }}</span>
+                            <b-table-column field="beginning_budget" label="Beginning Budget" v-slot="props">
+                                <span v-if="props.row.beginning_budget">{{ numberWithCommas(props.row.beginning_budget) }}</span>
+                            </b-table-column>
+
+                            <b-table-column field="utilize_budget" label="Utilize Budget" v-slot="props">
+                                <span v-if="props.row.utilize_budget">{{ numberWithCommas(props.row.utilize_budget) }}</span>
                             </b-table-column>
 
                             <b-table-column field="active" label="Active" v-slot="props">

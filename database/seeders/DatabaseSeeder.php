@@ -23,7 +23,8 @@ class DatabaseSeeder extends Seeder
             OfficeSeeder::class,
             DocumentaryAttachmentSeeder::class,
             PayeeSeeder::class,
-            AllotmentClassSeeder::class
+            AllotmentClassSeeder::class,
+            ObjectExpenditureSeeder::class
         ]);
     }
 }
